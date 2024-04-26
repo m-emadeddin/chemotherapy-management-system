@@ -23,7 +23,7 @@ Generated with ❤️ from [DhiWise](https://www.dhiwise.com)
 
 ## .env file
 
-This file contains various environment variables that you can configure.
+This file contains various environment variables that you can configure, BLA BLA BLA.
 
 ## Folder Structure
 
