@@ -1,0 +1,168 @@
+.cycles {
+    position: absolute;
+    top: 220px;
+    left: 228px;
+    background-color: aqua;
+    width: 619px;
+    height: 177px;
+    border-radius: 20px;
+
+}
+
+.medications {
+    position: absolute;
+    top: 450px;
+    left: 228px;
+
+}
+
+.premediaction {
+    position: absolute;
+    top: 50px;
+    width: 984px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 15px 19px;
+
+}
+
+.chemotherapy {
+    position: absolute;
+    width: 984px;
+    border-radius: 20px;
+    background-color: white;
+    padding: 15px 19px;
+
+}
+
+.prebuttons {
+    font-family: "Lama Sans-Regular", Helvetica;
+    line-height: 25px;
+    position: absolute;
+    right: 15px;
+    display: flex;
+    gap: 15px;
+    top: 4px;
+}
+
+.chemobuttons {
+    font-family: "Lama Sans-Regular", Helvetica;
+    line-height: 25px;
+    position: absolute;
+    right: 15px;
+    display: flex;
+    gap: 15px;
+    top: 4px;
+}
+
+.edit {
+    border-radius: 10px;
+    border: 1px solid #1FA6EF;
+    color: #1FA6EF;
+    padding: 7px 26px;
+    width: 88px;
+    height: 40px;
+    font-weight: 600;
+
+}
+
+.edit:hover {
+    background-color: #1FA6EF;
+    color: white;
+}
+
+.del {
+    border-radius: 10px;
+    border: 1px solid #E84853;
+    color: #E84853;
+    padding: 7px 26px;
+    width: 96px;
+    height: 40px;
+    font-weight: 600;
+}
+
+.del:hover {
+    background-color: #E84853;
+    color: white;
+}
+
+.dose {
+    border-radius: 10px;
+    border: 1px solid #1FA6EF;
+    color: #1FA6EF;
+    padding: 7px 26px;
+    width: 165px;
+    height: 40px;
+    font-weight: 600;
+}
+
+.dose:hover {
+    background-color: #1FA6EF;
+    color: white;
+}
+
+.premediactionHeader,
+.chemotherapyHeader {
+
+    height: 35px;
+    border-bottom: 1px solid #c2c2c2;
+}
+
+p {
+    font-family: "Lama Sans-Regular", Helvetica;
+    line-height: 25px;
+    position: absolute;
+    text-transform: uppercase;
+    font-size: 1.125rem;
+    font-weight: 500;
+}
+
+.heading {
+    font-family: "Lama Sans-Regular", Helvetica;
+    line-height: 25px;
+    font-size: 1.5rem;
+    font-weight: 600;
+
+}
+
+.notes {
+    position: relative;
+    left: 228px;
+    width: 984px;
+
+}
+
+
+textarea {
+    width: 100%;
+    height: 130px;
+    border-radius: 20px !important;
+    border: 1px solid #c2c2c2 !important;
+    font-family: "Lama Sans-Regular", Helvetica !important;
+    padding: 15px 19px !important;
+    line-height: 25px;
+    color: #707070 !important;
+    resize: none !important;
+    background-color: white !important;
+    margin-top: 25px !important;
+}
+
+.next {
+    width: 218px;
+    height: 39px;
+    background-color: #1FA6EF;
+    color: white;
+    font-family: "Lama Sans-Regular", Helvetica;
+    line-height: 25px;
+    border-radius: 15px;
+    position: relative;
+    left: 383px;
+    top: 30px;
+}
+
+.next:hover {
+    background-color: white;
+    border: 1px solid black;
+    transition: all 0.3s;
+    color: black;
+}
