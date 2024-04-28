@@ -4,7 +4,7 @@ import "./Header.css"; // Import the Header.css file
 
 export default function Header({ userName, userEmail, userPhoto, ...props }) {
   function handelLogoutClick() {
-    window.location.href = "/loginpage";
+    window.location.href = "/login";
   }
 
   const [newLogo, setNewLogo] = useState("images/img_icon_1.png");
@@ -31,7 +31,7 @@ export default function Header({ userName, userEmail, userPhoto, ...props }) {
           className={`logo flex items-center gap-1.5 self-end p-[5px] ${
             isActive ? "active" : ""
           }`}
-          style={{ position: "relative" }} // Add this style
+          style={{ position: "relative" }}
         >
           <Img
             src={newLogo}
@@ -41,20 +41,21 @@ export default function Header({ userName, userEmail, userPhoto, ...props }) {
           <Img src={newSVG} alt="arrowdown" className="h-[7px]" />
           {isActive && (
             <div className="dropdown-logo-menu">
-              <ul>
-                <li>Help</li>
-              </ul>
+              <div className="dropdown-menu-container">
+                <ul>
+                  <li>Help</li>
+                </ul>
+              </div>
             </div>
           )}
         </div>
-
         <div className="flex w-[26%] items-center justify-center gap-[13px] pl-[29px] sm:w-full sm:pl-5">
           <div className="doctor-info flex flex-1 items-center justify-between gap-5">
             <div className="ml-[7px] flex w-[60%] items-center justify-center gap-2.5">
               <Img
                 src={userPhoto}
                 alt="heshamone"
-                className="desktopuser h-[33px] w-[33px] rounded-[50%]"
+                className="user-photo h-[33px] w-[33px] rounded-[50%]"
               />
               <Text size="xs" as="p" className="!font-almarai">
                 {`Dr.${userName}`}
@@ -63,7 +64,7 @@ export default function Header({ userName, userEmail, userPhoto, ...props }) {
             <Img
               src="images/img_arrowdown_black_900.svg"
               alt="arrowdown"
-              className="arrow-icon mb-3 mr-[7px] h-[8px] self-end"
+              className="mb-3 mr-[7px] h-[8px] self-end"
             />
           </div>
           <Button

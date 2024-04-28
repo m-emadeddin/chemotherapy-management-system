@@ -17,7 +17,7 @@ const ProjectRoutes = () => {
     { path: "/", element: <Home /> },
     { path: "*", element: <NotFound /> },
     {
-      path: "loginpage",
+      path: "login",
       element: <Loginpage />,
     },
     {
@@ -31,7 +31,8 @@ const ProjectRoutes = () => {
     {
       path: "patient",
       element: <Patient />,
-    },    {
+    },
+    {
       path: "orderchemotherapy",
       element: <Orderchemotherapy />,
     },
@@ -46,7 +47,8 @@ const ProjectRoutes = () => {
     {
       path: "documentchemotherapy",
       element: <Documentchemotherapy />,
-    },    {
+    },
+    {
       path: "document",
       element: <Document />,
     },

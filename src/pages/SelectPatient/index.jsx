@@ -1,17 +1,19 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { CloseSVG } from "../../assets/images";
-import { Img, Text, Button, Input, Heading, SelectBox } from "../../components";
+import { Img, Text, Button, Input, Heading } from "../../components";
 import { ReactTable } from "../../components/ReactTable";
 import { createColumnHelper } from "@tanstack/react-table";
+import Header from "components/Header";
 
-const dropDownOptions = [
-  { label: "Option1", value: "option1" },
-  { label: "Option2", value: "option2" },
-  { label: "Option3", value: "option3" },
-];
 const tableData = [
-  { patient: "Ahmed Atef", id: "GB3C5F", gender: "Male", diseasetype: "Bowel cancer", phonenumber: "01218484148" },
+  {
+    patient: "Ahmed Atef",
+    id: "GB3C5F",
+    gender: "Male",
+    diseasetype: "Bowel cancer",
+    phonenumber: "01218484148",
+  },
 ];
 
 export default function SelectPatientPage() {
@@ -82,10 +84,18 @@ export default function SelectPatientPage() {
             <Text as="p" className="mt-[29px] !font-medium">
               {info?.getValue?.()}
             </Text>
-            <Button size="md" shape="circle" className="mb-[614px] ml-[34px] mt-[19px] w-[40px] !rounded-[20px]">
+            <Button
+              size="md"
+              shape="circle"
+              className="mb-[614px] ml-[34px] mt-[19px] w-[40px] !rounded-[20px]"
+            >
               <Img src="images/img_thumbs_up.svg" />
             </Button>
-            <Button size="md" shape="circle" className="ml-[5px] mt-[19px] w-[40px] !rounded-[20px]">
+            <Button
+              size="md"
+              shape="circle"
+              className="ml-[5px] mt-[19px] w-[40px] !rounded-[20px]"
+            >
               <Img src="images/img_map.svg" />
             </Button>
           </div>
@@ -104,45 +114,21 @@ export default function SelectPatientPage() {
     <>
       <Helmet>
         <title>CMS App</title>
-        <meta name="description" content="Web site created using create-react-app" />
+        <meta
+          name="description"
+          content="Web site created using create-react-app"
+        />
       </Helmet>
 
       {/* main content section */}
       <div className="flex w-full flex-col gap-[33px] bg-gray-100 pb-[30px] sm:pb-5">
         {/* header section */}
         <div>
-          <header className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs">
-            <div className="flex w-[93%] items-center justify-between gap-5 self-start md:w-full sm:flex-col">
-              <div className="flex items-center gap-1.5 self-end p-[5px]">
-                <Img src="images/img_icon_1.png" alt="iconone" className="h-[26px] w-[26px] object-cover" />
-                <Img src="images/img_arrow_down.svg" alt="arrowdown" className="h-[7px]" />
-              </div>
-              <div className="flex w-[26%] items-center justify-center gap-[13px] pl-[29px] sm:w-full sm:pl-5">
-                <div className="flex flex-1 items-center gap-2.5">
-                  <Img src="images/img_hesham_1.png" alt="heshamone" className="h-[33px] w-[33px] rounded-[50%]" />
-                  <SelectBox
-                    shape="square"
-                    indicator={
-                      <Img src="images/img_arrowdown_black_900.svg" alt="arrow_down" className="h-[8px] w-[12px]" />
-                    }
-                    name="drhesham"
-                    placeholder={`Dr. Hesham`}
-                    options={dropDownOptions}
-                    className="flex-grow gap-px font-almarai text-black-900 sm:pr-5"
-                  />
-                </div>
-                <Button
-                  shape="round"
-                  leftIcon={
-                    <Img src="images/img_arrowleft_white_a700.svg" alt="arrow_left" className="h-[14px] w-[14px]" />
-                  }
-                  className="min-w-[89px] gap-2.5 font-almarai"
-                >
-                  Log out
-                </Button>
-              </div>
-            </div>
-          </header>
+          <Header
+            userName="Mizo"
+            userPhoto="images/img_hesham_1.png"
+            className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs"
+          />
         </div>
 
         {/* patient list section */}
@@ -163,7 +149,11 @@ export default function SelectPatientPage() {
                 name="search"
                 value={searchBarValue2}
                 onChange={(e) => setSearchBarValue2(e)}
-                suffix={searchBarValue2?.length > 0 ? <CloseSVG onClick={() => setSearchBarValue2("")} /> : null}
+                suffix={
+                  searchBarValue2?.length > 0 ? (
+                    <CloseSVG onClick={() => setSearchBarValue2("")} />
+                  ) : null
+                }
                 className="sm:pr-5"
               />
             </div>
@@ -183,7 +173,11 @@ export default function SelectPatientPage() {
           {/* pagination section */}
           <div className="container-xs mt-[15px] flex flex-col items-start pl-[435px] pr-14 md:px-5">
             <div className="flex flex-wrap items-center">
-              <Img src="images/img_arrow_left_gray_600.svg" alt="arrowleft" className="mt-2.5 h-[11px] self-start" />
+              <Img
+                src="images/img_arrow_left_gray_600.svg"
+                alt="arrowleft"
+                className="mt-2.5 h-[11px] self-start"
+              />
               <Text
                 as="p"
                 className="ml-2.5 flex h-[32px] w-[32px] items-center justify-center rounded-[16px] bg-white-A700 text-center !font-light"
@@ -193,10 +187,17 @@ export default function SelectPatientPage() {
               <Text as="p" className="ml-[5px] !font-light !text-gray-600">
                 /
               </Text>
-              <Text as="p" className="ml-[5px] h-[17px] w-[16px] !font-light !text-gray-600">
+              <Text
+                as="p"
+                className="ml-[5px] h-[17px] w-[16px] !font-light !text-gray-600"
+              >
                 15
               </Text>
-              <Img src="images/img_arrow_right.svg" alt="arrowright" className="ml-2.5 mt-2.5 h-[11px] self-start" />
+              <Img
+                src="images/img_arrow_right.svg"
+                alt="arrowright"
+                className="ml-2.5 mt-2.5 h-[11px] self-start"
+              />
             </div>
           </div>
         </div>
