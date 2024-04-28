@@ -20,6 +20,7 @@ const sizes = {
 };
 
 const Button = ({
+  onClick,
   children,
   className = "",
   leftIcon,
@@ -32,7 +33,12 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`${className} flex flex-row items-center justify-center text-center cursor-pointer ${(shape && shapes[shape]) || ""} ${(size && sizes[size]) || ""} ${(variant && variants[variant]?.[color]) || ""}`}
+      onClick={onClick}
+      className={`${className} flex flex-row items-center justify-center text-center cursor-pointer ${
+        (shape && shapes[shape]) || ""
+      } ${(size && sizes[size]) || ""} ${
+        (variant && variants[variant]?.[color]) || ""
+      }`}
       {...restProps}
     >
       {!!leftIcon && leftIcon}
