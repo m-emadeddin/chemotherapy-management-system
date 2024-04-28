@@ -6,7 +6,7 @@ const sizes = {
   xs: "text-sm font-bold",
 };
 
-const Heading = ({ children, className = "", size = "xs", as, ...restProps }) => {
+const Heading = ({ children, className = "", size = "md", as, ...restProps }) => {
   const Component = as || "h6";
 
   return (

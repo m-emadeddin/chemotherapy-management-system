@@ -3,13 +3,17 @@ import { Helmet } from "react-helmet";
 import { Button, TextArea, Text, Input, Heading } from "../../components";
 import DocumentCycle from "../../components/DocumentCycle";
 import Header from "../../components/Header";
+import { Link } from "react-router-dom";
 
 export default function DocumentPage() {
   return (
     <>
       <Helmet>
         <title>CMS App</title>
-        <meta name="description" content="Web site created using create-react-app" />
+        <meta
+          name="description"
+          content="Web site created using create-react-app"
+        />
       </Helmet>
 
       {/* main content section */}
@@ -20,7 +24,7 @@ export default function DocumentPage() {
         </div>
         <div className="flex w-[88%] items-center gap-6 md:w-full md:flex-col md:p-5">
           {/* treatment overview section */}
-          <div className="flex w-[21%] flex-col items-start gap-5 bg-white-A700 md:w-full">
+          <div className="flex w-[21%]  flex-col items-start gap-5 bg-white-A700 md:w-full">
             <Text size="xs" as="p" className="ml-[60px] mt-[17px] md:ml-0">
               Chemotherapy
             </Text>
@@ -61,7 +65,11 @@ export default function DocumentPage() {
                     <Input shape="round" name="edittext" />
                   </div>
                   <div className="flex w-[42%] flex-col items-start gap-[11px]">
-                    <Text size="xs" as="p" className="ml-[19px] h-[15px] w-[15px] md:ml-0">
+                    <Text
+                      size="xs"
+                      as="p"
+                      className="ml-[19px] h-[15px] w-[15px] md:ml-0"
+                    >
                       ml
                     </Text>
                     <Input shape="round" name="edittext_one" />
@@ -90,7 +98,11 @@ export default function DocumentPage() {
                     <Input shape="round" name="edittext_two" />
                   </div>
                   <div className="flex w-[42%] flex-col items-start gap-[11px]">
-                    <Text size="xs" as="p" className="ml-[19px] h-[15px] w-[15px] md:ml-0">
+                    <Text
+                      size="xs"
+                      as="p"
+                      className="ml-[19px] h-[15px] w-[15px] md:ml-0"
+                    >
                       ml
                     </Text>
                     <Input shape="round" name="edittext_three" />
@@ -118,7 +130,11 @@ export default function DocumentPage() {
                   <Input shape="round" name="edittext_four" />
                 </div>
                 <div className="flex w-[42%] flex-col items-start gap-[11px]">
-                  <Text size="xs" as="p" className="ml-[19px] h-[15px] w-[15px] md:ml-0">
+                  <Text
+                    size="xs"
+                    as="p"
+                    className="ml-[19px] h-[15px] w-[15px] md:ml-0"
+                  >
                     ml
                   </Text>
                   <Input shape="round" name="edittext_five" />
@@ -145,7 +161,11 @@ export default function DocumentPage() {
                   <Input shape="round" name="edittext_six" />
                 </div>
                 <div className="flex w-[42%] flex-col items-start gap-[11px]">
-                  <Text size="xs" as="p" className="ml-[19px] h-[15px] w-[15px] md:ml-0">
+                  <Text
+                    size="xs"
+                    as="p"
+                    className="ml-[19px] h-[15px] w-[15px] md:ml-0"
+                  >
                     ml
                   </Text>
                   <Input shape="round" name="edittext_seven" />
@@ -165,12 +185,20 @@ export default function DocumentPage() {
 
             {/* submission controls section */}
             <div className="mt-[30px] flex gap-[15px] self-center">
-              <Button color="blue_gray_500" size="sm" className="min-w-[152px] rounded-[15px] sm:px-5">
-                Cancel
-              </Button>
-              <Button size="sm" className="min-w-[152px] rounded-[15px] sm:px-5">
+              <Link
+                size="sm"
+                className="min-w-[152px] rounded-[15px] sm:px-5"
+                to={"/Documentchemotherapy"}
+              >
                 Submit
-              </Button>
+              </Link>
+              <Link
+                size="sm"
+                className="min-w-[152px] rounded-[15px] sm:px-5"
+                to={"/Documentchemotherapy"}
+              >
+                Cancel
+              </Link>
             </div>
           </div>
         </div>
