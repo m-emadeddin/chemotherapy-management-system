@@ -1,19 +1,21 @@
 // const path = require('path');
-const PORT = 3000
+const PORT= process.env.PORT || 3000
 const express = require('express');
 const bodyParser = require('body-parser');
 
 // import the DB
-const sequelize =require ('./src/configs/db.config');
+const db =require ('./src/configs/db.config');
+const Dbc = require('./src/models/index.models')
+
 const app = express();
 
 
 // api routing 
-const userRoute = require('./src/routes/users.routes')
-app.use('/api/products', userRoute)
+//const userRoute = require('./src/routes/users.routes')
+//app.use('/api/products', userRoute)
 
 //model imports
-const User = require('./src/models/users.model');
+//const User = require('./src/models/users.model');
 
 
 
@@ -27,10 +29,9 @@ app.use(express.json()) // as we get all the api information on json format
 // set relation associations  
 
 
-
 // this part should be moved to src/models/index.models.js 
 //conection to Db
-sequelize.authenticate()
+db.authenticate()
 .then(() => {
     console.log('connected..')
     // Start the Express.js server
@@ -41,13 +42,7 @@ sequelize.authenticate()
 .catch(err => {
     console.log('Error'+ err)
 })
-
-// create tables for the defined models  //and define the relations defined above 
-// sequelize
-// .sync()//.sync({force :true})// this ensures that updating the table we created before with the new relations 
-// .then(result=>{
-//      console.log(result)
-// })
-// .catch((err)=>{
-//   console.log(err)
-// })
+db.sync({ force: true })
+.then(() => {
+console.log("Tables Created!")
+})

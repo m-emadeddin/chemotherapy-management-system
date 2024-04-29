@@ -12,6 +12,12 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "mysql2": "^3.9.7",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2",
+    "sequential-ids": "^0.0.0"
+    },
+    "devDependencies": {
+      "dotenv": "^16.4.5"
+    }
   }
-}
+  
