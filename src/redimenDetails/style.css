@@ -1,153 +1,126 @@
-.cycles {
-    position: absolute;
-    top: 220px;
-    left: 228px;
+.regimen-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    width: 984px;
+
+}
+
+.regimen-detail .cycles {
     background-color: aqua;
     width: 619px;
     height: 177px;
     border-radius: 20px;
-
 }
 
-.medications {
-    position: absolute;
-    top: 450px;
-    left: 228px;
-
+.regimen-detail .medications {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
 }
 
-.premediaction {
-    position: absolute;
-    top: 50px;
-    width: 984px;
+.regimen-detail .pre-mediaction,
+.regimen-detail .chemotherapy {
     background-color: white;
     border-radius: 20px;
-    padding: 15px 19px;
+}
+
+
+.pre-mediaction-header,
+.chemotherapy-header {
+    display: flex;
+    justify-content: space-between;
+    height: 54px;
+    border-bottom: 1px solid #c2c2c2;
+    padding: 15px;
 
 }
 
-.chemotherapy {
-    position: absolute;
-    width: 984px;
-    border-radius: 20px;
-    background-color: white;
-    padding: 15px 19px;
-
-}
-
-.prebuttons {
+.regimen-detail .buttons-container {
     font-family: "Lama Sans-Regular", Helvetica;
     line-height: 25px;
-    position: absolute;
-    right: 15px;
     display: flex;
     gap: 15px;
-    top: 4px;
 }
 
-.chemobuttons {
-    font-family: "Lama Sans-Regular", Helvetica;
-    line-height: 25px;
-    position: absolute;
-    right: 15px;
-    display: flex;
-    gap: 15px;
-    top: 4px;
-}
-
-.edit {
+.buttons-container .btn {
     border-radius: 10px;
+    font-weight: 600;
+    padding: 7px 26px;
+    margin-top: -10px;
+}
+
+.buttons-container .edit {
     border: 1px solid #1FA6EF;
     color: #1FA6EF;
-    padding: 7px 26px;
     width: 88px;
     height: 40px;
-    font-weight: 600;
-
 }
 
-.edit:hover {
+.buttons-container .edit:hover {
     background-color: #1FA6EF;
     color: white;
 }
 
-.del {
-    border-radius: 10px;
+.buttons-container .del {
     border: 1px solid #E84853;
     color: #E84853;
-    padding: 7px 26px;
     width: 96px;
     height: 40px;
-    font-weight: 600;
 }
 
-.del:hover {
+.buttons-container .del:hover {
     background-color: #E84853;
     color: white;
 }
 
-.dose {
-    border-radius: 10px;
+.buttons-container .dose {
     border: 1px solid #1FA6EF;
     color: #1FA6EF;
-    padding: 7px 26px;
     width: 165px;
     height: 40px;
-    font-weight: 600;
 }
 
-.dose:hover {
+.buttons-container .dose:hover {
     background-color: #1FA6EF;
     color: white;
 }
 
-.premediactionHeader,
-.chemotherapyHeader {
-
-    height: 35px;
-    border-bottom: 1px solid #c2c2c2;
-}
-
-p {
+.regimen-detail .table-name {
     font-family: "Lama Sans-Regular", Helvetica;
     line-height: 25px;
-    position: absolute;
     text-transform: uppercase;
     font-size: 1.125rem;
     font-weight: 500;
 }
 
-.heading {
+.regimen-detail .heading {
     font-family: "Lama Sans-Regular", Helvetica;
     line-height: 25px;
     font-size: 1.5rem;
     font-weight: 600;
-
 }
 
-.notes {
-    position: relative;
-    left: 228px;
-    width: 984px;
-
+.regimen-detail .notes {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 
-textarea {
-    width: 100%;
+.notes .notes-area {
     height: 130px;
-    border-radius: 20px !important;
-    border: 1px solid #c2c2c2 !important;
-    font-family: "Lama Sans-Regular", Helvetica !important;
-    padding: 15px 19px !important;
+    border-radius: 20px;
+    border: 1px solid #c2c2c2;
+    font-family: "Lama Sans-Regular", Helvetica;
+    padding: 15px 19px;
     line-height: 25px;
-    color: #707070 !important;
-    resize: none !important;
-    background-color: white !important;
-    margin-top: 25px !important;
+    color: #707070;
+    resize: none;
+    background-color: white;
 }
 
-.next {
+.notes .next {
     width: 218px;
     height: 39px;
     background-color: #1FA6EF;
@@ -155,12 +128,10 @@ textarea {
     font-family: "Lama Sans-Regular", Helvetica;
     line-height: 25px;
     border-radius: 15px;
-    position: relative;
-    left: 383px;
-    top: 30px;
+    align-self: center;
 }
 
-.next:hover {
+.notes .next:hover {
     background-color: white;
     border: 1px solid black;
     transition: all 0.3s;

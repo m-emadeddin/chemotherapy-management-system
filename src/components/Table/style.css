@@ -1,14 +1,14 @@
-table {
+.medictions-table {
     width: 100%;
     font-family: "Lama Sans-Regular", Helvetica;
     line-height: 25px;
 }
 
-thead {
+.medictions-table thead {
     color: #707070;
 }
 
-th {
+.medictions-table th {
     height: 50px;
     border-bottom: 1px solid #D4D4D4;
     text-align: unset;
@@ -16,40 +16,40 @@ th {
 }
 
 
-tr {
+.medictions-table tr {
     border-bottom: 1px solid #D4D4D4;
     height: 50px;
 }
 
-tr:last-child {
+.medictions-table tr:last-child {
     border-bottom: none;
 }
 
-table td:nth-child(2) {
+.medictions-table table td:nth-child(2) {
     text-transform: uppercase;
 }
 
 
-.checkboxCell {
+.medictions-table .checkboxCell {
     width: 73px;
     text-align: unset;
 }
 
-[type="checkbox"] {
-    border-radius: 5px !important;
+.medictions-table [type="checkbox"] {
+    border-radius: 5px;
 }
 
-[type="checkbox"]:checked {
+.medictions-table [type="checkbox"]:checked {
     color: black;
 }
 
 
-[type="checkbox"]:checked:hover {
+.medictions-table [type="checkbox"]:checked:hover {
     color: #707070;
 }
 
-[type="checkbox"]:hover {
+.medictions-table [type="checkbox"]:hover {
     cursor: pointer;
     border: 1px solid black;
-    transition: all 0.3s;
+    transition: ease 0.3s;
 }

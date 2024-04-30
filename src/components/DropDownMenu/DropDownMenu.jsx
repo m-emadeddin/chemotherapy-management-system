@@ -23,7 +23,7 @@ export default function DropDownMenu() {
   };
 
   return (
-    <>
+    <div className="regimens-details-container">
       <div className="dropdown-container">
         <div
           className={`dropdown-header ${isOpen ? "open" : ""}`}
@@ -50,6 +50,6 @@ export default function DropDownMenu() {
       {selectedOption !== "none" && (
         <RegimenDetails selectedOption={selectedOption} />
       )}
-    </>
+    </div>
   );
 }
