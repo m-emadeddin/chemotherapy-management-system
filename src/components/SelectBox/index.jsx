@@ -24,14 +24,16 @@ const SelectBox = React.forwardRef(
       size = "xs",
       ...restProps
     },
-    ref,
+    ref
   ) => {
     return (
       <>
         <Select
           ref={ref}
           options={options}
-          className={`${className} flex ${(shape && shapes[shape]) || ""} ${(size && sizes[size]) || ""}`}
+          className={`${className} flex ${(shape && shapes[shape]) || ""} ${
+            (size && sizes[size]) || ""
+          }`}
           isSearchable={isSearchable}
           isMulti={isMulti}
           components={{
@@ -86,7 +88,7 @@ const SelectBox = React.forwardRef(
         {children}
       </>
     );
-  },
+  }
 );
 
 SelectBox.propTypes = {

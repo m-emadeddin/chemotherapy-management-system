@@ -1,5 +1,6 @@
 import Table from "components/Table/Table";
 import "./style.css";
+import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
 const premedicationData = {
   "COP - Regimen for Non-Metastatic Non Hodgkin Lymphoma": [
     {
@@ -155,20 +156,43 @@ const chemotherapyData = {
   ],
 };
 
+const Weeks = [
+  "None",
+  "1 Weeks",
+  "2 Weeks",
+  "3 Weeks",
+  "4 Weeks",
+  "5 Weeks",
+  "6 Weeks",
+];
+
+const Cycles = [1, 2, 3, 4, 5, 6];
+
+const Days = Array.from({ length: 28 }, (_, index) => index + 1);
+
 export default function RegimenDetails({ selectedOption }) {
   return (
     <div className="regimen-detail">
-      <div className="cycles">
+      <div className="cycles-container">
         <span className="heading">Cycles</span>
-        <div className="row">
-          <input type="radio" />
-          <span>Every</span>
+        <div className="cyles-rows">
+          <form>
+            {" "}
+            <div className="cycles-row">
+              <input type="radio" name="type" value="weeks" />
+              <span>Every</span>
+              <MiniDropMenu title="Weeks" options={Weeks} />
+              <span>X</span>
+              <MiniDropMenu title="Cycles" options={Cycles.map(String)} />
+              <span>Cycles</span>
+            </div>
+            <div>
+              <input type="radio" name="type" value="days" />
+              <span>Day</span>
+              <MiniDropMenu title="Days" options={Days.map(String)} />
+            </div>
+          </form>
         </div>
-        <div className="row">
-          <input type="radio" />
-          <span>Day</span>
-        </div>
-        <button>Check</button>
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>

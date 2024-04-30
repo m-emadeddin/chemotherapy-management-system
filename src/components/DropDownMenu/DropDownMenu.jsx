@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
 import RegimenDetails from "redimenDetails/RegimenDetails";
 
@@ -12,6 +12,20 @@ const regimens = [
 export default function DropDownMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("none");
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -24,7 +38,7 @@ export default function DropDownMenu() {
 
   return (
     <div className="regimens-details-container">
-      <div className="dropdown-container">
+      <div className="dropdown-container" ref={dropdownRef}>
         <div
           className={`dropdown-header ${isOpen ? "open" : ""}`}
           onClick={toggleDropdown}

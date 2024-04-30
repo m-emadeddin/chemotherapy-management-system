@@ -4,9 +4,15 @@ import "./style.css";
 import DropDownMenu from "components/DropDownMenu/DropDownMenu";
 export default function OrderchemotherapyPage() {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-[33px] bg-gray-100 pb-[1075px] md:pb-5">
+    <div className="flex w-full flex-col gap-[33px] bg-gray-100 pb-[30px] sm:pb-5">
       {/* header section */}
-      <Header className="flex items-center justify-center self-stretch border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
+      <div>
+        <Header
+          userName="Mizo"
+          userPhoto="images/img_hesham_1.png"
+          className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs"
+        />
+      </div>
 
       {/* main content */}
       <div className="order-chemotherapy">
