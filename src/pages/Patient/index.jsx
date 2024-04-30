@@ -1,7 +1,8 @@
-import React from "react";
+import React  , { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import Header from "../../components/Header";
+
 
 const data = [
   {
@@ -37,6 +38,8 @@ const data2 = [
 ];
 
 export default function PatientPage() {
+  const [hovered, setHovered] = useState(false);
+
   return (
     <>
       <Helmet>
@@ -73,21 +76,28 @@ export default function PatientPage() {
             </div>
 
             <div className="flex gap-[22px]">
-              <Button
-                size="xl"
-                leftIcon={
-                  <Img
-                    src="images/img_thumbsup_white_a700.svg"
-                    alt="thumbs_up"
-                    className="h-[14px] w-[14px] "
-                  />
-                }
-                className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white"
-                onClick={orderChemo}
-              >
-                Order Chemotherapy
-              </Button>
-
+            <Button
+      size="xl"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
+      onClick={orderChemo}
+    >
+      {hovered ? (
+        <Img
+          src="images/icons (1).png"
+          alt="thumbs_up"
+          className="h-[14px] w-[14px]"
+        />
+      ) : (
+        <Img
+          src="images/img_thumbsup_white_a700.svg"
+          alt="thumbs_up"
+          className="h-[14px] w-[14px]"
+        />
+      )}
+      Order Chemotherapy
+    </Button>
               <Button
                 size="xl"
                 leftIcon={
@@ -97,14 +107,13 @@ export default function PatientPage() {
                     className="h-[14px] w-[14px]"
                   />
                 }
-                className="min-w-[213px] gap-2.5 rounded-[20px] font-lama sans bg-blue-500 text-white"
+                className="min-w-[213px] gap-2.5 rounded-[20px] font-lama sans bg-blue-500 text-white custom-button"
                 onClick={docChemo}
               >
                 Document Chemotherapy
               </Button>
             </div>
           </div>
-
 
           <div className="flex items-start gap-6 md:flex-col">
             {/* patient info section */}
@@ -139,12 +148,16 @@ export default function PatientPage() {
                         <Img src="images/img_map.svg" />
                       </Button>
                     </div>
-                    <Heading as="h3">General info</Heading>
+
+                    <Heading size="s" as="h3">
+                      General info
+                    </Heading>
+
                     <div className="grid grid-cols-2 gap-6 self-stretch md:grid-cols-1">
                       {data2.map((d, index) => (
                         <div
                           key={"patient1" + index}
-                          className="flex w-full flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5"
+                          className="flex w-full flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5 overflow-hidden whitespace-nowrap"
                         >
                           <Text
                             size="xs"
@@ -162,7 +175,9 @@ export default function PatientPage() {
                   </div>
                   <Button
                     size="sm"
-                    className="min-w-[218px] rounded-[15px] sm:px-5"
+                    className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
+                    variant="fill"
+                    color="blue_500"
                   >
                     View all
                   </Button>
@@ -187,7 +202,9 @@ export default function PatientPage() {
                       <Img src="images/img_edit.svg" />
                     </Button>
                   </div>
-                  <Heading as="h5">General info</Heading>
+                  <Heading size="s" as="h3">
+                    General info
+                  </Heading>
                   <div className="flex flex-col items-start gap-[15px] self-stretch">
                     <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5">
                       <Text
@@ -219,9 +236,8 @@ export default function PatientPage() {
                       </Text>
                       <Text as="p" className="w-full leading-[25px]">
                         <>
-                          Patient has a weak heart so be careful when
-                          <br />
-                          giving NSAIDs
+                          Patient has a weak heart so be careful when giving
+                          NSAIDs
                         </>
                       </Text>
                     </div>
@@ -250,7 +266,7 @@ export default function PatientPage() {
                     <Img src="images/img_clock.svg" />
                   </Button>
                 </div>
-                <Heading as="p">Last update: 12/04/2024</Heading>
+                <Heading size = "xs">Last update: 12/04/2024</Heading>
                 <div className="flex flex-col items-start gap-[15px] self-stretch">
                   <div className="grid grid-cols-2 gap-6 self-stretch md:grid-cols-1">
                     {data1.map((d, index) => (
@@ -304,6 +320,7 @@ export default function PatientPage() {
                   <Img src="images/img_edit.svg" />
                 </Button>
               </div>
+
               <div className="flex flex-col items-center gap-5">
                 <div className="flex flex-col gap-5 self-stretch pr-[157px] md:pr-5">
                   {data.map((d, index) => (
@@ -311,14 +328,17 @@ export default function PatientPage() {
                       key={"content" + index}
                       className="flex flex-col items-start gap-[15px] pt-1"
                     >
-                      <Heading as="p">{d.bilateralsalpi}</Heading>
+                      <Heading size="xs" as="p">
+                        {d.bilateralsalpi}
+                      </Heading>
                       <div className="flex flex-col items-start justify-center gap-[11px] rounded-[10px] bg-gray-50 p-2.5">
-                        <Text size="xs" as="p" className="!text-blue_gray-300">
+                        <Text size="xs" className="!text-blue_gray-300">
                           Latest Status
                         </Text>
                         <Text as="p">
-                          <span className="text-black-900">03/20/18&nbsp;</span>
-                          <span className="text-blue_gray_400">Requested</span>
+                          <span className="text-black-900">
+                            {d.thirtyTwoThousandEighteen}
+                          </span>
                         </Text>
                       </div>
                     </div>
@@ -326,7 +346,9 @@ export default function PatientPage() {
                 </div>
                 <Button
                   size="sm"
-                  className="min-w-[218px] rounded-[15px] sm:px-5"
+                  className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
+                  variant="fill"
+                  color="blue_500"
                 >
                   View all
                 </Button>
