@@ -111,6 +111,7 @@ export default function SelectedPatientPage() {
           <Header
             userName="Mizo"
             userPhoto="images/img_hesham_1.png"
+            userEmail="mizo@gmail.com"
             className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs"
           />
         </div>

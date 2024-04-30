@@ -26,6 +26,7 @@
   border-radius: 10px; /* Add border radius */
   cursor: pointer;
   height: auto;
+  position: relative;
 }
 
 /* User info container hover effect */
@@ -41,6 +42,7 @@
   padding: 5px;
   border-radius: 10px;
   transition: background-color 0.3s; /* Smooth transition for color change */
+  position: relative;
 }
 
 .logo:hover {
@@ -78,21 +80,23 @@
 .dropdown-logo-menu li {
   padding: 10px;
   cursor: pointer;
+  font-family: 'Almarai', sans-serif;
 }
 
 .dropdown-logo-menu li:hover {
   background-color: #0F8BCD;
   border-radius: 10px;
+  font-family: 'Almarai', sans-serif;
   transition: background-color 0.3s; /* Transition for background color on hover */
 }
 
 
-.dropdown-menu-container {
+.dropdown-logo-menu-container {
   justify-content: start; /* Center the container horizontally */
   padding: 10px;  /* Padding for the container */
   border-radius: 10px;
 }
 
-.dropdown-menu-container:hover {
+.dropdown-logo-menu-container:hover {
   color: white; /* Change text color to white on hover */
 }
