@@ -3,8 +3,10 @@
   min-width: 89px;
   padding: 8px 16px;
   border-radius: 20px;
-  background-color: #1FA6EF; /* Example background color */
-  color: #fff; /* Example text color */
+  background-color: #1FA6EF;
+  /* Example background color */
+  color: #fff;
+  /* Example text color */
   font-family: 'Almarai', sans-serif;
   font-size: 14px;
   cursor: pointer;
@@ -12,7 +14,8 @@
 }
 
 .logout-button:hover {
-  background-color: #008DD4; /* Example hover background color */
+  background-color: #008DD4;
+  /* Example hover background color */
 }
 
 /* User info container */
@@ -22,8 +25,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 5px;
-  color: white; /* Set text color to white */
-  border-radius: 10px; /* Add border radius */
+  color: white;
+  /* Set text color to white */
+  border-radius: 10px;
+  /* Add border radius */
   cursor: pointer;
   height: auto;
   position: relative;
@@ -31,22 +36,26 @@
 
 /* User info container hover effect */
 .doctor-info:hover {
-  background-color: #EDEDED; /* Change background color on hover */
+  background-color: #EDEDED;
+  /* Change background color on hover */
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 6px; /* Adjust the gap as needed */
+  gap: 6px;
+  /* Adjust the gap as needed */
   justify-self: flex-end;
   padding: 5px;
   border-radius: 10px;
-  transition: background-color 0.3s; /* Smooth transition for color change */
+  transition: background-color 0.3s;
+  /* Smooth transition for color change */
   position: relative;
 }
 
 .logo:hover {
-  background-color: #EDEDED; /* Change to the desired hover color */
+  background-color: #EDEDED;
+  /* Change to the desired hover color */
 }
 
 .logo.active {
@@ -55,19 +64,25 @@
 
 .dropdown-logo-menu {
   position: absolute;
-  top: calc(100% + 5px); /* Position below the logo */
-  left: 0; /* Align with the left edge of the logo container */
+  top: calc(100% + 5px);
+  /* Position below the logo */
+  left: 0;
+  /* Align with the left edge of the logo container */
   background-color: white;
-  border: 1px solid white; /* Add border for visibility */
+  border: 1px solid white;
+  /* Add border for visibility */
   border-radius: 5px;
   padding: 5=px;
   width: 250px;
   height: 60px;
-  z-index: 100; /* Ensure it's above other elements */
+  z-index: 100;
+  /* Ensure it's above other elements */
   margin-top: 4px;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add box shadow */
-  transition: background-color 0.3s; /* Transition for background color */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  /* Add box shadow */
+  transition: background-color 0.3s;
+  /* Transition for background color */
 }
 
 
@@ -87,16 +102,20 @@
   background-color: #0F8BCD;
   border-radius: 10px;
   font-family: 'Almarai', sans-serif;
-  transition: background-color 0.3s; /* Transition for background color on hover */
+  transition: background-color 0.3s;
+  /* Transition for background color on hover */
 }
 
 
 .dropdown-logo-menu-container {
-  justify-content: start; /* Center the container horizontally */
-  padding: 10px;  /* Padding for the container */
+  justify-content: start;
+  /* Center the container horizontally */
+  padding: 10px;
+  /* Padding for the container */
   border-radius: 10px;
 }
 
 .dropdown-logo-menu-container:hover {
-  color: white; /* Change text color to white on hover */
+  color: white;
+  /* Change text color to white on hover */
 }

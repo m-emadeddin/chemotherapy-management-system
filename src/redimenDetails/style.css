@@ -10,7 +10,6 @@
     display: flex;
     flex-direction: column;
     gap: 30px;
-    width: 619px;
     height: 177px;
     border-radius: 20px;
     font-family: "Lama Sans-Regular", Helvetica;
@@ -26,9 +25,6 @@
 
 }
 
-
-
-
 .cycles-container input[type="radio"]:hover {
     border-color: #A3A3A3;
     cursor: pointer;
@@ -43,16 +39,13 @@
 
 
 
-.cycles-container .cycles-rows {
-    display: flex;
-    gap: 10px;
-}
 
 .cycles-container .cycles-row {
     display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .regimen-detail .medications {
