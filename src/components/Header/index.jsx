@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Button, Img, Text } from "./..";
 import "./header.css"; // Import the Header.css file
-import DropdownItem from "components/DropdownItem";
-import { LogoutSVG } from "assets/images/logout";
+import DoctorDropMenu from "components/DoctorDropMenu";
 
 export default function Header({ userName, userEmail, userPhoto, ...props }) {
   function handelLogoutClick() {
@@ -77,29 +76,11 @@ export default function Header({ userName, userEmail, userPhoto, ...props }) {
               className="mb-3 mr-[7px] h-[8px] self-end"
             />
             {isDoctorMenuOpen && (
-              <div className="dropdown-menu">
-                <div className="user-details">
-                  <Img
-                    src={userPhoto}
-                    alt="User Photo"
-                    className="user-photo-dropdown"
-                  />
-                  <div className="user-text">
-                    <Text size="xs" as="p" className="user-name">
-                      {userName}
-                    </Text>
-                    <Text size="xs" as="p" className="user-email">
-                      {userEmail}
-                    </Text>
-                  </div>
-                </div>
-                <div className="divider" />
-                <DropdownItem
-                  itemName="Logout"
-                  iconSVG={<LogoutSVG className="dropdownItem-icon" />}
-                  //onClick={handleLogout}
-                />
-              </div>
+              <DoctorDropMenu
+                userEmail={userEmail}
+                userName={userName}
+                userPhoto={userPhoto}
+              />
             )}
           </div>
           <Button
