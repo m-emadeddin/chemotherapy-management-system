@@ -4,9 +4,18 @@ import { Button, Text, Heading, Img } from "../../components";
 import Header from "../../components/Header";
 
 const data = [
-  { bilateralsalpi: "Bilateral salpingo-oophorectomy", thirtyTwoThousandEighteen: "03/20/18 Requested" },
-  { bilateralsalpi: "Bilateral salpingo-oophorectomy test", thirtyTwoThousandEighteen: "09/17/17" },
-  { bilateralsalpi: "Excisional biopsy of left breats", thirtyTwoThousandEighteen: "06/19/16 Requested" },
+  {
+    bilateralsalpi: "Bilateral salpingo-oophorectomy",
+    thirtyTwoThousandEighteen: "03/20/18 Requested",
+  },
+  {
+    bilateralsalpi: "Bilateral salpingo-oophorectomy test",
+    thirtyTwoThousandEighteen: "09/17/17",
+  },
+  {
+    bilateralsalpi: "Excisional biopsy of left breats",
+    thirtyTwoThousandEighteen: "06/19/16 Requested",
+  },
 ];
 const data1 = [
   { height: "Height", distance: "176.784 cm" },
@@ -32,7 +41,10 @@ export default function PatientPage() {
     <>
       <Helmet>
         <title>CMS App</title>
-        <meta name="description" content="Web site created using create-react-app" />
+        <meta
+          name="description"
+          content="Web site created using create-react-app"
+        />
       </Helmet>
       <div className="flex w-full flex-col items-center gap-[15px] bg-gray-100 pb-[70px] md:pb-5">
         {/* header section */}
@@ -40,34 +52,60 @@ export default function PatientPage() {
         <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5">
           {/* navigation section */}
           <div className="flex items-start justify-between gap-5 md:flex-col">
-            <div className="mt-[18px] flex flex-wrap items-center gap-[15px]">
-              <a href="https://www.youtube.com/embed/bv8Fxk0sz7I" target="_blank">
-                <Heading as="h1">Patient List</Heading>
-              </a>
-              <Img src="images/img_arrow_right_blue_gray_300_02.svg" alt="arrowright" className="h-[10px] self-end" />
-              <Text size="xs" as="p" className="!text-blue_gray-300_02">
-                Hazem Abdulnasser
-              </Text>
+            <div className="mt-[18px] flex items-center gap-[15px]">
+              <Heading as="h1" className="cursor-pointer ">
+                Patient List
+              </Heading>
+              <div className="flex items-center">
+                <Img
+                  src="images/img_arrow_right_blue_gray_300_02.svg"
+                  alt="arrowright"
+                  className="h-[10px] self-end mr-[10px]"
+                />
+                <Text
+                  size="xs"
+                  as="p"
+                  className="!text-blue_gray-300_02 cursor-pointer"
+                >
+                  Patient Name
+                </Text>
+              </div>
             </div>
-            <div className="flex gap-[30px]">
+
+            <div className="flex gap-[22px]">
               <Button
                 size="xl"
                 leftIcon={
-                  <Img src="images/img_thumbsup_white_a700.svg" alt="thumbs_up" className="h-[14px] w-[14px]" />
+                  <Img
+                    src="images/img_thumbsup_white_a700.svg"
+                    alt="thumbs_up"
+                    className="h-[14px] w-[14px] "
+                  />
                 }
-                className="min-w-[213px] gap-2.5 rounded-[20px]"
+                className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white"
+                onClick={orderChemo}
               >
-                Order chemotherapy
+                Order Chemotherapy
               </Button>
+
               <Button
                 size="xl"
-                leftIcon={<Img src="images/img_megaphone.svg" alt="megaphone" className="h-[14px] w-[14px]" />}
-                className="min-w-[254px] gap-[11px] rounded-[20px]"
+                leftIcon={
+                  <Img
+                    src="images/img_megaphone.svg"
+                    alt="megaphone"
+                    className="h-[14px] w-[14px]"
+                  />
+                }
+                className="min-w-[213px] gap-2.5 rounded-[20px] font-lama sans bg-blue-500 text-white"
+                onClick={docChemo}
               >
                 Document Chemotherapy
               </Button>
             </div>
           </div>
+
+
           <div className="flex items-start gap-6 md:flex-col">
             {/* patient info section */}
             <div className="flex flex-1 flex-col gap-[30px] md:self-stretch">
@@ -78,10 +116,14 @@ export default function PatientPage() {
                       <div className="flex w-[77%] items-center justify-center gap-[15px]">
                         <Img
                           src="images/img_patient_in_a_circle.png"
-                          alt="hazemabdulnasse"
+                          alt="hazemabdulnassr"
                           className="h-[74px] w-[73px] object-cover"
                         />
-                        <Heading size="md" as="h2" className="w-[74%] leading-[25px]">
+                        <Heading
+                          size="md"
+                          as="h2"
+                          className="w-[74%] leading-[25px]"
+                        >
                           <>
                             Hazem
                             <br />
@@ -89,7 +131,11 @@ export default function PatientPage() {
                           </>
                         </Heading>
                       </div>
-                      <Button size="lg" shape="circle" className="w-[48px] !rounded-[24px]">
+                      <Button
+                        size="lg"
+                        shape="circle"
+                        className="w-[48px] !rounded-[24px]"
+                      >
                         <Img src="images/img_map.svg" />
                       </Button>
                     </div>
@@ -100,7 +146,11 @@ export default function PatientPage() {
                           key={"patient1" + index}
                           className="flex w-full flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5"
                         >
-                          <Text size="xs" as="p" className="h-[15px] w-[15px] !text-blue_gray-300">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
                             {d.id}
                           </Text>
                           <Text as="p" className="mb-[5px]">
@@ -110,7 +160,10 @@ export default function PatientPage() {
                       ))}
                     </div>
                   </div>
-                  <Button size="sm" className="min-w-[218px] rounded-[15px] sm:px-5">
+                  <Button
+                    size="sm"
+                    className="min-w-[218px] rounded-[15px] sm:px-5"
+                  >
                     View all
                   </Button>
                 </div>
@@ -126,26 +179,42 @@ export default function PatientPage() {
                         Cancer Overview
                       </Heading>
                     </div>
-                    <Button size="lg" shape="circle" className="w-[48px] !rounded-[24px]">
+                    <Button
+                      size="lg"
+                      shape="circle"
+                      className="w-[48px] !rounded-[24px]"
+                    >
                       <Img src="images/img_edit.svg" />
                     </Button>
                   </div>
                   <Heading as="h5">General info</Heading>
                   <div className="flex flex-col items-start gap-[15px] self-stretch">
                     <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5">
-                      <Text size="xs" as="p" className="mt-[5px] !text-blue_gray-300">
+                      <Text
+                        size="xs"
+                        as="p"
+                        className="mt-[5px] !text-blue_gray-300"
+                      >
                         Diagnosis
                       </Text>
                       <Text as="p">Non-Hodgkin&#39;s malignant lymphoma</Text>
                     </div>
                     <div className="flex w-[47%] flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5 md:w-full">
-                      <Text size="xs" as="p" className="mt-[5px] !text-blue_gray-300">
+                      <Text
+                        size="xs"
+                        as="p"
+                        className="mt-[5px] !text-blue_gray-300"
+                      >
                         Staging
                       </Text>
                       <Text as="p">Stage || T2 N1 M0</Text>
                     </div>
                     <div className="flex w-[89%] flex-col items-start justify-center gap-[7px] rounded-[10px] bg-gray-50 p-[9px] md:w-full">
-                      <Text size="xs" as="p" className="mt-1 !text-blue_gray-300">
+                      <Text
+                        size="xs"
+                        as="p"
+                        className="mt-1 !text-blue_gray-300"
+                      >
                         Note
                       </Text>
                       <Text as="p" className="w-full leading-[25px]">
@@ -173,7 +242,11 @@ export default function PatientPage() {
                       Vital Signs
                     </Heading>
                   </div>
-                  <Button size="lg" shape="circle" className="w-[48px] !rounded-[24px]">
+                  <Button
+                    size="lg"
+                    shape="circle"
+                    className="w-[48px] !rounded-[24px]"
+                  >
                     <Img src="images/img_clock.svg" />
                   </Button>
                 </div>
@@ -185,7 +258,11 @@ export default function PatientPage() {
                         key={"patient" + index}
                         className="flex w-full flex-col items-start justify-center gap-2 rounded-[10px] bg-gray-50 p-2.5"
                       >
-                        <Text size="xs" as="p" className="mt-[5px] !text-blue_gray-300">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="mt-[5px] !text-blue_gray-300"
+                        >
                           {d.height}
                         </Text>
                         <Text as="p" className="mb-[5px]">
@@ -219,14 +296,21 @@ export default function PatientPage() {
                     Pathology
                   </Heading>
                 </div>
-                <Button size="lg" shape="circle" className="w-[48px] !rounded-[24px]">
+                <Button
+                  size="lg"
+                  shape="circle"
+                  className="w-[48px] !rounded-[24px]"
+                >
                   <Img src="images/img_edit.svg" />
                 </Button>
               </div>
               <div className="flex flex-col items-center gap-5">
                 <div className="flex flex-col gap-5 self-stretch pr-[157px] md:pr-5">
                   {data.map((d, index) => (
-                    <div key={"content" + index} className="flex flex-col items-start gap-[15px] pt-1">
+                    <div
+                      key={"content" + index}
+                      className="flex flex-col items-start gap-[15px] pt-1"
+                    >
                       <Heading as="p">{d.bilateralsalpi}</Heading>
                       <div className="flex flex-col items-start justify-center gap-[11px] rounded-[10px] bg-gray-50 p-2.5">
                         <Text size="xs" as="p" className="!text-blue_gray-300">
@@ -240,7 +324,10 @@ export default function PatientPage() {
                     </div>
                   ))}
                 </div>
-                <Button size="sm" className="min-w-[218px] rounded-[15px] sm:px-5">
+                <Button
+                  size="sm"
+                  className="min-w-[218px] rounded-[15px] sm:px-5"
+                >
                   View all
                 </Button>
               </div>
@@ -250,4 +337,12 @@ export default function PatientPage() {
       </div>
     </>
   );
+}
+
+function orderChemo() {
+  window.location.href = "/orderchemotherapy";
+}
+
+function docChemo() {
+  window.location.href = "/documentchemotherapy";
 }
