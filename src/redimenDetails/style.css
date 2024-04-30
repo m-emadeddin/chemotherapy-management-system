@@ -6,11 +6,53 @@
 
 }
 
-.regimen-detail .cycles {
-    background-color: aqua;
+.regimen-detail .cycles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     width: 619px;
     height: 177px;
     border-radius: 20px;
+    font-family: "Lama Sans-Regular", Helvetica;
+    line-height: 25px;
+
+}
+
+.cycles-container input[type="radio"] {
+    width: 21px;
+    height: 21px;
+    border-color: #808080;
+    border-radius: 50%;
+
+}
+
+
+
+
+.cycles-container input[type="radio"]:hover {
+    border-color: #A3A3A3;
+    cursor: pointer;
+    transition: ease 0.3s;
+}
+
+.cycles-container input[type="radio"]:checked {
+    color: #1FA6EF;
+    border-color: #1FA6EF;
+    transition: ease 0.3s;
+}
+
+
+
+.cycles-container .cycles-rows {
+    display: flex;
+    gap: 10px;
+}
+
+.cycles-container .cycles-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
 }
 
 .regimen-detail .medications {
