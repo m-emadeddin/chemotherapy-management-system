@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Img, Text } from "./..";
-import "./header.css"; // Import the Header.css file
+import "./Header.css";
 import DoctorDropMenu from "components/DoctorDropMenu";
 
 export default function Header({ userName, userEmail, userPhoto, ...props }) {

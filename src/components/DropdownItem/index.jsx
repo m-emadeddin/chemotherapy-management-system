@@ -1,6 +1,6 @@
 import { Text } from "components";
 import React from "react";
-import "components/Header/header.css";
+import "components/Header/Header.css";
 export default function DropdownItem({ onClick, itemName, iconSVG }) {
   return (
     <div className="dropdownItem-container" onClick={onClick}>

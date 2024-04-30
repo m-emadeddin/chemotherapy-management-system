@@ -80,11 +80,13 @@
 .dropdown-logo-menu li {
   padding: 10px;
   cursor: pointer;
+  font-family: 'Almarai', sans-serif;
 }
 
 .dropdown-logo-menu li:hover {
   background-color: #0F8BCD;
   border-radius: 10px;
+  font-family: 'Almarai', sans-serif;
   transition: background-color 0.3s; /* Transition for background color on hover */
 }
 
