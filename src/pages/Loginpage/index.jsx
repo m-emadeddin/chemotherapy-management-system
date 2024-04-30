@@ -4,6 +4,10 @@ import { Img, Button, Input, Text } from "../../components";
 import "./login.css";
 
 export default function LoginpagePage() {
+  function handleLogin() {
+    window.location.href = "/selectpatient";
+  }
+
   return (
     <>
       <Helmet>
@@ -43,7 +47,7 @@ export default function LoginpagePage() {
                       className="h-[20px] w-[21px]"
                     />
                   }
-                  className="mt-1 gap-[35px] border border-solid border-black-900"
+                  className="email-input mt-1 gap-[35px] border border-solid border-black-900"
                 />
                 <Text
                   as="p"
@@ -61,10 +65,11 @@ export default function LoginpagePage() {
                       className="h-[20px] w-[21px]"
                     />
                   }
-                  className="mt-1 gap-[35px] border border-solid border-black-900"
+                  className="password-input mt-1 gap-[35px] border border-solid border-black-900"
+                  type="password"
                 />
                 <Button
-                  //onClick={handelLogoutClick}
+                  onClick={handleLogin}
                   size="sm"
                   shape="round"
                   leftIcon={
