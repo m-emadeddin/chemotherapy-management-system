@@ -10,14 +10,14 @@ export default function OrderchemotherapyPage() {
 
       {/* main content */}
       <div className="order-chemotherapy">
-        <div className="div">
-          <div className="navigation">
+        <div className="order-container">
+          {/* <div className="navigation">
             <div className="text-wrapper-2">Patient List</div>
             <img className="img" alt="Vector" src="vector-2.svg" />
             <div className="text-wrapper-3">Hazem Abdulnasser</div>
             <img className="img" alt="Vector" src="vector-3.svg" />
             <div className="text-wrapper-4">Chemo Orders</div>
-          </div>
+          </div> */}
           <div className="text-wrapper-5">Select regimen</div>
           <DropDownMenu />
         </div>

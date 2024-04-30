@@ -3,7 +3,7 @@ import "./style.css";
 
 function Table({ data, selectedOption }) {
   return (
-    <table>
+    <table className="medictions-table">
       <thead>
         <tr>
           <th className="checkboxCell">
