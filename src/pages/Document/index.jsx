@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Button, TextArea, Text, Input, Heading } from "../../components";
+import { TextArea, Text, Input, Heading } from "../../components";
 import DocumentCycle from "../../components/DocumentCycle";
 import Header from "../../components/Header";
 import { Link } from "react-router-dom";
@@ -186,15 +186,15 @@ export default function DocumentPage() {
             {/* submission controls section */}
             <div className="mt-[30px] flex gap-[15px] self-center">
               <Link
+                className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
                 size="sm"
-                className="min-w-[152px] rounded-[15px] sm:px-5"
                 to={"/Documentchemotherapy"}
               >
                 Submit
               </Link>
               <Link
                 size="sm"
-                className="min-w-[152px] rounded-[15px] sm:px-5"
+                className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
                 to={"/Documentchemotherapy"}
               >
                 Cancel
