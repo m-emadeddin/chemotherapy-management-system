@@ -28,3 +28,21 @@ a {
 table {
   table-layout: fixed;
 }
+.Button:hover {
+  background-color: white;
+  color: black;
+}
+.custom-button {
+  background-color: bg-blue-500;
+  color: white;
+  transition: all 0.3s ease;
+  border: 2px solid transparent; /* Add transparent border */
+
+}
+
+.custom-button:hover {
+  background-color: white;
+  color: black;
+  border-color: black; /* Change border color to black on hover */
+
+}

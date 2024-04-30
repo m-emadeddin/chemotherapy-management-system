@@ -39,6 +39,10 @@
 
 
 
+.cycles-container .cycles-rows {
+    display: flex;
+    gap: 10px;
+}
 
 .cycles-container .cycles-row {
     display: flex;

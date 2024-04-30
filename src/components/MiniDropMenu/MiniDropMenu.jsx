@@ -21,7 +21,7 @@ export default function MiniDropMenu({ title, options, defaultValue }) {
   useEffect(() => {
     setSelectedOption(defaultValue || " ");
   }, [defaultValue, options]);
-
+ 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
