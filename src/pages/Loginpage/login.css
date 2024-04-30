@@ -1,0 +1,15 @@
+.login-button {
+    min-width: 89px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #1FA6EF; /* Example background color */
+    color: #fff; /* Example text color */
+    font-family: 'Almarai', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #008DD4; /* Example hover background color */
+  }
