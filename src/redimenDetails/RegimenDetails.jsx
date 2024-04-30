@@ -1,56 +1,5 @@
 import Table from "components/Table/Table";
 import "./style.css";
-import { useEffect, useRef, useState } from "react";
-// const premedicationData = [
-//   {
-//     Medication: "SODIUM CHLORIDE",
-//     Dose: 1000,
-//     Route: "Intravenous",
-//     Instructions: "Once 60 minutes prior to chemotherapy",
-//   },
-//   {
-//     Medication: "SODIUM CHLORIDE",
-//     Dose: 1000,
-//     Route: "Intravenous",
-//     Instructions: "Once 60 minutes prior to chemotherapy",
-//   },
-//   {
-//     Medication: "SODIUM CHLORIDE",
-//     Dose: 1000,
-//     Route: "Intravenous",
-//     Instructions: "Once 60 minutes prior to chemotherapy",
-//   },
-//   {
-//     Medication: "SODIUM CHLORIDE",
-//     Dose: 1000,
-//     Route: "Intravenous",
-//     Instructions: "Once 60 minutes prior to chemotherapy",
-//   },
-//   {
-//     Medication: "SODIUM CHLORIDE",
-//     Dose: 1000,
-//     Route: "Intravenous",
-//     Instructions: "Once 60 minutes prior to chemotherapy",
-//   },
-//   {
-//     Medication: "SODIUM CHLORIDE",
-//     Dose: 1000,
-//     Route: "Intravenous",
-//     Instructions: "Once 60 minutes prior to chemotherapy",
-//   },
-//   {
-//     Medication: "SODIUM CHLORIDE",
-//     Dose: 1000,
-//     Route: "Intravenous",
-//     Instructions: "Once 60 minutes prior to chemotherapy",
-//   },
-//   {
-//     Medication: "SODIUM CHLORIDE",
-//     Dose: 1000,
-//     Route: "Intravenous",
-//     Instructions: "Once 60 minutes prior to chemotherapy",
-//   },
-// ];
 const premedicationData = {
   "COP - Regimen for Non-Metastatic Non Hodgkin Lymphoma": [
     {
@@ -207,23 +156,8 @@ const chemotherapyData = {
 };
 
 export default function RegimenDetails({ selectedOption }) {
-  const [premedicationheight, setPremedicationHeight] = useState(0);
-  const premediactionRef = useRef(null);
-  const [chemotherapyheight, setChemotherapyHeight] = useState(0);
-
-  const chemotherapyRef = useRef(null);
-
-  useEffect(() => {
-    if (premediactionRef.current) {
-      setPremedicationHeight(premediactionRef.current.clientHeight);
-    }
-    if (chemotherapyRef.current) {
-      setChemotherapyHeight(chemotherapyRef.current.clientHeight);
-    }
-  }, [selectedOption]);
-
   return (
-    <>
+    <div className="regimen-detail">
       <div className="cycles">
         <span className="heading">Cycles</span>
         <div className="row">
@@ -238,37 +172,36 @@ export default function RegimenDetails({ selectedOption }) {
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>
-        <div className="premediaction" ref={premediactionRef}>
-          <div className="premediactionHeader">
-            <p>PreMediactions</p>
-            <div className="prebuttons">
-              <button className="edit">Edit</button>
-              <button className="del">Delete</button>
+        <div className="pre-mediaction">
+          <div className="pre-mediaction-header">
+            <p className="table-name">PreMediactions</p>
+            <div className="buttons-container">
+              <button className="edit btn">Edit</button>
+              <button className="del btn">Delete</button>
             </div>
           </div>
           <Table data={premedicationData} selectedOption={selectedOption} />
         </div>
-        <div
-          ref={chemotherapyRef}
-          className="chemotherapy"
-          style={{ top: premedicationheight + 120 }}
-        >
-          <div className="chemotherapyHeader">
-            <p>ChemoTherapy</p>
-            <div className="chemobuttons">
-              <button className="dose">Change Dose</button>
-              <button className="edit">Edit</button>
-              <button className="del">Delete</button>
+        <div className="chemotherapy">
+          <div className="chemotherapy-header">
+            <p className="table-name">ChemoTherapy</p>
+            <div className="buttons-container">
+              <button className="dose btn">Change Dose</button>
+              <button className="edit btn">Edit</button>
+              <button className="del btn">Delete</button>
             </div>
           </div>
           <Table data={chemotherapyData} selectedOption={selectedOption} />
         </div>
       </div>
-      <div className="notes" style={{ top: chemotherapyheight + 800 }}>
+      <div className="notes">
         <span className="heading">Physician Notes</span>
-        <textarea defaultValue="Add your notes here..."></textarea>
+        <textarea
+          defaultValue="Add your notes here..."
+          className="notes-area"
+        ></textarea>
         <button className="next">Next</button>
       </div>
-    </>
+    </div>
   );
 }
