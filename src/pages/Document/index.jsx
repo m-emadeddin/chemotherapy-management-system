@@ -22,7 +22,7 @@ export default function DocumentPage() {
         <div>
           <Header className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
         </div>
-        <div className="flex w-[88%] items-center gap-6 md:w-full md:flex-col md:p-5">
+        <div className="flex w-[100%] items-stretch gap-6 md:w-full md:flex-col md:p-5">
           {/* treatment overview section */}
           <div className="flex w-[21%]  flex-col items-start gap-5 bg-white-A700 md:w-full">
             <Text size="xs" as="p" className="ml-[60px] mt-[17px] md:ml-0">
