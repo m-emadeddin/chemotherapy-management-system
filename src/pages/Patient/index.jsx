@@ -51,7 +51,7 @@ export default function PatientPage() {
       </Helmet>
       <div className="flex w-full flex-col items-center gap-[15px] bg-gray-100 pb-[70px] md:pb-5">
         {/* header section */}
-        <Header className="flex items-center justify-center self-stretch border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs" />
+        <Header className="flex items-center justify-center self-stretch border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs" userName={" Atef"} userEmail={"aatef83156@gmail.com"} userPhoto={"/images/img_hesham_1.png"}/>
         <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5">
           {/* navigation section */}
           <div className="flex items-start justify-between gap-5 md:flex-col">
