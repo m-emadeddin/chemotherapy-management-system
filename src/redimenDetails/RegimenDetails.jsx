@@ -3,6 +3,7 @@ import "./style.css";
 import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
 const premedicationData = {
   "COP - Regimen for Non-Metastatic Non Hodgkin Lymphoma": [
+    { NumOfCycles: 3, CycleCount: 2 },
     {
       Medication: "SODIUM CHLORIDE",
       Dose: 1000,
@@ -155,6 +156,25 @@ const chemotherapyData = {
     },
   ],
 };
+const cyclesData = {
+  "COP - Regimen for Non-Metastatic Non Hodgkin Lymphoma": [
+    { NumOfCycles: 3, CycleCount: 2 },
+  ],
+  "AC - Regimen for Non-Metastatic, Locally-Advanced Breast Cancer. Before or after Taxol":
+    [{ NumOfCycles: 8, CycleCount: 5 }],
+  "CHOP: Protocol for Non Hodgkin Lymphoma": [
+    { NumOfCycles: 2, CycleCount: 3 },
+  ],
+  "CMF-Breast Cancer Regimen": [{ NumOfCycles: 4, CycleCount: 4 }],
+};
+
+const Weeks = ["None", "1", "2", "3", "4", "5", "6"];
+
+const Cycles = [1, 2, 3, 4, 5, 6, 7, 8];
+
+const Days = Array.from({ length: 28 }, (_, index) => index + 1);
+
+const fieldsNum = [1, 2, 3];
 
 const Weeks = [
   "None",
@@ -181,15 +201,34 @@ export default function RegimenDetails({ selectedOption }) {
             <div className="cycles-row">
               <input type="radio" name="type" value="weeks" />
               <span>Every</span>
-              <MiniDropMenu title="Weeks" options={Weeks} />
+              <MiniDropMenu
+                title="Weeks"
+                options={Weeks}
+                defaultValue={cyclesData[selectedOption][0].CycleCount}
+              />
               <span>X</span>
-              <MiniDropMenu title="Cycles" options={Cycles.map(String)} />
+              <MiniDropMenu
+                title="Cycles"
+                options={Cycles.map(String)}
+                defaultValue={cyclesData[selectedOption][0].NumOfCycles}
+              />
               <span>Cycles</span>
             </div>
-            <div>
+            <div className="cycles-row">
               <input type="radio" name="type" value="days" />
-              <span>Day</span>
+              <span style={{ width: "40px" }}>Day</span>
+              <MiniDropMenu title="fieldsNum" options={fieldsNum.map(String)} />
+
+              <span>of</span>
               <MiniDropMenu title="Days" options={Days.map(String)} />
+              <span>day cycle</span>
+              <span>X</span>
+              <MiniDropMenu
+                title="Cycles"
+                options={Cycles.map(String)}
+                defaultValue={cyclesData[selectedOption][0].NumOfCycles}
+              />
+              <span>Cycles</span>
             </div>
           </form>
         </div>
