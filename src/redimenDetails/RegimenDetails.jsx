@@ -176,20 +176,6 @@ const Days = Array.from({ length: 28 }, (_, index) => index + 1);
 
 const fieldsNum = [1, 2, 3];
 
-const Weeks = [
-  "None",
-  "1 Weeks",
-  "2 Weeks",
-  "3 Weeks",
-  "4 Weeks",
-  "5 Weeks",
-  "6 Weeks",
-];
-
-const Cycles = [1, 2, 3, 4, 5, 6];
-
-const Days = Array.from({ length: 28 }, (_, index) => index + 1);
-
 export default function RegimenDetails({ selectedOption }) {
   return (
     <div className="regimen-detail">
