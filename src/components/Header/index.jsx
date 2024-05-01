@@ -3,7 +3,7 @@ import { Button, Img, Text } from "./..";
 import "./Header.css";
 import DoctorDropMenu from "components/DoctorDropMenu";
 
-export default function Header({ userName, userEmail, userPhoto, ...props }) {
+export default function Header({ userName = " Haitham", userEmail = " Haitham @gmail.com", userPhoto="/images/img_hesham_1.png", ...props }) {
   function handelLogoutClick() {
     window.location.href = "/login";
   }
