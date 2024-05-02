@@ -182,14 +182,14 @@ export default function DocumentchemotherapyPage() {
               Chemotherapy
             </Text>
             {/* treatment cycle section */}
-            <div className="mb-80 self-stretch pb-[324px] md:pb-5">
+            <div className="self-stretch  md:pb-5">
               <DocumentChemotherapyCycle />
             </div>
           </div>
           <div className="m-[30px] w-[81%] flex flex-1 flex-col gap-[30px]">
             {/* treatment protocol section */}
             <div className="flex flex-col gap-[20px]">
-              <div className="flex items-center justify-between  p-[19px] md:flex-col">
+              <div className="flex items-center justify-between p-[19px] md:flex-col">
                 <div className="flex flex-col items-start gap-3.5 lg:w-[55%] md:items-center ">
                   <Heading as="h1">
                     CHOP: Protocol for Non Hodgkin Lymphoma

@@ -27,7 +27,7 @@ export default function DocumentPage() {
               Chemotherapy
             </Text>
             {/* treatment cycle section */}
-            <div className="mb-80 self-stretch pb-[324px] md:pb-5">
+            <div className="self-stretch :pb-5">
               <DocumentChemotherapyCycle />
             </div>
           </div>
