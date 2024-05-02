@@ -13,11 +13,6 @@
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.logout-button:hover {
-  background-color: #008DD4;
-  /* Example hover background color */
-}
-
 /* User info container */
 .doctor-info {
   display: flex;

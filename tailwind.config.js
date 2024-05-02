@@ -19,7 +19,7 @@ module.exports = {
           800: "#d4d4d4",
         },
         white: { A700: "#ffffff" },
-        blue: { 500: "#1fa6ef" },
+        blue: { 500: "#1fa6ef", 600: "#008DD4" },
         black: { 900: "#000000" },
         blue_gray: { 300: "#8c9ab3", "300_02": "#8e9cb4" },
         blue_gray_400: "#77859c",
