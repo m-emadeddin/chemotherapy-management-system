@@ -188,11 +188,11 @@ export default function DocumentPage() {
               shape="round"
               name="groupthree"
               placeholder={`Type your summary here...`}
-              className="mt-[18px] self-stretch !border-black-900 text-gray-600 sm:pb-5 sm:pr-5"
+              className=" self-stretch !border-black-900 text-gray-600 sm:pb-5 sm:pr-5"
             />
 
             {/* submission controls section */}
-            <div className="mt-[30px] flex gap-[15px] self-center">
+            <div className=" flex gap-[15px] self-center items-center">
               <Link
                 className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
                 size="sm"
