@@ -18,6 +18,9 @@ module.exports = (db, DataTypes) => {
         Temp: {
           type: DataTypes.INTEGER
         },
+        last_updated: {
+          type: DataTypes.DATE
+        },
         Chief_Complaint: {
           type: DataTypes.STRING(255)
         }
