@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Button, Img, Text } from "./..";
 import "./Header.css";
 import DoctorDropMenu from "components/DoctorDropMenu";
+import { Link } from "react-router-dom";
 
-export default function Header({ userName = " Haitham", userEmail = " Haitham @gmail.com", userPhoto="/images/img_hesham_1.png", ...props }) {
-  function handelLogoutClick() {
-    window.location.href = "/login";
-  }
+export default function Header({
+  userName = " Haitham",
+  userEmail = " Haitham @gmail.com",
+  userPhoto = "/images/img_hesham_1.png",
+  ...props
+}) {
+
 
   const [newLogo, setNewLogo] = useState("images/img_icon_1.png");
   const [newSVG, setNewSVG] = useState("images/img_arrow_down.svg");
@@ -83,20 +87,19 @@ export default function Header({ userName = " Haitham", userEmail = " Haitham @g
               />
             )}
           </div>
-          <Button
-            onClick={handelLogoutClick}
-            shape="round"
-            leftIcon={
+          <Link
+            className="flex items-center justify-center bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300  hover:bg-blue-600 h-[36px] text-sm min-w-[89px] gap-2.5 text-center cursor-pointer rounded-[10px] h-[36px] py-[9px] px-[16px] text-sm "
+            to="/login"
+          >
+            <div>
               <Img
                 src="images/img_arrowleft_white_a700.svg"
                 alt="arrow_left"
                 className="h-[14px] w-[14px]"
               />
-            }
-            className="logout-button min-w-[89px] gap-2.5 font-almarai"
-          >
-            Log out
-          </Button>
+            </div>
+            Log Out
+          </Link>
         </div>
       </div>
     </header>
