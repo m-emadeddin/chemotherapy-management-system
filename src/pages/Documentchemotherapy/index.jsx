@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Text, Button, Heading } from "../../components";
+import { Text, Heading } from "../../components";
 import DocumentChemotherapyCycle from "../../components/DocumentChemotherapyCycle";
 import Header from "../../components/Header";
 import { ReactTable } from "../../components/ReactTable";
@@ -189,9 +189,9 @@ export default function DocumentchemotherapyPage() {
           </div>
           <div className="m-[30px] flex flex-1 w-[81%] flex-col gap-[30px]  ">
             {/* treatment protocol section */}
-            <div className="flex flex-col gap-[27px]">
-              <div className="flex items-stretch justify-between gap-5 md:flex-col p-[19px]">
-                <div className="flex flex-col items-start gap-3.5 self-end ">
+            <div className="flex flex-col gap-[20px]">
+              <div className="flex items-center justify-between  p-[19px] md:flex-col">
+                <div className="flex flex-col items-start gap-3.5 lg:w-[55%] md:items-center ">
                   <Heading as="h1">
                     CHOP: Protocol for Non Hodgkin Lymphoma
                   </Heading>
@@ -199,7 +199,7 @@ export default function DocumentchemotherapyPage() {
                     Cycle 1 of 6
                   </Text>
                 </div>
-                <div className="flex gap-2.5 items-center">
+                <div className="flex justify-between items-center">
                   <Link
                     className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
                     to="/Document"
