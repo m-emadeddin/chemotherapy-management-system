@@ -175,19 +175,18 @@ export default function DocumentchemotherapyPage() {
       <div className="flex w-fit bg-gray-100">
         {/* header section */}
         <Header className="fixed w-full top-0 flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
-        <div className="pt-[50px] flex w-[100%] items-stretch justify-between">
+        <div className="pt-[50px] flex w-[100%] items-stretch ">
           {/* introduction section */}
-          <div className="flex w-[19%] flex-col items-start gap-5 bg-white-A700 py-[19px] md:w-full">
+          <div className="flex w-[19%] flex-col items-start gap-5 bg-white-A700 py-[19px]">
             <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center">
               Chemotherapy
             </Text>
-
             {/* treatment cycle section */}
             <div className="mb-80 self-stretch pb-[324px] md:pb-5">
               <DocumentChemotherapyCycle />
             </div>
           </div>
-          <div className="m-[30px] flex flex-1 w-[81%] flex-col gap-[30px]  ">
+          <div className="m-[30px] w-[81%] flex flex-1 flex-col gap-[30px]">
             {/* treatment protocol section */}
             <div className="flex flex-col gap-[20px]">
               <div className="flex items-center justify-between  p-[19px] md:flex-col">
