@@ -198,15 +198,15 @@ export default function DocumentchemotherapyPage() {
                     Cycle 1 of 6
                   </Text>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center gap-2">
                   <Link
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
+                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
                     to="/Document"
                   >
                     Document
                   </Link>
                   <Link
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
+                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
                     to="/Orderchemotherapy"
                   >
                     Modify Order

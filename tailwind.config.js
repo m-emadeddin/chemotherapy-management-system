@@ -23,6 +23,7 @@ module.exports = {
         black: { 900: "#000000" },
         blue_gray: { 300: "#8c9ab3", "300_02": "#8e9cb4" },
         blue_gray_400: "#77859c",
+        transparent: { 0: "transparent" },
       },
       boxShadow: { xs: "0px 4px 10px 0px #00000026" },
       fontFamily: { lamasans: "Lama Sans", almarai: "Almarai", inter: "Inter" },
