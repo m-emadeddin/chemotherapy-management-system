@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { TextArea, Text, Input, Heading } from "../../components";
-import DocumentCycle from "../../components/DocumentCycle";
+import DocumentChemotherapyCycle from "../../components/DocumentChemotherapyCycle";
 import Header from "../../components/Header";
 import { Link } from "react-router-dom";
 
@@ -20,19 +20,19 @@ export default function DocumentPage() {
       <div className="flex w-full flex-col bg-gray-100">
         {/* header section */}
         <div>
-          <Header className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
+          <Header className="fixed w-full top-0 flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
         </div>
-        <div className="flex w-[100%] items-stretch gap-6 md:w-full md:flex-col md:p-5">
+        <div className="pt-[50px] flex w-[100%] items-stretch gap-6 md:w-full md:flex-col md:p-5">
           {/* treatment overview section */}
-          <div className="flex w-[21%]  flex-col items-start gap-5 bg-white-A700 md:w-full">
-            <Text size="xs" as="p" className="ml-[60px] mt-[17px] md:ml-0">
+          <div className="flex w-[19%] flex-col items-start gap-5 bg-white-A700 py-[19px] md:w-full">
+            <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center">
               Chemotherapy
             </Text>
-            <DocumentCycle
-              ten="active"
-              linefourOne={true}
-              className="mb-[716px] flex flex-col items-end gap-2 self-stretch pt-1.5"
-            />
+
+            {/* treatment cycle section */}
+            <div className="mb-80 self-stretch pb-[324px] md:pb-5">
+              <DocumentChemotherapyCycle />
+            </div>
           </div>
           <div className="flex flex-1 flex-col items-start md:self-stretch">
             {/* treatment protocol section */}

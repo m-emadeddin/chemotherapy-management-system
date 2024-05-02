@@ -172,10 +172,10 @@ export default function DocumentchemotherapyPage() {
           content="Web site created using create-react-app"
         />
       </Helmet>
-      <div className="flex w-full flex-col bg-gray-100">
+      <div className="flex w-fit bg-gray-100">
         {/* header section */}
-        <Header className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
-        <div className="flex w-[100%] items-stretch md:w-full md:flex-col md:p-5">
+        <Header className="fixed w-full top-0 flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
+        <div className="pt-[50px] flex w-[100%] items-stretch justify-between">
           {/* introduction section */}
           <div className="flex w-[19%] flex-col items-start gap-5 bg-white-A700 py-[19px] md:w-full">
             <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center">
@@ -187,7 +187,7 @@ export default function DocumentchemotherapyPage() {
               <DocumentChemotherapyCycle />
             </div>
           </div>
-          <div className="m-[30px] flex flex-1 flex-col gap-[30px] md:self-stretch ">
+          <div className="m-[30px] flex flex-1 w-[81%] flex-col gap-[30px]  ">
             {/* treatment protocol section */}
             <div className="flex flex-col gap-[27px]">
               <div className="flex items-stretch justify-between gap-5 md:flex-col p-[19px]">
@@ -216,18 +216,14 @@ export default function DocumentchemotherapyPage() {
               </div>
 
               {/* premedications section */}
-              <div className="flex flex-col gap-[15px] rounded-[20px] bg-white-A700 py-4">
-                <div className="flex flex-col items-start gap-[18px]">
-                  <Text
-                    size="md"
-                    as="p"
-                    className="ml-[19px] uppercase md:ml-0"
-                  >
+              <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">
+                <div className="flex flex-col items-start gap-[18px] p-[19px]">
+                  <Text size="md" as="p" className="uppercase md:ml-0">
                     Premedications
                   </Text>
                   <div className="h-px w-full self-stretch bg-blue_gray-100" />
                 </div>
-                <div className="mb-[5px]">
+                <div>
                   <ReactTable
                     size="sm"
                     className="w-full"
@@ -240,18 +236,13 @@ export default function DocumentchemotherapyPage() {
                 </div>
               </div>
               {/* chemotherapy details section */}
-              <div className="flex flex-col gap-[15px] rounded-[20px] bg-white-A700 py-4">
-                <div className="flex flex-col items-start gap-[18px]">
-                  <Text
-                    size="md"
-                    as="p"
-                    className="ml-[19px] uppercase md:ml-0"
-                  >
+              <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">
+                <div className="flex flex-col items-start gap-[18px] p-[19px]">
+                  <Text size="md" as="p" className=" uppercase md:ml-0">
                     Chemotherapy
                   </Text>
-                  <div className="h-px w-full self-stretch bg-blue_gray-100" />
                 </div>
-                <div className="mb-[5px]">
+                <div>
                   <ReactTable
                     size="sm"
                     className={style.table}
