@@ -1,12 +1,23 @@
 module.exports = {
   mode: "jit",
-  content: ["./src/**/**/*.{js,ts,jsx,tsx,html,mdx}", "./src/**/*.{js,ts,jsx,tsx,html,mdx}"],
+  content: [
+    "./src/**/**/*.{js,ts,jsx,tsx,html,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,html,mdx}",
+  ],
   darkMode: "class",
   theme: {
     screens: { md: { max: "1050px" }, sm: { max: "550px" } },
     extend: {
       colors: {
-        gray: { 50: "#f8f9fc", 100: "#f4f5f9", 400: "#c2c2c2", 600: "#707070", "50_01": "#f7f9fb" },
+        gray: {
+          50: "#f8f9fc",
+          100: "#f4f5f9",
+          400: "#c2c2c2",
+          600: "#707070",
+          "50_01": "#f7f9fb",
+          700: "#5a5a5a",
+          800: "#d4d4d4",
+        },
         white: { A700: "#ffffff" },
         blue: { 500: "#1fa6ef" },
         black: { 900: "#000000" },
