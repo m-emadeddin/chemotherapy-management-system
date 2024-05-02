@@ -2,8 +2,9 @@
   border-collapse: collapse;
   width: 100%;
 }
-td {
-  border-top: 1px solid #d4d4d4; /* Border for the top of each cell */
+
+td,th {
+  border-top: 1px solid #d4d4d4; 
 }
 
 th,
@@ -11,10 +12,8 @@ td {
   padding: 19px;
   text-align: left;
 }
+
 th p{
     color: #707070 !important;
     padding: 0px !important;
-}
-table {
-    width: 100%;
 }

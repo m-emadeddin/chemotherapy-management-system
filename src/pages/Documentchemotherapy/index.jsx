@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Text, Button, Heading } from "../../components";
+import { Text, Heading } from "../../components";
 import DocumentChemotherapyCycle from "../../components/DocumentChemotherapyCycle";
 import Header from "../../components/Header";
 import { ReactTable } from "../../components/ReactTable";
@@ -172,26 +172,25 @@ export default function DocumentchemotherapyPage() {
           content="Web site created using create-react-app"
         />
       </Helmet>
-      <div className="flex w-full flex-col bg-gray-100">
+      <div className="flex w-fit bg-gray-100">
         {/* header section */}
-        <Header className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
-        <div className="flex w-[100%] items-stretch md:w-full md:flex-col md:p-5">
+        <Header className="fixed w-full top-0 flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
+        <div className="pt-[50px] flex w-[100%] items-stretch ">
           {/* introduction section */}
-          <div className="flex w-[19%] flex-col items-start gap-5 bg-white-A700 py-[19px] md:w-full">
+          <div className="flex w-[19%] flex-col items-start gap-5 bg-white-A700 py-[19px]">
             <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center">
               Chemotherapy
             </Text>
-
             {/* treatment cycle section */}
-            <div className="mb-80 self-stretch pb-[324px] md:pb-5">
+            <div className="self-stretch  md:pb-5">
               <DocumentChemotherapyCycle />
             </div>
           </div>
-          <div className="m-[30px] flex flex-1 flex-col gap-[30px] md:self-stretch ">
+          <div className="m-[30px] w-[81%] flex flex-1 flex-col gap-[30px]">
             {/* treatment protocol section */}
-            <div className="flex flex-col gap-[27px]">
-              <div className="flex items-stretch justify-between gap-5 md:flex-col p-[19px]">
-                <div className="flex flex-col items-start gap-3.5 self-end ">
+            <div className="flex flex-col gap-[20px]">
+              <div className="flex items-center justify-between p-[19px] md:flex-col">
+                <div className="flex flex-col items-start gap-3.5 lg:w-[55%] md:items-center ">
                   <Heading as="h1">
                     CHOP: Protocol for Non Hodgkin Lymphoma
                   </Heading>
@@ -199,17 +198,15 @@ export default function DocumentchemotherapyPage() {
                     Cycle 1 of 6
                   </Text>
                 </div>
-                <div className="flex gap-2.5 items-center">
+                <div className="flex justify-between items-center">
                   <Link
-                    style={{ color: "white" }}
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white"
+                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
                     to="/Document"
                   >
                     Document
                   </Link>
                   <Link
-                    style={{ color: "white" }}
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white"
+                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
                     to="/Orderchemotherapy"
                   >
                     Modify Order
@@ -218,18 +215,14 @@ export default function DocumentchemotherapyPage() {
               </div>
 
               {/* premedications section */}
-              <div className="flex flex-col gap-[15px] rounded-[20px] bg-white-A700 py-4">
-                <div className="flex flex-col items-start gap-[18px]">
-                  <Text
-                    size="md"
-                    as="p"
-                    className="ml-[19px] uppercase md:ml-0"
-                  >
+              <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">
+                <div className="flex flex-col items-start gap-[18px] p-[19px]">
+                  <Text size="md" as="p" className="uppercase md:ml-0">
                     Premedications
                   </Text>
                   <div className="h-px w-full self-stretch bg-blue_gray-100" />
                 </div>
-                <div className="mb-[5px]">
+                <div>
                   <ReactTable
                     size="sm"
                     className="w-full"
@@ -242,18 +235,13 @@ export default function DocumentchemotherapyPage() {
                 </div>
               </div>
               {/* chemotherapy details section */}
-              <div className="flex flex-col gap-[15px] rounded-[20px] bg-white-A700 py-4">
-                <div className="flex flex-col items-start gap-[18px]">
-                  <Text
-                    size="md"
-                    as="p"
-                    className="ml-[19px] uppercase md:ml-0"
-                  >
+              <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">
+                <div className="flex flex-col items-start gap-[18px] p-[19px]">
+                  <Text size="md" as="p" className=" uppercase md:ml-0">
                     Chemotherapy
                   </Text>
-                  <div className="h-px w-full self-stretch bg-blue_gray-100" />
                 </div>
-                <div className="mb-[5px]">
+                <div>
                   <ReactTable
                     size="sm"
                     className={style.table}
