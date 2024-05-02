@@ -1,6 +1,6 @@
 module.exports = (db, DataTypes) => {
   const Radiography = db.define("Radiography", {
-    id: {
+    Radiography_ID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,

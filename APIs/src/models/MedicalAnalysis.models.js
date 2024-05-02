@@ -1,6 +1,6 @@
 module.exports = (db, DataTypes) => {
   const medicalAnalysis = db.define("medicalAnaylsis", {
-    id: {
+    MedicalAnalysis_ID: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
