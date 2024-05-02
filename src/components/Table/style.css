@@ -1,0 +1,55 @@
+.medictions-table {
+    width: 100%;
+    font-family: "Lama Sans-Regular", Helvetica;
+    line-height: 25px;
+}
+
+.medictions-table thead {
+    color: #707070;
+}
+
+.medictions-table th {
+    height: 50px;
+    border-bottom: 1px solid #D4D4D4;
+    text-align: unset;
+    font-weight: 300;
+}
+
+
+.medictions-table tr {
+    border-bottom: 1px solid #D4D4D4;
+    height: 50px;
+}
+
+.medictions-table tr:last-child {
+    border-bottom: none;
+}
+
+.medictions-table table td:nth-child(2) {
+    text-transform: uppercase;
+}
+
+
+.medictions-table .checkboxCell {
+    width: 73px;
+    text-align: unset;
+}
+
+.medictions-table [type="checkbox"] {
+    border-radius: 5px;
+}
+
+.medictions-table [type="checkbox"]:checked {
+    color: black;
+}
+
+
+.medictions-table [type="checkbox"]:checked:hover {
+    color: #707070;
+}
+
+.medictions-table [type="checkbox"]:hover {
+    cursor: pointer;
+    border: 1px solid black;
+    transition: ease 0.3s;
+}

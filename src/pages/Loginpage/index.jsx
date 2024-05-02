@@ -1,13 +1,21 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Img, Button, Input, Text } from "../../components";
+import "./login.css";
 
 export default function LoginpagePage() {
+  function handleLogin() {
+    window.location.href = "/selectpatient";
+  }
+
   return (
     <>
       <Helmet>
         <title>CMS App</title>
-        <meta name="description" content="Web site created using create-react-app" />
+        <meta
+          name="description"
+          content="Web site created using create-react-app"
+        />
       </Helmet>
 
       {/* main content section */}
@@ -23,37 +31,65 @@ export default function LoginpagePage() {
                 </Text>
               </a>
               <div className="flex flex-col items-center self-stretch">
-                <Text as="p" className="ml-[18px] self-start !font-inter md:ml-0">
+                <Text
+                  as="p"
+                  className="ml-[18px] self-start !font-inter md:ml-0"
+                >
                   username or email
                 </Text>
                 <Input
                   shape="round"
                   name="input_one"
-                  suffix={<Img src="images/img_settings.svg" alt="settings" className="h-[20px] w-[21px]" />}
-                  className="mt-1 gap-[35px] border border-solid border-black-900"
+                  suffix={
+                    <Img
+                      src="images/img_settings.svg"
+                      alt="settings"
+                      className="h-[20px] w-[21px]"
+                    />
+                  }
+                  className="email-input mt-1 gap-[35px] border border-solid border-black-900"
                 />
-                <Text as="p" className="ml-[18px] mt-[19px] self-start !font-inter md:ml-0">
+                <Text
+                  as="p"
+                  className="ml-[18px] mt-[19px] self-start !font-inter md:ml-0"
+                >
                   Password
                 </Text>
                 <Input
                   shape="round"
                   name="input_three"
                   suffix={
-                    <Img src="images/img_settings_light_blue_600.svg" alt="settings" className="h-[20px] w-[21px]" />
+                    <Img
+                      src="images/img_settings_light_blue_600.svg"
+                      alt="settings"
+                      className="h-[20px] w-[21px]"
+                    />
                   }
-                  className="mt-1 gap-[35px] border border-solid border-black-900"
+                  className="password-input mt-1 gap-[35px] border border-solid border-black-900"
+                  type="password"
                 />
                 <Button
+                  onClick={handleLogin}
                   size="sm"
                   shape="round"
-                  leftIcon={<Img src="images/img_arrowleft.svg" alt="arrow_left" className="h-[14px] w-[14px]" />}
-                  className="mt-10 min-w-[93px] gap-2.5 font-bold"
+                  leftIcon={
+                    <Img
+                      src="images/login_icon.svg"
+                      alt="arrow_left"
+                      className="h-[14px] w-[14px]"
+                    />
+                  }
+                  className="login-button mt-10 min-w-[93px] gap-2.5 font-bold"
                 >
                   Login
                 </Button>
               </div>
             </div>
-            <Img src="images/img_logo.png" alt="logo" className="h-[62px] w-[32%] object-cover" />
+            <Img
+              src="images/img_logo.png"
+              alt="logo"
+              className="h-[62px] w-[32%] object-cover"
+            />
           </div>
         </div>
       </div>

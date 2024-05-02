@@ -3,23 +3,46 @@ body {
   padding: 0;
   font-family: Lama Sans;
 }
+
 * {
   box-sizing: border-box;
   line-height: normal;
   font-family: inherit;
   margin: unset;
 }
+
 input {
   background-color: transparent;
   width: 100%;
 }
+
 input:focus {
   outline: none;
 }
+
 a {
   text-decoration: none;
   display: block;
 }
+
 table {
   table-layout: fixed;
+}
+.Button:hover {
+  background-color: white;
+  color: black;
+}
+.custom-button {
+  background-color: bg-blue-500;
+  color: white;
+  transition: all 0.3s ease;
+  border: 2px solid transparent; /* Add transparent border */
+
+}
+
+.custom-button:hover {
+  background-color: white;
+  color: black;
+  border-color: black; /* Change border color to black on hover */
+
 }

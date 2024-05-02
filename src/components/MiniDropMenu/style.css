@@ -1,0 +1,118 @@
+.mini-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 20px;
+    width: 118px;
+    font-family: "Lama Sans-Regular", Helvetica;
+    position: relative;
+}
+
+.mini-dropdown-container .mini-dropdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 19px;
+    background-color: #F8F9FC;
+    cursor: pointer;
+    border-radius: 20px;
+    height: 39px;
+}
+
+.mini-dropdown-container .mini-dropdown-header:hover {
+    transition: ease 0.3s;
+    background-color: #D9D9D9e5;
+
+}
+
+.mini-dropdown-container .mini-dropdown-header .arrow {
+    transition: transform 0.4s;
+    border: solid #8E98B4;
+    border-width: 0 1.7px 1.7px 0;
+    padding: 4px;
+}
+
+.mini-dropdown-container .mini-dropdown-header .arrow.down {
+    transform: rotate(45deg);
+    margin-bottom: 4px;
+
+}
+
+.mini-dropdown-container .mini-dropdown-header .arrow.up {
+    transform: rotate(-134deg);
+    margin-top: 5px;
+
+}
+
+.mini-dropdown-container .mini-dropdown-list {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    max-height: 312px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+}
+
+.mini-dropdown-container .mini-dropdown-list::-webkit-scrollbar {
+    width: 0 !important;
+}
+
+
+.mini-dropdown-container .mini-dropdown-option {
+    padding: 10px 20px;
+    cursor: pointer;
+    height: 40px;
+    padding: 8px 19px 7px 19px;
+    line-height: 25px;
+}
+
+.mini-dropdown-container .mini-dropdown-option:hover {
+    border-radius: 20px;
+    background-color: #D9D9D9e5;
+    transition: ease 0.3s;
+
+}
+
+.inputs-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.inputs-container .day-input {
+    background-color: #F8F9FC;
+    border-radius: 20px;
+    height: 39px;
+    cursor: pointer;
+    padding-left: 10px;
+    width: 100px;
+
+
+}
+
+.inputs-container .day-input:hover {
+    background-color: #D9D9D9e5;
+    transition: ease 0.3s;
+}
+
+/* Chrome, Safari, Edge, Opera */
+.day-input::-webkit-outer-spin-button,
+.day-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.inputs-container .day-input input[type=number] {
+    -moz-appearance: textfield;
+}

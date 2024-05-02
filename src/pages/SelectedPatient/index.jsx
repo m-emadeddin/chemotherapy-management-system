@@ -98,14 +98,22 @@ export default function SelectedPatientPage() {
     <>
       <Helmet>
         <title>CMS App</title>
-        <meta name="description" content="Web site created using create-react-app" />
+        <meta
+          name="description"
+          content="Web site created using create-react-app"
+        />
       </Helmet>
 
       {/* main content section */}
       <div className="flex w-full flex-col justify-center gap-[33px] bg-gray-100 pb-[899px] md:pb-5">
         {/* header section */}
         <div>
-          <Header className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs" />
+          <Header
+            userName="Mizo"
+            userPhoto="images/img_hesham_1.png"
+            userEmail="mizo@gmail.com"
+            className="flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs"
+          />
         </div>
 
         {/* patient list section */}
@@ -125,7 +133,11 @@ export default function SelectedPatientPage() {
                 placeholder={`Hazem`}
                 value={searchBarValue3}
                 onChange={(e) => setSearchBarValue3(e)}
-                suffix={searchBarValue3?.length > 0 ? <CloseSVG onClick={() => setSearchBarValue3("")} /> : null}
+                suffix={
+                  searchBarValue3?.length > 0 ? (
+                    <CloseSVG onClick={() => setSearchBarValue3("")} />
+                  ) : null
+                }
                 className="text-black-900 sm:pr-5"
               />
             </div>
