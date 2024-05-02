@@ -47,7 +47,7 @@ export default function LoginpagePage() {
                       className="h-[20px] w-[21px]"
                     />
                   }
-                  className="email-input mt-1 gap-[35px] border border-solid border-black-900"
+                  className="email-input mt-1 border border-solid border-black-900 p-2"
                 />
                 <Text
                   as="p"
@@ -65,7 +65,7 @@ export default function LoginpagePage() {
                       className="h-[20px] w-[21px]"
                     />
                   }
-                  className="password-input mt-1 gap-[35px] border border-solid border-black-900"
+                  className="password-input mt-1 border border-solid border-black-900 p-2"
                   type="password"
                 />
                 <Button
