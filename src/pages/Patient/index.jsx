@@ -45,7 +45,17 @@ export default function PatientPage() {
   const [patientData, setPatientData] = useState({
     name: "Hazem Abdulnasser",
     age: "23",
+    ID: "Y2DC5F",
     bloodType: "A+",
+    DateofBirth: "12.Mar.2001",
+    diseaseType: "Lung Cancer",
+    street: "45 Mahmoud Al Nahal st.",
+    city: "Zagazig",
+    government: "Ash Sharqiah",
+    nationality: "Egyptian",
+    phonenumber: "01095368957",
+    gender:"Male"
+    
   });
   const togglePopup = () => {
     setShowPopup(!showPopup);
@@ -368,8 +378,20 @@ export default function PatientPage() {
                   <PatientPopup
                     name={patientData.name}
                     age={patientData.age}
-                    bloodType={patientData.bloodType}
                     onClose={togglePopup}
+                    ID={patientData.ID}
+                    Gender={patientData.gender}
+                    DateOFBirth={patientData.DateofBirth}
+                    bloodType={patientData.bloodType}
+                    DiseaseType={patientData.diseaseType}
+                    Street={patientData.street}
+                    City={patientData.city}
+                    Government={patientData.government}
+                    Nationality={patientData.nationality}
+                    PhoneNumber={patientData.phonenumber}
+
+
+
                   />
                 )}
               </div>

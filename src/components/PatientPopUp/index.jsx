@@ -1,4 +1,17 @@
-export default function PatientPopup({ name, age, bloodType, onClose }) {
+export default function PatientPopup({
+  ID,
+  Gender,
+  name,
+  DateOFBirth,
+  bloodType,
+  DiseaseType,
+  Street,
+  City,
+  Government,
+  Nationality,
+  PhoneNumber,
+  onClose,
+}) {
   return (
     <div className="edit-popup-overlay">
       <div className="edit-popup-container">
@@ -56,19 +69,19 @@ export default function PatientPopup({ name, age, bloodType, onClose }) {
 
           <div className="new-row flex">
             <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-              Y2DC5F
+            {ID}
             </div>
             <div className="justify-center ml-5 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-              Male
+            {Gender}
             </div>
             <div className="justify-center ml-10 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-              12.Mar.2001
+            {DateOFBirth}
             </div>
             <div className="justify-center ml-12 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-              A+
+            {bloodType}
             </div>
             <div className="justify-center ml-9 px-5 py-4 rounded-3xl bg-slate-50 text-ellipsis">
-              Lung Cancer
+            {DiseaseType}
             </div>
           </div>
 
@@ -94,16 +107,16 @@ export default function PatientPopup({ name, age, bloodType, onClose }) {
 
           <div className="new-row flex">
             <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis whitespace-nowrap">
-              45 Mahmoud Al Nahal st.
+              {Street}
             </div>
             <div className="justify-center ml-5 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-              Zagazig
+              {City}
             </div>
             <div className="justify-center ml-10 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-              Ash Sharqiah
+              {Government}
             </div>
             <div className="justify-center ml-8 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-              Egyptian
+              {Nationality}
             </div>
           </div>
 
@@ -121,7 +134,7 @@ export default function PatientPopup({ name, age, bloodType, onClose }) {
 
           <div className="new-row flex">
             <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis whitespace-nowrap">
-              01095368957
+              {PhoneNumber}
             </div>
           </div>
         </div>
