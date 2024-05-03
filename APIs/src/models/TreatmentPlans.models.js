@@ -3,7 +3,8 @@ module.exports = (db, DataTypes) => {
         Plan_ID: {
           type: DataTypes.INTEGER,
           primaryKey: true,
-          allowNull: false
+          allowNull: false,
+          autoIncrement: true,
         },
         Plan_Name: {
           type: DataTypes.STRING,

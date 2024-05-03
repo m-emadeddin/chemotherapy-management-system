@@ -3,7 +3,8 @@ module.exports = (db, DataTypes) => {
         Chemotherapy_ID: {
           type: DataTypes.INTEGER,
           primaryKey: true,
-          allowNull: false
+          allowNull: false,
+          autoIncrement: true
         },
         Medication_Name: {
           type: DataTypes.STRING,

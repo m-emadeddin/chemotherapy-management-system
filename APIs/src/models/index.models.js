@@ -144,14 +144,14 @@ TreatmentPlans.belongsTo(Patients);
 
 
 // Insert data into tables
-// Define function to insert data
+// Define function to insert data # canceroverview has many treatmentplans -- with composite key 
 function insertData() {
   let cancerOverviewInstance;
   let treatmentPlanInstance;
 
   return CancerOverview.create({ 
-    Stage: 'Stage40',
-    Cancer_type: 'Type13',
+    Stage: 'Stage41',
+    Cancer_type: 'Type15',
     Note_On_cancer: 'Dummy for Type1 Stage1' 
   })
   .then((cancerOverview) => {
@@ -183,6 +183,51 @@ function insertData() {
     console.error('Error inserting data:', error);
   });
 }
+// Insert dummy data function
+async function insertDataCyclesPremedicationChemo() {
+  try {
+    // insert dummy data for patients
+    const patient1 =await Patients.create();
+    const patient2 =await Patients.create();
+    //insert dummy data for treatment plan
+    const Treatmentplan1 =await TreatmentPlans.create({Plan_Name:"chemotherapy1",number_of_Cycles:3,number_of_Weeks:5});
+    const Treatmentplan2 =await TreatmentPlans.create({Plan_Name:"chemotherapy2",number_of_Cycles:4,number_of_Weeks:4});
+    // Insert dummy data for Cycles
+    const cycle1 = await Cycles.create({ Cycle_Number: 1, End_Date: '2024-05-10' });
+    const cycle2 = await Cycles.create({ Cycle_Number: 2, End_Date: '2024-06-10' });
+    // Insert dummy data for Premedications
+    const premed1 = await Premedications.create({ Medication_Name: 'Premed A', Dose: 10, Route: 'Oral', Instructions: 'Take before chemotherapy' });
+    const premed2 = await Premedications.create({ Medication_Name: 'Premed B', Dose: 20, Route: 'Intravenous', Instructions: 'Administer slowly' });
+    // Insert dummy data for ChemotherapyMedications
+    const chemotherapy1 = await ChemotherapyMedications.create({ Medication_Name: 'Drug A', Dose: 100, Route: 'Intravenous', Instructions: 'Administer over 2 hours', Dosage_Reduction: 0 ,Administered_Dose_ml:100 ,Administered_Dose_mg:20});
+    const chemotherapy2 = await ChemotherapyMedications.create({ Medication_Name: 'Drug B', Dose: 50, Route: 'Oral', Instructions: 'Take with food', Dosage_Reduction: 25 , Administered_Dose_ml:90 , Administered_Dose_mg:30});
+    await patient1.setTreatmentPlan(Treatmentplan1);
+    await patient2.setTreatmentPlan(Treatmentplan2);
+
+    // Associate Treatment plans with cycles (many-to-many)
+    await Treatmentplan1.addCycle(cycle1);
+    await Treatmentplan1.addCycle(cycle2);
+    await Treatmentplan2.addCycle(cycle1);
+    await Treatmentplan2.addCycle(cycle2);
+
+    // Association Treatmentplans with premedication 
+    await Treatmentplan1.addPremedication(premed1);
+    await Treatmentplan2.addPremedication(premed2);
+
+    // Associate Cycles with Premedications
+    await cycle1.addPremedication(premed1);
+    await cycle2.addPremedication(premed2);
+
+    // Associate Cycles with ChemotherapyMedications
+    await cycle1.addChemotherapyMedication(chemotherapy1);
+    await cycle2.addChemotherapyMedication(chemotherapy2);
+
+    console.log('Dummy data inserted successfully.');
+  } catch (error) {
+    console.error('Error inserting dummy data:', error);
+  }
+}
+
 
 
 module.exports = {
@@ -197,5 +242,6 @@ module.exports = {
   TreatmentPlans,
   Radiography,
   MedicalAnalysis,
-  insertData
+  insertData,
+  insertDataCyclesPremedicationChemo
 };
