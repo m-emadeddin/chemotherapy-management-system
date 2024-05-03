@@ -200,6 +200,7 @@ export default function PatientPage() {
                     className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
                     variant="fill"
                     color="blue_500"
+                    onClick={togglePopup}
                   >
                     View all
                   </Button>
@@ -389,9 +390,6 @@ export default function PatientPage() {
                     Government={patientData.government}
                     Nationality={patientData.nationality}
                     PhoneNumber={patientData.phonenumber}
-
-
-
                   />
                 )}
               </div>
