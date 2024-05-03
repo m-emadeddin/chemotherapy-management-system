@@ -168,6 +168,7 @@
     line-height: 25px;
     border-radius: 15px;
     align-self: center;
+    text-align: center;
 }
 
 .notes .next:hover {

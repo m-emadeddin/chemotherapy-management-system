@@ -8,7 +8,10 @@ export default function ReviewchemotherapyorderPage() {
     <>
       <Helmet>
         <title>CMS App</title>
-        <meta name="description" content="Web site created using create-react-app" />
+        <meta
+          name="description"
+          content="Web site created using create-react-app"
+        />
       </Helmet>
 
       {/* review chemotherapy order section */}
@@ -25,7 +28,11 @@ export default function ReviewchemotherapyorderPage() {
               <Heading size="xs" as="h1">
                 Patient List
               </Heading>
-              <Img src="images/img_arrow_right.svg" alt="arrowright" className="h-[10px] self-end sm:w-full" />
+              <Img
+                src="images/img_arrow_right.svg"
+                alt="arrowright"
+                className="h-[10px] self-end sm:w-full"
+              />
               <Text size="xs" as="p">
                 Hazem Abdulnasser
               </Text>
@@ -61,7 +68,11 @@ export default function ReviewchemotherapyorderPage() {
                   <div className="flex flex-col justify-center gap-[11px] self-stretch rounded-[20px] bg-white-A700 py-4">
                     {/* premedication header section */}
                     <div className="flex flex-col items-start gap-[18px]">
-                      <Text size="md" as="p" className="ml-[19px] uppercase md:ml-0">
+                      <Text
+                        size="md"
+                        as="p"
+                        className="ml-[19px] uppercase md:ml-0"
+                      >
                         Premedications
                       </Text>
                       <div className="h-px w-full self-stretch bg-blue_gray-100" />
@@ -69,7 +80,10 @@ export default function ReviewchemotherapyorderPage() {
 
                     {/* premedication details section */}
                     <div className="flex flex-col items-start gap-3.5">
-                      <Text as="p" className="ml-[19px] !font-medium uppercase md:ml-0">
+                      <Text
+                        as="p"
+                        className="ml-[19px] !font-medium uppercase md:ml-0"
+                      >
                         Ondansentron
                       </Text>
                       <Text as="p" className="ml-[19px] !text-gray-700 md:ml-0">
@@ -92,7 +106,11 @@ export default function ReviewchemotherapyorderPage() {
                   {/* chemotherapy header section */}
                   <div className="flex flex-col items-center justify-center gap-[13px] self-stretch rounded-[20px] bg-white-A700 py-4">
                     <div className="flex flex-col items-start gap-[18px] self-stretch">
-                      <Text size="md" as="p" className="ml-[19px] uppercase md:ml-0">
+                      <Text
+                        size="md"
+                        as="p"
+                        className="ml-[19px] uppercase md:ml-0"
+                      >
                         Chemotherapy
                       </Text>
                       <div className="h-px w-full self-stretch bg-blue_gray-100" />
@@ -100,11 +118,15 @@ export default function ReviewchemotherapyorderPage() {
 
                     {/* chemotherapy prednisone section */}
                     <div className="flex flex-col items-start gap-3.5 self-stretch">
-                      <Text as="p" className="ml-[19px] !font-medium uppercase md:ml-0">
+                      <Text
+                        as="p"
+                        className="ml-[19px] !font-medium uppercase md:ml-0"
+                      >
                         Prednisone
                       </Text>
                       <Text as="p" className="ml-[19px] !text-gray-700 md:ml-0">
-                        Daily x 5 days. 1st dose 60 minutes prio to chemotherapy PO
+                        Daily x 5 days. 1st dose 60 minutes prio to chemotherapy
+                        PO
                       </Text>
                       <div className="h-px w-full self-stretch bg-blue_gray-100" />
                     </div>
@@ -123,9 +145,12 @@ export default function ReviewchemotherapyorderPage() {
                           -10%
                         </Text>
                       </div>
-                      <Text as="p" className="relative ml-[19px] mt-[-3px] !text-gray-700 md:ml-0">
-                        IV Push over 15 minutes Dilute to 2mg/mL with 0.9% NS. Give via IV push with free flowing 0.9%
-                        NS.
+                      <Text
+                        as="p"
+                        className="relative ml-[19px] mt-[-3px] !text-gray-700 md:ml-0"
+                      >
+                        IV Push over 15 minutes Dilute to 2mg/mL with 0.9% NS.
+                        Give via IV push with free flowing 0.9% NS.
                       </Text>
                       <div className="mt-[13px] h-px w-full self-stretch bg-blue_gray-100" />
                     </div>
@@ -137,7 +162,8 @@ export default function ReviewchemotherapyorderPage() {
                           Vincristine
                         </Text>
                         <Text as="p" className="!text-gray-700">
-                          IV Push over 1-2 minutes No dilution needed. Give via IV push with free flowing 0.9% NS.
+                          IV Push over 1-2 minutes No dilution needed. Give via
+                          IV push with free flowing 0.9% NS.
                         </Text>
                       </div>
                       <div className="h-px w-full self-stretch bg-blue_gray-100" />
@@ -149,8 +175,9 @@ export default function ReviewchemotherapyorderPage() {
                         Cyclophosphamide
                       </Text>
                       <Text as="p" className="!text-gray-700">
-                        IV Push over 1-2 hours Dilute to 1g/50ml with sterile water for injection. Mix prescribed
-                        dose/volume with 500mL 0.9 NS
+                        IV Push over 1-2 hours Dilute to 1g/50ml with sterile
+                        water for injection. Mix prescribed dose/volume with
+                        500mL 0.9 NS
                       </Text>
                     </div>
                   </div>
@@ -165,10 +192,15 @@ export default function ReviewchemotherapyorderPage() {
 
               {/* action buttons section */}
               <div className="mt-[35px] flex gap-[15px] self-center">
-                <Button color="blue_gray_500" className="min-w-[152px] rounded-[15px] sm:px-5">
+                <Button
+                  color="blue_gray_500"
+                  className="min-w-[152px] rounded-[15px] sm:px-5"
+                >
                   Back
                 </Button>
-                <Button className="min-w-[152px] rounded-[15px] sm:px-5">Submit</Button>
+                <Button className="min-w-[152px] rounded-[15px] sm:px-5">
+                  Submit
+                </Button>
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
-import RegimenDetails from "redimenDetails/RegimenDetails";
+import RegimenDetails from "components/redimenDetails/RegimenDetails";
 
 const regimens = [
   "CHOP: Protocol for Non Hodgkin Lymphoma",
