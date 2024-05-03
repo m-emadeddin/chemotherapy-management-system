@@ -101,8 +101,6 @@ TreatmentPlans.belongsToMany(Premedications, {
 
 //====================One to Many=======================
 //1. Cancer overview & treatment plans Read Only
-// CancerOverview.hasMany(treatmentPlanReadOnly);
-// treatmentPlanReadOnly.belongsTo(CancerOverview);
 CancerOverview.hasMany(treatmentPlanReadOnly, {
   foreignKey: {
     name: 'CancerOverview_Stage', // Composite foreign key
@@ -117,11 +115,23 @@ treatmentPlanReadOnly.belongsTo(CancerOverview, {
   targetKey: 'Cancer_type', // Component of the composite primary key in the parent table
 });
 //2. patients &Radiography
-Patients.hasMany(Radiography);
-Radiography.belongsTo(Patients);
+Patients.hasMany(Radiography, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+Radiography.belongsTo(Patients, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 //3. patients& medical analysis
-Patients.hasMany(MedicalAnalysis);
-MedicalAnalysis.belongsTo(Patients);
+Patients.hasMany(MedicalAnalysis, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
+MedicalAnalysis.belongsTo(Patients, {
+  onDelete: "CASCADE",
+  onUpdate: "CASCADE",
+});
 //====================One to One=======================
 //1. Vital signs & patients
 Patients.hasOne(VitalSign, {
