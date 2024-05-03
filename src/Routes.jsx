@@ -11,6 +11,7 @@ import Orderchemotherapy from "pages/Orderchemotherapy";
 import OrderchemotherapyTwo from "pages/OrderchemotherapyTwo";
 import Reviewchemotherapyorder from "pages/Reviewchemotherapyorder";
 import Documentchemotherapy from "pages/Documentchemotherapy";
+import RegimenDetails from "components/redimenDetails/RegimenDetails";
 
 const ProjectRoutes = () => {
   let element = useRoutes([
@@ -36,12 +37,13 @@ const ProjectRoutes = () => {
       path: "orderchemotherapy",
       element: <Orderchemotherapy />,
     },
+
     {
       path: "orderchemotherapytwo",
       element: <OrderchemotherapyTwo />,
     },
     {
-      path: "reviewchemotherapyorder",
+      path: "orderchemotherapy/reviewchemotherapyorder",
       element: <Reviewchemotherapyorder />,
     },
     {
