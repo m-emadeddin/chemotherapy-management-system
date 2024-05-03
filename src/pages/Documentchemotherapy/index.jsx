@@ -5,7 +5,7 @@ import DocumentChemotherapyCycle from "../../components/DocumentChemotherapyCycl
 import Header from "../../components/Header";
 import { ReactTable } from "../../components/ReactTable";
 import { createColumnHelper } from "@tanstack/react-table";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import style from "pages/Documentchemotherapy/style.css";
 
 const table1Data = [
@@ -57,7 +57,24 @@ const table2Data = [
   },
 ];
 
-export default function DocumentchemotherapyPage() {
+export default function DocumentchemotherapyPage(props) {
+  const location = useLocation();
+  const cyclesCount = 7;
+  const activeCycle = 7;
+  const { cycle } = location.state || { cycle: activeCycle };
+
+  const cycles = [];
+  for (let i = cyclesCount; i > 0; i--) {
+    cycles.push(
+      <div key={i} className="self-stretch  md:pb-5">
+        <DocumentChemotherapyCycle
+          targetCycle={i}
+          openCycle={cycle}
+          active={i === activeCycle ? true : false}
+        />
+      </div>
+    );
+  }
   const table1Columns = React.useMemo(() => {
     const table1ColumnHelper = createColumnHelper();
     return [
@@ -177,14 +194,16 @@ export default function DocumentchemotherapyPage() {
         <Header className="fixed w-full top-0 flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
         <div className="pt-[50px] flex w-[100%] items-stretch ">
           {/* introduction section */}
-          <div className="flex w-[19%] flex-col items-start gap-5 bg-white-A700 py-[19px]">
-            <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center">
+          <div className="flex w-[19%] flex-col items-start bg-white-A700 py-[19px]">
+            <Text
+              size="xs"
+              as="p"
+              className="w-[100%] md:ml-0 text-center mb-2"
+            >
               Chemotherapy
             </Text>
             {/* treatment cycle section */}
-            <div className="self-stretch  md:pb-5">
-              <DocumentChemotherapyCycle />
-            </div>
+            {cycles}
           </div>
           <div className="m-[30px] w-[81%] flex flex-1 flex-col gap-[30px]">
             {/* treatment protocol section */}
@@ -195,23 +214,27 @@ export default function DocumentchemotherapyPage() {
                     CHOP: Protocol for Non Hodgkin Lymphoma
                   </Heading>
                   <Text size="xs" as="p">
-                    Cycle 1 of 6
+                    Cycle {cycle} of {cyclesCount}
                   </Text>
                 </div>
-                <div className="flex justify-between items-center gap-2">
-                  <Link
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
-                    to="/Document"
-                  >
-                    Document
-                  </Link>
-                  <Link
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
-                    to="/Orderchemotherapy"
-                  >
-                    Modify Order
-                  </Link>
-                </div>
+                {cycle === activeCycle ? (
+                  <div className="flex justify-between items-center gap-2">
+                    <Link
+                      className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
+                      to="/Document"
+                    >
+                      Document
+                    </Link>
+                    <Link
+                      className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
+                      to="/Orderchemotherapy"
+                    >
+                      Modify Order
+                    </Link>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
 
               {/* premedications section */}
