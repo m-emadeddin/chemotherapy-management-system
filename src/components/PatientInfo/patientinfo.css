@@ -1,56 +1,63 @@
-.info-container {
-    margin-top: 64px;
-    display: flex;
+  .patient-record {
+    border-collapse: collapse ;
+    width: 100%; /* Consider using a percentage or vw for responsiveness */
+    margin-top: 60px;
   }
-  
-  .label {
-    color: #707070 !important;
+
+  .info-tablehead {
+    background-color: #f4f5f9;
+    color: #707070;
     font-family: "Lama Sans";
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 25px;
+    line-height: 25px; /* 156.25% */
   }
   
-  .label-margin {
-    margin-right: 150px;
+  .patient-record th,
+  .info-data-container td {
+    border-width: 0px; /* Remove borders from both header and data cells */
   }
   
-  .patient-details-container {
-    width: 1085px;
-    flex-shrink: 0;
-    border-radius: 20px;
-    height: 64px;
-    background: #fff;
-    margin-top: 23px;
+  .info-data-container{
+    background: #FFF;
+    padding: 10px; 
+    margin: 10px;
+   }
+
+   .info-data-container td:first-child {
+      border-left-style: solid;
+      border-top-left-radius: 20px; 
+      border-bottom-left-radius: 20px;
   }
-  
-  .detail-column {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+  .info-data-container td:last-child {
+      border-right-style: solid;
+      border-bottom-right-radius: 20px; 
+      border-top-right-radius: 20px; 
   }
-  
-  .patient-details {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .detail {
-    color: #000;
-    font-family: "Lama Sans";
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 25px;
-  }
-  
-  .detail-age {
-    color: #707070 !important; /* Corrected color */
+
+  tr.separator { height: 10px; }
+
+  .age{
+    color: #707070;
     font-family: "Lama Sans";
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 25px;
+    line-height: 25px; /* 178.571% */
   }
   
+  /* Consider using flexbox or grid for better button positioning and responsiveness */
+  .action-button {
+    float: left; /* Float buttons to the left */
+    margin-right: 5px; /* Add spacing between buttons */
+    background-color: #F7F9FB;
+  }
+  
+  .action-button:last-child {
+    margin-right: 0; /* Remove margin from the last button */
+  }
+
+  .action-button:hover{
+    background-color: #DFE0E2;
+  }

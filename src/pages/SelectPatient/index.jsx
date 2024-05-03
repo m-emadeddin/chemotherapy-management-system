@@ -209,11 +209,41 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { CloseSVG } from "../../assets/images";
-import { Img, Text, Button, Input, Heading } from "../../components";
+import { Img, Text, Input, Heading } from "../../components";
 import Header from "components/Header";
 import PatientInfo from "components/PatientInfo";
 
 const initialTableData = [
+  {
+    patient: {
+      name: "Ahmed Atef",
+      age: 23,
+    },
+    id: "GB3C5F",
+    gender: "Male",
+    diseaseType: "Bowel cancer",
+    phoneNumber: "01218484148",
+  },
+  {
+    patient: {
+      name: "Ahmed Atef",
+      age: 23,
+    },
+    id: "GB3C5F",
+    gender: "Male",
+    diseaseType: "Bowel cancer",
+    phoneNumber: "01218484148",
+  },
+  {
+    patient: {
+      name: "Ahmed Atef",
+      age: 23,
+    },
+    id: "GB3C5F",
+    gender: "Male",
+    diseaseType: "Bowel cancer",
+    phoneNumber: "01218484148",
+  },
   {
     patient: {
       name: "Ahmed Atef",
@@ -280,7 +310,7 @@ export default function SelectPatientPage() {
 
           {/* Patient information labels row */}
           <div className="w-full justify-start px-[51px]">
-            <PatientInfo />
+            <PatientInfo patients={initialTableData} />
           </div>
 
           {/* pagination section */}
