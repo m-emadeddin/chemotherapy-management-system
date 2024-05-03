@@ -62,8 +62,9 @@ table {
   padding: 30px;
   border-radius: 30px;
   max-width: 80%;
-  max-height: 80%;
+  max-height: 90%;
   overflow: auto;
+  margin-bottom: 80px;
 }
 
 .popup-content {
@@ -72,4 +73,25 @@ table {
 
 .new-row {
   margin-top: 9px;
+}
+.hover-container {
+  position: relative;
+}
+
+.hover-text {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000000;
+  color: #fff;
+  padding: 5px;
+  border-radius: 3px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hover-container:hover .hover-text {
+  opacity: 1;
 }

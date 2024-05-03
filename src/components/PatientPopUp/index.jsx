@@ -69,19 +69,19 @@ export default function PatientPopup({
 
           <div className="new-row flex">
             <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-            {ID}
+              {ID}
             </div>
             <div className="justify-center ml-5 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-            {Gender}
+              {Gender}
             </div>
             <div className="justify-center ml-10 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-            {DateOFBirth}
+              {DateOFBirth}
             </div>
             <div className="justify-center ml-12 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
-            {bloodType}
+              {bloodType}
             </div>
             <div className="justify-center ml-9 px-5 py-4 rounded-3xl bg-slate-50 text-ellipsis">
-            {DiseaseType}
+              {DiseaseType}
             </div>
           </div>
 
@@ -124,12 +124,15 @@ export default function PatientPopup({
             <div className="self-start ml-2 mr-2 text-slate-400 max-md:ml-2.5">
               Phone Number
             </div>
-            <img
-              loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/ba3b520da1558a06e2ea5587cdc0403832bde2c2019cac5869a13f63d9291332?"
-              className="shrink-0 w-3 aspect-square"
-              alt="asd"
-            />
+            <div className="hover-container">
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/ba3b520da1558a06e2ea5587cdc0403832bde2c2019cac5869a13f63d9291332?"
+                className="shrink-0 w-3 aspect-square"
+                alt="asd"
+              />
+              <div className="hover-text">Verfied</div>
+            </div>
           </div>
 
           <div className="new-row flex">
