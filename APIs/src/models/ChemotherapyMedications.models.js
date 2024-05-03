@@ -1,5 +1,5 @@
 module.exports = (db, DataTypes) => {
-      const ChemotherapyMedication = db.define('chemotherapyMedication', {
+      const ChemotherapyMedications = db.define('chemotherapyMedication', {
         Chemotherapy_ID: {
           type: DataTypes.INTEGER,
           primaryKey: true,
@@ -36,6 +36,6 @@ module.exports = (db, DataTypes) => {
         }
       });
     
-      return ChemotherapyMedication;
+      return ChemotherapyMedications;
     };
     

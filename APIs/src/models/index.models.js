@@ -12,6 +12,14 @@ const ReservedBedsModel = require("./ReservedBeds.models");
 const VitalSignModel = require("./VitalSign.models");
 const RadiographyModel = require("./Radiography.models");
 const MedicalAnaylsisModel = require("./MedicalAnalysis.models");
+//========================= M to N ======================= 
+const PatientsReservedbedsModel = require("./PatientsReservedbeds.models");
+const TreatmentPlansCyclesModel = require("./TreatmentPlansCycles.models");
+const TreatmentPlanReadOnlyCyclesModel = require("./TreatmentPlanReadOnlyCycles.models");
+const PremedicationsCyclesModel = require("./PremedicationsCycles.models");
+const ChemotherapyMedicationsCyclesModel =require("./ChemotherapyMedicationsCycles.models");
+const TreatmentPlanReadOnlyPremedicationsModel = require("./TreatmentPlanReadOnlyPremedications.models");
+const TreatmentPlansPremedicationModel = require("./TreatmentPlansPremedications.models");
 
 // create models
 const treatmentPlanReadOnly = TPReadOnlyModel(db, Sequelize);
@@ -26,50 +34,97 @@ const TreatmentPlans = TreatmentModel(db, Sequelize);
 const Radiography = RadiographyModel(db, Sequelize);
 const MedicalAnalysis = MedicalAnaylsisModel(db, Sequelize);
 
-// models for many -> many
-const PatientReservedBeds = db.define("patient_reservedBeds");
-const CycleTreatmentPlans = db.define("cycle_treatmentPlans");
-const defaultCycles = db.define("cycle_treatmentPlanReadOnly");
-const CyclePremedications = db.define("cycle_premedications");
-const CycleChemotherapy = db.define("cycle_chemotherapy");
-const defaultPremedications = db.define("premedications_treatmentPlanReadOnly");
-const PlansPremedications = db.define("premedications_treatmentPlans");
+//==========junction tables for M to N realtions==========
+const PatientsReservedbeds = PatientsReservedbedsModel(db,Sequelize);
+const TreatmentPlansCycles = TreatmentPlansCyclesModel(db,Sequelize)
+const TreatmentPlanReadOnlyCycles = TreatmentPlanReadOnlyCyclesModel(db,Sequelize);
+const PremedicationsCycles =PremedicationsCyclesModel(db,Sequelize);
+const ChemotherapyMedicationsCycles = ChemotherapyMedicationsCyclesModel (db,Sequelize)
+const TreatmentPlanReadOnlyPremedications = TreatmentPlanReadOnlyPremedicationsModel(db,Sequelize)
+const TreatmentPlansPremedication = TreatmentPlansPremedicationModel(db,Sequelize)
 
-// ====================M to M Relations===================
+
+// ====================M to N Relations===================
 //1. patients && reserved beds
-Patients.belongsToMany(ReservedBeds, { through: PatientReservedBeds });
-ReservedBeds.belongsToMany(Patients, { through: PatientReservedBeds });
+Patients.belongsToMany(ReservedBeds, { through: PatientsReservedbeds });
+ReservedBeds.belongsToMany(Patients, { through: PatientsReservedbeds });
 
 //2. Treatment plans & cycles
-Cycles.belongsToMany(TreatmentPlans, { through: CycleTreatmentPlans });
-TreatmentPlans.belongsToMany(Cycles, { through: CycleTreatmentPlans });
+Cycles.belongsToMany(TreatmentPlans, { through: TreatmentPlansCycles });
+TreatmentPlans.belongsToMany(Cycles, { through: TreatmentPlansCycles });
 
 //3.Treatment plans read only & cycles
-Cycles.belongsToMany(treatmentPlanReadOnly, { through: defaultCycles });
-treatmentPlanReadOnly.belongsToMany(Cycles, { through: defaultCycles });
+Cycles.belongsToMany(treatmentPlanReadOnly, { 
+  through: TreatmentPlanReadOnlyCycles ,
+  constraints: false, // Disable automatic constraint generation
+  uniqueKey: 'ReadOnlyCycles_unique' // Custom unique constraint name
+});
+treatmentPlanReadOnly.belongsToMany(Cycles, {
+   through: TreatmentPlanReadOnlyCycles ,
+   constraints: false, // Disable automatic constraint generation
+   uniqueKey: 'ReadOnlyCycles_unique' // Custom unique constraint name
+  });
 
 //4. cycles & premedications
-Cycles.belongsToMany(Premedications, { through: CyclePremedications });
-Premedications.belongsToMany(Cycles, { through: CyclePremedications });
+Cycles.belongsToMany(Premedications, { through: PremedicationsCycles });
+Premedications.belongsToMany(Cycles, { through: PremedicationsCycles });
+
 //5. cycles & chemotherapy medications
-Cycles.belongsToMany(ChemotherapyMedications, { through: CycleChemotherapy });
-ChemotherapyMedications.belongsToMany(Cycles, { through: CycleChemotherapy });
+Cycles.belongsToMany(ChemotherapyMedications, { 
+  through: ChemotherapyMedicationsCycles,
+  constraints: false, // Disable automatic constraint generation
+  uniqueKey: 'ChemotherapyCycles_unique' // Custom unique constraint name
+});
+ChemotherapyMedications.belongsToMany(Cycles, { 
+  through: ChemotherapyMedicationsCycles,
+  constraints: false, // Disable automatic constraint generation
+   uniqueKey: 'ChemotherapyCycles_unique' // Custom unique constraint name
+});
 
 //6. premedications & Treatment plans read only
+// Assuming you have the necessary models imported
 Premedications.belongsToMany(treatmentPlanReadOnly, {
-  through: defaultPremedications,
+  through: TreatmentPlanReadOnlyPremedications,
+  constraints: false, // Disable automatic constraint generation
+  uniqueKey: 'ReadOnlyPremedications_unique' // Custom unique constraint name
 });
 treatmentPlanReadOnly.belongsToMany(Premedications, {
-  through: defaultPremedications,
+  through: TreatmentPlanReadOnlyPremedications,
+  constraints: false, // Disable automatic constraint generation
+  uniqueKey: 'ReadOnlyPremedications_unique' // Custom unique constraint name
 });
-//7. premedications & Treatment plans
-Premedications.belongsToMany(TreatmentPlans, { through: PlansPremedications });
-TreatmentPlans.belongsToMany(Premedications, { through: PlansPremedications });
+
+// //7. premedications & Treatment plans
+Premedications.belongsToMany(TreatmentPlans, { 
+  through: TreatmentPlansPremedication,
+  constraints: false, // Disable automatic constraint generation
+  uniqueKey: 'treatmentPlan_Premed_unique' 
+});
+TreatmentPlans.belongsToMany(Premedications, { 
+  through: TreatmentPlansPremedication,
+  constraints: false, // Disable automatic constraint generation
+  uniqueKey: 'treatmentPlan_Premed_unique' 
+});
+
 
 //====================One to Many=======================
 //1. Cancer overview & treatment plans Read Only
 // CancerOverview.hasMany(treatmentPlanReadOnly);
 // treatmentPlanReadOnly.belongsTo(CancerOverview);
+CancerOverview.hasMany(treatmentPlanReadOnly, {
+  foreignKey: {
+    name: 'CancerOverview_Stage', // Composite foreign key
+    allowNull: false
+  },
+  onDelete: 'CASCADE' // optional: specifies what should happen when the associated treatment plans are deleted
+});
+treatmentPlanReadOnly.belongsTo(CancerOverview, {
+  foreignKey: {
+    name: 'CancerOverview_Cancer_type', // Composite foreign key
+    allowNull: false
+  },
+  targetKey: 'Cancer_type' // Component of the composite primary key in the parent table
+});
 //2. patients &Radiography
 Patients.hasMany(Radiography);
 Radiography.belongsTo(Patients);

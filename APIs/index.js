@@ -42,7 +42,7 @@ db.authenticate()
 .catch(err => {
     console.log('Error'+ err)
 })
-db.sync({ force: true })
+db.sync({ alter: true })
 .then(() => {
 console.log("Tables Created!")
 })
