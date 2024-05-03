@@ -1,7 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./style.css";
 
-export default function MiniDropMenu({ title, options, defaultValue }) {
+export default function MiniDropMenu({
+  title,
+  options,
+  defaultValue,
+  onChange,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(defaultValue || " ");
   const dropdownRef = useRef(null);
@@ -21,7 +26,7 @@ export default function MiniDropMenu({ title, options, defaultValue }) {
   useEffect(() => {
     setSelectedOption(defaultValue || " ");
   }, [defaultValue, options]);
- 
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -29,6 +34,9 @@ export default function MiniDropMenu({ title, options, defaultValue }) {
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
     setIsOpen(false);
+    if (onChange) {
+      onChange(option);
+    }
   };
 
   return (
@@ -56,13 +64,6 @@ export default function MiniDropMenu({ title, options, defaultValue }) {
           </div>
         )}
       </div>
-      {title === "fieldsNum" && selectedOption && (
-        <div className="inputs-container">
-          {Array.from({ length: parseInt(selectedOption) }, (_, index) => (
-            <input required key={index} type="number" className="day-input" />
-          ))}
-        </div>
-      )}
     </>
   );
 }

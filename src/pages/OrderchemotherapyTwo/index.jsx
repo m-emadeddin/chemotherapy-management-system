@@ -1,6 +1,13 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { Button, TextArea, Heading, Text, SelectBox, Img } from "../../components";
+import {
+  Button,
+  TextArea,
+  Heading,
+  Text,
+  SelectBox,
+  Img,
+} from "../../components";
 import Header from "../../components/Header";
 import OrderChemotherapyTwoCycles from "../../components/OrderChemotherapyTwoCycles";
 import { ReactTable } from "../../components/ReactTable";
@@ -12,8 +19,18 @@ const dropDownOptions = [
   { label: "Option3", value: "option3" },
 ];
 const tableData = [
-  { medication: "Ondansentron", dose: "8", route: "Oral", instructions: "Once 60 minutes prior to chemotherapy" },
-  { medication: "Sodium chloride", dose: "1000", route: "Intravenous", instructions: "Once prior to chemotherapy" },
+  {
+    medication: "Ondansentron",
+    dose: "8",
+    route: "Oral",
+    instructions: "Once 60 minutes prior to chemotherapy",
+  },
+  {
+    medication: "Sodium chloride",
+    dose: "1000",
+    route: "Intravenous",
+    instructions: "Once prior to chemotherapy",
+  },
 ];
 
 export default function OrderchemotherapyTwoPage() {
@@ -80,7 +97,10 @@ export default function OrderchemotherapyTwoPage() {
     <>
       <Helmet>
         <title>CMS App</title>
-        <meta name="description" content="Web site created using create-react-app" />
+        <meta
+          name="description"
+          content="Web site created using create-react-app"
+        />
       </Helmet>
       <div className="flex w-full flex-col items-center gap-[33px] bg-gray-100_01 pb-[30px] sm:pb-5">
         {/* header section */}
@@ -93,7 +113,11 @@ export default function OrderchemotherapyTwoPage() {
               <Heading size="xs" as="h1">
                 Patient List
               </Heading>
-              <Img src="images/img_arrow_right.svg" alt="arrowright" className="h-[10px] self-end sm:w-full" />
+              <Img
+                src="images/img_arrow_right.svg"
+                alt="arrowright"
+                className="h-[10px] self-end sm:w-full"
+              />
               <Text size="xs" as="p">
                 Hazem Abdulnasser
               </Text>
@@ -116,7 +140,11 @@ export default function OrderchemotherapyTwoPage() {
                   size="md"
                   shape="round"
                   indicator={
-                    <Img src="images/img_arrowdown_blue_gray_300.svg" alt="arrow_down" className="h-[20px] w-[23px]" />
+                    <Img
+                      src="images/img_arrowdown_blue_gray_300.svg"
+                      alt="arrow_down"
+                      className="h-[20px] w-[23px]"
+                    />
                   }
                   name="chopprotocol"
                   placeholder={`CHOP: Protocol for Non Hodgkin Lymphoma`}
@@ -136,10 +164,19 @@ export default function OrderchemotherapyTwoPage() {
                         Premedications
                       </Text>
                       <div className="flex items-center gap-4">
-                        <Button variant="outline" shape="round" className="min-w-[87px] font-semibold sm:px-5">
+                        <Button
+                          variant="outline"
+                          shape="round"
+                          className="min-w-[87px] font-semibold sm:px-5"
+                        >
                           Edit
                         </Button>
-                        <Button color="red_400" variant="outline" shape="round" className="min-w-[88px] font-semibold">
+                        <Button
+                          color="red_400"
+                          variant="outline"
+                          shape="round"
+                          className="min-w-[88px] font-semibold"
+                        >
                           Delete
                         </Button>
                       </div>
@@ -165,7 +202,11 @@ export default function OrderchemotherapyTwoPage() {
                         Chemotherapy
                       </Text>
                       <div className="flex w-[40%] items-center justify-center gap-4 sm:w-full sm:flex-col">
-                        <Button variant="outline" shape="round" className="min-w-[168px] font-semibold">
+                        <Button
+                          variant="outline"
+                          shape="round"
+                          className="min-w-[168px] font-semibold"
+                        >
                           Change Dosage
                         </Button>
                         <Button
@@ -227,7 +268,8 @@ export default function OrderchemotherapyTwoPage() {
                               Intravenous
                             </Text>
                             <Text as="p" className="self-end">
-                              Daily x 5 days. 1st dose 60 minutes prio to chemotherapy PO
+                              Daily x 5 days. 1st dose 60 minutes prio to
+                              chemotherapy PO
                             </Text>
                           </div>
                         </div>
@@ -237,7 +279,10 @@ export default function OrderchemotherapyTwoPage() {
                     <div className="flex flex-1 flex-col gap-[18px]">
                       <div className="flex w-[96%] items-center md:w-full md:flex-col">
                         <div className="h-[20px] w-[20px] flex-1 rounded-md border border-solid border-gray-700_01 bg-white-A700 md:self-stretch" />
-                        <Text as="p" className="ml-[73px] self-start uppercase md:ml-0">
+                        <Text
+                          as="p"
+                          className="ml-[73px] self-start uppercase md:ml-0"
+                        >
                           Doxorubicin
                         </Text>
                         <Text as="p" className="ml-24 self-start md:ml-0">
@@ -248,8 +293,8 @@ export default function OrderchemotherapyTwoPage() {
                             Intravenous
                           </Text>
                           <Text as="p" className="self-end">
-                            IV Push over 15 minutes Dilute to 2mg/mL with 0.9% NS. Give via IV push with free flowing
-                            0.9% NS.
+                            IV Push over 15 minutes Dilute to 2mg/mL with 0.9%
+                            NS. Give via IV push with free flowing 0.9% NS.
                           </Text>
                         </div>
                       </div>
@@ -277,7 +322,8 @@ export default function OrderchemotherapyTwoPage() {
                           </Text>
                         </div>
                         <Text as="p" className="self-start">
-                          IV Push over 1-2 minutes No dilution needed. Give via IV push with free flowing 0.9% NS.
+                          IV Push over 1-2 minutes No dilution needed. Give via
+                          IV push with free flowing 0.9% NS.
                         </Text>
                       </div>
                       <div className="h-px bg-blue_gray-100" />
@@ -296,8 +342,9 @@ export default function OrderchemotherapyTwoPage() {
                         Intravenous
                       </Text>
                       <Text as="p" className="self-end">
-                        IV Push over 1-2 hours Dilute to 1g/50ml with sterile water for injection. Mix prescribed
-                        dose/volume with 500mL 0.9 NS
+                        IV Push over 1-2 hours Dilute to 1g/50ml with sterile
+                        water for injection. Mix prescribed dose/volume with
+                        500mL 0.9 NS
                       </Text>
                     </div>
                   </div>
@@ -315,7 +362,9 @@ export default function OrderchemotherapyTwoPage() {
                     className="self-stretch !border-black-900 text-gray-600_01 sm:pb-5 sm:pr-5"
                   />
                 </div>
-                <Button className="min-w-[218px] rounded-[15px] sm:px-5">Next</Button>
+                <Button className="min-w-[218px] rounded-[15px] sm:px-5">
+                  Next
+                </Button>
               </div>
             </div>
           </div>
