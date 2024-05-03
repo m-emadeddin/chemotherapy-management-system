@@ -29,14 +29,14 @@ export default function PatientPopup({
                 <img
                   loading="lazy"
                   src="https://cdn.builder.io/api/v1/image/assets/TEMP/df690d57ab643da68c80957406d7e0577e5b281de2eb89748175ef071c34ad20?"
-                  className="shrink-0 aspect-[1.05] w-[21px]"
+                  className="shrink-0 aspect-[1.05] w-[21px] cursor-pointer"
                   alt="afnsllmk"
                 />
               </div>
               <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/362e8ffa6ae7d4536ca0b48a30657e68c80aef0e894cd013e9f71dd70a5fa3b8?"
-                className="shrink-0 w-12 aspect-square ml-2"
+                className="shrink-0 w-12 aspect-square ml-2 cursor-pointer"
                 alt="afnsllmk"
                 onClick={onClose}
               />
