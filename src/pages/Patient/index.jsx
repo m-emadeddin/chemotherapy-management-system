@@ -1,8 +1,7 @@
-import React  , { useState } from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import Header from "../../components/Header";
-
 
 const data = [
   {
@@ -18,6 +17,7 @@ const data = [
     thirtyTwoThousandEighteen: "06/19/16 Requested",
   },
 ];
+
 const data1 = [
   { height: "Height", distance: "176.784 cm" },
   { height: "Weight", distance: "58.967 kg" },
@@ -28,6 +28,7 @@ const data1 = [
   { height: "Blood Pressure", distance: "140/80" },
   { height: "O2 Sat", distance: "95 %" },
 ];
+
 const data2 = [
   { id: "ID", y2Dc5F: "Y2DC5F" },
   { id: "Gender", y2Dc5F: "Male" },
@@ -39,6 +40,16 @@ const data2 = [
 
 export default function PatientPage() {
   const [hovered, setHovered] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+
+  const [patientData, setPatientData] = useState({
+    name: "Hazem Abdulnasser",
+    age: "23",
+    bloodType: "A+",
+  });
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
 
   return (
     <>
@@ -51,12 +62,12 @@ export default function PatientPage() {
       </Helmet>
       <div className="flex w-full flex-col items-center gap-[15px] bg-gray-100 pb-[70px] md:pb-5">
         {/* header section */}
-        <Header className="flex items-center justify-center self-stretch border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs"/>
+        <Header className="flex items-center justify-center self-stretch border-b border-solid border-gray-400 bg-white-A700 p-2 shadow-xs" />
         <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5">
           {/* navigation section */}
           <div className="flex items-start justify-between gap-5 md:flex-col">
             <div className="mt-[18px] flex items-center gap-[15px]">
-              <Heading as="h1" className="cursor-pointer ">
+              <Heading as="h1" className="cursor-pointer">
                 Patient List
               </Heading>
               <div className="flex items-center">
@@ -76,28 +87,28 @@ export default function PatientPage() {
             </div>
 
             <div className="flex gap-[22px]">
-            <Button
-      size="xl"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
-      onClick={orderChemo}
-    >
-      {hovered ? (
-        <Img
-          src="images/icons (1).png"
-          alt="thumbs_up"
-          className="h-[14px] w-[14px]"
-        />
-      ) : (
-        <Img
-          src="images/img_thumbsup_white_a700.svg"
-          alt="thumbs_up"
-          className="h-[14px] w-[14px]"
-        />
-      )}
-      Order Chemotherapy
-    </Button>
+              <Button
+                size="xl"
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+                className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
+                onClick={orderChemo}
+              >
+                {hovered ? (
+                  <Img
+                    src="images/icons (1).png"
+                    alt="thumbs_up"
+                    className="h-[14px] w-[14px]"
+                  />
+                ) : (
+                  <Img
+                    src="images/img_thumbsup_white_a700.svg"
+                    alt="thumbs_up"
+                    className="h-[14px] w-[14px]"
+                  />
+                )}
+                Order Chemotherapy
+              </Button>
               <Button
                 size="xl"
                 leftIcon={
@@ -144,6 +155,7 @@ export default function PatientPage() {
                         size="lg"
                         shape="circle"
                         className="w-[48px] !rounded-[24px]"
+                        onClick={togglePopup}
                       >
                         <Img src="images/img_map.svg" />
                       </Button>
@@ -266,7 +278,7 @@ export default function PatientPage() {
                     <Img src="images/img_clock.svg" />
                   </Button>
                 </div>
-                <Heading size = "xs">Last update: 12/04/2024</Heading>
+                <Heading size="xs">Last update: 12/04/2024</Heading>
                 <div className="flex flex-col items-start gap-[15px] self-stretch">
                   <div className="grid grid-cols-2 gap-6 self-stretch md:grid-cols-1">
                     {data1.map((d, index) => (
@@ -352,6 +364,14 @@ export default function PatientPage() {
                 >
                   View all
                 </Button>
+                {showPopup && (
+                  <PatientPopup
+                    name={patientData.name}
+                    age={patientData.age}
+                    bloodType={patientData.bloodType}
+                    onClose={togglePopup}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -367,4 +387,135 @@ function orderChemo() {
 
 function docChemo() {
   window.location.href = "/documentchemotherapy";
+}
+function PatientPopup({ name, age, bloodType, onClose }) {
+  return (
+    <div className="edit-popup-overlay">
+      <div className="edit-popup-container">
+        <div className="popup-heading">
+          <div className="text">
+            <div className="flex gap-5 justify-between self-center mt-0 w-full text-2xl font-bold leading-6 text-black whitespace-nowrap max-w-[660px] max-md:flex-wrap max-md:max-w-full">
+              <img
+                loading="lazy"
+                src="images\patient in a circle 1.png"
+                className="self-center w-16 aspect-[1.1]"
+                alt="patient"
+              />
+              <div className="flex items-center gap-5">
+                <div className="grow text-ellipsis">{name}</div>
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/df690d57ab643da68c80957406d7e0577e5b281de2eb89748175ef071c34ad20?"
+                  className="shrink-0 aspect-[1.05] w-[21px]"
+                  alt="afnsllmk"
+                />
+              </div>
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/362e8ffa6ae7d4536ca0b48a30657e68c80aef0e894cd013e9f71dd70a5fa3b8?"
+                className="shrink-0 w-12 aspect-square ml-2"
+                alt="afnsllmk"
+                onClick={onClose}
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="popup-content">
+          <div className="new-row flex">
+            <div className=" font-bold text-black">General info</div>
+          </div>
+          {/* New row */}
+          <div className="new-row flex">
+            <div className="self-start ml-9 text-slate-400 max-md:ml-2.5">
+              ID
+            </div>
+            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+              Gender
+            </div>
+            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+              Date Of Birth
+            </div>
+            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+              Blood Type
+            </div>
+            <div className="self-start mt-0 ml-10 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+              Disease Type
+            </div>
+          </div>
+
+          <div className="new-row flex">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+              Y2DC5F
+            </div>
+            <div className="justify-center ml-5 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+              Male
+            </div>
+            <div className="justify-center ml-10 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+              12.Mar.2001
+            </div>
+            <div className="justify-center ml-12 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+              A+
+            </div>
+            <div className="justify-center ml-9 px-5 py-4 rounded-3xl bg-slate-50 text-ellipsis">
+              Lung Cancer
+            </div>
+          </div>
+
+          <div className="new-row flex">
+            <div className=" font-bold text-black">Contact info</div>
+          </div>
+
+          {/* New row */}
+          <div className="new-row flex">
+            <div className="self-start ml-2 mr-44 text-slate-400 max-md:ml-2.5">
+              Street
+            </div>
+            <div className="self-start mt-0 ml-37 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+              City/Village
+            </div>
+            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+              Governorate
+            </div>
+            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+              Nationality
+            </div>
+          </div>
+
+          <div className="new-row flex">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis whitespace-nowrap">
+              45 Mahmoud Al Nahal st.
+            </div>
+            <div className="justify-center ml-5 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+              Zagazig
+            </div>
+            <div className="justify-center ml-10 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+              Ash Sharqiah
+            </div>
+            <div className="justify-center ml-8 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+              Egyptian
+            </div>
+          </div>
+
+          <div className="new-row flex">
+            <div className="self-start ml-2 mr-2 text-slate-400 max-md:ml-2.5">
+              Phone Number
+            </div>
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/ba3b520da1558a06e2ea5587cdc0403832bde2c2019cac5869a13f63d9291332?"
+              className="shrink-0 w-3 aspect-square"
+              alt="asd"
+            />
+          </div>
+
+          <div className="new-row flex">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis whitespace-nowrap">
+              01095368957
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
