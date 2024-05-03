@@ -8,7 +8,6 @@ module.exports = (db, DataTypes) => {
         Plan_Name: {
           type: DataTypes.STRING,
           allowNull: false,
-          unique: true
         },
         number_of_Weeks: {
           type: DataTypes.INTEGER,

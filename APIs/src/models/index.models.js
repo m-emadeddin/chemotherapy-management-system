@@ -56,12 +56,10 @@ TreatmentPlans.belongsToMany(Cycles, { through: TreatmentPlansCycles });
 //3.Treatment plans read only & cycles
 Cycles.belongsToMany(treatmentPlanReadOnly, { 
   through: TreatmentPlanReadOnlyCycles ,
-  constraints: false, // Disable automatic constraint generation
   uniqueKey: 'ReadOnlyCycles_unique' // Custom unique constraint name
 });
 treatmentPlanReadOnly.belongsToMany(Cycles, {
    through: TreatmentPlanReadOnlyCycles ,
-   constraints: false, // Disable automatic constraint generation
    uniqueKey: 'ReadOnlyCycles_unique' // Custom unique constraint name
   });
 
@@ -72,12 +70,10 @@ Premedications.belongsToMany(Cycles, { through: PremedicationsCycles });
 //5. cycles & chemotherapy medications
 Cycles.belongsToMany(ChemotherapyMedications, { 
   through: ChemotherapyMedicationsCycles,
-  constraints: false, // Disable automatic constraint generation
   uniqueKey: 'ChemotherapyCycles_unique' // Custom unique constraint name
 });
 ChemotherapyMedications.belongsToMany(Cycles, { 
   through: ChemotherapyMedicationsCycles,
-  constraints: false, // Disable automatic constraint generation
    uniqueKey: 'ChemotherapyCycles_unique' // Custom unique constraint name
 });
 
@@ -85,24 +81,20 @@ ChemotherapyMedications.belongsToMany(Cycles, {
 // Assuming you have the necessary models imported
 Premedications.belongsToMany(treatmentPlanReadOnly, {
   through: TreatmentPlanReadOnlyPremedications,
-  constraints: false, // Disable automatic constraint generation
   uniqueKey: 'ReadOnlyPremedications_unique' // Custom unique constraint name
 });
 treatmentPlanReadOnly.belongsToMany(Premedications, {
   through: TreatmentPlanReadOnlyPremedications,
-  constraints: false, // Disable automatic constraint generation
   uniqueKey: 'ReadOnlyPremedications_unique' // Custom unique constraint name
 });
 
 // //7. premedications & Treatment plans
 Premedications.belongsToMany(TreatmentPlans, { 
   through: TreatmentPlansPremedication,
-  constraints: false, // Disable automatic constraint generation
   uniqueKey: 'treatmentPlan_Premed_unique' 
 });
 TreatmentPlans.belongsToMany(Premedications, { 
   through: TreatmentPlansPremedication,
-  constraints: false, // Disable automatic constraint generation
   uniqueKey: 'treatmentPlan_Premed_unique' 
 });
 
@@ -114,16 +106,15 @@ TreatmentPlans.belongsToMany(Premedications, {
 CancerOverview.hasMany(treatmentPlanReadOnly, {
   foreignKey: {
     name: 'CancerOverview_Stage', // Composite foreign key
-    allowNull: false
   },
-  onDelete: 'CASCADE' // optional: specifies what should happen when the associated treatment plans are deleted
+  onDelete: 'CASCADE', // optional: specifies what should happen when the associated treatment plans are deleted
 });
 treatmentPlanReadOnly.belongsTo(CancerOverview, {
   foreignKey: {
     name: 'CancerOverview_Cancer_type', // Composite foreign key
-    allowNull: false
   },
-  targetKey: 'Cancer_type' // Component of the composite primary key in the parent table
+  constraints: true, // enable automatic constraint generation
+  targetKey: 'Cancer_type', // Component of the composite primary key in the parent table
 });
 //2. patients &Radiography
 Patients.hasMany(Radiography);
@@ -151,7 +142,48 @@ Patients.hasOne(TreatmentPlans, {
 });
 TreatmentPlans.belongsTo(Patients);
 
-// generate tables in DB
+
+// Insert data into tables
+// Define function to insert data
+function insertData() {
+  let cancerOverviewInstance;
+  let treatmentPlanInstance;
+
+  return CancerOverview.create({ 
+    Stage: 'Stage40',
+    Cancer_type: 'Type13',
+    Note_On_cancer: 'Dummy for Type1 Stage1' 
+  })
+  .then((cancerOverview) => {
+    cancerOverviewInstance = cancerOverview;
+    return treatmentPlanReadOnly.create({ 
+      Plan_Name: 'Plan8',
+      number_of_Weeks: 5,
+      number_of_Cycles: 6
+    });
+  })
+  .then((treatmentPlan) => {
+    treatmentPlanInstance = treatmentPlan;
+    console.log(treatmentPlan.toJSON());
+    
+    // Associate treatmentPlanReadOnly with CancerOverview
+    return treatmentPlanInstance.update({
+      CancerOverview_Stage: cancerOverviewInstance.Stage,
+      CancerOverview_Cancer_type: cancerOverviewInstance.Cancer_type
+    });
+  })
+  // .then(() => {
+  //   // Associate CancerOverview with treatmentPlanReadOnly in reverse direction
+  //   return cancerOverviewInstance.addTreatmentPlanReadOnly(treatmentPlanInstance);
+  // })
+  .then(() => {
+    console.log('Associations established successfully');
+  })
+  .catch((error) => {
+    console.error('Error inserting data:', error);
+  });
+}
+
 
 module.exports = {
   treatmentPlanReadOnly,
@@ -165,4 +197,5 @@ module.exports = {
   TreatmentPlans,
   Radiography,
   MedicalAnalysis,
+  insertData
 };

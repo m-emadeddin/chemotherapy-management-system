@@ -2,6 +2,7 @@
 const PORT= process.env.PORT || 3000
 const express = require('express');
 const bodyParser = require('body-parser');
+const { insertData } = require('./src/models/index.models');
 
 // import the DB
 const db =require ('./src/configs/db.config');
@@ -44,5 +45,9 @@ db.authenticate()
 })
 db.sync({ alter: true })
 .then(() => {
-console.log("Tables Created!")
+  insertData()
+  console.log("Tables Created!")
+})
+.catch((err)=>{
+  console.log(err)
 })
