@@ -10,8 +10,6 @@ export default function Header({
   userPhoto = "/images/img_hesham_1.png",
   ...props
 }) {
-
-
   const [newLogo, setNewLogo] = useState("images/img_icon_1.png");
   const [newSVG, setNewSVG] = useState("images/img_arrow_down.svg");
   const [isActive, setIsActive] = useState(false);
@@ -64,7 +62,7 @@ export default function Header({
             className="doctor-info flex flex-1 items-center justify-between gap-5"
             onClick={handleDoctorInfoClick}
           >
-            <div className="ml-[7px] flex w-[60%] items-center justify-center gap-2.5">
+            <div className="flex items-center justify-center gap-2.5">
               <Img
                 src={userPhoto}
                 alt="heshamone"
