@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import Header from "../../components/Header";
-import PatientPopup from "../../components/PatientPopUp" ;
+import PatientPopup from "../../components/PatientPopUp";
 const data = [
   {
     bilateralsalpi: "Bilateral salpingo-oophorectomy",
@@ -42,7 +42,7 @@ export default function PatientPage() {
   const [hovered, setHovered] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
 
-  const [patientData, setPatientData] = useState({
+  const [patientData] = useState({
     name: "Hazem Abdulnasser",
     age: "23",
     ID: "Y2DC5F",
@@ -54,8 +54,7 @@ export default function PatientPage() {
     government: "Ash Sharqiah",
     nationality: "Egyptian",
     phonenumber: "01095368957",
-    gender:"Male"
-    
+    gender: "Male",
   });
   const togglePopup = () => {
     setShowPopup(!showPopup);
