@@ -6,6 +6,7 @@ router.get('/cycles-count/:id',test.getCyclesCount);
 router.get('/active-cycle:id',test.getActiveCycle);
 router.get('/premedications:id',test.getPremedications);
 router.get('/chemotherapy:id',test.getChemotherapy);
+router.get('/dumppatient',test.moemad)
 
 
 module.exports = router;

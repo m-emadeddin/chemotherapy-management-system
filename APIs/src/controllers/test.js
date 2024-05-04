@@ -39,3 +39,18 @@ exports.getChemotherapy = (req, res, next) => {
       console.log(err);
     });
 };
+exports.moemad = (req, res, next) => {
+  const data1 = [
+    { height: "Height", distance: "176.784 cm" },
+    { height: "Weight", distance: "58.967 kg" },
+    { height: "(Calculated) BMI", distance: "19.8" },
+    { height: "Temperature", distance: "37.9 °C" },
+    { height: "Heart Rate", distance: "60 /min" },
+    { height: "Respiratory Rate", distance: "15 /min" },
+    { height: "Blood Pressure", distance: "140/80" },
+    { height: "O2 Sat", distance: "95 %" },
+  ];
+  info.data1 = data1; // Add data1 array to info object
+  res.status(200).send(info);
+    
+};
