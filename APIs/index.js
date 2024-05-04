@@ -36,9 +36,9 @@ db.authenticate()
     console.log("Error" + err);
   });
 
-db.sync({ force:true })
+db.sync({ force:false })
 .then(() => {
-  insertDataCyclesPremedicationChemo()
+  //insertDataCyclesPremedicationChemo()
   console.log("Tables Created!")
 })
 .catch((err)=>{

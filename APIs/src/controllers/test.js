@@ -21,7 +21,45 @@ exports.getCyclesCount = (req, res, next) => {
 
 exports.getActiveCycle = (req, res, next) => {};
 
-exports.getPremedications = (req, res, next) => {};
+exports.getPremedications = (req, res, next) => {
+  const ID = req.params.id;
+  const info = {}; // Define info object to store data
+
+  Patients.findByPk(ID)
+    .then((patient) => {
+      if (!patient) {
+        throw new Error('Patient not found');
+      }
+      return patient.getTreatmentPlan();
+    })
+    .then((treatmentplan) => {
+      if (!treatmentplan) {
+        throw new Error('Treatment plan not found');
+      }
+      return treatmentplan.getPremedications();
+    })
+    .then((premedications) => {
+      console.log("---------------------");
+      console.log(premedications)
+      if (!premedications || premedications.length === 0) {
+        throw new Error('Premedications not found');
+      }
+      // Assuming premedications is an array of premedication objects
+      // If it's just one premedication, you might want to access it directly
+      const premedication = premedications[0];
+      info.Medication = premedication.Medication_Name;
+      info.Dose = premedication.Dose;
+      info.Route = premedication.Route;
+      info.Instructions = premedication.Instructions;
+      console.log(info);
+      res.status(200).send(info);
+    })
+    .catch((err) => {
+      console.error('Error:', err.message);
+      res.status(500).send({ message: 'Internal server error' });
+    });
+};
+
 
 exports.getChemotherapy = (req, res, next) => {
   const ID = req.params.id;
