@@ -1,24 +1,54 @@
-.order-chemotherapy {
-    background-color: #f4f5f9;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-}
-
-
-.order-chemotherapy .order-container {
-    background-color: #f4f5f9;
+.order-container {
     height: 1315px;
-    width: 1440px;
     display: flex;
     flex-direction: column;
     margin-left: 228px;
     gap: 36px;
+    width: 984px;
+}
+
+.order-container .text-wrapper-5 {
+    color: #000000;
+    font-family: "Lama Sans-Bold", Helvetica;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 25px;
+    white-space: nowrap;
+}
+
+@media (max-width: 1050px) {
+    .order-container {
+        width: 700px;
+    }
+
 
 }
 
-/* .order-chemotherapy .navigation {
+@media (max-width: 765px) {
+    .order-container {
+        width: 550px;
+    }
+
+
+}
+
+@media (max-width: 595px) {
+    .order-container {
+        width: 450px;
+    }
+
+
+}
+
+@media (max-width: 475px) {
+    .order-container {
+        width: 350px;
+    }
+
+
+}
+
+/* .order-container .navigation {
     align-items: center;
     display: inline-flex;
     gap: 15px;
@@ -70,62 +100,4 @@
     position: relative;
     white-space: nowrap;
     width: fit-content;
-} */
-
-.order-chemotherapy .text-wrapper-5 {
-    color: #000000;
-    font-family: "Lama Sans-Bold", Helvetica;
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 25px;
-    white-space: nowrap;
-}
-
-
-
-.order-chemotherapy .header {
-    background-color: #ffffff;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-color: #c2c2c2;
-    box-shadow: 0px 4px 10px #00000026;
-    height: 60px;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 1440px;
-}
-
-/* .order-chemotherapy .button-and-user {
-    align-items: center;
-    display: flex;
-    gap: 13px;
-    justify-content: flex-end;
-    left: 1039px;
-    position: fixed;
-    top: 8px;
-    width: 341px;
-}
-
-.order-chemotherapy .user-instance {
-    font-family: "Almarai-Regular", Helvetica !important;
-    white-space: nowrap !important;
-}
-
-.order-chemotherapy .button-with-icon-instance {
-    flex: 0 0 auto !important;
-}
-
-.order-chemotherapy .icons-2 {
-    height: 14px !important;
-    position: relative !important;
-    width: 14px !important;
-}
-
-.order-chemotherapy .logo-menu {
-    height: 36px !important;
-    left: 60px !important;
-    position: fixed !important;
-    top: 12px !important;
-    width: 63px !important;
 } */
