@@ -4,7 +4,6 @@ import Home from "pages/Home";
 import NotFound from "pages/NotFound";
 import Loginpage from "pages/Loginpage";
 import SelectPatient from "pages/SelectPatient";
-import SelectedPatient from "pages/SelectedPatient";
 import Patient from "pages/Patient";
 import Document from "pages/Document";
 import Orderchemotherapy from "pages/Orderchemotherapy";
@@ -24,10 +23,6 @@ const ProjectRoutes = () => {
     {
       path: "selectpatient",
       element: <SelectPatient />,
-    },
-    {
-      path: "selectedpatient",
-      element: <SelectedPatient />,
     },
     {
       path: "patient",

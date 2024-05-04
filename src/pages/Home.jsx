@@ -40,14 +40,6 @@ const Home = () => {
         </li>
         <li style={{ marginBottom: "10px" }}>
           <Link
-            to="/selectedpatient"
-            style={{ color: "#87CEFA", textDecoration: "none" }}
-          >
-            SelectedPatient
-          </Link>
-        </li>
-        <li style={{ marginBottom: "10px" }}>
-          <Link
             to="/patient"
             style={{ color: "#87CEFA", textDecoration: "none" }}
           >
