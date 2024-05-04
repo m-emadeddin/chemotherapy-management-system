@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { Button, Img, Text } from "components";
 import "./patientinfo.css";
+import { Link } from "react-router-dom";
+import PatientPopup from "../PatientPopUp/index";
 
 export default function PatientInfo({ patients }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState(null);
   const patientsPerPage = 10;
 
   const totalPages = Math.ceil(patients.length / patientsPerPage);
@@ -12,7 +16,15 @@ export default function PatientInfo({ patients }) {
     setCurrentPage(page);
   };
 
-  // Calculate index range for the current page
+  const handleMapClick = (patient) => {
+    setSelectedPatient(patient);
+    setPopupOpen(true);
+  };
+
+  const togglePopup = () => {
+    setPopupOpen(!popupOpen);
+  };
+
   const indexOfLastPatient = currentPage * patientsPerPage;
   const indexOfFirstPatient = indexOfLastPatient - patientsPerPage;
   const currentPatients = patients.slice(
@@ -35,31 +47,65 @@ export default function PatientInfo({ patients }) {
         </thead>
         <tbody>
           {currentPatients.map((patient) => (
-            <>
-              <tr key={patient.id} className="info-data-container">
+            <React.Fragment key={patient.id}>
+              <tr className="info-data-container">
                 <td>
-                  {patient.patient.name}
-                  <br />
-                  <span className="age">{patient.patient.age} years old</span>
+                  <Link to="/patient">
+                    {patient.name}
+                    <br />
+                    <span className="age">{patient.age} years old</span>
+                  </Link>
                 </td>
-                <td>{patient.id}</td>
-                <td>{patient.gender}</td>
-                <td>{patient.diseaseType}</td>
-                <td>{patient.phoneNumber}</td>
+                <td>
+                  <Link to="/patient">{patient.id}</Link>
+                </td>
+                <td>
+                  <Link to="/patient">{patient.gender}</Link>
+                </td>
+                <td>
+                  <Link to="/patient">{patient.diseaseType}</Link>
+                </td>
+                <td>
+                  <Link to="/patient">{patient.phoneNumber}</Link>
+                </td>
                 <td>
                   <Button size="md" shape="circle" className="action-button">
                     <Img src="images/img_thumbs_up.svg" />
                   </Button>
-                  <Button size="md" shape="circle" className="action-button">
+                  <Button
+                    size="md"
+                    shape="circle"
+                    className="action-button"
+                    onClick={() => handleMapClick(patient)}
+                  >
                     <Img src="images/img_map.svg" />
                   </Button>
                 </td>
               </tr>
               <tr className="separator" />
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>
+
+      {/* Render the PatientPopUp component if popupOpen is true */}
+      {popupOpen && (
+        <PatientPopup
+          name={selectedPatient.name}
+          age={selectedPatient.age}
+          onClose={togglePopup}
+          ID={selectedPatient.id}
+          Gender={selectedPatient.gender}
+          DateOFBirth={selectedPatient.DateofBirth}
+          bloodType={selectedPatient.bloodType}
+          DiseaseType={selectedPatient.diseaseType}
+          Street={selectedPatient.street}
+          City={selectedPatient.city}
+          Government={selectedPatient.government}
+          Nationality={selectedPatient.nationality}
+          PhoneNumber={selectedPatient.phoneNumber}
+        />
+      )}
 
       <div className="container-xs mt-[15px] flex flex-col items-start pl-[435px] pr-14 md:px-5">
         <div className="flex flex-wrap items-center">
