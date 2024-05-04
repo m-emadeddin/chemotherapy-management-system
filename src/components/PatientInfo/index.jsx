@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Img, Text } from "components";
 import "./patientinfo.css";
+import { Link } from "react-router-dom";
 
 export default function PatientInfo({ patients }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,14 +39,24 @@ export default function PatientInfo({ patients }) {
             <>
               <tr key={patient.id} className="info-data-container">
                 <td>
-                  {patient.patient.name}
-                  <br />
-                  <span className="age">{patient.patient.age} years old</span>
+                  <Link to="/patient">
+                    {patient.patient.name}
+                    <br />
+                    <span className="age">{patient.patient.age} years old</span>
+                  </Link>
                 </td>
-                <td>{patient.id}</td>
-                <td>{patient.gender}</td>
-                <td>{patient.diseaseType}</td>
-                <td>{patient.phoneNumber}</td>
+                <td>
+                  <Link to="/patient">{patient.id}</Link>
+                </td>
+                <td>
+                  <Link to="/patient">{patient.gender}</Link>
+                </td>
+                <td>
+                  <Link to="/patient">{patient.diseaseType}</Link>
+                </td>
+                <td>
+                  <Link to="/patient">{patient.phoneNumber}</Link>
+                </td>
                 <td>
                   <Button size="md" shape="circle" className="action-button">
                     <Img src="images/img_thumbs_up.svg" />

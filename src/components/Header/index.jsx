@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Img, Text } from "./..";
+import { Img, Text } from "./..";
 import "./Header.css";
 import DoctorDropMenu from "components/DoctorDropMenu";
 import { Link } from "react-router-dom";
@@ -86,7 +86,7 @@ export default function Header({
             )}
           </div>
           <Link
-            className="flex items-center justify-center bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300  hover:bg-blue-600 h-[36px] text-sm min-w-[89px] gap-2.5 text-center cursor-pointer rounded-[10px] h-[36px] py-[9px] px-[16px] text-sm "
+            className="flex items-center justify-center bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300  hover:bg-blue-600 text-sm min-w-[89px] gap-2.5 text-center cursor-pointer rounded-[10px] h-[36px] py-[9px] px-[16px]"
             to="/login"
           >
             <div>

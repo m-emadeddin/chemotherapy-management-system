@@ -5,7 +5,7 @@ import { Input, Heading } from "../../components";
 import Header from "components/Header";
 import PatientInfo from "components/PatientInfo";
 
-const initialTableData = Array.from({ length: 100 }, (_, index) => ({
+const patients = Array.from({ length: 100 }, (_, index) => ({
   patient: {
     name: `Patient ${index + 1}`,
     age: Math.floor(Math.random() * 80) + 1, // Random age between 1 and 80
@@ -53,9 +53,10 @@ export default function SelectPatientPage() {
                 Select Patient
               </Heading>
               <Input
-                size="sm"
+                size="xs"
                 shape="round"
                 name="search"
+                placeholder={`Enter Patient Name`}
                 value={searchBarValue2}
                 onChange={(e) => setSearchBarValue2(e)}
                 suffix={
@@ -63,14 +64,14 @@ export default function SelectPatientPage() {
                     <CloseSVG onClick={() => setSearchBarValue2("")} />
                   ) : null
                 }
-                className="sm:pr-5"
+                className="text-black-900 sm:pr-5"
               />
             </div>
           </div>
 
           {/* Patient info and pagination */}
           <div className="w-full justify-start px-[51px]">
-            <PatientInfo patients={initialTableData} />
+            <PatientInfo patients={patients} />
           </div>
         </div>
       </div>
