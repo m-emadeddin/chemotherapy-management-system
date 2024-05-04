@@ -2,6 +2,7 @@
     border-collapse: collapse ;
     width: 100%; /* Consider using a percentage or vw for responsiveness */
     margin-top: 60px;
+    cursor: pointer;
   }
 
   .info-tablehead {

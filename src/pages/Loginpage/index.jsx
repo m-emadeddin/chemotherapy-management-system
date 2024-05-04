@@ -2,12 +2,9 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { Img, Button, Input, Text } from "../../components";
 import "./login.css";
+import { Link } from "react-router-dom";
 
 export default function LoginpagePage() {
-  function handleLogin() {
-    window.location.href = "/selectpatient";
-  }
-
   return (
     <>
       <Helmet>
@@ -68,21 +65,22 @@ export default function LoginpagePage() {
                   className="password-input mt-1 border border-solid border-black-900 p-2"
                   type="password"
                 />
-                <Button
-                  onClick={handleLogin}
-                  size="sm"
-                  shape="round"
-                  leftIcon={
-                    <Img
-                      src="images/login_icon.svg"
-                      alt="arrow_left"
-                      className="h-[14px] w-[14px]"
-                    />
-                  }
-                  className="login-button mt-10 min-w-[93px] gap-2.5 font-bold"
-                >
-                  Login
-                </Button>
+                <Link to="/selectpatient">
+                  <Button
+                    size="sm"
+                    shape="round"
+                    leftIcon={
+                      <Img
+                        src="images/login_icon.svg"
+                        alt="arrow_left"
+                        className="h-[14px] w-[14px]"
+                      />
+                    }
+                    className="login-button mt-10 min-w-[93px] gap-2.5 font-bold"
+                  >
+                    Login
+                  </Button>
+                </Link>
               </div>
             </div>
             <Img
