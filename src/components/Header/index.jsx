@@ -34,7 +34,7 @@ export default function Header({
 
   return (
     <header {...props}>
-      <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-5 self-start sm:flex-col">
+      <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between gap-5 self-start ">
         <div
           onClick={handleLogoClick}
           className={`logo flex items-center gap-1.5 self-end p-[5px] ${

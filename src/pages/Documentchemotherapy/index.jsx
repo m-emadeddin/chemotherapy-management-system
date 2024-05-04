@@ -2,7 +2,6 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { Text, Heading } from "../../components";
 import DocumentChemotherapyCycle from "../../components/DocumentChemotherapyCycle";
-import Header from "../../components/Header";
 import { ReactTable } from "../../components/ReactTable";
 import { createColumnHelper } from "@tanstack/react-table";
 import { Link, useLocation } from "react-router-dom";
@@ -190,8 +189,6 @@ export default function DocumentchemotherapyPage(props) {
         />
       </Helmet>
       <div className="flex w-fit bg-gray-100">
-        {/* header section */}
-        <Header className="fixed w-full top-0 flex items-center justify-center border-b border-solid border-gray-400 bg-white-A700 py-2 shadow-xs" />
         <div className="pt-[50px] flex w-[100%] items-stretch ">
           {/* introduction section */}
           <div className="flex w-[19%] flex-col items-start bg-white-A700 py-[19px]">

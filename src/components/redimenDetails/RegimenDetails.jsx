@@ -1,10 +1,11 @@
 import Table from "components/Table/Table";
 import "./style.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import EditPopUp from "components/EditPopUp/EditPopUp";
 import DeletePopUp from "components/DeletePopUp/DeletePopUp";
 import DosePopUp from "components/DosePopUp/DosePopUp";
+import { Link } from "react-router-dom";
 
 const apiData = {
   preMedication: {
@@ -165,6 +166,7 @@ const apiData = {
   },
 };
 export default function RegimenDetails({ selectedOption }) {
+  const location = useLocation();
   const [Data, setData] = useState(apiData);
   const navigate = useNavigate();
   const [notes, setNotes] = useState("Add your notes here...");
@@ -187,17 +189,34 @@ export default function RegimenDetails({ selectedOption }) {
     setCheckedItemsChemo({});
   }, [selectedOption]);
 
-  useEffect(() => {
-    setNotes("Add your notes here...");
-    setRegimenDetails({
-      ...regimenDetails,
-      preMedication: Data.preMedication[selectedOption],
-      chemoTherapy: Data.chemoTherapy[selectedOption],
-      regimenName: selectedOption,
-    });
-    setData(apiData);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedOption]);
+  // useEffect(() => {
+  //   setNotes("Add your notes here...");
+  //   setRegimenDetails({
+  //     ...regimenDetails,
+  //     preMedication: Data.preMedication[selectedOption],
+  //     chemoTherapy: Data.chemoTherapy[selectedOption],
+  //     regimenName: selectedOption,
+  //   });
+  //   setData(apiData);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedOption]);
+  // console.log(location.state.newRegimenDetails);
+  // useEffect(() => {
+  //   if (location.state && location.state.Data) {
+  //     const { Data } = location.state;
+  //     console.log("ff", Data);
+  //     setNotes(Data.physicianNotes);
+  //     setRegimenDetails({
+  //       ...Data,
+  //       preMedication: Data.preMedication[selectedOption] || [],
+  //       chemoTherapy: Data.chemoTherapy[selectedOption] || [],
+  //     });
+  //   } else {
+  //     setNotes("Add your notes here...");
+  //     setCheckedItemsPreMed({});
+  //     setCheckedItemsChemo({});
+  //   }
+  // }, [Data.chemoTherapy, Data.preMedication, location.state, selectedOption]);
 
   const handleCheckboxChangePreMed = (index, item) => {
     setCheckedItemsPreMed((prevCheckedItems) => {
@@ -255,7 +274,6 @@ export default function RegimenDetails({ selectedOption }) {
       chemoTherapy: newData.chemoTherapy[selectedOption] || [],
     });
   };
-
   const updateRegimenDoseReduction = (updatedItem) => {
     const newData = {
       ...Data,
@@ -312,8 +330,7 @@ export default function RegimenDetails({ selectedOption }) {
     setCheckedItemsChemo({});
     setCheckedItemsPreMed({});
   };
-
-  const handleNextClick = () => {
+  const handleNext = () => {
     const newRegimenDetails = {
       regimenName: selectedOption,
       preMedication: regimenDetails.preMedication || [],
@@ -326,11 +343,12 @@ export default function RegimenDetails({ selectedOption }) {
       })),
       physicianNotes: notes,
     };
-
+    setData(newRegimenDetails);
     navigate("reviewchemotherapyorder", { state: { newRegimenDetails } });
-
     console.log(newRegimenDetails);
   };
+
+  // console.log("sajfl", Data);
   return (
     <div className="regimen-detail">
       <div className="medications">
@@ -399,7 +417,7 @@ export default function RegimenDetails({ selectedOption }) {
           className="notes-area"
           onChange={handleNotesChange}
         ></textarea>
-        <button onClick={handleNextClick} className="next">
+        <button onClick={handleNext} className="next">
           Next
         </button>
       </div>
