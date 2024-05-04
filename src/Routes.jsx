@@ -11,7 +11,6 @@ import Orderchemotherapy from "pages/Orderchemotherapy";
 import OrderchemotherapyTwo from "pages/OrderchemotherapyTwo";
 import Reviewchemotherapyorder from "pages/Reviewchemotherapyorder";
 import Documentchemotherapy from "pages/Documentchemotherapy";
-import RegimenDetails from "components/redimenDetails/RegimenDetails";
 
 const ProjectRoutes = () => {
   let element = useRoutes([

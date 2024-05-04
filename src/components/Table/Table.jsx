@@ -7,10 +7,10 @@ function Table({ data, selectedOption, checkedItems, onCheckboxChange }) {
       <thead>
         <tr>
           <th className="checkboxCell"></th>
-          <th style={{ width: "240px" }}>Mediaction</th>
-          <th style={{ width: "80px" }}>Dose</th>
-          <th style={{ width: "80px" }}></th>
-          <th style={{ width: "160px" }}>Route</th>
+          <th className="med-cell">Mediaction</th>
+          <th className="dose-cell">Dose</th>
+          <th className="reduction-cell"></th>
+          <th className="route-cell">Route</th>
           <th>Instructions</th>
         </tr>
       </thead>
@@ -30,14 +30,9 @@ function Table({ data, selectedOption, checkedItems, onCheckboxChange }) {
               </td>
               <td>{item.Medication}</td>
               <td>{item.Dose}</td>
-              <td
-                style={{
-                  color: "#E84853",
-                  fontWeight: "700",
-                }}
-              >
+              <td style={{ color: "#E84853", fontWeight: "700" }}>
                 {item.doseReduction !== null ? item.doseReduction : null}
-              </td>{" "}
+              </td>
               <td>{item.Route}</td>
               <td>{item.Instructions}</td>{" "}
             </tr>

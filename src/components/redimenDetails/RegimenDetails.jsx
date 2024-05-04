@@ -1,6 +1,5 @@
 import Table from "components/Table/Table";
 import "./style.css";
-// import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EditPopUp from "components/EditPopUp/EditPopUp";
@@ -328,7 +327,7 @@ export default function RegimenDetails({ selectedOption }) {
       physicianNotes: notes,
     };
 
-    navigate("reviewchemotherapyorder");
+    navigate("reviewchemotherapyorder", { state: { newRegimenDetails } });
 
     console.log(newRegimenDetails);
   };
