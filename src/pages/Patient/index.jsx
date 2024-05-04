@@ -164,7 +164,7 @@ export default function PatientPage() {
                       <Button
                         size="lg"
                         shape="circle"
-                        className="w-[48px] !rounded-[24px]"
+                        className="w-[48px] !rounded-[24px] action-button"
                         onClick={togglePopup}
                       >
                         <Img src="images/img_map.svg" />
@@ -220,7 +220,7 @@ export default function PatientPage() {
                     <Button
                       size="lg"
                       shape="circle"
-                      className="w-[48px] !rounded-[24px]"
+                      className="w-[48px] !rounded-[24px] action-button"
                     >
                       <Img src="images/img_edit.svg" />
                     </Button>
@@ -284,7 +284,7 @@ export default function PatientPage() {
                   <Button
                     size="lg"
                     shape="circle"
-                    className="w-[48px] !rounded-[24px]"
+                    className="w-[48px] !rounded-[24px] action-button"
                   >
                     <Img src="images/img_clock.svg" />
                   </Button>
@@ -323,7 +323,7 @@ export default function PatientPage() {
             </div>
 
             {/* pathology section */}
-            <div className="flex w-[33%] flex-col gap-5 rounded-[40px] bg-white-A700 py-[15px] pl-[15px] md:w-full">
+            <div className="flex w-[33%] flex-col gap-4 rounded-[40px] bg-white-A700 py-[15px] pl-[15px] md:w-full px-4">
               <div className="flex items-center justify-between gap-5">
                 <div className="flex w-[77%] items-center gap-[15px]">
                   <Img
@@ -331,14 +331,14 @@ export default function PatientPage() {
                     alt="patientina"
                     className="h-[74px] w-[73px] object-cover"
                   />
-                  <Heading size="md" as="h4" className="mb-5 self-end">
+                  <Heading size="md" as="h3" className="mb-5 self-end">
                     Pathology
                   </Heading>
                 </div>
                 <Button
                   size="lg"
                   shape="circle"
-                  className="w-[48px] !rounded-[24px]"
+                  className="w-[48px] !rounded-[24px] action-button"
                 >
                   <Img src="images/img_edit.svg" />
                 </Button>
