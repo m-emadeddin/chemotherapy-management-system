@@ -57,7 +57,7 @@ export default function Header({
             </div>
           )}
         </div>
-        <div className="flex items-center justify-center gap-[13px] pl-[29px] sm:w-full sm:pl-5">
+        <div className="flex w-[26%] items-center justify-center gap-[13px] pl-[29px] sm:w-full sm:pl-5">
           <div
             className="doctor-info flex flex-1 items-center justify-between gap-5"
             onClick={handleDoctorInfoClick}

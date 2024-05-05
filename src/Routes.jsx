@@ -7,9 +7,9 @@ import SelectPatient from "pages/SelectPatient";
 import Patient from "pages/Patient";
 import Document from "pages/Document";
 import Orderchemotherapy from "pages/Orderchemotherapy";
-import OrderchemotherapyTwo from "pages/OrderchemotherapyTwo";
 import Reviewchemotherapyorder from "pages/Reviewchemotherapyorder";
 import Documentchemotherapy from "pages/Documentchemotherapy";
+import AppLayout from "components/AppLayout";
 
 const ProjectRoutes = () => {
   let element = useRoutes([
@@ -20,33 +20,34 @@ const ProjectRoutes = () => {
       element: <Loginpage />,
     },
     {
-      path: "selectpatient",
-      element: <SelectPatient />,
-    },
-    {
-      path: "patient",
-      element: <Patient />,
-    },
-    {
-      path: "orderchemotherapy",
-      element: <Orderchemotherapy />,
-    },
+      element: <AppLayout />,
+      children: [
+        {
+          path: "selectpatient",
+          element: <SelectPatient />,
+        },
+        {
+          path: "patient",
+          element: <Patient />,
+        },
+        {
+          path: "orderchemotherapy",
+          element: <Orderchemotherapy />,
+        },
+        {
+          path: "orderchemotherapy/reviewchemotherapyorder",
+          element: <Reviewchemotherapyorder />,
+        },
 
-    {
-      path: "orderchemotherapytwo",
-      element: <OrderchemotherapyTwo />,
-    },
-    {
-      path: "orderchemotherapy/reviewchemotherapyorder",
-      element: <Reviewchemotherapyorder />,
-    },
-    {
-      path: "documentchemotherapy",
-      element: <Documentchemotherapy />,
-    },
-    {
-      path: "document",
-      element: <Document />,
+        {
+          path: "documentchemotherapy",
+          element: <Documentchemotherapy />,
+        },
+        {
+          path: "document",
+          element: <Document />,
+        },
+      ],
     },
   ]);
 

@@ -4,6 +4,7 @@
     gap: 30px;
     font-family: "Lama Sans-Regular", Helvetica;
     width: 984px;
+    margin-top: 100px;
 
 }
 
@@ -99,6 +100,7 @@
     display: flex;
     gap: 15px;
     margin-left: 355px;
+    margin-bottom: 100px;
 }
 
 .review-container .buttons .btn {
