@@ -1,7 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { CloseSVG } from "../../assets/images";
-import { Input, Heading } from "../../components";
+import { Heading } from "../../components";
 import PatientInfo from "components/PatientInfo";
 
 const patients = Array.from({ length: 100 }, (_, index) => ({
@@ -20,8 +19,6 @@ const patients = Array.from({ length: 100 }, (_, index) => ({
 }));
 
 export default function SelectPatientPage() {
-  const [searchBarValue2, setSearchBarValue2] = React.useState("");
-
   return (
     <>
       <Helmet>
@@ -32,38 +29,11 @@ export default function SelectPatientPage() {
         />
       </Helmet>
 
-      {/* main content section */}
-
-      {/* patient list section */}
       <div className="ml-[60px] flex w-[87%] flex-col items-end md:ml-0 md:w-full md:p-5 mt-[100px]">
         <Heading as="h1" className="self-start">
           Patient List
         </Heading>
 
-        {/* search patient section */}
-        <div className="container-xs mt-9 flex flex-col items-start px-[51px] md:px-5">
-          <div className="flex w-[77%] flex-col items-start gap-5 md:w-full">
-            <Heading size="s" as="h2">
-              Select Patient
-            </Heading>
-            <Input
-              size="xs"
-              shape="round"
-              name="search"
-              placeholder={`Enter Patient Name`}
-              value={searchBarValue2}
-              onChange={(e) => setSearchBarValue2(e)}
-              suffix={
-                searchBarValue2?.length > 0 ? (
-                  <CloseSVG onClick={() => setSearchBarValue2("")} />
-                ) : null
-              }
-              className="text-black-900 sm:pr-5"
-            />
-          </div>
-        </div>
-
-        {/* Patient info and pagination */}
         <div className="w-full justify-start px-[51px]">
           <PatientInfo patients={patients} />
         </div>
