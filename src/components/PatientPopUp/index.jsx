@@ -33,54 +33,56 @@ export default function PatientPopup({
                   alt="afnsllmk"
                 />
               </div>
-              <img
+
+            </div>
+          </div>
+          <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/362e8ffa6ae7d4536ca0b48a30657e68c80aef0e894cd013e9f71dd70a5fa3b8?"
                 className="shrink-0 w-12 aspect-square ml-2 cursor-pointer"
                 alt="afnsllmk"
                 onClick={onClose}
               />
-            </div>
-          </div>
         </div>
 
-        <div className="popup-content">
+        <div className="popup-content flex flex-col gap-3">
           <div className="new-row flex">
             <div className=" font-bold text-black">General info</div>
           </div>
+          
           {/* New row */}
-          <div className="new-row flex">
-            <div className="self-start ml-9 text-slate-400 max-md:ml-2.5">
+          <div className="flex">
+            <div className="self-start px-5 text-slate-400 max-md:ml-2.5 w-[20%]">
               ID
             </div>
-            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
               Gender
             </div>
-            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
               Date Of Birth
             </div>
-            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
               Blood Type
             </div>
-            <div className="self-start mt-0 ml-10 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
               Disease Type
             </div>
           </div>
 
-          <div className="new-row flex">
-            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+          <div className="flex gap-3">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis w-[20%]">
               {ID}
             </div>
-            <div className="justify-center ml-5 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis w-[20%]">
               {Gender}
             </div>
-            <div className="justify-center ml-10 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis w-[20%]">
               {DateOFBirth}
             </div>
-            <div className="justify-center ml-12 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis w-[20%]">
               {bloodType}
             </div>
-            <div className="justify-center ml-9 px-5 py-4 rounded-3xl bg-slate-50 text-ellipsis">
+            <div className="justify-center px-5 py-4 rounded-3xl bg-slate-50 text-ellipsis w-[20%]">
               {DiseaseType}
             </div>
           </div>
@@ -91,36 +93,36 @@ export default function PatientPopup({
 
           {/* New row */}
           <div className="new-row flex">
-            <div className="self-start ml-2 mr-44 text-slate-400 max-md:ml-2.5">
+            <div className="self-start text-slate-400 max-md:ml-2.5 w-[25%]">
               Street
             </div>
-            <div className="self-start mt-0 ml-37 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+            <div className="self-start mt-0 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[25%]">
               City/Village
             </div>
-            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+            <div className="self-start mt-0 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[25%]">
               Governorate
             </div>
-            <div className="self-start mt-0 ml-20 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap">
+            <div className="self-start mt-0 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[25%]">
               Nationality
             </div>
           </div>
 
-          <div className="new-row flex">
-            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis whitespace-nowrap">
+          <div className="flex gap-3">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis  w-[25%]">
               {Street}
             </div>
-            <div className="justify-center ml-5 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis  w-[25%]">
               {City}
             </div>
-            <div className="justify-center ml-10 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis  w-[25%]">
               {Government}
             </div>
-            <div className="justify-center ml-8 px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis">
+            <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis w-[25%]">
               {Nationality}
             </div>
           </div>
 
-          <div className="new-row flex">
+          <div className="flex">
             <div className="self-start ml-2 mr-2 text-slate-400 max-md:ml-2.5">
               Phone Number
             </div>
