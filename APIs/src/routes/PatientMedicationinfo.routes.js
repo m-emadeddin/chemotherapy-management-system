@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const test = require('../controllers/PatientMedicationinfo.controllers')
+
+router.get('/cycles-count/:id',test.getCyclesCount); // done 
+router.get('/active-cycle/:id',test.getActiveCycle); // 
+router.get('/premedications/:id',test.getPremedications); // done 
+router.get('/chemotherapy/:id',test.getChemotherapy); // done 
+router.get('/dumppatient',test.moemad)
+
+
+module.exports = router;

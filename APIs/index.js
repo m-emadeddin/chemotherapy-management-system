@@ -3,26 +3,21 @@ const PORT = process.env.PORT || 3000;
 const express = require("express");
 const bodyParser = require("body-parser");
 const { insertData , insertDataCyclesPremedicationChemo} = require("./src/models/index.models");
-const testRoutes = require("./src/routes/test");
+const PatientMedicationInfoRoutes = require("./src/routes/PatientMedicationinfo.routes");
 // import the DB
 const db = require("./src/configs/db.config");
 const Dbc = require("./src/models/index.models");
 
 const app = express();
 
-// api routing
-//const userRoute = require('./src/routes/users.routes')
-//app.use('/api/products', userRoute)
-
-//model imports
-//const User = require('./src/models/users.model');
 
 app.use(bodyParser.urlencoded({ extended: false })); //  do all the parsing of the body for us
 app.use(express.json()); // as we get all the api information on json format
-
 // set relation associations
-app.use(testRoutes);
-// this part should be moved to src/models/index.models.js
+
+app.use('/patient-medication-info',PatientMedicationInfoRoutes);
+
+
 //conection to Db
 db.authenticate()
   .then(() => {
@@ -36,9 +31,9 @@ db.authenticate()
     console.log("Error" + err);
   });
 
-db.sync({ force:false })
+db.sync({ force:true })
 .then(() => {
-  //insertDataCyclesPremedicationChemo()
+  insertDataCyclesPremedicationChemo()
   console.log("Tables Created!")
 })
 .catch((err)=>{

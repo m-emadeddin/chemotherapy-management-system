@@ -205,32 +205,55 @@ async function insertDataCyclesPremedicationChemo() {
     // Insert dummy data for Cycles
     const cycle1 = await Cycles.create({ Cycle_Number: 1, End_Date: '2024-05-10' });
     const cycle2 = await Cycles.create({ Cycle_Number: 2, End_Date: '2024-06-10' });
+    const cycle3 = await Cycles.create({ Cycle_Number: 1, End_Date: '2024-07-10' });
+    const cycle4 = await Cycles.create({ Cycle_Number: 2, End_Date: '2024-10-10' });
     // Insert dummy data for Premedications
     const premed1 = await Premedications.create({ Medication_Name: 'Premed A', Dose: 10, Route: 'Oral', Instructions: 'Take before chemotherapy' });
     const premed2 = await Premedications.create({ Medication_Name: 'Premed B', Dose: 20, Route: 'Intravenous', Instructions: 'Administer slowly' });
+    const premed3 = await Premedications.create({ Medication_Name: 'Premed C', Dose: 35, Route: 'Oral', Instructions: 'Take before chemotherapy' });
+    const premed4 = await Premedications.create({ Medication_Name: 'Premed D', Dose: 40, Route: 'Intravenous', Instructions: 'Administer slowly' });
     // Insert dummy data for ChemotherapyMedications
     const chemotherapy1 = await ChemotherapyMedications.create({ Medication_Name: 'Drug A', Dose: 100, Route: 'Intravenous', Instructions: 'Administer over 2 hours', Dosage_Reduction: 0 ,Administered_Dose_ml:100 ,Administered_Dose_mg:20});
-    const chemotherapy2 = await ChemotherapyMedications.create({ Medication_Name: 'Drug B', Dose: 50, Route: 'Oral', Instructions: 'Take with food', Dosage_Reduction: 25 , Administered_Dose_ml:90 , Administered_Dose_mg:30});
+    const chemotherapy2 = await ChemotherapyMedications.create({ Medication_Name: 'Drug B', Dose: 58, Route: 'Oral', Instructions: 'Take with food', Dosage_Reduction: 25 , Administered_Dose_ml:90 , Administered_Dose_mg:30});
+    const chemotherapy3 = await ChemotherapyMedications.create({ Medication_Name: 'Drug C', Dose: 580, Route: 'Intravenous', Instructions: 'Administer over 2 hours', Dosage_Reduction: 0 ,Administered_Dose_ml:100 ,Administered_Dose_mg:20});
+    const chemotherapy4 = await ChemotherapyMedications.create({ Medication_Name: 'Drug D', Dose: 250, Route: 'Oral', Instructions: 'Take with food', Dosage_Reduction: 25 , Administered_Dose_ml:90 , Administered_Dose_mg:30});
+    
+    
+    // Associate patient wit Treatmentplans
+
     await patient1.setTreatmentPlan(Treatmentplan1);
     await patient2.setTreatmentPlan(Treatmentplan2);
 
     // Associate Treatment plans with cycles (many-to-many)
     await Treatmentplan1.addCycle(cycle1);
     await Treatmentplan1.addCycle(cycle2);
-    await Treatmentplan2.addCycle(cycle1);
-    await Treatmentplan2.addCycle(cycle2);
+    await Treatmentplan2.addCycle(cycle3); 
+    await Treatmentplan2.addCycle(cycle4);
 
-    // Association Treatmentplans with premedication 
-    await Treatmentplan1.addPremedication(premed1);
-    await Treatmentplan2.addPremedication(premed2);
-
-    // Associate Cycles with Premedications
+    // Association cycles with premedication 
     await cycle1.addPremedication(premed1);
-    await cycle2.addPremedication(premed2);
+    await cycle1.addPremedication(premed2);
+    await cycle2.addPremedication(premed3);
+    await cycle2.addPremedication(premed1);
+
+    // for patient 2 
+    await cycle3.addPremedication(premed4);
+    await cycle3.addPremedication(premed1);
+    await cycle4.addPremedication(premed4);
+    await cycle4.addPremedication(premed3);
 
     // Associate Cycles with ChemotherapyMedications
+    // patient 1 
     await cycle1.addChemotherapyMedication(chemotherapy1);
+    await cycle1.addChemotherapyMedication(chemotherapy3);
+    await cycle2.addChemotherapyMedication(chemotherapy1);
     await cycle2.addChemotherapyMedication(chemotherapy2);
+    // patient 2 
+    await cycle3.addChemotherapyMedication(chemotherapy4);
+    await cycle3.addChemotherapyMedication(chemotherapy1);
+    await cycle4.addChemotherapyMedication(chemotherapy4);
+    await cycle4.addChemotherapyMedication(chemotherapy2);
+
 
     console.log('Dummy data inserted successfully.');
   } catch (error) {

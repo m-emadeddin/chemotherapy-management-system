@@ -23,8 +23,6 @@ exports.getActiveCycle = (req, res, next) => {};
 
 exports.getPremedications = (req, res, next) => {
   const ID = req.params.id;
-  const info = {}; // Define info object to store data
-
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
@@ -36,23 +34,29 @@ exports.getPremedications = (req, res, next) => {
       if (!treatmentplan) {
         throw new Error('Treatment plan not found');
       }
-      return treatmentplan.getPremedications();
+      return treatmentplan.getCycles();
     })
-    .then((premedications) => {
-      console.log("---------------------");
-      console.log(premedications)
-      if (!premedications || premedications.length === 0) {
-        throw new Error('Premedications not found');
+    .then((cycles) => {
+      if (!cycles) {
+        throw new Error('Cycles not found');
       }
-      // Assuming premedications is an array of premedication objects
-      // If it's just one premedication, you might want to access it directly
-      const premedication = premedications[0];
-      info.Medication = premedication.Medication_Name;
-      info.Dose = premedication.Dose;
-      info.Route = premedication.Route;
-      info.Instructions = premedication.Instructions;
-      console.log(info);
-      res.status(200).send(info);
+      const promises = cycles.map((cycle) => cycle.getPremedications());
+      return Promise.all(promises).then((premedicationsByCycle) => {
+        // Combine cycles with their premedications
+        const formattedPremedicationsByCycle = cycles.map((cycle, index) => ({
+          cycleNumber: cycle.Cycle_Number,
+          premedications: premedicationsByCycle[index].map((premedication) => ({
+            Medication: premedication.Medication_Name,
+            Dose: premedication.Dose,
+            Route: premedication.Route,
+            Instructions: premedication.Instructions
+          }))
+        }));
+        info= {
+          cycles :formattedPremedicationsByCycle 
+        }
+        res.status(200).send(info);
+      });
     })
     .catch((err) => {
       console.error('Error:', err.message);
@@ -60,11 +64,13 @@ exports.getPremedications = (req, res, next) => {
     });
 };
 
-
 exports.getChemotherapy = (req, res, next) => {
   const ID = req.params.id;
   Patients.findByPk(ID)
     .then((patient) => {
+      if (!patient) {
+        throw new Error('Patient not found'); 
+      }
       return patient.getTreatmentPlan();
     })
     .then((treatmentplan) => {
@@ -74,7 +80,8 @@ exports.getChemotherapy = (req, res, next) => {
     })
     .then((cycles) => {
       const cyclePromises = cycles.map((cycle) => {
-        return cycle.getChemotherapyMedications().then((chemotherapy) => {
+        return cycle.getChemotherapyMedications()
+        .then((chemotherapy) => {
           const chemoMeds = chemotherapy.map((chemoMeds) => ({
             name: chemoMeds.Medication_Name,
             dose: chemoMeds.Dose,

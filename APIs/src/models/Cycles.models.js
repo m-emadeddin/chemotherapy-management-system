@@ -7,7 +7,7 @@ module.exports = (db, DataTypes) => {
         },
         Cycle_Number: {
           type: DataTypes.INTEGER,
-          unique: true
+          unique: false
         },
         End_Date: {
           type: DataTypes.DATE,
