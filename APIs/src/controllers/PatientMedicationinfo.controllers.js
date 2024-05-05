@@ -118,7 +118,8 @@ exports.moemad = (req, res, next) => {
     { height: "Blood Pressure", distance: "140/80" },
     { height: "O2 Sat", distance: "95 %" },
   ];
+  
   info.data1 = data1; // Add data1 array to info object
-  res.status(200).send(info);
-    
+  res.status(200).send(info);    
+
 };

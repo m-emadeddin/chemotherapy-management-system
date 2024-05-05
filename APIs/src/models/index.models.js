@@ -196,10 +196,13 @@ function insertData() {
 // Insert dummy data function
 async function insertDataCyclesPremedicationChemo() {
   try {
+
     // insert dummy data for patients
     const patient1 =await Patients.create();
     const patient2 =await Patients.create();
+    
     //insert dummy data for treatment plan
+
     const Treatmentplan1 =await TreatmentPlans.create({Plan_Name:"chemotherapy1",number_of_Cycles:3,number_of_Weeks:5});
     const Treatmentplan2 =await TreatmentPlans.create({Plan_Name:"chemotherapy2",number_of_Cycles:4,number_of_Weeks:4});
     // Insert dummy data for Cycles
