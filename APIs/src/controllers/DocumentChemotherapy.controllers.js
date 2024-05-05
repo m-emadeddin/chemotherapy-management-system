@@ -85,9 +85,10 @@ exports.getChemotherapy = (req, res, next) => {
             const chemoMeds = chemotherapy.map((chemoMeds) => ({
               name: chemoMeds.Medication_Name,
               dose: chemoMeds.Dose,
+              reduction: chemoMeds.Dosage_Reduction,
               route: chemoMeds.Route,
               Instructions: chemoMeds.Instructions,
-              Administered_Dose: chemoMeds.Administered_Dose_ml,
+              Administered_Dose_ml: chemoMeds.Administered_Dose_ml,
             }));
             return {
               cycleNumber: cycle.Cycle_Number,
