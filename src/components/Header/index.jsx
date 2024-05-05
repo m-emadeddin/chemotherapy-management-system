@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 export default function Header({
   userName = " Haitham",
   userEmail = " Haitham @gmail.com",
-  userPhoto = "/images/img_hesham_1.png",
+  userPhoto = `${process.env.PUBLIC_URL}/images/img_hesham_1.png`,
   ...props
 }) {
   const [newLogo, setNewLogo] = useState(
@@ -77,7 +77,7 @@ export default function Header({
               </Text>
             </div>
             <Img
-              src="images/img_arrowdown_black_900.svg"
+              src={`${process.env.PUBLIC_URL}/images/img_arrowdown_black_900.svg`}
               alt="arrowdown"
               className="mb-3 mr-[7px] h-[8px] self-end"
             />
@@ -95,7 +95,7 @@ export default function Header({
           >
             <div>
               <Img
-                src="images/img_arrowleft_white_a700.svg"
+                src={`${process.env.PUBLIC_URL}/images/img_arrowleft_white_a700.svg`}
                 alt="arrow_left"
                 className="h-[14px] w-[14px]"
               />

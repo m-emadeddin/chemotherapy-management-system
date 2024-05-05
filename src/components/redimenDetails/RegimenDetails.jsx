@@ -1,11 +1,12 @@
 import Table from "components/Table/Table";
 import "./style.css";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import EditPopUp from "components/EditPopUp/EditPopUp";
 import DeletePopUp from "components/DeletePopUp/DeletePopUp";
 import DosePopUp from "components/DosePopUp/DosePopUp";
-import { Link } from "react-router-dom";
+import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
+import ResetPopUp from "components/ResetPopup/ResetPopUp";
 
 const apiData = {
   preMedication: {
@@ -166,57 +167,50 @@ const apiData = {
   },
 };
 export default function RegimenDetails({ selectedOption }) {
-  const location = useLocation();
-  const [Data, setData] = useState(apiData);
+  let { newRegimenDetails, setNewRegimenDetails } = useRegimenDetails();
+
   const navigate = useNavigate();
-  const [notes, setNotes] = useState("Add your notes here...");
-  const [regimenDetails, setRegimenDetails] = useState({
+  const initialData = { ...apiData };
+  const [Data, setData] = useState(initialData);
+  const [initialRegimenDetails] = useState({
     regimenName: selectedOption,
-    preMedication: Data.preMedication[selectedOption],
-    chemoTherapy: Data.preMedication[selectedOption],
-    physicianNotes: notes,
+    preMedication: initialData.preMedication[selectedOption] || [],
+    chemoTherapy: initialData.preMedication[selectedOption] || [],
+    physicianNotes: "Add your notes here...",
   });
+  const [regimenDetails, setRegimenDetails] = useState(initialRegimenDetails);
+  const [notes, setNotes] = useState("Add your notes here...");
   const [showEditPopUp, setShowEditPopUp] = useState(false);
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
+  const [showResetPopUp, setShowResetPopUp] = useState(false);
   const [showDosePopUp, setShowDosePopUp] = useState(false);
   const [selectedItemChemo, setSelectedItemChemo] = useState(null);
   const [selectedItemPreMed, setSelectedItemPreMed] = useState(null);
   const [checkedItemsPreMed, setCheckedItemsPreMed] = useState({});
   const [checkedItemsChemo, setCheckedItemsChemo] = useState({});
+
   useEffect(() => {
     setNotes("Add your notes here...");
     setCheckedItemsPreMed({});
     setCheckedItemsChemo({});
   }, [selectedOption]);
 
-  // useEffect(() => {
-  //   setNotes("Add your notes here...");
-  //   setRegimenDetails({
-  //     ...regimenDetails,
-  //     preMedication: Data.preMedication[selectedOption],
-  //     chemoTherapy: Data.chemoTherapy[selectedOption],
-  //     regimenName: selectedOption,
-  //   });
-  //   setData(apiData);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [selectedOption]);
-  // console.log(location.state.newRegimenDetails);
-  // useEffect(() => {
-  //   if (location.state && location.state.Data) {
-  //     const { Data } = location.state;
-  //     console.log("ff", Data);
-  //     setNotes(Data.physicianNotes);
-  //     setRegimenDetails({
-  //       ...Data,
-  //       preMedication: Data.preMedication[selectedOption] || [],
-  //       chemoTherapy: Data.chemoTherapy[selectedOption] || [],
-  //     });
-  //   } else {
-  //     setNotes("Add your notes here...");
-  //     setCheckedItemsPreMed({});
-  //     setCheckedItemsChemo({});
-  //   }
-  // }, [Data.chemoTherapy, Data.preMedication, location.state, selectedOption]);
+  useEffect(() => {
+    if (newRegimenDetails && newRegimenDetails.regimenName) {
+      const { regimenName, preMedication, chemoTherapy } = newRegimenDetails;
+      setData((prevData) => ({
+        ...prevData,
+        preMedication: {
+          ...prevData.preMedication,
+          [regimenName]: preMedication || [],
+        },
+        chemoTherapy: {
+          ...prevData.chemoTherapy,
+          [regimenName]: chemoTherapy || [],
+        },
+      }));
+    }
+  }, [newRegimenDetails]);
 
   const handleCheckboxChangePreMed = (index, item) => {
     setCheckedItemsPreMed((prevCheckedItems) => {
@@ -331,7 +325,7 @@ export default function RegimenDetails({ selectedOption }) {
     setCheckedItemsPreMed({});
   };
   const handleNext = () => {
-    const newRegimenDetails = {
+    newRegimenDetails = {
       regimenName: selectedOption,
       preMedication: regimenDetails.preMedication || [],
       chemoTherapy: regimenDetails.chemoTherapy.map((medication) => ({
@@ -343,16 +337,29 @@ export default function RegimenDetails({ selectedOption }) {
       })),
       physicianNotes: notes,
     };
-    setData(newRegimenDetails);
-    navigate("reviewchemotherapyorder", { state: { newRegimenDetails } });
-    console.log(newRegimenDetails);
+    setNewRegimenDetails(newRegimenDetails);
+    navigate("reviewchemotherapyorder");
+  };
+  const resetState = () => {
+    setData(initialData);
+    setRegimenDetails(initialRegimenDetails);
+    setNotes("Add your notes here...");
+    setCheckedItemsPreMed({});
+    setCheckedItemsChemo({});
   };
 
-  // console.log("sajfl", Data);
   return (
     <div className="regimen-detail">
       <div className="medications">
-        <span className="heading">Mediactions</span>
+        <div className="header">
+          <span className="heading" style={{ alignSelf: "center" }}>
+            Mediactions
+          </span>
+          <button className="reset" onClick={() => setShowResetPopUp(true)}>
+            Reset all
+          </button>
+        </div>
+
         <div className="pre-mediaction">
           <div className="pre-mediaction-header">
             <p className="table-name">PreMediactions</p>
@@ -461,6 +468,12 @@ export default function RegimenDetails({ selectedOption }) {
           onClose={() => setShowDosePopUp(false)}
           handleUnChecked={handleUnChecked}
           onSaveDose={handleSaveDose}
+        />
+      )}
+      {showResetPopUp && (
+        <ResetPopUp
+          onClose={() => setShowResetPopUp(false)}
+          resetState={resetState}
         />
       )}
     </div>

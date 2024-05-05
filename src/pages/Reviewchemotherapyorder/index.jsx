@@ -1,28 +1,29 @@
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./style.css";
+import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 
 export default function Reviewchemotherapyorder() {
-  const location = useLocation();
-  const patiantOrder = location.state.newRegimenDetails;
-  console.log(patiantOrder);
+  const navigate = useNavigate();
+  const { newRegimenDetails: patientOrder } = useRegimenDetails();
 
   function handleBack() {
-    return;
+    navigate(-1);
   }
+
   function handleSubmit() {
-    console.log(patiantOrder);
+    console.log(patientOrder);
   }
   return (
     <div className="review-container  mx-auto ">
       <div className="heading-contanier">
         <h2>Review</h2>
-        <p>{patiantOrder.regimenName}</p>
+        <p>{patientOrder.regimenName}</p>
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>
         <div className="pre-medication">
           <div className="table-name">PreMediactions</div>
-          {patiantOrder.preMedication.map((med, index) => (
+          {patientOrder.preMedication.map((med, index) => (
             <div key={index} className="table-rows">
               <p className="med-name">{med.Medication}</p>
               <p className="med-instruction">{med.Instructions}</p>
@@ -31,7 +32,7 @@ export default function Reviewchemotherapyorder() {
         </div>
         <div className="chemo-therapy">
           <div className="table-name">ChemoTherapy</div>
-          {patiantOrder.chemoTherapy.map((med, index) => (
+          {patientOrder.chemoTherapy.map((med, index) => (
             <div key={index} className="table-rows">
               <p className="med-name">{med.Medication}</p>
               <div className="instructions">
@@ -46,7 +47,7 @@ export default function Reviewchemotherapyorder() {
       </div>
       <div className="notes-container">
         <span className="heading">Physician Notes</span>
-        <p className="notes">{patiantOrder.physicianNotes}</p>
+        <p className="notes">{patientOrder.physicianNotes}</p>
       </div>
       <div className="buttons ">
         <button className="btn back" onClick={handleBack}>

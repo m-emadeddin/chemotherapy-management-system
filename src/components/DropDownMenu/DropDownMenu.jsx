@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
 import RegimenDetails from "components/redimenDetails/RegimenDetails";
+import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 
 const regimens = [
   "CHOP: Protocol for Non Hodgkin Lymphoma",
@@ -13,6 +14,10 @@ export default function DropDownMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("none");
   const dropdownRef = useRef(null);
+  const { newRegimenDetails } = useRegimenDetails();
+  useEffect(() => {
+    newRegimenDetails && setSelectedOption(newRegimenDetails.regimenName);
+  }, [newRegimenDetails]);
 
   useEffect(() => {
     function handleClickOutside(event) {

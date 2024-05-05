@@ -11,6 +11,27 @@
     gap: 36px;
 }
 
+.regimen-detail .medications .header {
+    display: flex;
+    gap: 30px;
+}
+
+.regimen-detail .medications .header .reset {
+    background-color: #E84853;
+    color: white;
+    width: 130px;
+    height: 40px;
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.regimen-detail .medications .header .reset:hover {
+    background-color: rgb(244 245 249);
+    border: 1px solid #E84853;
+    transition: ease 0.3s;
+    color: #E84853;
+}
+
 .regimen-detail .pre-mediaction,
 .regimen-detail .chemotherapy {
     background-color: white;

@@ -1,12 +1,15 @@
 import React from "react";
 import Routes from "./Routes";
 import { BrowserRouter as Router } from "react-router-dom";
+import { RegimenDetailsProvider } from "./contexts/RegimenDetailsContext ";
 
 function App() {
   return (
-    <Router>
-      <Routes />
-    </Router>
+    <RegimenDetailsProvider>
+      <Router>
+        <Routes />
+      </Router>
+    </RegimenDetailsProvider>
   );
 }
 
