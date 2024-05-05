@@ -10,8 +10,12 @@ export default function Header({
   userPhoto = "/images/img_hesham_1.png",
   ...props
 }) {
-  const [newLogo, setNewLogo] = useState("images/img_icon_1.png");
-  const [newSVG, setNewSVG] = useState("images/img_arrow_down.svg");
+  const [newLogo, setNewLogo] = useState(
+    `${process.env.PUBLIC_URL}/images/img_icon_1.png`
+  );
+  const [newSVG, setNewSVG] = useState(
+    `${process.env.PUBLIC_URL}/images/img_arrow_down.svg`
+  );
   const [isActive, setIsActive] = useState(false);
 
   const [isDoctorMenuOpen, setIsDoctorMenuOpen] = useState(false);
@@ -22,12 +26,12 @@ export default function Header({
 
   function handleLogoClick() {
     if (!isActive) {
-      setNewLogo("images/img_logo_active.png");
-      setNewSVG("images/img_arrow_up.svg");
+      setNewLogo(`${process.env.PUBLIC_URL}/images/img_logo_active.png`);
+      setNewSVG(`${process.env.PUBLIC_URL}/images/img_arrow_up.svg`);
       setIsActive(true);
     } else {
-      setNewLogo("images/img_icon_1.png");
-      setNewSVG("images/img_arrow_down.svg");
+      setNewLogo(`${process.env.PUBLIC_URL}/images/img_icon_1.png`);
+      setNewSVG(`${process.env.PUBLIC_URL}/images/img_arrow_down.svg`);
       setIsActive(false);
     }
   }
