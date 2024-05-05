@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const test = require('../controllers/PatientMedicationinfo.controllers')
+const test = require('../controllers/DocumentChemotherapy.controllers')
 
 router.get('/cycles-count/:id',test.getCyclesCount); // done 
 router.get('/active-cycle/:id',test.getActiveCycle); // 

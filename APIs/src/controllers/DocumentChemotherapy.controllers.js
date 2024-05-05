@@ -1,8 +1,9 @@
 // import models
 const Patients = require("../models/index.models").Patients;
-let info = {};
+
 
 exports.getCyclesCount = (req, res, next) => {
+  let info = {};
   const ID = req.params.id;
   Patients.findByPk(ID)
     .then((patient) => {
@@ -19,6 +20,7 @@ exports.getCyclesCount = (req, res, next) => {
 exports.getActiveCycle = (req, res, next) => {};
 
 exports.getPremedications = (req, res, next) => {
+  let info = {};
   const ID = req.params.id;
   Patients.findByPk(ID)
     .then((patient) => {
@@ -62,6 +64,7 @@ exports.getPremedications = (req, res, next) => {
 };
 
 exports.getChemotherapy = (req, res, next) => {
+  let info = {};
   const ID = req.params.id;
   Patients.findByPk(ID)
     .then((patient) => {
@@ -77,20 +80,20 @@ exports.getChemotherapy = (req, res, next) => {
     .then((cycles) => {
       const cyclePromises = cycles
         .map((cycle) => {
-          return cycle.getChemotherapyMedications();
+          return cycle.getChemotherapyMedications()
+          .then((chemotherapy) => {
+            const chemoMeds = chemotherapy.map((chemoMeds) => ({
+              name: chemoMeds.Medication_Name,
+              dose: chemoMeds.Dose,
+              route: chemoMeds.Route,
+              Instructions: chemoMeds.Instructions,
+              Administered_Dose: chemoMeds.Administered_Dose_ml,
+            }));
+            return {
+              cycleNumber: cycle.Cycle_Number,
+              chemotherapyMedications: chemoMeds,
+            };
         })
-        .then((chemotherapy) => {
-          const chemoMeds = chemotherapy.map((chemoMeds) => ({
-            name: chemoMeds.Medication_Name,
-            dose: chemoMeds.Dose,
-            route: chemoMeds.Route,
-            Instructions: chemoMeds.Instructions,
-            Administered_Dose: chemoMeds.Administered_Dose_ml,
-          }));
-          return {
-            cycleNumber: cycle.Cycle_Number,
-            chemotherapyMedications: chemoMeds,
-          };
         });
       return Promise.all(cyclePromises).then((cycleInfo) => {
         const info = {

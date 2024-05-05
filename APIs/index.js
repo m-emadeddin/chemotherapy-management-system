@@ -3,7 +3,7 @@ const PORT = process.env.PORT || 3000;
 const express = require("express");
 const bodyParser = require("body-parser");
 const { insertData , insertDataCyclesPremedicationChemo} = require("./src/models/index.models");
-const PatientMedicationInfoRoutes = require("./src/routes/PatientMedicationinfo.routes");
+const PatientMedicationInfoRoutes = require("./src/routes/DocumentChemotherapy.routes");
 // import the DB
 const db = require("./src/configs/db.config");
 const Dbc = require("./src/models/index.models");
@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false })); //  do all the parsing of t
 app.use(express.json()); // as we get all the api information on json format
 // set relation associations
 
-app.use('/patient-medication-info',PatientMedicationInfoRoutes);
+app.use('/document-chemotherapy',PatientMedicationInfoRoutes);
 
 
 //conection to Db
