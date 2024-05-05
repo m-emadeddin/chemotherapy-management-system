@@ -1,8 +1,7 @@
   .patient-record {
     border-collapse: collapse ;
-    width: 100%; /* Consider using a percentage or vw for responsiveness */
+    width: 100%;
     margin-top: 60px;
-    cursor: pointer;
   }
 
   .info-tablehead {
@@ -12,32 +11,16 @@
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 25px; /* 156.25% */
+    line-height: 25px;
+    margin-left: 10px;
   }
-  
-  .patient-record th,
-  .info-data-container td {
-    border-width: 0px; /* Remove borders from both header and data cells */
-  }
-  
+
   .info-data-container{
     background: #FFF;
     padding: 10px; 
-    margin: 10px;
-   }
-
-   .info-data-container td:first-child {
-      border-left-style: solid;
-      border-top-left-radius: 20px; 
-      border-bottom-left-radius: 20px;
+    cursor: pointer;
+    border-radius: 20px;
   }
-  .info-data-container td:last-child {
-      border-right-style: solid;
-      border-bottom-right-radius: 20px; 
-      border-top-right-radius: 20px; 
-  }
-
-  tr.separator { height: 10px; }
 
   .age{
     color: #707070;
@@ -45,18 +28,35 @@
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 25px; /* 178.571% */
+    line-height: 25px;
   }
-  
-  /* Consider using flexbox or grid for better button positioning and responsiveness */
+
+  .name{
+    color: #000;
+    font-family: "Lama Sans";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 25px;
+  }
+
+  .info{
+    color: #000;
+    font-family: "Lama Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 25px;
+  }
+
   .action-button {
-    float: left; /* Float buttons to the left */
-    margin-right: 5px; /* Add spacing between buttons */
+    float: left;
+    margin-right: 5px;
     background-color: #F7F9FB;
   }
-  
+
   .action-button:last-child {
-    margin-right: 0; /* Remove margin from the last button */
+    margin-right: 0;
   }
 
   .action-button:hover{
