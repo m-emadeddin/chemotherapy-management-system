@@ -1,0 +1,63 @@
+.reset-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    transition: ease 0.3s;
+}
+
+.reset-popup-container {
+    background-color: white;
+    border-radius: 40px;
+    width: 451px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    z-index: 100000000;
+    position: sticky;
+    left: 600px;
+    top: 200px;
+    align-items: center;
+}
+
+.reset-popup-container .heading {
+    font-weight: 900;
+}
+
+.reset-popup-container .text {
+    color: #8C9AB3;
+    text-align: center;
+}
+
+.reset-popup-container .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    color: white;
+}
+
+.reset-popup-container .buttons .btn {
+    width: 141px;
+    height: 39px;
+    border-radius: 15px;
+}
+
+.reset-popup-container .buttons .cancel {
+    background-color: #e84853;
+}
+
+.reset-popup-container .buttons .yes {
+    background-color: #66C060;
+}
+
+.reset-popup-container .buttons .cancel:hover {
+    background-color: #fa4c58;
+}
+
+.reset-popup-container .buttons .yes:hover {
+    background-color: #6acf62;
+}
