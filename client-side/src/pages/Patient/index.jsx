@@ -5,7 +5,7 @@ import PatientPopup from "../../components/PatientPopUp";
 const data = [
   {
     bilateralsalpi: "Bilateral salpingo-oophorectomy",
-    thirtyTwoThousandEighteen: "03/20/18 Requested",
+    thirtyTwoThousandEighteen: "03/20/19 Requested",
   },
   {
     bilateralsalpi: "Bilateral salpingo-oophorectomy test",
@@ -13,7 +13,7 @@ const data = [
   },
   {
     bilateralsalpi: "Excisional biopsy of left breats",
-    thirtyTwoThousandEighteen: "06/19/16 Requested",
+    thirtyTwoThousandEighteen: "06/20/19 Requested",
   },
 ];
 
