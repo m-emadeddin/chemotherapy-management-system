@@ -32,7 +32,7 @@ const Home = () => {
         </li>
         <li style={{ marginBottom: "10px" }}>
           <Link
-            to="/selectpatient"
+            to="/select_patient"
             style={{ color: "#87CEFA", textDecoration: "none" }}
           >
             SelectPatient

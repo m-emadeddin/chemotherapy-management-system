@@ -6,7 +6,7 @@ import PatientTable from "components/PatientTable";
 
 export default function PatientInfo({ patients }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [popupOpen, setPopupOpen] = useState(false);
+  const [InfoPopupOpen, setInfoPopupOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [searchBarValue, setSearchBarValue] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
@@ -27,11 +27,11 @@ export default function PatientInfo({ patients }) {
 
   const handleMapClick = (patient) => {
     setSelectedPatient(patient);
-    setPopupOpen(true);
+    setInfoPopupOpen(true);
   };
 
   const togglePopup = () => {
-    setPopupOpen(!popupOpen);
+    setInfoPopupOpen(!InfoPopupOpen);
   };
 
   const indexOfLastPatient = currentPage * patientsPerPage;
@@ -80,7 +80,7 @@ export default function PatientInfo({ patients }) {
         ))}
       </div>
 
-      {popupOpen && (
+      {InfoPopupOpen && (
         <PatientPopup
           name={selectedPatient.name}
           age={selectedPatient.age}
@@ -98,7 +98,7 @@ export default function PatientInfo({ patients }) {
         />
       )}
 
-      {filteredPatients.length > 0 && ( // Conditionally render pagination if there are filtered patients
+      {filteredPatients.length > 0 && (
         <div className="container-xs mt-[15px] flex flex-col items-start pl-[435px] pr-14 md:px-5">
           <div className="flex flex-wrap items-center">
             <Button
@@ -108,7 +108,7 @@ export default function PatientInfo({ patients }) {
               <Img
                 src="images/img_arrow_left_gray_600.svg"
                 alt="arrowleft"
-                className="mt-2.5 h-[11px] self-start"
+                className="mt-2.5 h-[11px] self-center"
               />
             </Button>
             <Text
@@ -117,12 +117,15 @@ export default function PatientInfo({ patients }) {
             >
               {currentPage}
             </Text>
-            <Text as="p" className="ml-[5px] !font-light !text-gray-600">
+            <Text
+              as="p"
+              className="ml-[5px] h-[20px] !font-light !text-gray-600 items-center justify-center"
+            >
               /
             </Text>
             <Text
               as="p"
-              className="ml-[5px] h-[17px] w-[16px] !font-light !text-gray-600"
+              className="ml-[5px] h-[17px] w-[16px] !font-light !text-gray-600 items-center justify-center"
             >
               {totalPages}
             </Text>
@@ -133,7 +136,7 @@ export default function PatientInfo({ patients }) {
               <Img
                 src="images/img_arrow_right.svg"
                 alt="arrowright"
-                className="ml-2.5 mt-2.5 h-[11px] self-start"
+                className="ml-2.5 mt-2.5 h-[11px] self-center "
               />
             </Button>
           </div>
