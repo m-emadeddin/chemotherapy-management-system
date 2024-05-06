@@ -392,7 +392,7 @@ export default function PatientPage() {
 }
 
 function orderChemo() {
-  window.location.href = "/orderchemotherapy";
+  window.location.href = "/order";
 }
 
 function docChemo() {

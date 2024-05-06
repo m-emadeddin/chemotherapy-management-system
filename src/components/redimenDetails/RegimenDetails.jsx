@@ -175,7 +175,7 @@ export default function RegimenDetails({ selectedOption }) {
   const [initialRegimenDetails] = useState({
     regimenName: selectedOption,
     preMedication: initialData.preMedication[selectedOption] || [],
-    chemoTherapy: initialData.preMedication[selectedOption] || [],
+    chemoTherapy: initialData.chemoTherapy[selectedOption] || [],
     physicianNotes: "Add your notes here...",
   });
   const [regimenDetails, setRegimenDetails] = useState(initialRegimenDetails);
@@ -193,11 +193,27 @@ export default function RegimenDetails({ selectedOption }) {
     setNotes("Add your notes here...");
     setCheckedItemsPreMed({});
     setCheckedItemsChemo({});
+    setData(initialData);
+    setRegimenDetails(initialRegimenDetails);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedOption]);
 
   useEffect(() => {
+    setRegimenDetails({
+      ...regimenDetails,
+      preMedication: Data.preMedication[selectedOption],
+      chemoTherapy: Data.chemoTherapy[selectedOption],
+      regimenName: selectedOption,
+      physicianNotes: notes,
+    });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedOption, notes]);
+
+  useEffect(() => {
     if (newRegimenDetails && newRegimenDetails.regimenName) {
-      const { regimenName, preMedication, chemoTherapy } = newRegimenDetails;
+      const { regimenName, preMedication, chemoTherapy, physicianNotes } =
+        newRegimenDetails;
       setData((prevData) => ({
         ...prevData,
         preMedication: {
@@ -209,6 +225,8 @@ export default function RegimenDetails({ selectedOption }) {
           [regimenName]: chemoTherapy || [],
         },
       }));
+      setNotes(physicianNotes);
+      setRegimenDetails(newRegimenDetails);
     }
   }, [newRegimenDetails]);
 
@@ -335,11 +353,13 @@ export default function RegimenDetails({ selectedOption }) {
             ? medication.doseReduction
             : null,
       })),
-      physicianNotes: notes,
+      physicianNotes: regimenDetails.physicianNotes,
     };
+    setNotes(regimenDetails.physicianNotes);
     setNewRegimenDetails(newRegimenDetails);
-    navigate("reviewchemotherapyorder");
+    navigate("review-order");
   };
+
   const resetState = () => {
     setData(initialData);
     setRegimenDetails(initialRegimenDetails);

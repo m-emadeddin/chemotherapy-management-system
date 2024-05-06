@@ -5,7 +5,7 @@ import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 export default function Reviewchemotherapyorder() {
   const navigate = useNavigate();
   const { newRegimenDetails: patientOrder } = useRegimenDetails();
-
+  console.log("laa", patientOrder);
   function handleBack() {
     navigate(-1);
   }
