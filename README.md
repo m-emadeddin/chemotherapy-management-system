@@ -1,7 +1,4 @@
 # chemotherapy-management-system
-## cmss
-
-Generated with ❤️ from [DhiWise](https://www.dhiwise.com)
 
 ## Description
 
