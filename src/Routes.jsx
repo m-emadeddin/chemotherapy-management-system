@@ -23,7 +23,7 @@ const ProjectRoutes = () => {
       element: <AppLayout />,
       children: [
         {
-          path: "selectpatient",
+          path: "select_patient",
           element: <SelectPatient />,
         },
         {
