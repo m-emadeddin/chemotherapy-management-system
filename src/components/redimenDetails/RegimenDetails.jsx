@@ -355,8 +355,12 @@ export default function RegimenDetails({ selectedOption }) {
           <span className="heading" style={{ alignSelf: "center" }}>
             Mediactions
           </span>
-          <button className="reset" onClick={() => setShowResetPopUp(true)}>
-            Reset all
+          <button
+            style={{ marginRight: "15px" }}
+            className="reset"
+            onClick={() => setShowResetPopUp(true)}
+          >
+            Reset All
           </button>
         </div>
 
