@@ -31,11 +31,11 @@ const ProjectRoutes = () => {
           element: <Patient />,
         },
         {
-          path: "orderchemotherapy",
+          path: "order",
           element: <Orderchemotherapy />,
         },
         {
-          path: "orderchemotherapy/reviewchemotherapyorder",
+          path: "order/review-order",
           element: <Reviewchemotherapyorder />,
         },
 

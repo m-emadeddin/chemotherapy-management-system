@@ -48,7 +48,7 @@ const Home = () => {
         </li>
         <li style={{ marginBottom: "10px" }}>
           <Link
-            to="/orderchemotherapy"
+            to="/order"
             style={{ color: "#87CEFA", textDecoration: "none" }}
           >
             Orderchemotherapy
@@ -56,15 +56,7 @@ const Home = () => {
         </li>
         <li style={{ marginBottom: "10px" }}>
           <Link
-            to="/orderchemotherapytwo"
-            style={{ color: "#87CEFA", textDecoration: "none" }}
-          >
-            OrderchemotherapyTwo
-          </Link>
-        </li>
-        <li style={{ marginBottom: "10px" }}>
-          <Link
-            to="/reviewchemotherapyorder"
+            to="/review-order"
             style={{ color: "#87CEFA", textDecoration: "none" }}
           >
             Reviewchemotherapyorder
