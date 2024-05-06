@@ -9,7 +9,6 @@
 }
 
 .medications-table th {
-    height: 50px;
     border-bottom: 1px solid #D4D4D4;
     text-align: unset;
     font-weight: 300;
@@ -20,7 +19,6 @@
 
 .medications-table tr {
     border-bottom: 1px solid #D4D4D4;
-    height: 50px;
 }
 
 .medications-table tr:last-child {
@@ -37,7 +35,22 @@
 
 
 
+.medications-table td {
+    cursor: pointer;
 
+}
+
+.medications-table td .truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.medications-table td .expanded {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+}
 
 .medications-table .checkboxCell {
     width: 73px;

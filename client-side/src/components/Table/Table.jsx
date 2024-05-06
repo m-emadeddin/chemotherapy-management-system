@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import "./style.css";
 
 function Table({ data, selectedOption, checkedItems, onCheckboxChange }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  function toggleText() {
+    setIsExpanded(!isExpanded);
+  }
   return (
     <table className="medications-table">
       <thead>
@@ -34,7 +39,12 @@ function Table({ data, selectedOption, checkedItems, onCheckboxChange }) {
                 {item.doseReduction !== null ? item.doseReduction : null}
               </td>
               <td>{item.Route}</td>
-              <td>{item.Instructions}</td>{" "}
+              <td
+                className={` ${isExpanded ? "expanded" : "truncate"}`}
+                onClick={toggleText}
+              >
+                {item.Instructions}
+              </td>{" "}
             </tr>
           ))}
       </tbody>
