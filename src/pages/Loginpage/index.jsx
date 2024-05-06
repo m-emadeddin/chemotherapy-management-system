@@ -65,7 +65,7 @@ export default function LoginpagePage() {
                   className="password-input mt-1 border border-solid border-black-900 p-2"
                   type="password"
                 />
-                <Link to="/selectpatient">
+                <Link to="/select_patient">
                   <Button
                     size="sm"
                     shape="round"
