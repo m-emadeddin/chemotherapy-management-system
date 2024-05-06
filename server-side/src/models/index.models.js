@@ -101,19 +101,19 @@ TreatmentPlans.belongsToMany(Premedications, {
 
 //====================One to Many=======================
 //1. Cancer overview & treatment plans Read Only
-CancerOverview.hasMany(treatmentPlanReadOnly, {
-  foreignKey: {
-    name: 'CancerOverview_Stage', // Composite foreign key
-  },
-  onDelete: 'CASCADE', // optional: specifies what should happen when the associated treatment plans are deleted
-});
-treatmentPlanReadOnly.belongsTo(CancerOverview, {
-  foreignKey: {
-    name: 'CancerOverview_Cancer_type', // Composite foreign key
-  },
-  constraints: true, // enable automatic constraint generation
-  targetKey: 'Cancer_type', // Component of the composite primary key in the parent table
-});
+// CancerOverview.hasMany(treatmentPlanReadOnly, {
+//   foreignKey: {
+//     name: 'CancerOverview_Stage', // Composite foreign key
+//   },
+//   onDelete: 'CASCADE', // optional: specifies what should happen when the associated treatment plans are deleted
+// });
+// treatmentPlanReadOnly.belongsTo(CancerOverview, {
+//   foreignKey: {
+//     name: 'CancerOverview_Cancer_type', // Composite foreign key
+//   },
+//   constraints: true, // enable automatic constraint generation
+//   targetKey: 'Cancer_type', // Component of the composite primary key in the parent table
+// });
 //2. patients &Radiography
 Patients.hasMany(Radiography, {
   onDelete: "CASCADE",
@@ -198,8 +198,31 @@ async function insertDataCyclesPremedicationChemo() {
   try {
 
     // insert dummy data for patients
-    const patient1 =await Patients.create();
-    const patient2 =await Patients.create();
+    const patient1 = await Patients.create({
+      Gender: 'Male',
+      date_of_birth: '1990-05-15', // Example date, format: 'YYYY-MM-DD'
+      nationality: 'US',
+      blood_type: 'O+',
+      disease_type: 'None',
+      street: '123 Main St',
+      city: 'Anytown',
+      governorate: 'AnyGov',
+      mobile: '123-456-7890',
+      verified: false
+    });
+
+    const patient2 = await Patients.create({
+      Gender: 'Female',
+      date_of_birth: '1985-10-20', // Example date, format: 'YYYY-MM-DD'
+      nationality: 'UK',
+      blood_type: 'A-',
+      disease_type: 'Diabetes',
+      street: '456 Elm St',
+      city: 'OtherCity',
+      governorate: 'OtherGov',
+      mobile: '987-654-3210',
+      verified: false
+    });
     
     //insert dummy data for treatment plan
 

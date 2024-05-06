@@ -12,13 +12,16 @@ module.exports = (db, DataTypes) => {
           unique: true
         },
         Dose: {
-          type: DataTypes.INTEGER
+          type: DataTypes.FLOAT,
+          allowNull: false,
+
         },
         Route: {
           type: DataTypes.STRING,
           validate: {
             len: [0, 25]
-          }
+          },
+          allowNull: false,
         },
         Instructions: {
           type: DataTypes.TEXT('tiny')

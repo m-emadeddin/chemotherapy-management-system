@@ -24,9 +24,6 @@ module.exports = (db, DataTypes) => {
     B2M: {
       type: DataTypes.STRING(100),
     },
-    last_updated: {
-      type: DataTypes.DATE,
-    },
   });
   return medicalAnalysis;
 };
