@@ -12,6 +12,10 @@ const ReservedBedsModel = require("./ReservedBeds.models");
 const VitalSignModel = require("./VitalSign.models");
 const RadiographyModel = require("./Radiography.models");
 const MedicalAnaylsisModel = require("./MedicalAnalysis.models");
+
+const UserModel = require("./User.models")
+const DoctorModel = require("./Doctor.models")
+const VisitsModel = require("./Visits.models")
 //========================= M to N ======================= 
 const PatientsReservedbedsModel = require("./PatientsReservedbeds.models");
 const TreatmentPlansCyclesModel = require("./TreatmentPlansCycles.models");
@@ -33,6 +37,9 @@ const Premedications = PremedicationsModel(db, Sequelize);
 const TreatmentPlans = TreatmentModel(db, Sequelize);
 const Radiography = RadiographyModel(db, Sequelize);
 const MedicalAnalysis = MedicalAnaylsisModel(db, Sequelize);
+const User = UserModel(db,Sequelize);
+const Doctor = DoctorModel(db,Sequelize)
+const Visits =VisitsModel(db,Sequelize)
 
 //==========junction tables for M to N realtions==========
 const PatientsReservedbeds = PatientsReservedbedsModel(db,Sequelize);
@@ -42,6 +49,7 @@ const PremedicationsCycles =PremedicationsCyclesModel(db,Sequelize);
 const ChemotherapyMedicationsCycles = ChemotherapyMedicationsCyclesModel (db,Sequelize)
 const TreatmentPlanReadOnlyPremedications = TreatmentPlanReadOnlyPremedicationsModel(db,Sequelize)
 const TreatmentPlansPremedication = TreatmentPlansPremedicationModel(db,Sequelize)
+
 
 
 // ====================M to N Relations===================
