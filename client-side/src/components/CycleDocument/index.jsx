@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Text, Heading, Button } from "../../components";
-import { Link, useLocation } from "react-router-dom";
+import { Text, Button } from "../../components";
+import { useLocation } from "react-router-dom";
 import { TextArea, Input } from "../../components";
 
 const CycleDocument = ({ toggle }) => {
