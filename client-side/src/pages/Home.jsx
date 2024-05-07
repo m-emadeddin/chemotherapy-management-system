@@ -64,18 +64,10 @@ const Home = () => {
         </li>
         <li style={{ marginBottom: "10px" }}>
           <Link
-            to="/documentchemotherapy"
-            style={{ color: "#87CEFA", textDecoration: "none" }}
-          >
-            Documentchemotherapy
-          </Link>
-        </li>
-        <li style={{ marginBottom: "10px" }}>
-          <Link
             to="/document"
             style={{ color: "#87CEFA", textDecoration: "none" }}
           >
-            Document
+            Documentchemotherapy
           </Link>
         </li>
       </ul>
