@@ -101,7 +101,7 @@ export default function PatientPage() {
             >
               {hovered ? (
                 <Img
-                  src="images/icons (1).png"
+                  src="images/icons.png"
                   alt="thumbs_up"
                   className="h-[14px] w-[14px]"
                 />

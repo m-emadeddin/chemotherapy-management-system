@@ -20,7 +20,7 @@ export default function PatientPopup({
             <div className="flex gap-5 justify-between self-center mt-0 w-full text-2xl font-bold leading-6 text-black whitespace-nowrap max-w-[660px] max-md:flex-wrap max-md:max-w-full">
               <img
                 loading="lazy"
-                src="images\patient in a circle 1.png"
+                src="images\patient_in_circle.png"
                 className="self-center w-16 aspect-[1.1]"
                 alt="patient"
               />
