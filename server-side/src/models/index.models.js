@@ -237,10 +237,10 @@ async function insertDataCyclesPremedicationChemo() {
     const Treatmentplan1 =await TreatmentPlans.create({Plan_Name:"chemotherapy1",number_of_Cycles:3,number_of_Weeks:5});
     const Treatmentplan2 =await TreatmentPlans.create({Plan_Name:"chemotherapy2",number_of_Cycles:4,number_of_Weeks:4});
     // Insert dummy data for Cycles
-    const cycle1 = await Cycles.create({ Cycle_Number: 1, End_Date: '2024-05-10' });
-    const cycle2 = await Cycles.create({ Cycle_Number: 2, End_Date: '2024-06-10' });
-    const cycle3 = await Cycles.create({ Cycle_Number: 1, End_Date: '2024-07-10' });
-    const cycle4 = await Cycles.create({ Cycle_Number: 2, End_Date: '2024-10-10' });
+    const cycle1 = await Cycles.create({ Cycle_Number: 1, Start_Date: '2024-05-01', Start_Time: '08:00:00', End_Time: '17:00:00' });
+    const cycle2 = await Cycles.create({ Cycle_Number: 2, Start_Date: '2024-06-01', Start_Time: '08:00:00', End_Time: '17:00:00' });
+    const cycle3 = await Cycles.create({ Cycle_Number: 1, Start_Date: '2024-07-01', Start_Time: '08:00:00', End_Time: '17:00:00' });
+    const cycle4 = await Cycles.create({ Cycle_Number: 2, Start_Date: '2024-10-01', Start_Time: '08:00:00', End_Time: '17:00:00' });
     // Insert dummy data for Premedications
     const premed1 = await Premedications.create({ Medication_Name: 'Premed A', Dose: 10, Route: 'Oral', Instructions: 'Take before chemotherapy' });
     const premed2 = await Premedications.create({ Medication_Name: 'Premed B', Dose: 20, Route: 'Intravenous', Instructions: 'Administer slowly' });

@@ -46,6 +46,8 @@ module.exports = (db, DataTypes) => {
       allowNull: false,
       defaultValue: false
     }
+  },{
+    timestamps:false
   });
 
   return Patient;

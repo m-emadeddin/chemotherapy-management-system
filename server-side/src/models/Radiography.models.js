@@ -28,6 +28,5 @@ module.exports = (db, DataTypes) => {
       type: DataTypes.STRING(100),
     }
   });
-
   return Radiography;
 };

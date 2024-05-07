@@ -10,10 +10,19 @@ module.exports = (db, DataTypes) => {
       unique: false
     },
     Start_Date: {
-      type: DataTypes.DATE
-    },
-    End_Date: {
       type: DataTypes.DATE,
+      allowNull: false
+    },
+    // End_Date: {
+    //   type: DataTypes.DATE,
+    //   allowNull: false
+    // },
+    Start_Time: {
+      type: DataTypes.TIME,
+      allowNull: false
+    },
+    End_Time: {
+      type: DataTypes.TIME,
       allowNull: false
     },
     Is_active: {
@@ -21,10 +30,7 @@ module.exports = (db, DataTypes) => {
       allowNull: false,
       defaultValue: false
     }
-    },{
-      timestamps: false // Disable timestamps
-    });
-   
+  });
 
   return Cycle;
 };
