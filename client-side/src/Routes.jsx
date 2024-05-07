@@ -5,7 +5,6 @@ import NotFound from "pages/NotFound";
 import Loginpage from "pages/Loginpage";
 import SelectPatient from "pages/SelectPatient";
 import Patient from "pages/Patient";
-import Document from "pages/Document";
 import Orderchemotherapy from "pages/Orderchemotherapy";
 import Reviewchemotherapyorder from "pages/Reviewchemotherapyorder";
 import Documentchemotherapy from "pages/Documentchemotherapy";
@@ -40,12 +39,8 @@ const ProjectRoutes = () => {
         },
 
         {
-          path: "documentchemotherapy",
-          element: <Documentchemotherapy />,
-        },
-        {
           path: "document",
-          element: <Document />,
+          element: <Documentchemotherapy />,
         },
       ],
     },

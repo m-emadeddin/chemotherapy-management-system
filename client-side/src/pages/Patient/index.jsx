@@ -396,5 +396,5 @@ function orderChemo() {
 }
 
 function docChemo() {
-  window.location.href = "/documentchemotherapy";
+  window.location.href = "/document";
 }
