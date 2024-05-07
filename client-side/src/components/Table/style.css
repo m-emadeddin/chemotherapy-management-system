@@ -1,156 +1,149 @@
 .medications-table {
-  width: 100%;
-  font-family: "Lama Sans-Regular", Helvetica;
-  line-height: 25px;
+    width: 100%;
+    font-family: "Lama Sans-Regular", Helvetica;
+    line-height: 25px;
 }
 
 .medications-table thead {
-  color: #707070;
+    color: #707070;
 }
 
 .medications-table th {
-  padding: 19px;
-  border-bottom: 1px solid #d4d4d4;
-  text-align: unset;
-  font-weight: 300;
-  border-top: none !important;
+    border-bottom: 1px solid #D4D4D4;
+    text-align: unset;
+    font-weight: 300;
+    border-top: none !important;
+    padding: 19px;
 }
 
+
+
 .medications-table tr {
-  border-bottom: 1px solid #d4d4d4;
+    border-bottom: 1px solid #D4D4D4;
 }
 
 .medications-table tr:last-child {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 .medications-table td {
-  padding: 19px;
-  border: none;
+    border: none;
+    padding: 19px;
 }
 
-.medications-table td:nth-child(2) {
-  text-transform: uppercase;
+.medications-table td:nth-child(1) {
+    text-transform: uppercase;
 }
+
+
 
 .medications-table td {
-  cursor: pointer;
+    cursor: pointer;
+
 }
 
 .medications-table td .truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .medications-table td .expanded {
-  white-space: normal;
-  overflow: visible;
-  text-overflow: clip;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
 }
 
-.medications-table .checkboxCell {
-  width: 73px;
-  text-align: unset;
+.medications-table .buttons-cell {
+    width: 200px;
+    border-bottom: 1px solid #D4D4D4;
+
 }
 
-.medications-table .container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  font-size: 22px;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+
+.medications-table .buttons-container {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
 }
 
-.medications-table .container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
+.medications-table .buttons-container .btn {
+    border-radius: 10px;
+    font-weight: 600;
+    padding: 5px;
+    height: 40px;
+    font-size: 0.8rem;
+    width: 55px;
 }
 
-.medications-table .checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: white;
-  border: 1px solid rgba(97, 97, 97, 1);
-  border-radius: 5px;
+.medications-table .buttons-container .edit {
+    border: 1px solid #1FA6EF;
+    color: #1FA6EF;
 }
 
-.medications-table .container:hover input ~ .checkmark {
-  border: 1px solid black;
-  transition: ease 0.3s;
+.medications-table .buttons-container .edit:hover {
+    background-color: #1FA6EF;
+    color: white;
+    transition: ease 0.3s;
 }
 
-.medications-table .container input:checked ~ .checkmark {
-  background-color: black;
+.medications-table .buttons-container .del {
+    background-color: #E84853;
+    color: white;
 }
 
-.medications-table .container:hover input:checked ~ .checkmark {
-  background-color: #616161;
+.medications-table .buttons-container .del:hover {
+    border: 1px solid #E84853;
+    color: #E84853;
+    background-color: white;
+    transition: ease 0.3s;
 }
 
-.medications-table .checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
+.medications-table .buttons-container .dose {
+    border: 1px solid #1FA6EF;
+    color: #1FA6EF;
 }
 
-.medications-table .container input:checked ~ .checkmark:after {
-  display: block;
+.medications-table .buttons-container .dose:hover {
+    background-color: #1FA6EF;
+    color: white;
+    transition: ease 0.3s;
 }
 
-.container .checkmark:after {
-  left: 7px;
-  top: 4px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2.5px 2.5px 0;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
+
 
 .medications-table .med-cell {
-  width: 240px;
+    width: 240px;
 }
 
 .medications-table .dose-cell {
-  width: 80px;
+    width: 80px;
 }
 
 .medications-table .reduction-cell {
-  width: 80px;
+    width: 80px;
 }
 
 .medications-table .route-cell {
-  width: 160px;
+    width: 160px;
 }
 
+
+
 @media (max-width: 1050px) {
-  .medications-table .med-cell {
-    width: 140px;
-  }
+    .medications-table .med-cell {
+        width: 140px;
+    }
 
-  .medications-table .dose-cell {
-    width: 40px;
-  }
+    .medications-table .dose-cell {
+        width: 40px;
+    }
 
-  .medications-table .reduction-cell {
-    width: 40px;
-  }
+    .medications-table .reduction-cell {
+        width: 40px;
+    }
 
-  .medications-table .route-cell {
-    width: 100px;
-  }
+    .medications-table .route-cell {
+        width: 100px;
+    }
 }

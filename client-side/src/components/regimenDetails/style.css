@@ -50,58 +50,7 @@
 
 }
 
-.regimen-detail .buttons-container {
-    font-family: "Lama Sans-Regular", Helvetica;
-    line-height: 25px;
-    display: flex;
-    gap: 15px;
-}
 
-.buttons-container .btn {
-    border-radius: 10px;
-    font-weight: 600;
-    padding: 7px 26px;
-    margin-top: -10px;
-}
-
-.buttons-container .edit {
-    border: 1px solid #1FA6EF;
-    color: #1FA6EF;
-    width: 88px;
-    height: 40px;
-}
-
-.buttons-container .edit:hover {
-    background-color: #1FA6EF;
-    color: white;
-}
-
-.buttons-container .del {
-    width: 96px;
-    height: 40px;
-    background-color: #E84853;
-    color: white;
-
-}
-
-.buttons-container .del:hover {
-    border: 1px solid #E84853;
-    color: #E84853;
-    background-color: white;
-
-}
-
-.buttons-container .dose {
-    border: 1px solid #1FA6EF;
-    color: #1FA6EF;
-    width: 165px;
-    height: 40px;
-}
-
-.buttons-container .dose:hover {
-    background-color: #1FA6EF;
-    color: white;
-}
 
 .regimen-detail .table-name {
     font-family: "Lama Sans-Regular", Helvetica;
@@ -147,6 +96,7 @@
     border-radius: 15px;
     align-self: center;
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .notes .next:hover {
