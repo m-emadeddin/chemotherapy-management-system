@@ -60,14 +60,14 @@ export default function PatientInfo({ patients }) {
         </div>
       </div>
 
-      <div className="patient-record flex w-full flex-col gap-[5px]">
-        <div className="p-[10px] w-full info-tablehead ">
-          <div className="w-[85%]  flex gap-2.5 justify-between">
-            <div className="w-[15%]">Patient</div>
-            <div className="w-[10%]">ID</div>
-            <div className="w-[15%]">Gender</div>
-            <div className="w-[19%]">Disease Type</div>
-            <div className="w-[18%]">Phone Number</div>
+      <div className="patient-record flex w-full flex-col gap-[5px] items-center">
+        <div className="p-[10px] w-[90%] info-tablehead ">
+          <div className="w-[85%] flex justify-between">
+            <div className="w-[20%]">Patient</div>
+            <div className="w-[20%]">ID</div>
+            <div className="w-[20%]">Gender</div>
+            <div className="w-[20%]">Disease Type</div>
+            <div className="w-[20%]">Phone Number</div>
           </div>
         </div>
         {currentPatients.map((patient) => (
@@ -99,8 +99,8 @@ export default function PatientInfo({ patients }) {
       )}
 
       {filteredPatients.length > 0 && (
-        <div className="container-xs mt-[15px] flex flex-col items-start pl-[435px] pr-14 md:px-5">
-          <div className="flex flex-wrap items-center">
+        <div className="container-xs mt-[15px] flex justify-center pr-14 md:px-5">
+          <div className="flex flex-wrap items-center justify-center">
             <Button
               disabled={currentPage === 1}
               onClick={() => goToPage(currentPage - 1)}
@@ -108,12 +108,12 @@ export default function PatientInfo({ patients }) {
               <Img
                 src="images/img_arrow_left_gray_600.svg"
                 alt="arrowleft"
-                className="mt-2.5 h-[11px] self-center"
+                className=" h-[11px] self-center"
               />
             </Button>
             <Text
               as="p"
-              className="ml-2.5 flex h-[32px] w-[32px] items-center justify-center rounded-[16px] bg-white-A700 text-center !font-light"
+              className="flex h-[32px] w-[32px] items-center justify-center rounded-[16px] bg-white-A700 text-center !font-light"
             >
               {currentPage}
             </Text>
@@ -125,7 +125,7 @@ export default function PatientInfo({ patients }) {
             </Text>
             <Text
               as="p"
-              className="ml-[5px] h-[17px] w-[16px] !font-light !text-gray-600 items-center justify-center"
+              className="flex h-[32px] w-[32px] items-center justify-center text-center !font-light"
             >
               {totalPages}
             </Text>
@@ -136,7 +136,7 @@ export default function PatientInfo({ patients }) {
               <Img
                 src="images/img_arrow_right.svg"
                 alt="arrowright"
-                className="ml-2.5 mt-2.5 h-[11px] self-center "
+                className="h-[11px] self-center "
               />
             </Button>
           </div>
