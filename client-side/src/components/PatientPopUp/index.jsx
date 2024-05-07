@@ -33,23 +33,22 @@ export default function PatientPopup({
                   alt="afnsllmk"
                 />
               </div>
-
             </div>
           </div>
           <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/362e8ffa6ae7d4536ca0b48a30657e68c80aef0e894cd013e9f71dd70a5fa3b8?"
-                className="shrink-0 w-12 aspect-square ml-2 cursor-pointer"
-                alt="afnsllmk"
-                onClick={onClose}
-              />
+            loading="lazy"
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/362e8ffa6ae7d4536ca0b48a30657e68c80aef0e894cd013e9f71dd70a5fa3b8?"
+            className="shrink-0 w-12 aspect-square ml-2 cursor-pointer"
+            alt="afnsllmk"
+            onClick={onClose}
+          />
         </div>
 
         <div className="popup-content flex flex-col gap-3">
           <div className="new-row flex">
             <div className=" font-bold text-black">General info</div>
           </div>
-          
+
           {/* New row */}
           <div className="flex">
             <div className="self-start px-5 text-slate-400 max-md:ml-2.5 w-[20%]">
@@ -92,17 +91,17 @@ export default function PatientPopup({
           </div>
 
           {/* New row */}
-          <div className="new-row flex">
-            <div className="self-start text-slate-400 max-md:ml-2.5 w-[25%]">
+          <div className="flex flex-wrap">
+            <div className="self-start px-5 text-slate-400 max-md:ml-2.5 w-[25%]">
               Street
             </div>
-            <div className="self-start mt-0 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[25%]">
+            <div className="self-start px-5 text-slate-400 max-md:ml-2.5 w-[25%]">
               City/Village
             </div>
-            <div className="self-start mt-0 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[25%]">
+            <div className="self-start px-5 text-slate-400 max-md:ml-2.5 w-[25%]">
               Governorate
             </div>
-            <div className="self-start mt-0 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[25%]">
+            <div className="self-start px-5 text-slate-400 max-md:ml-2.5 w-[25%]">
               Nationality
             </div>
           </div>
@@ -123,21 +122,21 @@ export default function PatientPopup({
           </div>
 
           <div className="flex">
-            <div className="self-start ml-2 mr-2 text-slate-400 max-md:ml-2.5">
+            <div className="flex justify-between items-center px-5 text-slate-400 max-md:ml-2.5 w-[25%]">
               Phone Number
-            </div>
-            <div className="hover-container">
-              <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/ba3b520da1558a06e2ea5587cdc0403832bde2c2019cac5869a13f63d9291332?"
-                className="shrink-0 w-3 aspect-square"
-                alt="asd"
-              />
-              <div className="hover-text">Verfied</div>
+              <div className="hover-container">
+                <img
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/ba3b520da1558a06e2ea5587cdc0403832bde2c2019cac5869a13f63d9291332?"
+                  className="shrink-0 w-3 aspect-square"
+                  alt="asd"
+                />
+                <div className="hover-text">Verfied</div>
+              </div>
             </div>
           </div>
 
-          <div className="new-row flex">
+          <div className="flex">
             <div className="justify-center px-5 py-5 rounded-3xl bg-slate-50 text-ellipsis whitespace-nowrap">
               {PhoneNumber}
             </div>
