@@ -387,22 +387,9 @@ export default function RegimenDetails({ selectedOption }) {
         <div className="pre-mediaction">
           <div className="pre-mediaction-header">
             <p className="table-name">PreMediactions</p>
-            <div className="buttons-container">
-              <button
-                className="edit btn"
-                onClick={() => setShowEditPopUp(true)}
-              >
-                Edit
-              </button>
-              <button
-                className="del btn"
-                onClick={() => setShowDeletePopUp(true)}
-              >
-                Delete
-              </button>
-            </div>
           </div>
           <Table
+            id="pre-med"
             data={Data.preMedication}
             selectedOption={selectedOption}
             checkedItems={checkedItemsPreMed}
@@ -412,28 +399,9 @@ export default function RegimenDetails({ selectedOption }) {
         <div className="chemotherapy">
           <div className="chemotherapy-header">
             <p className="table-name">ChemoTherapy</p>
-            <div className="buttons-container">
-              <button
-                className="dose btn"
-                onClick={() => setShowDosePopUp(true)}
-              >
-                Change Dose
-              </button>
-              <button
-                className="edit btn"
-                onClick={() => setShowEditPopUp(true)}
-              >
-                Edit
-              </button>
-              <button
-                className="del btn"
-                onClick={() => setShowDeletePopUp(true)}
-              >
-                Delete
-              </button>
-            </div>
           </div>
           <Table
+            id="chemo"
             data={Data.chemoTherapy}
             selectedOption={selectedOption}
             checkedItems={checkedItemsChemo}
