@@ -15,12 +15,12 @@ function Table({ data, selectedOption, checkedItems, onCheckboxChange, id }) {
     <table className="medications-table">
       <thead>
         <tr>
-          <td className="buttons-cell"></td>
           <th className="med-cell">Mediaction</th>
           <th className="dose-cell">Dose</th>
           <th className="reduction-cell"></th>
           <th className="route-cell">Route</th>
           <th>Instructions</th>
+          <td className="buttons-cell"></td>
         </tr>
       </thead>
       {id === "pre-med" && (
@@ -28,10 +28,6 @@ function Table({ data, selectedOption, checkedItems, onCheckboxChange, id }) {
           {selectedOption &&
             data[selectedOption]?.map((item, index) => (
               <tr key={index}>
-                <td className="buttons-container">
-                  <button className="btn edit">Edit</button>
-                  <button className="btn del">Delete</button>
-                </td>
                 <td>{item.Medication}</td>
                 <td>{item.Dose}</td>
                 <td></td>
@@ -44,6 +40,10 @@ function Table({ data, selectedOption, checkedItems, onCheckboxChange, id }) {
                 >
                   {item.Instructions}
                 </td>{" "}
+                <td className="buttons-container">
+                  <button className="btn edit">Edit</button>
+                  <button className="btn del">Delete</button>
+                </td>
               </tr>
             ))}
         </tbody>
@@ -53,11 +53,6 @@ function Table({ data, selectedOption, checkedItems, onCheckboxChange, id }) {
           {selectedOption &&
             data[selectedOption]?.map((item, index) => (
               <tr key={index}>
-                <td className="buttons-container">
-                  <button className="btn dose">Change Dose</button>
-                  <button className="btn edit">Edit</button>
-                  <button className="btn del">Delete</button>
-                </td>
                 <td>{item.Medication}</td>
                 <td>{item.Dose}</td>
                 <td style={{ color: "#E84853", fontWeight: "700" }}>
@@ -72,6 +67,11 @@ function Table({ data, selectedOption, checkedItems, onCheckboxChange, id }) {
                 >
                   {item.Instructions}
                 </td>{" "}
+                <td className="buttons-container">
+                  <button className="btn dose">Change Dose</button>
+                  <button className="btn edit">Edit</button>
+                  <button className="btn del">Delete</button>
+                </td>
               </tr>
             ))}
         </tbody>

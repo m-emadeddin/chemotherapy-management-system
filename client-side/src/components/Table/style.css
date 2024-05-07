@@ -82,6 +82,7 @@
 .medications-table .buttons-container .edit:hover {
     background-color: #1FA6EF;
     color: white;
+    transition: ease 0.3s;
 }
 
 .medications-table .buttons-container .del {
@@ -93,7 +94,7 @@
     border: 1px solid #E84853;
     color: #E84853;
     background-color: white;
-
+    transition: ease 0.3s;
 }
 
 .medications-table .buttons-container .dose {
@@ -104,6 +105,7 @@
 .medications-table .buttons-container .dose:hover {
     background-color: #1FA6EF;
     color: white;
+    transition: ease 0.3s;
 }
 
 
