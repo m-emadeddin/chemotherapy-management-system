@@ -11,7 +11,7 @@ const TreatmentModel = require('./TreatmentPlans.models');
 const ReservedBedsModel = require('./ReservedBeds.models');
 const VitalSignModel = require('./VitalSign.models');
 const RadiographyModel = require('./Radiography.models');
-const MedicalAnaylsisModel = require('./MedicalAnalysis.models');
+const MedicalModel = require('./Medical.models');
 const UserModel = require('./User.models');
 const DoctorModel = require('./Doctor.models');
 const VisitsModel = require('./Visits.models');
@@ -32,11 +32,10 @@ const VitalSign = VitalSignModel(db, Sequelize);
 const Premedications = PremedicationsModel(db, Sequelize);
 const TreatmentPlans = TreatmentModel(db, Sequelize);
 const Radiography = RadiographyModel(db, Sequelize);
-const MedicalAnalysis = MedicalAnaylsisModel(db, Sequelize);
 const User = UserModel(db, Sequelize);
 const Doctor = DoctorModel(db, Sequelize);
 const Visits = VisitsModel(db, Sequelize);
-
+const Medical = MedicalModel(db, Sequelize);
 //==========junction tables for M to N realtions==========
 const PatientsReservedbeds = PatientsReservedbedsModel(db, Sequelize);
 const TreatmentPlansCycles = TreatmentPlansCyclesModel(db, Sequelize);
@@ -108,112 +107,77 @@ ChemotherapyMedications.belongsToMany(Cycles, {
 //====================One to Many=======================
 
 //2. patients &Radiography
-Patients.hasMany(
-  Radiography,
-  {
-    foreignKey: {
-      allowNull: false,
-    },
+Patients.hasMany(Radiography, {
+  foreignKey: {
+    allowNull: false,
   },
-  {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  }
-);
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 Radiography.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 //3. patients& medical analysis
-Patients.hasMany(
-  MedicalAnalysis,
-  {
-    foreignKey: {
-      allowNull: false,
-    },
+Patients.hasMany(Medical, {
+  foreignKey: {
+    allowNull: false,
   },
-  {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  }
-);
-MedicalAnalysis.belongsTo(Patients, {
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+Medical.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 //4.patients & visits
-Patients.hasMany(
-  Visits,
-  {
-    foreignKey: {
-      allowNull: false,
-    },
+Patients.hasMany(Visits, {
+  foreignKey: {
+    allowNull: false,
   },
-  {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  }
-);
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 Visits.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 //========================One to One============================================
 //1. Vital signs & patients
-Patients.hasOne(
-  VitalSign,
-  {
-    foreignKey: {
-      allowNull: false,
-    },
+Patients.hasOne(VitalSign, {
+  foreignKey: {
+    allowNull: false,
   },
-  {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  }
-);
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 VitalSign.belongsTo(Patients);
 //2. patients & cancer overview
-Patients.hasOne(
-  CancerOverview,
-  {
-    foreignKey: {
-      allowNull: false,
-    },
+Patients.hasOne(CancerOverview, {
+  foreignKey: {
+    allowNull: false,
   },
-  {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  }
-);
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 CancerOverview.belongsTo(Patients);
 //3. patients & treatment plans
-Patients.hasOne(
-  TreatmentPlans,
-  {
-    foreignKey: {
-      allowNull: false, // This makes the foreign key not null
-    },
+Patients.hasOne(TreatmentPlans, {
+  foreignKey: {
+    allowNull: false, // This makes the foreign key not null
   },
-  {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  }
-);
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 TreatmentPlans.belongsTo(Patients);
 //4. User & Doctor
-Doctor.hasOne(
-  User,
-  {
-    foreignKey: {
-      allowNull: false,
-    },
+Doctor.hasOne(User, {
+  foreignKey: {
+    allowNull: false,
   },
-  {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  }
-);
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 User.belongsTo(Doctor);
 module.exports = {
   treatmentPlanReadOnly,
@@ -226,7 +190,7 @@ module.exports = {
   Premedications,
   TreatmentPlans,
   Radiography,
-  MedicalAnalysis,
+  Medical,
   User,
   Doctor,
   Visits,
