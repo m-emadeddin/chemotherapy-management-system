@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Text,
   Button,
@@ -12,6 +12,7 @@ import {
 
 export default function DocumentchemotherapyPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const id = 1;
   const [activeCycle, setActiveCycle] = useState(1);
   const [cyclesCount, setCyclesCount] = useState(1);
@@ -20,6 +21,7 @@ export default function DocumentchemotherapyPage() {
   const [cycle, setCycle] = useState(
     activeCycle || location.state.cycle || cyclesCount
   );
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,7 +87,9 @@ export default function DocumentchemotherapyPage() {
                   <Button
                     size="xl"
                     className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-base text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
-                    to="/order"
+                    onClick={() => {
+                      navigate("/order");
+                    }}
                   >
                     Modify Order
                   </Button>
