@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
+import { useNavigate } from "react-router-dom";
 const data = [
   {
     bilateralsalpi: "Bilateral salpingo-oophorectomy",
@@ -40,6 +41,15 @@ const data2 = [
 export default function PatientPage() {
   const [hovered, setHovered] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
+
+  function orderChemo() {
+    navigate("/order");
+  }
+
+  function docChemo() {
+    navigate("/document");
+  }
 
   const [patientData] = useState({
     name: "Hazem Abdulnasser",
@@ -389,12 +399,4 @@ export default function PatientPage() {
       </div>
     </>
   );
-}
-
-function orderChemo() {
-  window.location.href = "/order";
-}
-
-function docChemo() {
-  window.location.href = "/document";
 }

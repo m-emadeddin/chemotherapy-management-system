@@ -28,7 +28,6 @@ export default function DocumentchemotherapyPage(props) {
     };
     fetchData();
   }, [id]);
-  
 
   return (
     <>
