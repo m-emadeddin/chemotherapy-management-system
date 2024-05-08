@@ -16,35 +16,37 @@ export default function PatientPopup({
     <div className="edit-popup-overlay">
       <div className="edit-popup-container">
         <div className="popup-heading">
-          <div className="text">
-            <div className="flex gap-5 justify-between self-center mt-0 w-full text-2xl font-bold leading-6 text-black whitespace-nowrap max-w-[660px] max-md:flex-wrap max-md:max-w-full">
-              <img
-                loading="lazy"
-                src="images\patient_in_circle.png"
-                className="self-center w-16 aspect-[1.1]"
-                alt="patient"
-              />
-              <div className="flex items-center gap-5">
-                <div className="grow text-ellipsis">{name}</div>
+          <div className="flex items-center justify-between">
+            <div className="text">
+              <div className="flex gap-5 justify-between self-center mt-0 w-full text-2xl font-bold leading-6 text-black whitespace-nowrap max-w-[55px] max-md:flex-wrap max-md:max-w-full">
                 <img
                   loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/df690d57ab643da68c80957406d7e0577e5b281de2eb89748175ef071c34ad20?"
-                  className="shrink-0 aspect-[1.05] w-[21px] cursor-pointer"
-                  alt="afnsllmk"
+                  src="images\patient_in_circle.png"
+                  className="self-center w-16 aspect-[1.1]"
+                  alt="patient"
                 />
+                <div className="flex items-center gap-5">
+                  <div className="grow text-ellipsis">{name}</div>
+                  <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/df690d57ab643da68c80957406d7e0577e5b281de2eb89748175ef071c34ad20?"
+                    className="shrink-0 aspect-[1.05] w-[21px] cursor-pointer"
+                    alt="afnsllmk"
+                  />
+                </div>
               </div>
             </div>
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/362e8ffa6ae7d4536ca0b48a30657e68c80aef0e894cd013e9f71dd70a5fa3b8?"
+              className="shrink-0 w-12 aspect-square cursor-pointer"
+              alt="afnsllmk"
+              onClick={onClose}
+            />
           </div>
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/362e8ffa6ae7d4536ca0b48a30657e68c80aef0e894cd013e9f71dd70a5fa3b8?"
-            className="shrink-0 w-12 aspect-square ml-2 cursor-pointer"
-            alt="afnsllmk"
-            onClick={onClose}
-          />
         </div>
 
-        <div className="popup-content flex flex-col gap-3">
+        <div className="popup-content flex flex-col gap-4">
           <div className="new-row flex">
             <div className=" font-bold text-black">General info</div>
           </div>
