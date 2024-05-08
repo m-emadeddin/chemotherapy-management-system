@@ -60,4 +60,4 @@ const PremedicationsTable = ({ cycle, id }) => {
   );
 };
 
-export default PremedicationsTable;
+export { PremedicationsTable };

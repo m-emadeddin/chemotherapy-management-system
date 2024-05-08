@@ -68,4 +68,4 @@ const ChemotherapyTable = ({ cycle, id }) => {
   );
 };
 
-export default ChemotherapyTable;
+export { ChemotherapyTable };
