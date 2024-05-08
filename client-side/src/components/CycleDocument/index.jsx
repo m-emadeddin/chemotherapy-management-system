@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, Button } from "../../components";
+import { Text, Button, TextArea, Input } from "./..";
 import { useLocation } from "react-router-dom";
-import { TextArea, Input } from "../../components";
 
-const CycleDocument = ({ toggle }) => {
+const CycleDocument = ({ Submit, Cancel }) => {
   const location = useLocation();
   const id = 1;
   const activeCycle = 1;
   const { cycle } = location.state || { cycle: activeCycle };
-  const handleToggle = () => {
-    toggle();
-  };
   const [chemotherapy, setChemotherapy] = useState([]);
 
   useEffect(() => {
@@ -55,29 +51,19 @@ const CycleDocument = ({ toggle }) => {
                     {chemo.name}
                   </Text>
                   <Text size="xs" as="p" className="text-gray-700">
-                    750Milligram per square meter
+                    {chemo.dose}
+                    {chemo.route === "oral" ? "Milligram" : "Milliliter"}
                   </Text>
                 </div>
                 <div className="flex w-[40%] items-center justify-between gap-5 sm:w-full">
                   <div className="flex w-[42%] flex-col items-center gap-2">
                     <Text size="xs" as="p">
-                      mg
+                      {chemo.route === "oral" ? "mg" : "ml"}
                     </Text>
                     <Input
                       className="p-1"
                       shape="round"
                       name="edittext"
-                      inputProps={{ className: "text-center" }}
-                    />
-                  </div>
-                  <div className="flex w-[42%] flex-col items-center gap-[11px]">
-                    <Text size="xs" as="p">
-                      ml
-                    </Text>
-                    <Input
-                      className="p-1 text-center"
-                      shape="round"
-                      name="edittext_one"
                       inputProps={{ className: "text-center" }}
                     />
                   </div>
@@ -87,8 +73,6 @@ const CycleDocument = ({ toggle }) => {
             </>
           );
         })}
-
-        {/*  */}
       </div>
       <div className="flex flex-col gap-5">
         <Text as="p" style={{ fontWeight: "bold" }}>
@@ -105,16 +89,20 @@ const CycleDocument = ({ toggle }) => {
       {/* submission controls section */}
       <div className=" flex gap-[15px] self-center items-center">
         <Button
-          className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
+          className="h-[80%] py-[15px] px-[50px] flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
           size="sm"
-          onClick={handleToggle}
+          onClick={() => {
+            Submit();
+          }}
         >
           Submit
         </Button>
         <Button
           size="sm"
-          className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
-          onClick={handleToggle}
+          className="h-[80%] py-[15px] px-[50px] flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
+          onClick={() => {
+            Cancel();
+          }}
         >
           Cancel
         </Button>
@@ -122,4 +110,4 @@ const CycleDocument = ({ toggle }) => {
     </div>
   );
 };
-export default CycleDocument;
+export { CycleDocument };
