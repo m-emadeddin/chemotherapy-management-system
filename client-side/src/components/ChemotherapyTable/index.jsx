@@ -34,8 +34,8 @@ const ChemotherapyTable = ({ cycle, id }) => {
     <>
       <div className="flex flex-col">
         <div className="flex text-gray-600 w-full border-t-[1px] border-gray-800">
-          <div className="w-[20%] p-[19px]">Medication</div>
-          <div className="w-[10%] p-[19px]">Dose</div>
+          <div className="w-[15%] p-[19px]">Medication</div>
+          <div className="w-[15%] p-[19px]">Dose</div>
           <div className="w-[15%] p-[19px]">Route</div>
           <div className="w-[30%] p-[19px]">Instructions</div>
           <div className="w-[20%] p-[19px]">Administered dose</div>
@@ -43,9 +43,10 @@ const ChemotherapyTable = ({ cycle, id }) => {
         {chemotherapy.map((chemo) => {
           return (
             <div className="flex w-full border-t-[1px] border-gray-800">
-              <div className="w-[20%] p-[19px]">{chemo.name}</div>
-              <div className="w-[10%] p-[19px] flex justify-between items-center">
+              <div className="w-[15%] p-[19px]">{chemo.name}</div>
+              <div className="w-[15%] p-[19px] flex justify-between items-center">
                 {chemo.dose}
+                {chemo.route === "Oral" ? "Miligram" : "MiliLiter"}
                 {chemo.reduction > 0 ? (
                   <div className="bg-blue-500 p-1 text-white-A700 rounded">
                     -{chemo.reduction}%
@@ -57,6 +58,7 @@ const ChemotherapyTable = ({ cycle, id }) => {
               <div className="w-[30%] p-[19px]">{chemo.Instructions}</div>
               <div className="w-[20%] p-[19px]">
                 {chemo.Administered_Dose_ml}
+                {chemo.route === "Oral" ? "Miligram" : "MiliLiter"}
               </div>
             </div>
           );
