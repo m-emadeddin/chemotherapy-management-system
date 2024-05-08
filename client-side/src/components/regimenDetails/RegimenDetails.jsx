@@ -2,9 +2,6 @@ import Table from "components/Table/Table";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import EditPopUp from "components/EditPopUp/EditPopUp";
-import DeletePopUp from "components/DeletePopUp/DeletePopUp";
-import DosePopUp from "components/DosePopUp/DosePopUp";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import ResetPopUp from "components/ResetPopup/ResetPopUp";
 
@@ -180,19 +177,9 @@ export default function RegimenDetails({ selectedOption }) {
   });
   const [regimenDetails, setRegimenDetails] = useState(initialRegimenDetails);
   const [notes, setNotes] = useState("Add your notes here...");
-  const [showEditPopUp, setShowEditPopUp] = useState(false);
-  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [showResetPopUp, setShowResetPopUp] = useState(false);
-  const [showDosePopUp, setShowDosePopUp] = useState(false);
-  const [selectedItemChemo, setSelectedItemChemo] = useState(null);
-  const [selectedItemPreMed, setSelectedItemPreMed] = useState(null);
-  const [checkedItemsPreMed, setCheckedItemsPreMed] = useState({});
-  const [checkedItemsChemo, setCheckedItemsChemo] = useState({});
-
   useEffect(() => {
     setNotes("Add your notes here...");
-    setCheckedItemsPreMed({});
-    setCheckedItemsChemo({});
     setData(initialData);
     setRegimenDetails(initialRegimenDetails);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -230,118 +217,42 @@ export default function RegimenDetails({ selectedOption }) {
     }
   }, [newRegimenDetails]);
 
-  const handleCheckboxChangePreMed = (index, item) => {
-    setCheckedItemsPreMed((prevCheckedItems) => {
-      const updatedCheckedItems = { ...prevCheckedItems };
-      updatedCheckedItems[index] = !prevCheckedItems[index];
-
-      if (!updatedCheckedItems[index]) {
-        setSelectedItemPreMed(null);
-      } else {
-        setSelectedItemPreMed(item);
-      }
-
-      return updatedCheckedItems;
-    });
-  };
-
-  const handleCheckboxChangeChemo = (index, item) => {
-    setCheckedItemsChemo((prevCheckedItems) => {
-      const updatedCheckedItems = { ...prevCheckedItems };
-      updatedCheckedItems[index] = !prevCheckedItems[index];
-
-      if (!updatedCheckedItems[index]) {
-        setSelectedItemChemo(null); // Remove item if unchecked
-      } else {
-        setSelectedItemChemo(item);
-      }
-
-      return updatedCheckedItems;
-    });
-  };
-
   const handleNotesChange = (event) => {
     setNotes(event.target.value);
   };
-  const updateRegimenData = (updatedItem) => {
+  const handleDelete = (id, selectedOption, index) => {
+    const preMedication = Data.preMedication[selectedOption];
+    const chemoTherapy = Data.chemoTherapy[selectedOption];
+
+    const newPreMedication =
+      id === "pre-med"
+        ? preMedication.filter((_, i) => i !== index)
+        : preMedication;
+    const newChemoTherapy =
+      id === "chemo"
+        ? chemoTherapy.filter((_, i) => i !== index)
+        : chemoTherapy;
+
     const newData = {
       ...Data,
       preMedication: {
         ...Data.preMedication,
-        [selectedOption]: Data.preMedication[selectedOption].map((item) =>
-          item.Medication === updatedItem.Medication ? updatedItem : item
-        ),
+        [selectedOption]: newPreMedication,
       },
       chemoTherapy: {
         ...Data.chemoTherapy,
-        [selectedOption]: Data.chemoTherapy[selectedOption].map((item) =>
-          item.Medication === updatedItem.Medication ? updatedItem : item
-        ),
+        [selectedOption]: newChemoTherapy,
       },
     };
+
     setData(newData);
     setRegimenDetails({
       ...regimenDetails,
-      preMedication: newData.preMedication[selectedOption] || [],
-      chemoTherapy: newData.chemoTherapy[selectedOption] || [],
-    });
-  };
-  const updateRegimenDoseReduction = (updatedItem) => {
-    const newData = {
-      ...Data,
-      chemoTherapy: {
-        ...Data.chemoTherapy,
-        [selectedOption]: Data.chemoTherapy[selectedOption].map((item) =>
-          item.Medication === updatedItem.Medication ? updatedItem : item
-        ),
-      },
-    };
-    setData(newData);
-    setRegimenDetails({
-      ...regimenDetails,
-      preMedication: newData.preMedication[selectedOption] || [],
-      chemoTherapy: newData.chemoTherapy[selectedOption] || [],
+      preMedication: newPreMedication || [],
+      chemoTherapy: newChemoTherapy || [],
     });
   };
 
-  const deleteRegimenItem = (deletedItem) => {
-    const newData = {
-      ...Data,
-      preMedication: {
-        ...Data.preMedication,
-        [selectedOption]: Data.preMedication[selectedOption].filter(
-          (item) => item.Medication !== deletedItem.Medication
-        ),
-      },
-      chemoTherapy: {
-        ...Data.chemoTherapy,
-        [selectedOption]: Data.chemoTherapy[selectedOption].filter(
-          (item) => item.Medication !== deletedItem.Medication
-        ),
-      },
-    };
-    setData(newData);
-    setRegimenDetails({
-      ...regimenDetails,
-      preMedication: newData.preMedication[selectedOption] || [],
-      chemoTherapy: newData.chemoTherapy[selectedOption] || [],
-    });
-  };
-
-  const handleSaveEdit = (updatedItem) => {
-    updateRegimenData(updatedItem);
-    setShowEditPopUp(false);
-  };
-  const handleSaveDose = (updatedItem) => {
-    updateRegimenDoseReduction(updatedItem);
-    setShowDosePopUp(false);
-  };
-  const handleUnChecked = () => {
-    setSelectedItemPreMed(null);
-    setSelectedItemChemo(null);
-    setCheckedItemsChemo({});
-    setCheckedItemsPreMed({});
-  };
   const handleNext = () => {
     newRegimenDetails = {
       regimenName: selectedOption,
@@ -364,8 +275,6 @@ export default function RegimenDetails({ selectedOption }) {
     setData(initialData);
     setRegimenDetails(initialRegimenDetails);
     setNotes("Add your notes here...");
-    setCheckedItemsPreMed({});
-    setCheckedItemsChemo({});
   };
 
   return (
@@ -392,8 +301,7 @@ export default function RegimenDetails({ selectedOption }) {
             id="pre-med"
             data={Data.preMedication}
             selectedOption={selectedOption}
-            checkedItems={checkedItemsPreMed}
-            onCheckboxChange={handleCheckboxChangePreMed}
+            onDelete={handleDelete}
           />
         </div>
         <div className="chemotherapy">
@@ -404,8 +312,7 @@ export default function RegimenDetails({ selectedOption }) {
             id="chemo"
             data={Data.chemoTherapy}
             selectedOption={selectedOption}
-            checkedItems={checkedItemsChemo}
-            onCheckboxChange={handleCheckboxChangeChemo}
+            onDelete={handleDelete}
           />
         </div>
       </div>
@@ -421,47 +328,6 @@ export default function RegimenDetails({ selectedOption }) {
         </button>
       </div>
 
-      {showEditPopUp && selectedItemPreMed && (
-        <EditPopUp
-          onClose={() => setShowEditPopUp(false)}
-          selectedItemData={selectedItemPreMed}
-          onSaveEdit={handleSaveEdit}
-          handleUnChecked={handleUnChecked}
-        />
-      )}
-      {showEditPopUp && selectedItemChemo && (
-        <EditPopUp
-          onClose={() => setShowEditPopUp(false)}
-          selectedItemData={selectedItemChemo}
-          onSaveEdit={handleSaveEdit}
-          handleUnChecked={handleUnChecked}
-        />
-      )}
-
-      {showDeletePopUp && selectedItemPreMed && (
-        <DeletePopUp
-          selectedItemData={selectedItemPreMed}
-          deleteRegimenItem={deleteRegimenItem}
-          onClose={() => setShowDeletePopUp(false)}
-          handleUnChecked={handleUnChecked}
-        />
-      )}
-      {showDeletePopUp && selectedItemChemo && (
-        <DeletePopUp
-          selectedItemData={selectedItemChemo}
-          deleteRegimenItem={deleteRegimenItem}
-          onClose={() => setShowDeletePopUp(false)}
-          handleUnChecked={handleUnChecked}
-        />
-      )}
-      {showDosePopUp && selectedItemChemo && (
-        <DosePopUp
-          selectedItemData={selectedItemChemo}
-          onClose={() => setShowDosePopUp(false)}
-          handleUnChecked={handleUnChecked}
-          onSaveDose={handleSaveDose}
-        />
-      )}
       {showResetPopUp && (
         <ResetPopUp
           onClose={() => setShowResetPopUp(false)}
