@@ -13,10 +13,6 @@ module.exports = (db, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false
     },
-    // End_Date: {
-    //   type: DataTypes.DATE,
-    //   allowNull: false
-    // },
     Start_Time: {
       type: DataTypes.TIME,
       allowNull: false
