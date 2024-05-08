@@ -4,14 +4,17 @@ import "./style.css";
 
 export default function EditPopUp({
   onClose,
-  selectedItemData,
-  onSaveEdit,
-  handleUnChecked,
+  onConfirm,
+  selectedOption,
+  data,
+  editIndex,
+  onEdit,
+  id,
 }) {
-  const [dose, setDose] = useState(selectedItemData.Dose);
-  const [route, setRoute] = useState(selectedItemData.Route);
+  const [dose, setDose] = useState(data[selectedOption][editIndex].Dose);
+  const [route, setRoute] = useState(data[selectedOption][editIndex].Route);
   const [instructions, setInstructions] = useState(
-    selectedItemData.Instructions
+    data[selectedOption][editIndex].Instructions
   );
 
   const EditPopUpRef = useRef();
@@ -19,7 +22,6 @@ export default function EditPopUp({
   const closeEditPopUp = (e) => {
     if (EditPopUpRef.current === e.target) {
       onClose();
-      handleUnChecked();
     }
   };
 
@@ -32,19 +34,19 @@ export default function EditPopUp({
   const handleInstructionsChange = (e) => {
     setInstructions(e.target.value);
   };
-  const handleSaveEdit = () => {
+  const handleConfirm = () => {
     const updatedItem = {
-      ...selectedItemData,
+      ...data[selectedOption][editIndex],
       Dose: dose,
       Route: route,
       Instructions: instructions,
     };
-    onSaveEdit(updatedItem);
-    handleUnChecked();
+    onConfirm(updatedItem);
+    onEdit(id, selectedOption, editIndex, updatedItem);
     onClose();
   };
+
   const handleClose = () => {
-    handleUnChecked();
     onClose();
   };
   return (
@@ -57,7 +59,7 @@ export default function EditPopUp({
         <div className="popup-heading">
           <div className="text">
             <img src="images/pop-icon.png" alt="icon" width={74} height={74} />
-            <p>{selectedItemData.Medication}</p>
+            <p>{data[selectedOption][editIndex].Medication}</p>
           </div>
           <div className="x-icon" onClick={handleClose}>
             <img src="images/x.svg" alt="x-icon" />
@@ -106,7 +108,7 @@ export default function EditPopUp({
           <button className="btn cancel" onClick={handleClose}>
             Cancel
           </button>
-          <button className="btn save" onClick={handleSaveEdit}>
+          <button className="btn save" onClick={handleConfirm}>
             Save
           </button>
         </div>

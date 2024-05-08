@@ -131,7 +131,7 @@ const apiData = {
       {
         Medication: "Vincristine",
         Dose: 1.4,
-        Route: "Oral",
+        Route: "Intravenous",
         Instructions: "IV Push over 1-2 minutes",
       },
       {
@@ -253,6 +253,57 @@ export default function RegimenDetails({ selectedOption }) {
     });
   };
 
+  const handleEdit = (id, selectedOption, editIndex, updatedItem) => {
+    let newData = { ...Data };
+
+    if (id === "pre-med") {
+      newData = {
+        ...newData,
+        preMedication: {
+          ...newData.preMedication,
+          [selectedOption]: newData.preMedication[selectedOption].map(
+            (item, index) => (index === editIndex ? updatedItem : item)
+          ),
+        },
+      };
+    }
+    if (id === "chemo") {
+      newData = {
+        ...newData,
+        chemoTherapy: {
+          ...newData.chemoTherapy,
+          [selectedOption]: newData.chemoTherapy[selectedOption].map(
+            (item, index) => (index === editIndex ? updatedItem : item)
+          ),
+        },
+      };
+    }
+    setData(newData);
+    setRegimenDetails({
+      ...regimenDetails,
+      preMedication: newData.preMedication[selectedOption] || [],
+      chemoTherapy: newData.chemoTherapy[selectedOption] || [],
+    });
+  };
+  const handleChangeDose = (selectedOption, doseIndex, updatedItem) => {
+    let newData = { ...Data };
+
+    newData = {
+      ...newData,
+      chemoTherapy: {
+        ...newData.chemoTherapy,
+        [selectedOption]: newData.chemoTherapy[selectedOption].map(
+          (item, index) => (index === doseIndex ? updatedItem : item)
+        ),
+      },
+    };
+    setData(newData);
+    setRegimenDetails({
+      ...regimenDetails,
+      chemoTherapy: newData.chemoTherapy[selectedOption] || [],
+    });
+  };
+
   const handleNext = () => {
     newRegimenDetails = {
       regimenName: selectedOption,
@@ -302,6 +353,8 @@ export default function RegimenDetails({ selectedOption }) {
             data={Data.preMedication}
             selectedOption={selectedOption}
             onDelete={handleDelete}
+            onEdit={handleEdit}
+            onChangeDose={handleChangeDose}
           />
         </div>
         <div className="chemotherapy">
@@ -313,6 +366,8 @@ export default function RegimenDetails({ selectedOption }) {
             data={Data.chemoTherapy}
             selectedOption={selectedOption}
             onDelete={handleDelete}
+            onEdit={handleEdit}
+            onChangeDose={handleChangeDose}
           />
         </div>
       </div>
