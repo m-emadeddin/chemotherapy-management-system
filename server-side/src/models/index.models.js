@@ -58,6 +58,7 @@ Patients.belongsToMany(ReservedBeds, {
 });
 ReservedBeds.belongsToMany(Patients, {
   through: PatientsReservedbeds,
+  foreignKey: { name: 'bedID', allowNull: false },
 });
 
 //2. Treatment plans & cycles
@@ -65,7 +66,10 @@ Cycles.belongsToMany(TreatmentPlans, {
   through: TreatmentPlansCycles,
   foreignKey: { name: 'cycleID', allowNull: false },
 });
-TreatmentPlans.belongsToMany(Cycles, { through: TreatmentPlansCycles });
+TreatmentPlans.belongsToMany(Cycles, {
+  through: TreatmentPlansCycles,
+  foreignKey: { name: 'planID', allowNull: false },
+});
 
 //3.Treatment plans read only & cycles
 Cycles.belongsToMany(treatmentPlanReadOnly, {
@@ -76,6 +80,7 @@ Cycles.belongsToMany(treatmentPlanReadOnly, {
 treatmentPlanReadOnly.belongsToMany(Cycles, {
   through: TreatmentPlanReadOnlyCycles,
   uniqueKey: 'ReadOnlyCycles_unique', // Custom unique constraint name
+  foreignKey: { name: 'planID', allowNull: false },
 });
 
 //4. cycles & premedications
@@ -85,6 +90,7 @@ Cycles.belongsToMany(Premedications, {
 });
 Premedications.belongsToMany(Cycles, {
   through: PremedicationsCycles,
+  foreignKey: { name: 'medicationID', allowNull: false },
 });
 
 //5. cycles & chemotherapy medications
@@ -100,18 +106,7 @@ ChemotherapyMedications.belongsToMany(Cycles, {
 });
 
 //====================One to Many=======================
-//1. Cancer overview & treatment plans Read Only
-CancerOverview.hasMany(
-  treatmentPlanReadOnly,
-  {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-  },
-);
-treatmentPlanReadOnly.belongsTo(CancerOverview, {
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
-});
+
 //2. patients &Radiography
 Patients.hasMany(
   Radiography,
