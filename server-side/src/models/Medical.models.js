@@ -1,5 +1,5 @@
 module.exports = (db, DataTypes) => {
-  const medicalAnalysis = db.define("medicalAnaylsis", {
+  const Medical = db.define("Medical", {
     MedicalAnalysis_ID: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -24,9 +24,6 @@ module.exports = (db, DataTypes) => {
     B2M: {
       type: DataTypes.STRING(100),
     },
-    last_updated: {
-      type: DataTypes.DATE,
-    },
   });
-  return medicalAnalysis;
+  return Medical;
 };

@@ -2,7 +2,7 @@
 const PORT = process.env.PORT || 3000;
 const express = require("express");
 const bodyParser = require("body-parser");
-const { insertData , insertDataCyclesPremedicationChemo} = require("./src/models/index.models");
+const dummyData = require('./src/utils/data');
 const PatientMedicationInfoRoutes = require("./src/routes/DocumentChemotherapy.routes");
 // import the DB
 const db = require("./src/configs/db.config");
@@ -33,7 +33,9 @@ db.authenticate()
 
 db.sync({ force:true })
 .then(() => {
-  insertDataCyclesPremedicationChemo()
+  // Insert Dummy data
+dummyData.insertDummyData();
+dummyData.insertRegimens();
   console.log("Tables Created!")
 })
 .catch((err)=>{
