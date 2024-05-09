@@ -26,10 +26,7 @@ module.exports = (db, DataTypes) => {
     },
     DEXA: {
       type: DataTypes.STRING(100),
-    },
-    last_updates: {
-      type: DataTypes.DATE,
-    },
+    }
   });
   return Radiography;
 };
