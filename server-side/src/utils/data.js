@@ -291,15 +291,15 @@ exports.insertDummyData = async () => {
     });
     //===========================USER=============================================================
     await doctor1.createUser({
-      username: 'Alaa',
-      password: 'Lolo',
-      email: 'alaawahbaa13@gmail.com',
+      Username: 'Alaa',
+      Password: 'Lolo',
+      Email: 'alaawahbaa13@gmail.com',
       is_admin: true,
     });
     await doctor2.createUser({
-      username: 'Halimo',
-      password: 'admin',
-      email: 'halimo@gmail.com',
+      Username: 'Halimo',
+      Password: 'admin',
+      Email: 'halimo@gmail.com',
       is_admin: true,
     });
     // Associate patient with Treatmentplans
