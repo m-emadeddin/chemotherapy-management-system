@@ -1,19 +1,23 @@
 module.exports = (db, DataTypes) => {
   const CancerOverview = db.define('cancerOverview', {
-      Stage: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        primaryKey: true  //composite DataType as Pk
-      },
-      Cancer_type: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        primaryKey: true  //composite DataType as Pk
-      },
-    
-      Note_On_cancer: {
-        type: DataTypes.TEXT
-      }},);
-      return CancerOverview;
-    };
-    
+    Cancer_ID: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    Stage: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    Cancer_type: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    Note_On_cancer: {
+      type: DataTypes.TEXT
+    },
+  });
+
+  return CancerOverview;
+};
