@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import "./style.css";
 import DeletePopUp from "components/DeletePopUp/DeletePopUp";
+import EditPopUp from "components/EditPopUp/EditPopUp";
+import DosePopUp from "components/DosePopUp/DosePopUp";
 
-function Table({ data, selectedOption, id, onDelete }) {
+function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
   const [expandedRows, setExpandedRows] = useState([]);
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
+  const [showEditPopUp, setShowEditPopUp] = useState(false);
+  const [showDosePopUp, setShowDosePopUp] = useState(false);
   const [deleteIndex, setDeleteIndex] = useState(null);
+  const [editIndex, setEditIndex] = useState(null);
+  const [doseIndex, setDoseIndex] = useState(null);
 
   function toggleText(index) {
     setExpandedRows((prevExpandedRows) =>
@@ -19,10 +25,23 @@ function Table({ data, selectedOption, id, onDelete }) {
     setShowDeletePopUp(true);
     setDeleteIndex(index);
   };
-
   const handleConfirmDelete = () => {
     onDelete(id, selectedOption, deleteIndex);
     setShowDeletePopUp(false);
+  };
+  const handleEdit = (index) => {
+    setShowEditPopUp(true);
+    setEditIndex(index);
+  };
+  const handleConfirmEdit = () => {
+    setShowEditPopUp(false);
+  };
+  const handleDose = (index) => {
+    setShowDosePopUp(true);
+    setDoseIndex(index);
+  };
+  const handleConfirmDose = () => {
+    setShowDosePopUp(false);
   };
 
   return (
@@ -56,7 +75,12 @@ function Table({ data, selectedOption, id, onDelete }) {
                     {item.Instructions}
                   </td>{" "}
                   <td className="buttons-container">
-                    <button className="btn edit">Edit</button>
+                    <button
+                      className="btn edit"
+                      onClick={() => handleEdit(index)}
+                    >
+                      Edit
+                    </button>
                     <button
                       className="btn del"
                       onClick={() => handleDelete(index)}
@@ -88,8 +112,18 @@ function Table({ data, selectedOption, id, onDelete }) {
                     {item.Instructions}
                   </td>{" "}
                   <td className="buttons-container">
-                    <button className="btn dose">Change Dose</button>
-                    <button className="btn edit">Edit</button>
+                    <button
+                      className="btn dose"
+                      onClick={() => handleDose(index)}
+                    >
+                      Change Dose
+                    </button>
+                    <button
+                      className="btn edit"
+                      onClick={() => handleEdit(index)}
+                    >
+                      Edit
+                    </button>
                     <button
                       className="btn del"
                       onClick={() => handleDelete(index)}
@@ -109,6 +143,27 @@ function Table({ data, selectedOption, id, onDelete }) {
           selectedOption={selectedOption}
           data={data}
           deleteIndex={deleteIndex}
+        />
+      )}
+      {showEditPopUp && (
+        <EditPopUp
+          onClose={() => setShowEditPopUp(false)}
+          onConfirm={handleConfirmEdit}
+          selectedOption={selectedOption}
+          data={data}
+          editIndex={editIndex}
+          onEdit={onEdit}
+          id={id}
+        />
+      )}
+      {showDosePopUp && (
+        <DosePopUp
+          onClose={() => setShowDosePopUp(false)}
+          onConfirm={handleConfirmDose}
+          selectedOption={selectedOption}
+          data={data}
+          doseIndex={doseIndex}
+          onChangeDose={onChangeDose}
         />
       )}
     </>

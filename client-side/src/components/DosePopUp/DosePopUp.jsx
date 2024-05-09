@@ -3,13 +3,18 @@ import "./style.css";
 
 export default function DosePopUp({
   onClose,
-  selectedItemData,
-  handleUnChecked,
-  onSaveDose,
+  onConfirm,
+  selectedOption,
+  data,
+  doseIndex,
+  onChangeDose,
 }) {
   const DosePopUpRef = useRef();
-  const [value, setValue] = useState(0);
   const values = ["0%", "-10%", "-20%", "-30%", "-40%", "-50%"];
+  const initialDoseReduction = data[selectedOption][doseIndex].doseReduction;
+  const initialIndex = values.indexOf(initialDoseReduction);
+  const [value, setValue] = useState(initialIndex !== -1 ? initialIndex : 0);
+
   const handleChange = (e) => {
     setValue(parseInt(e.target.value));
   };
@@ -25,21 +30,20 @@ export default function DosePopUp({
   const closeDosePopUp = (e) => {
     if (DosePopUpRef.current === e.target) {
       onClose();
-      handleUnChecked();
     }
   };
 
   const handleClose = () => {
-    handleUnChecked();
     onClose();
   };
-  const handleSaveDose = () => {
+
+  const handleConfirm = () => {
     const updatedItem = {
-      ...selectedItemData,
+      ...data[selectedOption][doseIndex],
       doseReduction: `-${value * 10}%`,
     };
-    onSaveDose(updatedItem);
-    handleUnChecked();
+    onConfirm(updatedItem);
+    onChangeDose(selectedOption, doseIndex, updatedItem);
     onClose();
   };
 
@@ -61,13 +65,13 @@ export default function DosePopUp({
         </div>
         <div className="dose-data">
           <div className="data">
-            <p>{selectedItemData.Medication}</p>
-            <span>{selectedItemData.Instructions}</span>
+            <p>{data[selectedOption][doseIndex].Medication}</p>
+            <span>{data[selectedOption][doseIndex].Instructions}</span>
           </div>
           <span>{value === 0 ? "No reduction" : `- ${value * 10}%`}</span>
         </div>
         <div className="dose-values">
-          <img src="images/reduce icon.svg" alt="icon" width={14} height={14} />
+          <img src="images/reduceicon.svg" alt="icon" width={14} height={14} />
           <p>Reduce the dosage by</p>
         </div>
         <div className="range-container">
@@ -102,7 +106,7 @@ export default function DosePopUp({
           <button className="btn cancel" onClick={handleClose}>
             Cancel
           </button>
-          <button className="btn save" onClick={handleSaveDose}>
+          <button className="btn save" onClick={handleConfirm}>
             Save
           </button>
         </div>
