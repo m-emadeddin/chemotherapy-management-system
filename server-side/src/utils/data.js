@@ -15,7 +15,7 @@ const {
   Visits,
   CycleRead,
   ChemotherapyMedRead,
-  PremedicationRead
+  PremedicationRead,
 } = require('../models/index.models');
 
 // Insert data into tables
@@ -366,119 +366,60 @@ exports.insertRegimens = async () => {
       Cancer_Type: 'Non-Hodgkin Lymphoma',
     });
 
-    // Step 2: Insert cycle data
-    const cyclesInserted = await CycleRead.bulkCreate([
+    // Step 3: Insert premedication data
+    const premedicationsInserted = await PremedicationRead.bulkCreate([
       {
-        Cycle_Number: 1,
-        Start_Date: new Date(),
-        Start_Time: '08:00:00',
-        End_Time: '17:00:00',
-        Is_active: false,
+        Medication_Name: 'Ondansetron',
+        Dose: 8,
+        Route: 'oral',
+        Instructions: 'Once 60 minutes before chemotherapy',
       },
       {
-        Cycle_Number: 2,
-        Start_Date: new Date(),
-        Start_Time: '08:00:00',
-        End_Time: '17:00:00',
-        Is_active: false,
-      },
-      {
-        Cycle_Number: 3,
-        Start_Date: new Date(),
-        Start_Time: '08:00:00',
-        End_Time: '17:00:00',
-        Is_active: false,
-      },
-      {
-        Cycle_Number: 4,
-        Start_Date: new Date(),
-        Start_Time: '08:00:00',
-        End_Time: '17:00:00',
-        Is_active: false,
-      },
-      {
-        Cycle_Number: 5,
-        Start_Date: new Date(),
-        Start_Time: '08:00:00',
-        End_Time: '17:00:00',
-        Is_active: false,
-      },
-      {
-        Cycle_Number: 6,
-        Start_Date: new Date(),
-        Start_Time: '08:00:00',
-        End_Time: '17:00:00',
-        Is_active: false,
+        Medication_Name: 'Sodium chloride',
+        Dose: 1000,
+        Route: 'Intravenous',
+        Instructions: 'Once prior to chemotherapy',
       },
     ]);
-    // Step 3: Insert premedication data
-    const premedicationsInserted = await PremedicationRead.bulkCreate(
-      [
-        {
-          Medication_Name: 'Ondansetron',
-          Dose: 8,
-          Route: 'oral',
-          Instructions: 'Once 60 minutes before chemotherapy',
-        },
-        {
-          Medication_Name: 'Sodium chloride',
-          Dose: 1000,
-          Route: 'Intravenous',
-          Instructions: 'Once prior to chemotherapy',
-        },
-      ]
-    );
 
     // Step 4: Insert chemotherapy data
-    const chemotherapyInserted = await ChemotherapyMedRead.bulkCreate(
-      [
-        {
-          Medication_Name: 'Cyclophosphamide',
-          Dose: 750,
-          Route: 'Intravenous',
-          Instructions: 'IV Push over 1-2 hours',
-        },
-        {
-          Medication_Name: 'Doxorubicin',
-          Dose: 50,
-          Route: 'Intravenous',
-          Instructions: 'IV Push over 15 minutes',
-        },
-        {
-          Medication_Name: 'Prednisone',
-          Dose: 100,
-          Route: 'oral',
-          Instructions:
-            'Daily x 5 days. 1st dose 60 minutes prior to chemotherapy',
-          Dosage_Reduction: null,
-          Administered_Dose_ml: null,
-          Administered_Dose_mg: null,
-          cycle_note: null,
-        },
-        {
-          Medication_Name: 'Vincristine',
-          Dose: 1.4,
-          Route: 'Intravenous',
-          Instructions: 'IV Push over 1-2 minutes',
-        },
-      ]
-    );
+    const chemotherapyInserted = await ChemotherapyMedRead.bulkCreate([
+      {
+        Medication_Name: 'Cyclophosphamide',
+        Dose: 750,
+        Route: 'Intravenous',
+        Instructions: 'IV Push over 1-2 hours',
+      },
+      {
+        Medication_Name: 'Doxorubicin',
+        Dose: 50,
+        Route: 'Intravenous',
+        Instructions: 'IV Push over 15 minutes',
+      },
+      {
+        Medication_Name: 'Prednisone',
+        Dose: 100,
+        Route: 'oral',
+        Instructions:
+          'Daily x 5 days. 1st dose 60 minutes prior to chemotherapy',
+        Dosage_Reduction: null,
+        Administered_Dose_ml: null,
+        Administered_Dose_mg: null,
+        cycle_note: null,
+      },
+      {
+        Medication_Name: 'Vincristine',
+        Dose: 1.4,
+        Route: 'Intravenous',
+        Instructions: 'IV Push over 1-2 minutes',
+      },
+    ]);
 
-    // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-    await treatmentPlanreadonly1.setCycleReads(cyclesInserted);
-    await Promise.all(
-      cyclesInserted.map(async (cycle) => {
-       
-        return await cycle.setPremedicationReads(premedicationsInserted);
-      })
-    );
-    await Promise.all(
-      cyclesInserted.map(async (cycle) => {
-        return await cycle.setChemotherapyMedReads(chemotherapyInserted);
-      })
-    );
+    // Step 5: Associate treatment plan with  premedications, and chemotherapy
+    await treatmentPlanreadonly1.setPremedicationReads(premedicationsInserted);
+    await treatmentPlanreadonly1.setChemotherapyMedReads(chemotherapyInserted);
 
-  // 2 =====================================ABVD==========================================
+    // 2 =====================================ABVD==========================================
     // Step 1: Insert treatment plan data
     const treatmentPlanreadonly2 = await treatmentPlanReadOnly.create({
       Plan_Name: 'ABVD Hodgkin Lymphoma Regimen',
@@ -486,203 +427,152 @@ exports.insertRegimens = async () => {
       number_of_Cycles: 7,
       Cancer_Type: 'Hodgkin Lymphoma',
     });
+    // Step 3: Insert premedication data
+    const premedicationsInserted2 = await PremedicationRead.bulkCreate([
+      {
+        Medication_Name: 'Granisetron',
+        Dose: 1,
+        Route: 'Oral or Intravenous',
+        Instructions:
+          'Administered before chemotherapy to prevent nausea and vomiting.',
+      },
+    ]);
 
-// Step 2: Insert cycle data
-const cyclesInserted2 = await CycleRead.bulkCreate([
-  { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 2, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 3, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 4, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 5, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 6, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 7, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-]);
+    // Step 4: Insert chemotherapy data
+    const chemotherapyInserted2 = await ChemotherapyMedRead.bulkCreate([
+      {
+        Medication_Name: 'Doxorubicin (Adriamycin)',
+        Dose: 25,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each cycle as a slow IV infusion over 15-30 minutes.',
+      },
+      {
+        Medication_Name: 'Bleomycin',
+        Dose: 10,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each cycle as a slow IV infusion over 10-15 minutes.',
+      },
+      {
+        Medication_Name: 'Vinblastine',
+        Dose: 6,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each cycle as a slow IV infusion over 5-10 minutes.',
+      },
+      {
+        Medication_Name: 'Dacarbazine',
+        Dose: 375,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each cycle as a slow IV infusion over 30-60 minutes.',
+      },
+    ]);
 
-// Step 3: Insert premedication data
-const premedicationsInserted2 = await PremedicationRead.bulkCreate([
-  {
-    Medication_Name: 'Granisetron',
-    Dose: 1,
-    Route: 'Oral or Intravenous',
-    Instructions: 'Administered before chemotherapy to prevent nausea and vomiting.',
-  },
-]);
+    // Step 5: Associate treatment plan premedications, and chemotherapy
+    await treatmentPlanreadonly2.setPremedicationReads(premedicationsInserted2);
+    await treatmentPlanreadonly2.setChemotherapyMedReads(chemotherapyInserted2);
+    // =====================================COP==========================================
+    // Step 1: Create treatment plan
+    const treatmentPlanreadonly3 = await treatmentPlanReadOnly.create({
+      Plan_Name: 'COP Regimen for Non-Metastatic Non-Hodgkin Lymphoma',
+      number_of_Weeks: 3,
+      number_of_Cycles: 6,
+      Cancer_Type: 'Non-Hodgkin Lymphoma',
+    });
 
-// Step 4: Insert chemotherapy data
-const chemotherapyInserted2 = await ChemotherapyMedRead.bulkCreate([
-  {
-    Medication_Name: 'Doxorubicin (Adriamycin)',
-    Dose: 25,
-    Route: 'Intravenous',
-    Instructions: 'Administered on Day 1 of each cycle as a slow IV infusion over 15-30 minutes.',
-  },
-  {
-    Medication_Name: 'Bleomycin',
-    Dose: 10,
-    Route: 'Intravenous',
-    Instructions: 'Administered on Day 1 of each cycle as a slow IV infusion over 10-15 minutes.',
-  },
-  {
-    Medication_Name: 'Vinblastine',
-    Dose: 6,
-    Route: 'Intravenous',
-    Instructions: 'Administered on Day 1 of each cycle as a slow IV infusion over 5-10 minutes.',
-  },
-  {
-    Medication_Name: 'Dacarbazine',
-    Dose: 375,
-    Route: 'Intravenous',
-    Instructions: 'Administered on Day 1 of each cycle as a slow IV infusion over 30-60 minutes.',
-  },
-]);
+    // Step 3: Insert premedication data
+    const premedicationsInserted3 = await PremedicationRead.bulkCreate([
+      {
+        Medication_Name: 'Prednisone',
+        Dose: 40,
+        Route: 'Oral',
+        Instructions:
+          'Administered before chemotherapy as part of the COP regimen. Dosage and frequency may vary based on patient factors and treatment protocol.',
+      },
+    ]);
 
-// Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-await treatmentPlanreadonly2.setCycleReads(cyclesInserted2);
-await Promise.all(
-  cyclesInserted2.map(async (cycle) => {
-    return await cycle.setChemotherapyMedReads(chemotherapyInserted2);
-  })
-);
-await Promise.all(
-  cyclesInserted2.map(async (cycle) => {
-    return await cycle.setPremedicationReads(premedicationsInserted2);
-  })
-);
-  // =====================================COP==========================================
-  // Step 1: Create treatment plan
-const treatmentPlanreadonly3 = await treatmentPlanReadOnly.create({
-  Plan_Name: 'COP Regimen for Non-Metastatic Non-Hodgkin Lymphoma',
-  number_of_Weeks: 3,
-  number_of_Cycles: 6,
-  Cancer_Type: "Non-Hodgkin Lymphoma"
-});
+    // Step 4: Insert chemotherapy data
+    const chemotherapyInserted3 = await ChemotherapyMedRead.bulkCreate([
+      {
+        Medication_Name: 'Cyclophosphamide',
+        Dose: 750,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each cycle as part of the COP regimen. Dosage and frequency may vary based on patient factors and treatment protocol.',
+      },
+      {
+        Medication_Name: 'Vincristine',
+        Dose: 1.4,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each cycle as part of the COP regimen. Dosage and frequency may vary based on patient factors and treatment protocol.',
+      },
+    ]);
 
-// Step 2: Insert cycle data
-const cyclesInserted3 = await CycleRead.bulkCreate([
-  { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 2, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 3, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 4, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 5, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-  { Cycle_Number: 6, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false }
-]);
+    // Step 5: Associate treatment plan premedications, and chemotherapy
+    await treatmentPlanreadonly3.setPremedicationReads(premedicationsInserted3);
+    await treatmentPlanreadonly3.setChemotherapyMedReads(chemotherapyInserted3);
 
-// Step 3: Insert premedication data
-const premedicationsInserted3 = await PremedicationRead.bulkCreate([
-  { 
-    Medication_Name: 'Prednisone',
-    Dose: 40, Route: 'Oral',
-    Instructions: 'Administered before chemotherapy as part of the COP regimen. Dosage and frequency may vary based on patient factors and treatment protocol.' 
-  }
-]);
+    // 4 // ===================================FOLFIRINOX========================================
 
-// Step 4: Insert chemotherapy data
-const chemotherapyInserted3 = await ChemotherapyMedRead.bulkCreate([
-  { 
-    Medication_Name: 'Cyclophosphamide',
-    Dose: 750, Route: 'Intravenous', 
-    Instructions: 'Administered on Day 1 of each cycle as part of the COP regimen. Dosage and frequency may vary based on patient factors and treatment protocol.' 
-  },
-  { 
-    Medication_Name: 'Vincristine', 
-    Dose: 1.4, Route: 'Intravenous', 
-    Instructions: 'Administered on Day 1 of each cycle as part of the COP regimen. Dosage and frequency may vary based on patient factors and treatment protocol.' 
-  }
-]);
+    //   // Step 1: Create treatment plan
+    const treatmentPlanreadonly4 = await treatmentPlanReadOnly.create({
+      Plan_Name: 'FOLFIRINOX Regimen for Pancreatic Cancer',
+      number_of_Weeks: 24,
+      number_of_Cycles: 8,
+      Cancer_Type: 'Pancreatic Cancer',
+    });
 
-// Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-await treatmentPlanreadonly3.setCycleReads(cyclesInserted3);
+    // Step 3: Insert premedication data
+    const premedicationsInserted4 = await PremedicationRead.bulkCreate([
+      {
+        Medication_Name: 'Ondansetron',
+        Dose: 8,
+        Route: 'Oral or Intravenous',
+        Instructions:
+          'Administered before chemotherapy to prevent nausea and vomiting.',
+      },
+    ]);
 
-// Associate premedications with each cycle
-await Promise.all(
-  cyclesInserted3.map(async (cycle) => {
-  return await cycle.setPremedicationReads(premedicationsInserted3);
-}));
+    // Step 4: Insert chemotherapy data
+    const chemotherapyInserted4 = await ChemotherapyMedRead.bulkCreate([
+      {
+        Medication_Name: 'Oxaliplatin',
+        Dose: 85,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each 14-day cycle as part of the FOLFIRINOX regimen. Infuse over 2 hours.',
+      },
+      {
+        Medication_Name: 'Irinotecan',
+        Dose: 180,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each 14-day cycle as part of the FOLFIRINOX regimen. Infuse over 90 minutes.',
+      },
+      {
+        Medication_Name: 'Leucovorin (Folinic Acid)',
+        Dose: 400,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1 of each 14-day cycle as part of the FOLFIRINOX regimen. Infuse over 2 hours, starting 30 minutes before fluorouracil infusion.',
+      },
+      {
+        Medication_Name: 'Fluorouracil (5-FU)',
+        Dose: 2400,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1-2 of each 14-day cycle as part of the FOLFIRINOX regimen. Administered as an intravenous bolus over 46-48 hours via continuous infusion pump.',
+      },
+    ]);
 
-//Associate chemotherapy with each cycle
-await Promise.all(
-  cyclesInserted3.map(async (cycle) => {
-  return await cycle.setChemotherapyMedReads(chemotherapyInserted3);
-}));
+    // Step 5: Associate treatment plan premedications, and chemotherapy
+    await treatmentPlanreadonly4.setPremedicationReads(premedicationsInserted4);
+    await treatmentPlanreadonly4.setChemotherapyMedReads(chemotherapyInserted4);
 
-// 4 // ===================================FOLFIRINOX========================================
-
-//   // Step 1: Create treatment plan
-  const treatmentPlanreadonly4 = await treatmentPlanReadOnly.create({
-    Plan_Name: 'FOLFIRINOX Regimen for Pancreatic Cancer',
-    number_of_Weeks: 24,
-    number_of_Cycles: 8,
-    Cancer_Type: "Pancreatic Cancer"
-  });
-
-  // Step 2: Insert cycle data
-  const cyclesInserted4 = await CycleRead.bulkCreate([
-    { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-    { Cycle_Number: 2, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-    { Cycle_Number: 3, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-    { Cycle_Number: 4, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-    { Cycle_Number: 5, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-    { Cycle_Number: 6, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-    { Cycle_Number: 7, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-    { Cycle_Number: 8, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false }
-  ]);
-
-  // Step 3: Insert premedication data
-  const premedicationsInserted4 = await PremedicationRead.bulkCreate([
-    { 
-      Medication_Name: 'Ondansetron',
-      Dose: 8, 
-      Route: 'Oral or Intravenous', 
-      Instructions: 'Administered before chemotherapy to prevent nausea and vomiting.'
-    }
-  ]);
-
-  // Step 4: Insert chemotherapy data
-  const chemotherapyInserted4 = await ChemotherapyMedRead.bulkCreate([
-    { 
-      Medication_Name: 'Oxaliplatin', 
-      Dose: 85, 
-      Route: 'Intravenous', 
-      Instructions: 'Administered on Day 1 of each 14-day cycle as part of the FOLFIRINOX regimen. Infuse over 2 hours.'
-    },
-    { 
-      Medication_Name: 'Irinotecan', 
-      Dose: 180, 
-      Route: 'Intravenous', 
-      Instructions: 'Administered on Day 1 of each 14-day cycle as part of the FOLFIRINOX regimen. Infuse over 90 minutes.'
-    },
-    { 
-      Medication_Name: 'Leucovorin (Folinic Acid)', 
-      Dose: 400 , 
-      Route: 'Intravenous', 
-      Instructions: 'Administered on Day 1 of each 14-day cycle as part of the FOLFIRINOX regimen. Infuse over 2 hours, starting 30 minutes before fluorouracil infusion.'
-    },
-    { 
-      Medication_Name: 'Fluorouracil (5-FU)', 
-      Dose: 2400 , 
-      Route: 'Intravenous', 
-      Instructions: 'Administered on Day 1-2 of each 14-day cycle as part of the FOLFIRINOX regimen. Administered as an intravenous bolus over 46-48 hours via continuous infusion pump.'
-    }
-  ]);
-
-  // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-  await treatmentPlanreadonly4.setCycleReads(cyclesInserted4);
-
-  // Associate premedications with each cycle
-  await Promise.all(
-    cyclesInserted4.map(async (cycle) => {
-      return await cycle.setPremedicationReads(premedicationsInserted4);
-    })
-  );
-
-  // Associate chemotherapy with each cycle
-  await Promise.all(
-    cyclesInserted4.map(async (cycle) => {
-      return await cycle.setChemotherapyMedReads(chemotherapyInserted4);
-    })
-  );
-
-   // 5-==============================Gemcitabine + Abraxane===================================
+    // 5-==============================Gemcitabine + Abraxane===================================
     // Step 1: Create treatment plan
     const treatmentPlanreadonly5 = await treatmentPlanReadOnly.create({
       Plan_Name: 'Gemcitabine + Abraxane Therapy for Pancreatic Cancer',
@@ -691,19 +581,9 @@ await Promise.all(
       Cancer_Type: 'Pancreatic Cancer',
     });
 
-    // Step 2: Insert cycle data
-    const cyclesInserted5 = await CycleRead.bulkCreate([
-      { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-      { Cycle_Number: 2, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-      { Cycle_Number: 3, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-      { Cycle_Number: 4, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-      { Cycle_Number: 5, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
-      { Cycle_Number: 6, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false }
-    ]);
-
     // Step 3: Insert premedication data
     const premedicationsInserted5 = await PremedicationRead.bulkCreate([
-      { 
+      {
         Medication_Name: 'Ondansetron',
         Dose: 8,
         Route: 'Oral or Intravenous',
@@ -714,11 +594,12 @@ await Promise.all(
 
     // Step 4: Insert chemotherapy data
     const chemotherapyInserted5 = await ChemotherapyMedRead.bulkCreate([
-      { 
-        Medication_Name: 'Gemcitabine', 
-        Dose: 1000, 
-        Route: 'Intravenous', 
-        Instructions: 'Administered on Day 1, Day 8, and Day 15 of each 28-day cycle as part of the Gemcitabine + Abraxane therapy.'
+      {
+        Medication_Name: 'Gemcitabine',
+        Dose: 1000,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1, Day 8, and Day 15 of each 28-day cycle as part of the Gemcitabine + Abraxane therapy.',
       },
       {
         Medication_Name: 'Abraxane (Nab-paclitaxel)',
@@ -729,22 +610,9 @@ await Promise.all(
       },
     ]);
 
-    // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-    await treatmentPlanreadonly5.setCycleReads(cyclesInserted5);
-  
-    // Associate premedications with each cycle
-    await Promise.all(
-      cyclesInserted5.map(async (cycle) => {
-        return await cycle.setPremedicationReads(premedicationsInserted5);
-      })
-    );
-
-    // Associate chemotherapy with each cycle
-    await Promise.all(
-      cyclesInserted5.map(async (cycle) => {
-        return await cycle.setChemotherapyMedReads(chemotherapyInserted5);
-      })
-    );
+    // Step 5: Associate treatment plan premedications, and chemotherapy
+    await treatmentPlanreadonly5.setPremedicationReads(premedicationsInserted5);
+    await treatmentPlanreadonly5.setChemotherapyMedReads(chemotherapyInserted5);
 
     console.log('Regimns inserted successfully!');
   } catch (error) {

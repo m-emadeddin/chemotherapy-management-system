@@ -18,7 +18,6 @@ const VisitsModel = require('./Visits.models');
 
 //readonly section
 const ChemotherapyMedReadonlyModel = require("./ChemotherapyMedRead.models");
-const CycleReadonlyModel = require("./CyclesRead.models")
 const PremedicationReadonlyModel = require("./PremedicationsRead.models")
 //========================= M to N =======================
 const PatientsReservedbedsModel = require('./PatientsReservedbeds.models');
@@ -27,9 +26,8 @@ const PremedicationsCyclesModel = require('./PremedicationsCycles.models');
 const ChemotherapyMedicationsCyclesModel = require('./ChemotherapyMedicationsCycles.models');
 
 //readonly section
-const ChemotherapyCyclesReadonlyModel =require("./ChemotherapyCyclesReadonly.models")
-const TreatmentPlanReadOnlyCyclesModel = require('./TreatmentPlanCyclesReadonly.models');
-const PremedicationsCyclesReadonlyModel = require('./PremedicationsCyclesReadonly.models')
+const ChemotherapyPlanReadonlyModel =require("./ChemotherapyPlanReadonly.models")
+const PremedicationsPlanReadonlyModel = require('./PremedicationsPlanReadonly.models')
 // create models
 const treatmentPlanReadOnly = TPReadOnlyModel(db, Sequelize);
 const Cycles = CyclesModel(db, Sequelize);
@@ -48,7 +46,6 @@ const Medical = MedicalModel(db, Sequelize);
 
 //readonly section
 const ChemotherapyMedRead = ChemotherapyMedReadonlyModel(db,Sequelize);
-const CycleRead = CycleReadonlyModel(db,Sequelize);
 const PremedicationRead = PremedicationReadonlyModel(db ,Sequelize)
 
 //==========junction tables for M to N realtions==========
@@ -58,9 +55,8 @@ const PremedicationsCycles = PremedicationsCyclesModel(db, Sequelize);
 const ChemotherapyMedicationsCycles = ChemotherapyMedicationsCyclesModel(db, Sequelize);
 
 //readonly section
-const TreatmentPlanReadOnlyCycles = TreatmentPlanReadOnlyCyclesModel( db, Sequelize);
-const ChemotherapyCyclesReadonly = ChemotherapyCyclesReadonlyModel(db , Sequelize);
-const PremedicationsCyclesReadonly = PremedicationsCyclesReadonlyModel(db , Sequelize)
+const ChemotherapyPlanReadonly = ChemotherapyPlanReadonlyModel(db , Sequelize);
+const PremedicationsPlanReadonly = PremedicationsPlanReadonlyModel(db , Sequelize)
 // ====================M to N Relations===================
 //1. patients && reserved beds
 Patients.belongsToMany(ReservedBeds, {
@@ -106,39 +102,26 @@ ChemotherapyMedications.belongsToMany(Cycles, {
 });
 
 
-//5.Treatment plans read only & cyclesreadonly
-treatmentPlanReadOnly.belongsToMany(CycleRead, {
-  through: TreatmentPlanReadOnlyCycles,
-  uniqueKey: 'ReadOnlyCycles_unique', // Custom unique constraint name
+//5. chemotherapy-readonly with Treatment plan-readonly
+treatmentPlanReadOnly.belongsToMany(ChemotherapyMedRead, {
+  through: ChemotherapyPlanReadonly,
+  uniqueKey: 'ChemotherapyPlanreadonly_unique', // Custom unique constraint name
   foreignKey: { name: 'plan_ID', allowNull: false },
 });
-
-CycleRead.belongsToMany(treatmentPlanReadOnly, {
-  through: TreatmentPlanReadOnlyCycles,
-  uniqueKey: 'ReadOnlyCycles_unique', // Custom unique constraint name
-  foreignKey: { name: 'cycle_ID', allowNull: false },
-});
-
-//6. chemotherapy-readonly with cycles-readonly
-CycleRead.belongsToMany(ChemotherapyMedRead, {
-  through: ChemotherapyCyclesReadonly,
-  uniqueKey: 'ChemotherapyCyclesreadonly_unique', // Custom unique constraint name
-  foreignKey: { name: 'cycle_ID', allowNull: false },
-});
-ChemotherapyMedRead.belongsToMany(CycleRead, {
-  through: ChemotherapyCyclesReadonly,
-  uniqueKey: 'ChemotherapyCyclesreadonly_unique', // Custom unique constraint name
+ChemotherapyMedRead.belongsToMany(treatmentPlanReadOnly, {
+  through: ChemotherapyPlanReadonly,
+  uniqueKey: 'ChemotherapyPlanreadonly_unique', // Custom unique constraint name
   foreignKey: { name: 'medication_ID', allowNull: false },
 });
-// 7 premedications-readonly with cycles-readonly
-CycleRead.belongsToMany(PremedicationRead, {
-  through: PremedicationsCyclesReadonly,
-  uniqueKey: 'PremedicationCyclesReadonly_unique', // Custom unique constraint name
-  foreignKey: { name: 'cycle_ID', allowNull: false },
+// 7 premedications-readonly with Treatment plan-readonly
+treatmentPlanReadOnly.belongsToMany(PremedicationRead, {
+  through: PremedicationsPlanReadonly,
+  uniqueKey: 'PremedicationPlanReadonly_unique', // Custom unique constraint name
+  foreignKey: { name: 'plan_ID', allowNull: false },
 });
-PremedicationRead.belongsToMany(CycleRead, {
-  through: PremedicationsCyclesReadonly,
-  uniqueKey: 'PremedicationCyclesReadonly_unique', // Custom unique constraint name
+PremedicationRead.belongsToMany(treatmentPlanReadOnly, {
+  through: PremedicationsPlanReadonly,
+  uniqueKey: 'PremedicationPlanReadonly_unique', // Custom unique constraint name
   foreignKey: { name: 'medication_ID', allowNull: false },
 });
 
@@ -233,7 +216,5 @@ module.exports = {
   Doctor,
   Visits,
   ChemotherapyMedRead,
-  CycleRead,
   PremedicationRead,
-  
 };
