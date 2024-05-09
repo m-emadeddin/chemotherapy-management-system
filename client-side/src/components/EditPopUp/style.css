@@ -55,6 +55,7 @@
     gap: 15px;
 }
 
+
 .edit-popup-container .edit-values p {
     font-weight: 800;
 }
@@ -62,6 +63,7 @@
 .edit-popup-container .edit-values th {
     font-weight: 300;
     color: #8C9AB3;
+    text-align: start;
 }
 
 .edit-popup-container .edit-values td {

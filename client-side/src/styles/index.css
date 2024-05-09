@@ -64,7 +64,6 @@ table {
   max-width: 80%;
   max-height: 90%;
   overflow: auto;
-  margin-bottom: 80px;
 }
 
 .popup-content {
@@ -72,7 +71,7 @@ table {
 }
 
 .new-row {
-  margin-top: 8px;
+  margin-top: 10px;
 }
 .hover-container {
   position: relative;

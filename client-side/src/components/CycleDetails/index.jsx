@@ -1,11 +1,8 @@
 import React from "react";
-import { Text } from "../../components";
+import { Text, PremedicationsTable, ChemotherapyTable } from "./..";
 import { useLocation } from "react-router-dom";
-import PremedicationsTable from "../../components/PremedicationsTable";
-import ChemotherapyTable from "../../components/ChemotherapyTable";
 
 const CycleDetails = () => {
-  console.log(2);
   const location = useLocation();
   const id = 1;
   const activeCycle = 1;
@@ -17,7 +14,6 @@ const CycleDetails = () => {
           Premedications
         </Text>
         <div className="h-px w-full self-stretch bg-blue_gray-100" />
-
         <div>
           <PremedicationsTable cycle={cycle} id={id}></PremedicationsTable>
         </div>
@@ -39,4 +35,4 @@ const CycleDetails = () => {
     </div>
   );
 };
-export default CycleDetails;
+export { CycleDetails };

@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { Text, Button, Heading } from "../../components";
-import DocumentChemotherapyCycle from "../../components/DocumentChemotherapyCycle";
-import { useLocation, Link } from "react-router-dom";
-import CycleDetails from "../../components/CycleDetails";
-import CycleDocument from "components/CycleDocument";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  Text,
+  Button,
+  Heading,
+  CycleDetails,
+  CycleDocument,
+  DocumentChemotherapyCycle,
+} from "../../components";
 
-export default function DocumentchemotherapyPage(props) {
+export default function DocumentchemotherapyPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const id = 1;
-  const activeCycle = 1;
-  const { cycle } = location.state || { cycle: activeCycle };
-  const [cyclesCount, setCyclesCount] = useState();
+  const [activeCycle, setActiveCycle] = useState(1);
+  const [cyclesCount, setCyclesCount] = useState(1);
   const [redirectToDoc, setRedirectToDoc] = useState(false);
+  const [dates, setDates] = useState({});
+  const [cycle, setCycle] = useState(
+    activeCycle || location.state.cycle || cyclesCount
+  );
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,7 +29,6 @@ export default function DocumentchemotherapyPage(props) {
           `document-chemotherapy/cycles-count/${id}`
         );
         const data = await response.json();
-        console.log(data);
         setCyclesCount(data.cycle_count);
       } catch (error) {
         console.error("Error fetching cycle count:", error);
@@ -28,7 +36,6 @@ export default function DocumentchemotherapyPage(props) {
     };
     fetchData();
   }, [id]);
-  
 
   return (
     <>
@@ -49,10 +56,13 @@ export default function DocumentchemotherapyPage(props) {
             openCycle={cycle}
             cyclesCount={cyclesCount}
             activeCycle={activeCycle}
+            dates={dates}
+            handleNavigation={(c) => {
+              setCycle(c);
+            }}
           />
         </div>
         <div className="m-[30px] w-[81%] flex flex-1 flex-col gap-[30px]">
-          {/* treatment protocol section */}
           <div className="flex flex-col gap-[20px]">
             <div className="flex items-center justify-between p-[19px] md:flex-col">
               <div className="flex flex-col items-start gap-3.5 lg:w-[55%] md:items-center ">
@@ -66,19 +76,23 @@ export default function DocumentchemotherapyPage(props) {
               {cycle === activeCycle && !redirectToDoc ? (
                 <div className="flex justify-between items-center gap-2">
                   <Button
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
+                    size="xl"
+                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
                     onClick={() => {
                       setRedirectToDoc(true);
                     }}
                   >
                     Document
                   </Button>
-                  <Link
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
-                    to="/order"
+                  <Button
+                    size="xl"
+                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-base text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
+                    onClick={() => {
+                      navigate("/order");
+                    }}
                   >
                     Modify Order
-                  </Link>
+                  </Button>
                 </div>
               ) : (
                 ""
@@ -87,7 +101,18 @@ export default function DocumentchemotherapyPage(props) {
             {redirectToDoc && cycle === activeCycle ? (
               <CycleDocument
                 cycle={cycle}
-                toggle={() => setRedirectToDoc(false)}
+                Submit={() => {
+                  setRedirectToDoc(false);
+                  setActiveCycle((cycle + 1) % (cyclesCount + 1));
+                  setCycle((cycle + 1) % (cyclesCount + 1));
+                  setDates({
+                    ...dates,
+                    [cycle]: new Date().toLocaleDateString("en-GB"),
+                  });
+                }}
+                Cancel={() => {
+                  setRedirectToDoc(false);
+                }}
               />
             ) : (
               <CycleDetails cycle={cycle} />

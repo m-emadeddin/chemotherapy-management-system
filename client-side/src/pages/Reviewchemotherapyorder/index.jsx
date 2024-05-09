@@ -7,11 +7,12 @@ export default function Reviewchemotherapyorder() {
   const { newRegimenDetails: patientOrder } = useRegimenDetails();
   console.log("laa", patientOrder);
   function handleBack() {
-    navigate(-1);
+    navigate("/order");
   }
 
   function handleSubmit() {
     console.log(patientOrder);
+    navigate("/patient");
   }
   return (
     <div className="review-container  mx-auto ">

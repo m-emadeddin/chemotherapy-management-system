@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
-import RegimenDetails from "components/redimenDetails/RegimenDetails";
+import RegimenDetails from "components/regimenDetails/RegimenDetails";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 
 const regimens = [
