@@ -9,7 +9,7 @@ const {
   Premedications,
   TreatmentPlans,
   Radiography,
-  MedicalAnalysis,
+  Medical,
   User,
   Doctor,
   Visits,
@@ -143,28 +143,24 @@ exports.insertDummyData = async () => {
       DEXA: 'DEXA Result 2',
     });
     //===========================MEDICAL ANALYSIS=============================================================
-    await MedicalAnalysis.bulkCreate([
-      {
-        Urinanalysis: 'Normal',
-        CBC: 'Normal',
-        Electrophoresis: 'Abnormal',
-        CEA: 'High',
-        AFP: 'Normal',
-        B2M: 'Normal',
-        createdAt: new Date(),
-        patientPatientID: 1,
-      },
-      {
-        Urinanalysis: 'Abnormal',
-        CBC: 'High',
-        Electrophoresis: 'Normal',
-        CEA: 'Normal',
-        AFP: 'Normal',
-        B2M: 'Normal',
-        createdAt: new Date(),
-        patientPatientID: 2,
-      },
-    ]);
+    await patient1.createMedical({
+      Urinanalysis: 'Abnormal',
+      CBC: 'Normal',
+      Electrophoresis: 'Normal',
+      CEA: 'Normal',
+      AFP: 'Normal',
+      B2M: 'Normal',
+      createdAt: new Date(),
+    });
+    await patient2.createMedical({
+      Urinanalysis: 'Abnormal',
+      CBC: 'High',
+      Electrophoresis: 'Normal',
+      CEA: 'Normal',
+      AFP: 'Normal',
+      B2M: 'Normal',
+      createdAt: new Date(),
+    });
     //===========================CANCER OVERVIEW=============================================================
 
     const cancerOverview1 = await patient1.createCancerOverview({
@@ -367,7 +363,7 @@ exports.insertRegimens = async () => {
       Plan_Name: 'CHOP: Protocol for Non-Hodgkin Lymphoma',
       number_of_Weeks: 3,
       number_of_Cycles: 6,
-      Cancer_Type :"Non-Hodgkin Lymphoma"
+      Cancer_Type: 'Non-Hodgkin Lymphoma',
     });
 
     // Step 2: Insert cycle data
@@ -484,12 +480,12 @@ exports.insertRegimens = async () => {
 
   // 2 =====================================ABVD==========================================
     // Step 1: Insert treatment plan data
-const treatmentPlanreadonly2 = await treatmentPlanReadOnly.create({
-  Plan_Name: 'ABVD Hodgkin Lymphoma Regimen',
-  number_of_Weeks: 4,
-  number_of_Cycles: 7,
-  Cancer_Type :"Hodgkin Lymphoma"
-});
+    const treatmentPlanreadonly2 = await treatmentPlanReadOnly.create({
+      Plan_Name: 'ABVD Hodgkin Lymphoma Regimen',
+      number_of_Weeks: 4,
+      number_of_Cycles: 7,
+      Cancer_Type: 'Hodgkin Lymphoma',
+    });
 
 // Step 2: Insert cycle data
 const cyclesInserted2 = await CycleRead.bulkCreate([
@@ -692,9 +688,9 @@ await Promise.all(
       Plan_Name: 'Gemcitabine + Abraxane Therapy for Pancreatic Cancer',
       number_of_Weeks: 18,
       number_of_Cycles: 6,
-      Cancer_Type: "Pancreatic Cancer"
+      Cancer_Type: 'Pancreatic Cancer',
     });
-  
+
     // Step 2: Insert cycle data
     const cyclesInserted5 = await CycleRead.bulkCreate([
       { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
@@ -704,17 +700,18 @@ await Promise.all(
       { Cycle_Number: 5, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
       { Cycle_Number: 6, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false }
     ]);
-  
+
     // Step 3: Insert premedication data
     const premedicationsInserted5 = await PremedicationRead.bulkCreate([
       { 
         Medication_Name: 'Ondansetron',
-        Dose: 8, 
-        Route: 'Oral or Intravenous', 
-        Instructions: 'Administered before chemotherapy to prevent nausea and vomiting.'
-      }
+        Dose: 8,
+        Route: 'Oral or Intravenous',
+        Instructions:
+          'Administered before chemotherapy to prevent nausea and vomiting.',
+      },
     ]);
-  
+
     // Step 4: Insert chemotherapy data
     const chemotherapyInserted5 = await ChemotherapyMedRead.bulkCreate([
       { 
@@ -723,14 +720,15 @@ await Promise.all(
         Route: 'Intravenous', 
         Instructions: 'Administered on Day 1, Day 8, and Day 15 of each 28-day cycle as part of the Gemcitabine + Abraxane therapy.'
       },
-      { 
-        Medication_Name: 'Abraxane (Nab-paclitaxel)', 
-        Dose: 125, 
-        Route: 'Intravenous', 
-        Instructions: 'Administered on Day 1, Day 8, and Day 15 of each 28-day cycle as part of the Gemcitabine + Abraxane therapy.'
-      }
+      {
+        Medication_Name: 'Abraxane (Nab-paclitaxel)',
+        Dose: 125,
+        Route: 'Intravenous',
+        Instructions:
+          'Administered on Day 1, Day 8, and Day 15 of each 28-day cycle as part of the Gemcitabine + Abraxane therapy.',
+      },
     ]);
-  
+
     // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
     await treatmentPlanreadonly5.setCycleReads(cyclesInserted5);
   
@@ -740,14 +738,13 @@ await Promise.all(
         return await cycle.setPremedicationReads(premedicationsInserted5);
       })
     );
-  
+
     // Associate chemotherapy with each cycle
     await Promise.all(
       cyclesInserted5.map(async (cycle) => {
         return await cycle.setChemotherapyMedReads(chemotherapyInserted5);
       })
     );
-
 
     console.log('Regimns inserted successfully!');
   } catch (error) {
