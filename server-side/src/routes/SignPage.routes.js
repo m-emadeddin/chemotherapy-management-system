@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const UserController = require('../controllers/LoginPage.controllers');
+const UserController = require('../controllers/SignPage.controllers');
 const authMiddleware = require("../middlewares/auth.middlewares");
 
 // Route for user sign-up

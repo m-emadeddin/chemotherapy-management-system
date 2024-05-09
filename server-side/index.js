@@ -6,7 +6,7 @@ const dummyData = require('./src/utils/data');
 
 
 const PatientMedicationInfoRoutes = require("./src/routes/DocumentChemotherapy.routes");
-const UserRoute = require('./src/routes/LoginPage.routes');
+const UserRoute = require('./src/routes/SignPage.routes');
 // import the DB
 const db = require("./src/configs/db.config");
 const Dbc = require("./src/models/index.models");
