@@ -9,16 +9,19 @@ module.exports = (db, DataTypes) => {
         Medication_Name: {
           type: DataTypes.STRING,
           allowNull: false,
-          unique: true
+          unique: false
         },
         Dose: {
-          type: DataTypes.INTEGER
+          type: DataTypes.FLOAT,
+          allowNull: false,
+
         },
         Route: {
           type: DataTypes.STRING,
           validate: {
             len: [0, 25]
-          }
+          },
+          allowNull: false,
         },
         Instructions: {
           type: DataTypes.TEXT('tiny')
