@@ -16,6 +16,10 @@ module.exports = (db, DataTypes) => {
         number_of_Cycles: {
           type: DataTypes.INTEGER,
           allowNull: false
+        },
+        Cancer_Type: {
+          type: DataTypes.STRING,
+          allowNull: false,
         }
       });
       return Plan
