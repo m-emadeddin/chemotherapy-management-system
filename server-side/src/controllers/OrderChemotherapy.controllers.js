@@ -36,10 +36,8 @@ exports.getRegimens = (req, res, next) => {
 };
 
 exports.getChemoMedications = (req, res, next) => {
-  const regimenID = req.params.id;
-  //  const regimenName = req.body.regimenName;
-  //   TreatmentPlanReadOnly.findOne({where :{Plan_Name: regimenName}})
-  TreatmentPlanReadOnly.findByPk(regimenID)
+  const regimenName = req.body.regimenName;
+  TreatmentPlanReadOnly.findOne({ where: { Plan_Name: regimenName } })
     .then((regimen) => {
       return regimen.getChemotherapyMedReads();
     })
@@ -66,8 +64,8 @@ exports.getChemoMedications = (req, res, next) => {
 };
 
 exports.getPreMedications = (req, res, next) => {
-  const regimenID = req.params.id;
-  TreatmentPlanReadOnly.findByPk(regimenID)
+  const regimenName = req.body.regimenName;
+  TreatmentPlanReadOnly.findOne({ where: { Plan_Name: regimenName } })
     .then((regimen) => {
       return regimen.getPremedicationReads();
     })
