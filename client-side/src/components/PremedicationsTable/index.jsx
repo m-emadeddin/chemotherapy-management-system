@@ -34,8 +34,8 @@ const PremedicationsTable = ({ cycle, id }) => {
     <>
       <div className="flex flex-col">
         <div className="flex text-gray-600 w-full border-t-[1px] border-gray-800">
-          <div className="w-[20%] p-[19px]">Medication</div>
-          <div className="w-[10%] p-[19px]">Dose</div>
+          <div className="w-[15%] p-[19px]">Medication</div>
+          <div className="w-[15%] p-[19px]">Dose</div>
           <div className="w-[15%] p-[19px]">Route</div>
           <div className="w-[30%] p-[19px]">Instructions</div>
         </div>
@@ -43,8 +43,11 @@ const PremedicationsTable = ({ cycle, id }) => {
         {premedications.map((premedication) => {
           return (
             <div className="flex w-full border-t-[1px] border-gray-800">
-              <div className="w-[20%] p-[19px]">{premedication.Medication}</div>
-              <div className="w-[10%] p-[19px]">{premedication.Dose}</div>
+              <div className="w-[15%] p-[19px]">{premedication.Medication}</div>
+              <div className="w-[15%] p-[19px]">
+                {premedication.Dose}
+                {premedication.Route === "Oral" ? "Miligram" : "Milliliter"}
+              </div>
               <div className="w-[15%] p-[19px]">{premedication.Route}</div>
               <div className="w-[30%] p-[19px]">
                 {premedication.Instructions}
@@ -57,4 +60,4 @@ const PremedicationsTable = ({ cycle, id }) => {
   );
 };
 
-export default PremedicationsTable;
+export { PremedicationsTable };
