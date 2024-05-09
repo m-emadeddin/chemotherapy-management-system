@@ -13,6 +13,9 @@ const {
   User,
   Doctor,
   Visits,
+  CycleRead,
+  ChemotherapyMedRead,
+  PremedicationRead
 } = require('../models/index.models');
 
 // Insert data into tables
@@ -301,7 +304,7 @@ exports.insertDummyData = async () => {
       username: 'Halimo',
       password: 'admin',
       email: 'halimo@gmail.com',
-      is_admin: false,
+      is_admin: true,
     });
     // Associate patient with Treatmentplans
 
@@ -368,7 +371,7 @@ exports.insertRegimens = async () => {
     });
 
     // Step 2: Insert cycle data
-    const cyclesInserted = await Cycles.bulkCreate([
+    const cyclesInserted = await CycleRead.bulkCreate([
       {
         Cycle_Number: 1,
         Start_Date: new Date(),
@@ -413,7 +416,7 @@ exports.insertRegimens = async () => {
       },
     ]);
     // Step 3: Insert premedication data
-    const premedicationsInserted = await Premedications.bulkCreate(
+    const premedicationsInserted = await PremedicationRead.bulkCreate(
       [
         {
           Medication_Name: 'Ondansetron',
@@ -431,7 +434,7 @@ exports.insertRegimens = async () => {
     );
 
     // Step 4: Insert chemotherapy data
-    const chemotherapyInserted = await ChemotherapyMedications.bulkCreate(
+    const chemotherapyInserted = await ChemotherapyMedRead.bulkCreate(
       [
         {
           Medication_Name: 'Cyclophosphamide',
@@ -466,19 +469,20 @@ exports.insertRegimens = async () => {
     );
 
     // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-    await treatmentPlanreadonly1.setCycles(cyclesInserted);
+    await treatmentPlanreadonly1.setCycleReads(cyclesInserted);
     await Promise.all(
       cyclesInserted.map(async (cycle) => {
-        return await cycle.setPremedications(premedicationsInserted);
+       
+        return await cycle.setPremedicationReads(premedicationsInserted);
       })
     );
     await Promise.all(
       cyclesInserted.map(async (cycle) => {
-        return await cycle.setChemotherapyMedications(chemotherapyInserted);
+        return await cycle.setChemotherapyMedReads(chemotherapyInserted);
       })
     );
 
-  // =====================================ABVD==========================================
+  // 2 =====================================ABVD==========================================
     // Step 1: Insert treatment plan data
 const treatmentPlanreadonly2 = await treatmentPlanReadOnly.create({
   Plan_Name: 'ABVD Hodgkin Lymphoma Regimen',
@@ -488,7 +492,7 @@ const treatmentPlanreadonly2 = await treatmentPlanReadOnly.create({
 });
 
 // Step 2: Insert cycle data
-const cyclesInserted2 = await Cycles.bulkCreate([
+const cyclesInserted2 = await CycleRead.bulkCreate([
   { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
   { Cycle_Number: 2, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
   { Cycle_Number: 3, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
@@ -499,7 +503,7 @@ const cyclesInserted2 = await Cycles.bulkCreate([
 ]);
 
 // Step 3: Insert premedication data
-const premedicationsInserted2 = await Premedications.bulkCreate([
+const premedicationsInserted2 = await PremedicationRead.bulkCreate([
   {
     Medication_Name: 'Granisetron',
     Dose: 1,
@@ -509,7 +513,7 @@ const premedicationsInserted2 = await Premedications.bulkCreate([
 ]);
 
 // Step 4: Insert chemotherapy data
-const chemotherapyInserted2 = await ChemotherapyMedications.bulkCreate([
+const chemotherapyInserted2 = await ChemotherapyMedRead.bulkCreate([
   {
     Medication_Name: 'Doxorubicin (Adriamycin)',
     Dose: 25,
@@ -537,15 +541,15 @@ const chemotherapyInserted2 = await ChemotherapyMedications.bulkCreate([
 ]);
 
 // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-await treatmentPlanreadonly2.setCycles(cyclesInserted2);
+await treatmentPlanreadonly2.setCycleReads(cyclesInserted2);
 await Promise.all(
   cyclesInserted2.map(async (cycle) => {
-    return await cycle.setPremedications(premedicationsInserted2);
+    return await cycle.setChemotherapyMedReads(chemotherapyInserted2);
   })
 );
 await Promise.all(
   cyclesInserted2.map(async (cycle) => {
-    return await cycle.setChemotherapyMedications(chemotherapyInserted2);
+    return await cycle.setPremedicationReads(premedicationsInserted2);
   })
 );
   // =====================================COP==========================================
@@ -558,7 +562,7 @@ const treatmentPlanreadonly3 = await treatmentPlanReadOnly.create({
 });
 
 // Step 2: Insert cycle data
-const cyclesInserted3 = await Cycles.bulkCreate([
+const cyclesInserted3 = await CycleRead.bulkCreate([
   { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
   { Cycle_Number: 2, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
   { Cycle_Number: 3, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
@@ -568,7 +572,7 @@ const cyclesInserted3 = await Cycles.bulkCreate([
 ]);
 
 // Step 3: Insert premedication data
-const premedicationsInserted3 = await Premedications.bulkCreate([
+const premedicationsInserted3 = await PremedicationRead.bulkCreate([
   { 
     Medication_Name: 'Prednisone',
     Dose: 40, Route: 'Oral',
@@ -577,7 +581,7 @@ const premedicationsInserted3 = await Premedications.bulkCreate([
 ]);
 
 // Step 4: Insert chemotherapy data
-const chemotherapyInserted3 = await ChemotherapyMedications.bulkCreate([
+const chemotherapyInserted3 = await ChemotherapyMedRead.bulkCreate([
   { 
     Medication_Name: 'Cyclophosphamide',
     Dose: 750, Route: 'Intravenous', 
@@ -591,23 +595,23 @@ const chemotherapyInserted3 = await ChemotherapyMedications.bulkCreate([
 ]);
 
 // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-await treatmentPlanreadonly3.setCycles(cyclesInserted3);
+await treatmentPlanreadonly3.setCycleReads(cyclesInserted3);
 
 // Associate premedications with each cycle
 await Promise.all(
   cyclesInserted3.map(async (cycle) => {
-  return await cycle.setPremedications(premedicationsInserted3);
+  return await cycle.setPremedicationReads(premedicationsInserted3);
 }));
 
-// Associate chemotherapy with each cycle
+//Associate chemotherapy with each cycle
 await Promise.all(
   cyclesInserted3.map(async (cycle) => {
-  return await cycle.setChemotherapyMedications(chemotherapyInserted3);
+  return await cycle.setChemotherapyMedReads(chemotherapyInserted3);
 }));
 
- // ===================================FOLFIRINOX========================================
+// 4 // ===================================FOLFIRINOX========================================
 
-  // Step 1: Create treatment plan
+//   // Step 1: Create treatment plan
   const treatmentPlanreadonly4 = await treatmentPlanReadOnly.create({
     Plan_Name: 'FOLFIRINOX Regimen for Pancreatic Cancer',
     number_of_Weeks: 24,
@@ -616,7 +620,7 @@ await Promise.all(
   });
 
   // Step 2: Insert cycle data
-  const cyclesInserted4 = await Cycles.bulkCreate([
+  const cyclesInserted4 = await CycleRead.bulkCreate([
     { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
     { Cycle_Number: 2, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
     { Cycle_Number: 3, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
@@ -628,7 +632,7 @@ await Promise.all(
   ]);
 
   // Step 3: Insert premedication data
-  const premedicationsInserted4 = await Premedications.bulkCreate([
+  const premedicationsInserted4 = await PremedicationRead.bulkCreate([
     { 
       Medication_Name: 'Ondansetron',
       Dose: 8, 
@@ -638,7 +642,7 @@ await Promise.all(
   ]);
 
   // Step 4: Insert chemotherapy data
-  const chemotherapyInserted4 = await ChemotherapyMedications.bulkCreate([
+  const chemotherapyInserted4 = await ChemotherapyMedRead.bulkCreate([
     { 
       Medication_Name: 'Oxaliplatin', 
       Dose: 85, 
@@ -666,23 +670,23 @@ await Promise.all(
   ]);
 
   // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-  await treatmentPlanreadonly4.setCycles(cyclesInserted4);
+  await treatmentPlanreadonly4.setCycleReads(cyclesInserted4);
 
   // Associate premedications with each cycle
   await Promise.all(
     cyclesInserted4.map(async (cycle) => {
-      return await cycle.setPremedications(premedicationsInserted4);
+      return await cycle.setPremedicationReads(premedicationsInserted4);
     })
   );
 
   // Associate chemotherapy with each cycle
   await Promise.all(
     cyclesInserted4.map(async (cycle) => {
-      return await cycle.setChemotherapyMedications(chemotherapyInserted4);
+      return await cycle.setChemotherapyMedReads(chemotherapyInserted4);
     })
   );
 
-   // ==============================Gemcitabine + Abraxane===================================
+   // 5-==============================Gemcitabine + Abraxane===================================
     // Step 1: Create treatment plan
     const treatmentPlanreadonly5 = await treatmentPlanReadOnly.create({
       Plan_Name: 'Gemcitabine + Abraxane Therapy for Pancreatic Cancer',
@@ -692,7 +696,7 @@ await Promise.all(
     });
   
     // Step 2: Insert cycle data
-    const cyclesInserted5 = await Cycles.bulkCreate([
+    const cyclesInserted5 = await CycleRead.bulkCreate([
       { Cycle_Number: 1, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
       { Cycle_Number: 2, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
       { Cycle_Number: 3, Start_Date: new Date(), Start_Time: '08:00:00', End_Time: '17:00:00', Is_active: false },
@@ -702,7 +706,7 @@ await Promise.all(
     ]);
   
     // Step 3: Insert premedication data
-    const premedicationsInserted5 = await Premedications.bulkCreate([
+    const premedicationsInserted5 = await PremedicationRead.bulkCreate([
       { 
         Medication_Name: 'Ondansetron',
         Dose: 8, 
@@ -712,7 +716,7 @@ await Promise.all(
     ]);
   
     // Step 4: Insert chemotherapy data
-    const chemotherapyInserted5 = await ChemotherapyMedications.bulkCreate([
+    const chemotherapyInserted5 = await ChemotherapyMedRead.bulkCreate([
       { 
         Medication_Name: 'Gemcitabine', 
         Dose: 1000, 
@@ -728,19 +732,19 @@ await Promise.all(
     ]);
   
     // Step 5: Associate treatment plan with cycles, premedications, and chemotherapy
-    await treatmentPlanreadonly5.setCycles(cyclesInserted5);
+    await treatmentPlanreadonly5.setCycleReads(cyclesInserted5);
   
     // Associate premedications with each cycle
     await Promise.all(
       cyclesInserted5.map(async (cycle) => {
-        return await cycle.setPremedications(premedicationsInserted5);
+        return await cycle.setPremedicationReads(premedicationsInserted5);
       })
     );
   
     // Associate chemotherapy with each cycle
     await Promise.all(
       cyclesInserted5.map(async (cycle) => {
-        return await cycle.setChemotherapyMedications(chemotherapyInserted5);
+        return await cycle.setChemotherapyMedReads(chemotherapyInserted5);
       })
     );
 
