@@ -36,14 +36,14 @@ export default function PatientPopup({
                 </div>
               </div>
             </div>
-            <img
+          </div>
+          <img
               loading="lazy"
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/362e8ffa6ae7d4536ca0b48a30657e68c80aef0e894cd013e9f71dd70a5fa3b8?"
               className="shrink-0 w-12 aspect-square cursor-pointer"
               alt="afnsllmk"
               onClick={onClose}
             />
-          </div>
         </div>
 
         <div className="popup-content flex flex-col gap-4">
