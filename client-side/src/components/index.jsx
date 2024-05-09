@@ -7,5 +7,25 @@ import { ReactTable } from "./ReactTable";
 import { SelectBox } from "./SelectBox";
 import { TextArea } from "./TextArea";
 import { Radio } from "./Radio";
+import { PremedicationsTable } from "./PremedicationsTable";
+import { ChemotherapyTable } from "./ChemotherapyTable";
+import { CycleDetails } from "./CycleDetails";
+import { CycleDocument } from "./CycleDocument";
+import { DocumentChemotherapyCycle } from "./DocumentChemotherapyCycle";
 
-export { Img, Button, Text, Heading, Input, ReactTable, SelectBox , TextArea, Radio,};
+export {
+  Img,
+  Button,
+  Text,
+  Heading,
+  Input,
+  ReactTable,
+  SelectBox,
+  TextArea,
+  Radio,
+  PremedicationsTable,
+  ChemotherapyTable,
+  CycleDetails,
+  CycleDocument,
+  DocumentChemotherapyCycle,
+};

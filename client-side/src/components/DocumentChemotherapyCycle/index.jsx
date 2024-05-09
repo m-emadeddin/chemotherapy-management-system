@@ -1,37 +1,40 @@
 import React from "react";
-import { Text, Img } from "./..";
-import { Link } from "react-router-dom";
+import { Text, Img, Button } from "./..";
 
-export default function DocumentChemotherapyCycle({
-  id = "1",
+const DocumentChemotherapyCycle = ({
   openCycle = "1",
   cyclesCount = "1",
   activeCycle = "1",
-}) {
+  dates = [],
+  handleNavigation,
+}) => {
   const renderDivs = () => {
     const divs = [];
-    for (let i = cyclesCount; i > 0; i--) {
+    for (let i = activeCycle || cyclesCount; i > 0; i--) {
       divs.push(
-        <div className="self-stretch  md:pb-5" key={i}>
-          <Link to={"/document"} state={{ cycle: i, cyclesCount: cyclesCount }}>
+        <div className="self-stretch flex flex-col" key={i}>
+          <Button
+            className="w-full px-0 h-[40px]"
+            onClick={() => {
+              handleNavigation(i);
+            }}
+          >
             <div
-              className={`flex items-center self-stretch  cursor-pointer hover:bg-gray-300 transition-all duration-300 p-1.5 ${
+              className={`w-full flex justify-end items-center self-stretch cursor-pointer hover:bg-gray-300 transition-all duration-300 p-[5px] ${
                 i === openCycle ? "bg-gray-300" : ""
               }`}
             >
-              <div className="w-[25%]"></div>
-              <div className="flex items-center justify-start self-stretch  p-1.5 gap-5">
-                <div className="flex items-center gap-[9px] self-start">
+              <div className="flex justify-between w-[80%] items-center p-1">
+                <div className="flex items-center gap-[9px]">
                   <Img
                     src="images/img_mobile.svg"
-                    alt="mobile"
                     className="h-[23px] w-[23px]"
                   />
-                  <Text as="p" className="fw-[500]">
+                  <Text size="xl" as="p" className="font-bold">
                     cycle {i} of {cyclesCount}
                   </Text>
                 </div>
-                {activeCycle === i && (
+                {activeCycle === i ? (
                   <Text
                     size="xs"
                     as="p"
@@ -39,13 +42,15 @@ export default function DocumentChemotherapyCycle({
                   >
                     active
                   </Text>
+                ) : (
+                  <div className="text-sm text-gray-700">{dates[i]}</div>
                 )}
               </div>
             </div>
-            {activeCycle === i && (
-              <div className=" mt-[-1px] h-[3px] self-stretch bg-blue-500" />
-            )}
-          </Link>
+          </Button>
+          {openCycle === i && (
+            <div className=" h-[3px] self-stretch bg-blue-500" />
+          )}
         </div>
       );
     }
@@ -53,4 +58,5 @@ export default function DocumentChemotherapyCycle({
   };
 
   return <>{renderDivs()}</>;
-}
+};
+export { DocumentChemotherapyCycle };
