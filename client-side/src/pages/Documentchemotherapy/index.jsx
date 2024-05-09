@@ -19,9 +19,9 @@ export default function DocumentchemotherapyPage() {
   const [redirectToDoc, setRedirectToDoc] = useState(false);
   const [dates, setDates] = useState({});
   const [cycle, setCycle] = useState(
-    activeCycle || location.state.cycle || cyclesCount
+    activeCycle || cyclesCount || location.state.cycle
   );
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
