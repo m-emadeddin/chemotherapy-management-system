@@ -3,29 +3,12 @@ import { Helmet } from "react-helmet";
 import { Img, Button, Input, Text } from "../../components";
 import "./login.css";
 import axios from "axios";
-import { useAuth } from "contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setToken } = useAuth();
-  const BASE_URL = "/users/signin";
-
-  const handleLogin = async () => {
-    try {
-      const response = await axios.post(`${BASE_URL}`, {
-        identifier: identifier,
-        password: password,
-      });
-      const userData = response.data;
-      setToken(userData.token);
-      navigate("/select_patient");
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  };
 
   return (
     <>
@@ -87,7 +70,7 @@ export default function LoginPage() {
                   type="password"
                 />
                 <Button
-                  onClick={handleLogin}
+                  //onClick={handleLogin}
                   size="sm"
                   shape="round"
                   leftIcon={
