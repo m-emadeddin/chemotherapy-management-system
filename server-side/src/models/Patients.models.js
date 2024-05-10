@@ -5,6 +5,14 @@ module.exports = (db, DataTypes) => {
       primaryKey: true,
       autoIncrement: true
     },
+    Name: {
+      type: DataTypes.STRING(20),
+      allowNull: false
+    },
+    Age: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     Gender: {
       type: DataTypes.STRING(10),
       allowNull: false

@@ -1,15 +1,14 @@
 module.exports = (db, DataTypes) => {
-    const ChemotherapyCyclesReadonly = db.define('Chemotherapy-Cycles-Readonly', {
-        ChemotherapyCycle_ID: {
+    const PremedicationsPlanReadonly = db.define('Premedications-Plan-readonly', {
+        PremedicationPlan_ID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement:true
         },
     }, {
-        timestamps: false,
+        timestamps: false 
     });
-    
-    return ChemotherapyCyclesReadonly;
+    return PremedicationsPlanReadonly;
     };
     
