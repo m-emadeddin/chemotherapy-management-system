@@ -7,30 +7,30 @@ exports.getVitalSigns = (req, res, next) => {
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
-        throw new Error('Patient not found');
+        return res.status(404).json({ error: "Patient not found" });
       }
 
       return patient.getVitalSign();
     })
     .then((VitalSign) => {
       if (!VitalSign) {
-        throw new Error('Vital signs not found');
+        return res.status(404).json({ error: "Vital signs not found" });
       }
-      let bmi = VitalSign.Weight / (VitalSign.Height / 100) ** 2;
-      bmi = parseFloat(bmi.toFixed(1));
+      //let bmi = VitalSign.Weight / (VitalSign.Height / 100) ** 2;
+     // bmi = parseFloat(bmi.toFixed(1));
 
       const response = {
         Blood_Pressure: VitalSign.Blood_Pressure,
         Height: VitalSign.Height,
         Weight: VitalSign.Weight,
         Heart_Rate: VitalSign.Heart_rate,
-        BMI: bmi,
+        BMI: VitalSign.BMI,
         Temperature: VitalSign.Temp,
         Last_Update: VitalSign.last_updated,
         Chief_Complaint: VitalSign.Chief_Complaint,
       };
 
-      res.status(200).send(response);
+      res.status(200).json({ response });
     })
     .catch((err) => {
       console.error('Error:', err.message);
