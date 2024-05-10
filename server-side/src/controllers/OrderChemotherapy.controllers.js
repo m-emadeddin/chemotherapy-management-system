@@ -7,13 +7,13 @@ exports.getRegimens = (req, res, next) => {
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
-        throw new Error('Patient not found');
+        return res.status(404).json({ error: 'Patient Not found' });
       }
       return patient.getCancerOverview();
     })
     .then((Canceroverview) => {
       if (!Canceroverview) {
-        throw new Error('Cancer overview not found');
+        return res.status(400).json({ error: 'Canceroverview not found' });
       }
       return Canceroverview.Cancer_type;
     })
@@ -26,9 +26,9 @@ exports.getRegimens = (req, res, next) => {
     })
     .then((regimenName) => {
       if (!regimenName) {
-        throw new Error('Not found');
+        return res.status(404).json({ error: 'Regimen not found' });
       }
-      res.status(200).send(regimenName);
+      res.status(200).json({regimenName});
     })
     .catch((err) => {
       console.log(err);
@@ -39,6 +39,9 @@ exports.getChemoMedications = (req, res, next) => {
   const regimenName = req.body.regimenName;
   TreatmentPlanReadOnly.findOne({ where: { Plan_Name: regimenName } })
     .then((regimen) => {
+      if (!regimen) {
+        return res.status(404).json({ error: 'Regimen not found' });
+      }
       return regimen.getChemotherapyMedReads();
     })
     .then((chemotherapy) => {
@@ -56,7 +59,7 @@ exports.getChemoMedications = (req, res, next) => {
       const info = {
         chemoMedications: cycleInfo,
       };
-      res.status(200).send(info);
+      res.status(200).json({info});
     })
     .catch((err) => {
       console.log(err);
@@ -67,6 +70,9 @@ exports.getPreMedications = (req, res, next) => {
   const regimenName = req.body.regimenName;
   TreatmentPlanReadOnly.findOne({ where: { Plan_Name: regimenName } })
     .then((regimen) => {
+      if (!regimen) {
+        return res.status(404).json({ error: 'Regimen not found' });
+      }
       return regimen.getPremedicationReads();
     })
     .then((premedications) => {
@@ -82,7 +88,7 @@ exports.getPreMedications = (req, res, next) => {
       const info = {
         preMedications: preMed,
       };
-      res.status(200).send(info);
+      res.status(200).send({info});
     })
     .catch((err) => {
       console.log(err);
