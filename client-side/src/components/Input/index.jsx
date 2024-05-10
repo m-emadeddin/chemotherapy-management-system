@@ -31,12 +31,12 @@ const Input = React.forwardRef(
       variant = "fill",
       size = "md",
       color = "",
-      inputProps = {}
+      inputProps = {},
     },
     ref
   ) => {
     const handleChange = (e) => {
-      if (onChange) onChange(e?.target?.value);
+      if (onChange) onChange(e?.target);
     };
 
     return (
