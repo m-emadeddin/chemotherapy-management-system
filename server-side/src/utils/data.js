@@ -16,6 +16,8 @@ const {
   CycleRead,
   ChemotherapyMedRead,
   PremedicationRead,
+  SideEffects,
+
 } = require('../models/index.models');
 
 // Insert data into tables
@@ -65,6 +67,8 @@ exports.insertDummyData = async () => {
   try {
     //===========================PATIENTS=============================================================
     const patient1 = await Patients.create({
+      Name: 'Mohamed',
+      Age: 55,
       Gender: 'Male',
       date_of_birth: '1990-05-15', // Example date, format: 'YYYY-MM-DD'
       nationality: 'US',
@@ -78,6 +82,8 @@ exports.insertDummyData = async () => {
     });
 
     const patient2 = await Patients.create({
+      Name: 'Mariam',
+      Age: 53,
       Gender: 'Female',
       date_of_birth: '1985-10-20', // Example date, format: 'YYYY-MM-DD'
       nationality: 'UK',
@@ -122,6 +128,43 @@ exports.insertDummyData = async () => {
       Temp: 40,
       Chief_Complaint: 'Fever',
     });
+    //===========================SIDE EFFECTS==========================================================
+    await patient1.createSideEffect(
+      {
+        Nausea: 'High',
+        Loss_of_appetite: 'Low',
+        Hair_loss: 'Moderate',
+        Gastrointestinal_disturbances: 'High',
+        Loss_of_memory: 'Low',
+        Skin_change: 'Moderate',
+        Blood_cell_loss: 'High',
+        Psychological_effects: 'Low',
+        Changes_in_kidney_and_liver_function: 'Moderate',
+      },
+      {
+        through: {
+          Date: '2024-05-06 08:00:00',
+        },
+      }
+    );
+    await patient2.createSideEffect(
+      {
+        Nausea: 'Low',
+        Loss_of_appetite: 'High',
+        Hair_loss: 'High',
+        Gastrointestinal_disturbances: 'Low',
+        Loss_of_memory: 'Moderate',
+        Skin_change: 'High',
+        Blood_cell_loss: 'Moderate',
+        Psychological_effects: 'High',
+        Changes_in_kidney_and_liver_function: 'Low',
+      },
+      {
+        through: {
+          Date: '2024-05-06 08:00:00',
+        },
+      }
+    );
     //===========================RADIOGRAPHY=============================================================
     await patient2.createRadiography({
       MRI: 'MRI1',
@@ -150,6 +193,7 @@ exports.insertDummyData = async () => {
       CEA: 'Normal',
       AFP: 'Normal',
       B2M: 'Normal',
+      Tumor_size: 15,
       createdAt: new Date(),
     });
     await patient2.createMedical({
@@ -159,6 +203,7 @@ exports.insertDummyData = async () => {
       CEA: 'Normal',
       AFP: 'Normal',
       B2M: 'Normal',
+      Tumor_size: 10,
       createdAt: new Date(),
     });
     //===========================CANCER OVERVIEW=============================================================
