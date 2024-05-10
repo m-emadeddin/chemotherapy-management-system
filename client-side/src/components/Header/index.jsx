@@ -19,6 +19,7 @@ export default function Header({
   );
   const [isActive, setIsActive] = useState(false);
   const [isDoctorMenuOpen, setIsDoctorMenuOpen] = useState(false);
+  const auth = useAuth();
   const navigate = useNavigate();
 
   function handleDoctorInfoClick() {
@@ -36,6 +37,15 @@ export default function Header({
       setIsActive(false);
     }
   }
+
+  const handleLogout = () => {
+    try {
+      auth.logout();
+      navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <header {...props}>
@@ -91,7 +101,7 @@ export default function Header({
             )}
           </div>
           <div
-            //onClick={handleLogout}
+            onClick={handleLogout}
             className="flex items-center justify-center bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300  hover:bg-blue-600 h-[36px] text-sm min-w-[89px] gap-2.5 text-center cursor-pointer rounded-[10px] py-[9px] px-[16px]"
           >
             <div>
