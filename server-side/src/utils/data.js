@@ -123,7 +123,7 @@ exports.insertDummyData = async () => {
       Chief_Complaint: 'Fever',
     });
     //===========================RADIOGRAPHY=============================================================
-    await patient2.createRadiography({
+    await patient1.createRadiography({
       MRI: 'MRI1',
       CT: 'CT',
       PET_CT: 'PET-CT1',
