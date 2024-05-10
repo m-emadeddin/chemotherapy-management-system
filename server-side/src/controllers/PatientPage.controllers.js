@@ -39,19 +39,28 @@ exports.getVitalSigns = (req, res, next) => {
 };
 
 exports.getCancerOverview = (req, res) => {
-  const Id = req.params.id;
-  CancerOverview.findByPk(Id, {
-    attributes: ['Cancer_Type', 'Stage', 'Note_On_cancer'],
-  })
-    .then((info) => {
-      if (!info) {
-        return res.status(404).json({ error: ' Patient not found' });
-      }
-      res.status(200).json({ info });
-    })
-    .catch((error) => {
-      console.error('Error getting data:', error);
-      res.status(500).json({ error: 'Internal server error' });
+  const ID = req.params.id;
+  Patients.findByPk(ID) 
+  .then((patient) => {
+    if (!patient) {
+      return res.status(404).json({ error: "Patient not found" });
+    }
+    return patient.getCancerOverview();
+   })
+   .then((cancerOverview) => {
+    if (!cancerOverview) {
+      return res.status(404).json({ error: "CancerOverview not found" });
+    }
+    cancerOverview = {
+      Diagnoses: cancerOverview.Cancer_type,
+	    Staging: cancerOverview.Stage,
+	    Note: cancerOverview.Note_On_cancer,
+    };
+       res.status(200).json({ cancerOverview });
+         })
+    .catch((err) => {
+      console.error('Error getting data:', err);
+    res.status(500).json({ error: 'Internal server error' });
     });
 };
 
