@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useLocation, useNavigate } from "react-router-dom";
+
 import {
   Text,
   Button,
@@ -14,14 +15,14 @@ export default function DocumentchemotherapyPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const id = 1;
-  const [activeCycle, setActiveCycle] = useState(1);
+  const [activeCycle, setActiveCycle] = useState(2);
   const [cyclesCount, setCyclesCount] = useState(1);
   const [redirectToDoc, setRedirectToDoc] = useState(false);
-  const [dates, setDates] = useState({});
+  const [dates, setDates] = useState({ 1: "01/05/2024" });
   const [cycle, setCycle] = useState(
-    activeCycle || location.state.cycle || cyclesCount
+    activeCycle || cyclesCount || location.state.cycle
   );
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,6 +33,22 @@ export default function DocumentchemotherapyPage() {
         setCyclesCount(data.cycle_count);
       } catch (error) {
         console.error("Error fetching cycle count:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `waiting/${id}`
+        );
+        const data = await response.json();
+        console.log(data)
+        // setActiveCycle(data);
+      } catch (error) {
+        console.error("Error fetching Active Cycle:", error);
       }
     };
     fetchData();
