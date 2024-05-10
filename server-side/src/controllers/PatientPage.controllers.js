@@ -34,35 +34,34 @@ exports.getVitalSigns = (req, res, next) => {
     })
     .catch((err) => {
       console.error('Error:', err.message);
-      res.status(500).send({ message: 'Internal server error' });
     });
 };
 
 exports.getCancerOverview = (req, res) => {
   const ID = req.params.id;
-  Patients.findByPk(ID) 
-  .then((patient) => {
-    if (!patient) {
-      return res.status(404).json({ error: "Patient not found" });
-    }
-    return patient.getCancerOverview();
-   })
-   .then((cancerOverview) => {
-    if (!cancerOverview) {
-      return res.status(404).json({ error: "CancerOverview not found" });
-    }
-    cancerOverview = {
-      Diagnoses: cancerOverview.Cancer_type,
-	    Staging: cancerOverview.Stage,
-	    Note: cancerOverview.Note_On_cancer,
-    };
-       res.status(200).json({ cancerOverview });
-         })
+  Patients.findByPk(ID)
+    .then((patient) => {
+      if (!patient) {
+        return res.status(404).json({ error: "Patient not found" });
+      }
+      return patient.getCancerOverview();
+    })
+    .then((cancerOverview) => {
+      if (!cancerOverview) {
+        return res.status(404).json({ error: "CancerOverview not found" });
+      }
+      cancerOverview = {
+        Diagnoses: cancerOverview.Cancer_type,
+        Staging: cancerOverview.Stage,
+        Note: cancerOverview.Note_On_cancer,
+      };
+      res.status(200).json({ cancerOverview });
+    })
     .catch((err) => {
       console.error('Error getting data:', err);
-    res.status(500).json({ error: 'Internal server error' });
     });
 };
+
 
 exports.getRadiography = (req, res, next) => {
   const ID = req.params.id;
