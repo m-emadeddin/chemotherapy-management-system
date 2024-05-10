@@ -2,13 +2,24 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Img, Button, Input, Text } from "../../components";
 import "./login.css";
-import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "contexts/AuthContext";
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const auth = useAuth();
+
+  const handleLogin = () => {
+    try {
+      auth.login(identifier, password);
+      navigate("/select_patient");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -70,7 +81,7 @@ export default function LoginPage() {
                   type="password"
                 />
                 <Button
-                  //onClick={handleLogin}
+                  onClick={handleLogin}
                   size="sm"
                   shape="round"
                   leftIcon={
