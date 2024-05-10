@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
-import { useLocation } from "react-router-dom";
 
-const CycleDocument = ({ Submit, Cancel }) => {
-  const location = useLocation();
+const CycleDocument = ({ Submit, Cancel, cycle }) => {
   const id = 1;
-  const activeCycle = 1;
-  const { cycle } = location.state || { cycle: activeCycle };
+  const [doseinput, setDoseInput] = useState([]);
+  const [cycleNote, setCycleNote] = useState({});
   const [chemotherapy, setChemotherapy] = useState([]);
 
   useEffect(() => {
@@ -23,7 +21,10 @@ const CycleDocument = ({ Submit, Cancel }) => {
           if (chemotherapyResponse) {
             setChemotherapy(Object.values(chemotherapyResponse));
           } else {
-            console.error("Premedications not found for cycle", cycle);
+            console.error(
+              "ChemoTherapy Medications not found for cycle",
+              cycle
+            );
           }
         } else {
           console.error("Invalid data format:", data);
@@ -35,6 +36,57 @@ const CycleDocument = ({ Submit, Cancel }) => {
 
     fetchData();
   }, [cycle, id]);
+
+  const handleDoseInput = (event, route) => {
+    const { name, value } = event;
+    setDoseInput((prevDoseInput) =>
+      prevDoseInput.filter((medication) => medication.name !== name)
+    );
+    setDoseInput((prevDoseInput) => [
+      ...prevDoseInput,
+      {
+        name: name,
+        [`Administered_Dose_${route === "Oral" ? "mg" : "ml"}`]: value,
+      },
+    ]);
+  };
+
+  const handleNoteInput = (input) => {
+    setCycleNote(input);
+  };
+
+  const handleSubmit = () => {
+    Submit();
+    const data = {
+      id: { id },
+      cycle: { cycle },
+      chemotherapyMedications: doseinput,
+      cycle_note: { cycleNote },
+    };
+    sendData(data);
+  };
+
+  const sendData = async (data) => {
+    console.log(data);
+    try {
+      const response = await fetch("Wating", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Response:", data);
+      } else {
+        console.error("Failed to submit:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div className="flex flex-col p-[19px] gap-[25px]">
       <Text as="p" style={{ fontWeight: "bold" }}>
@@ -52,19 +104,21 @@ const CycleDocument = ({ Submit, Cancel }) => {
                   </Text>
                   <Text size="xs" as="p" className="text-gray-700">
                     {chemo.dose}
-                    {chemo.route === "oral" ? "Milligram" : "Milliliter"}
+                    {chemo.route === "Oral" ? "Milligram" : "Milliliter"}
                   </Text>
                 </div>
                 <div className="flex w-[40%] items-center justify-between gap-5 sm:w-full">
                   <div className="flex w-[42%] flex-col items-center gap-2">
                     <Text size="xs" as="p">
-                      {chemo.route === "oral" ? "mg" : "ml"}
+                      {chemo.route === "Oral" ? "mg" : "ml"}
                     </Text>
                     <Input
                       className="p-1"
                       shape="round"
-                      name="edittext"
+                      name={chemo.name}
+                      value=""
                       inputProps={{ className: "text-center" }}
+                      onChange={(event) => handleDoseInput(event, chemo.route)}
                     />
                   </div>
                 </div>
@@ -83,6 +137,7 @@ const CycleDocument = ({ Submit, Cancel }) => {
           name="groupthree"
           placeholder={`Type your summary here...`}
           className=" self-stretch !border-black-900 text-gray-600 sm:pb-5 sm:pr-5"
+          onChange={handleNoteInput}
         />
       </div>
 
@@ -91,9 +146,7 @@ const CycleDocument = ({ Submit, Cancel }) => {
         <Button
           className="h-[80%] py-[15px] px-[50px] flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700  hover:border-black-900 hover:text-black-900"
           size="sm"
-          onClick={() => {
-            Submit();
-          }}
+          onClick={handleSubmit}
         >
           Submit
         </Button>
