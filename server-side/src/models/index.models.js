@@ -117,6 +117,7 @@ ChemotherapyMedRead.belongsToMany(treatmentPlanReadOnly, {
   uniqueKey: 'ChemotherapyPlanreadonly_unique', // Custom unique constraint name
   foreignKey: { name: 'medication_ID', allowNull: false },
 });
+
 // 6 premedications-readonly with Treatment plan-readonly
 treatmentPlanReadOnly.belongsToMany(PremedicationRead, {
   through: PremedicationsPlanReadonly,
@@ -231,4 +232,5 @@ module.exports = {
   ChemotherapyMedRead,
   PremedicationRead,
   SideEffects,
+
 };

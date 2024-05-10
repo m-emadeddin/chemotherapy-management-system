@@ -17,6 +17,7 @@ const {
   ChemotherapyMedRead,
   PremedicationRead,
   SideEffects,
+
 } = require('../models/index.models');
 
 // Insert data into tables
@@ -209,13 +210,13 @@ exports.insertDummyData = async () => {
 
     const cancerOverview1 = await patient1.createCancerOverview({
       Stage: 'Stage1',
-      Cancer_type: 'Lymphoma',
+      Cancer_type: 'Non-Hodgkin Lymphoma',
       Note_On_cancer: 'Note for cancer data 1',
     });
 
     const cancerOverview2 = await patient2.createCancerOverview({
       Stage: 'Stage2',
-      Cancer_type: 'Breast Cancer',
+      Cancer_type: 'Pancreatic Cancer',
       Note_On_cancer: 'Note for cancer data 2',
     });
     //===========================VISITS=============================================================
