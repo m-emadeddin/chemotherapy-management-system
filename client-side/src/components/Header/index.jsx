@@ -6,8 +6,6 @@ import { useAuth } from "contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Header({
-  userName = "Dr.haitham",
-  userEmail = "haitham@gmail.com",
   userPhoto = `${process.env.PUBLIC_URL}/images/img_hesham_1.png`,
   ...props
 }) {
@@ -21,6 +19,8 @@ export default function Header({
   const [isDoctorMenuOpen, setIsDoctorMenuOpen] = useState(false);
   const auth = useAuth();
   const navigate = useNavigate();
+
+  const user = auth.user;
 
   function handleDoctorInfoClick() {
     setIsDoctorMenuOpen(!isDoctorMenuOpen);
@@ -84,7 +84,7 @@ export default function Header({
                 className="h-[33px] w-[33px] rounded-[50%]"
               />
               <Text size="xs" as="p" className="!font-almarai">
-                {userName}
+                {user ? `Dr.${user.Username}` : ""}
               </Text>
             </div>
             <Img
@@ -94,8 +94,8 @@ export default function Header({
             />
             {isDoctorMenuOpen && (
               <DoctorDropMenu
-                userEmail={userEmail}
-                userName={userName}
+                userEmail={user ? `${user.Email}` : ""}
+                userName={user ? `${user.Username}` : ""}
                 userPhoto={userPhoto}
               />
             )}
