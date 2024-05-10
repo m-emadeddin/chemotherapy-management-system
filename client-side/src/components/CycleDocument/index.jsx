@@ -37,8 +37,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     fetchData();
   }, [cycle, id]);
 
-  const handleDoseInput = (event, route) => {
-    const { name, value } = event;
+  const handleDoseInput = (event, name, route) => {
     setDoseInput((prevDoseInput) =>
       prevDoseInput.filter((medication) => medication.name !== name)
     );
@@ -46,7 +45,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
       ...prevDoseInput,
       {
         name: name,
-        [`Administered_Dose_${route === "Oral" ? "mg" : "ml"}`]: value,
+        [`Administered_Dose_${route === "Oral" ? "mg" : "ml"}`]: event,
       },
     ]);
   };
@@ -116,9 +115,11 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                       className="p-1"
                       shape="round"
                       name={chemo.name}
-                      value=""
+                      value={chemo.name}
                       inputProps={{ className: "text-center" }}
-                      onChange={(event) => handleDoseInput(event, chemo.route)}
+                      onChange={(event) =>
+                        handleDoseInput(event, chemo.name, chemo.route)
+                      }
                     />
                   </div>
                 </div>

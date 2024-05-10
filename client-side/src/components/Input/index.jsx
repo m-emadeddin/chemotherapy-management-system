@@ -36,7 +36,7 @@ const Input = React.forwardRef(
     ref
   ) => {
     const handleChange = (e) => {
-      if (onChange) onChange(e?.target);
+      if (onChange) onChange(e?.target?.value);
     };
 
     return (
