@@ -24,6 +24,9 @@ module.exports = (db, DataTypes) => {
     B2M: {
       type: DataTypes.STRING(100),
     },
+    Tumor_size :{
+      type : DataTypes.FLOAT,
+    }
   });
   return Medical;
 };
