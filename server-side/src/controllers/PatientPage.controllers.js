@@ -60,11 +60,14 @@ exports.getRadiography = (req, res, next) => {
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
-        throw new Error('Patient not found');
+        return res.status(404).json({ error: 'Patient Not found' });
       }
       return patient.getRadiographies();
     }).then((radiography)=>{
-      return res.status(200).send(radiography);
+      if (!radiography) {
+        return res.status(404).json({ error: 'Radiography Not found' });
+      }
+      return res.status(200).json({radiography});
     })
     .catch((err) => {
       console.log(err);
@@ -76,11 +79,14 @@ exports.getMedicalAnalysis = (req, res, next) => {
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
-        throw new Error('Patient not found');
+        return res.status(404).json({ error: 'Patient Not found' });
       }
       return patient.getMedicals();
     }).then((MedicalAnalysis)=>{
-      return res.status(200).send(MedicalAnalysis);
+      if (!MedicalAnalysis) {
+        return res.status(404).json({ error: 'Radiography Not found' });
+      }
+      return res.status(200).json({MedicalAnalysis});
     })
     .catch((err) => {
       console.log(err);
