@@ -2,8 +2,11 @@
 const PORT = process.env.PORT || 5000;
 const express = require("express");
 const bodyParser = require("body-parser");
-const { insertData , insertDataCyclesPremedicationChemo} = require("./src/models/index.models");
+const dummyData = require('./src/utils/data');
+
+
 const PatientMedicationInfoRoutes = require("./src/routes/DocumentChemotherapy.routes");
+const UserRoute = require('./src/routes/SignPage.routes');
 // import the DB
 const db = require("./src/configs/db.config");
 const Dbc = require("./src/models/index.models");
@@ -16,6 +19,7 @@ app.use(express.json()); // as we get all the api information on json format
 // set relation associations
 
 app.use('/document-chemotherapy',PatientMedicationInfoRoutes);
+app.use('/users', UserRoute)
 
 
 //conection to Db
@@ -33,7 +37,9 @@ db.authenticate()
 
 db.sync({ force:true })
 .then(() => {
-  insertDataCyclesPremedicationChemo()
+  // Insert Dummy data
+dummyData.insertDummyData();
+dummyData.insertRegimens();
   console.log("Tables Created!")
 })
 .catch((err)=>{
