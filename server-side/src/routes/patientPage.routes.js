@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const PatientVitalSign = require("../controllers/PatientPage.controllers");
+const PatientPage = require("../controllers/PatientPage.controllers");
 
-router.get('/:id', PatientVitalSign.getVitalSigns);
+router.get('/:id', PatientPage.getVitalSigns);
+router.get('/cancer-overview/:id',PatientPage.getCancerOverview);
 
 module.exports = router;

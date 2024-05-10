@@ -6,7 +6,7 @@ const dummyData = require('./src/utils/data');
 //=============================== Routes ===============================================
 const PatientMedicationInfoRoutes = require('./src/routes/DocumentChemotherapy.routes');
 const UserRoute = require('./src/routes/SignPage.routes');
-const PatientVitalSign = require("./src/routes/patientPage.routes");
+const PatientPageRoute = require("./src/routes/patientPage.routes");
 const OrderChemoRoute = require('./src/routes/OrderChemotherapy.routes');
 //=============================== Database ===============================================
 const db = require('./src/configs/db.config');
@@ -21,7 +21,8 @@ app.use(express.json()); // as we get all the api information on json format
 app.use('/document-chemotherapy', PatientMedicationInfoRoutes);
 app.use('/users', UserRoute);
 app.use('/order',OrderChemoRoute);
-app.use('/vital-sign',PatientVitalSign);
+app.use('/patient',PatientPageRoute);
+
 
 //conection to Db
 db.authenticate()
