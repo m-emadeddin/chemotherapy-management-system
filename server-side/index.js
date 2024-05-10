@@ -4,10 +4,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const dummyData = require('./src/utils/data');
 
-
 const PatientMedicationInfoRoutes = require("./src/routes/DocumentChemotherapy.routes");
 const UserRoute = require('./src/routes/SignPage.routes');
 const reviewChemotherabyRouter = require("./src/routes/ReviewChemotherapy.routes");
+const SelectPatientRoute = require('./src/routes/SelectPatient.routes');
+
+
+
 
 // import the DB
 const db = require("./src/configs/db.config");
@@ -21,8 +24,10 @@ app.use(express.json()); // as we get all the api information on json format
 // set relation associations
 
 app.use('/document-chemotherapy',PatientMedicationInfoRoutes);
+
 app.use('/users', UserRoute)
 app.use("/review-chemotherapy", reviewChemotherabyRouter);
+app.use('/patients',SelectPatientRoute);
 
 
 
