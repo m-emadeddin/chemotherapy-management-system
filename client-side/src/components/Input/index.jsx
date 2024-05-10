@@ -31,7 +31,7 @@ const Input = React.forwardRef(
       variant = "fill",
       size = "md",
       color = "",
-      inputProps = {}
+      inputProps = {},
     },
     ref
   ) => {
