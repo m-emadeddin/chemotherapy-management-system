@@ -74,9 +74,12 @@ export const AuthProvider = ({ children }) => {
                 localStorage.removeItem("token");
                 localStorage.removeItem("isLoggedIn");
                 localStorage.removeItem("user");
-                console.log("Logged out successfully.");
+                //console.log("Logged out successfully.");
             }
         } catch (error) {
+            setIsLoggedIn(true);
+            setUser(user);
+            setToken(token);
             console.log(error.message);
         }
     };
@@ -84,6 +87,7 @@ export const AuthProvider = ({ children }) => {
     const authValues = {
         isLoggedIn,
         user,
+        token,
         login,
         logout,
     };
