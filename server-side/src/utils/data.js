@@ -192,6 +192,7 @@ exports.insertDummyData = async () => {
       CEA: 'Normal',
       AFP: 'Normal',
       B2M: 'Normal',
+      Tumor_size: 15,
       createdAt: new Date(),
     });
     await patient2.createMedical({
@@ -201,6 +202,7 @@ exports.insertDummyData = async () => {
       CEA: 'Normal',
       AFP: 'Normal',
       B2M: 'Normal',
+      Tumor_size: 10,
       createdAt: new Date(),
     });
     //===========================CANCER OVERVIEW=============================================================
