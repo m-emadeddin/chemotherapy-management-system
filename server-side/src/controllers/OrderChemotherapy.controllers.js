@@ -21,7 +21,7 @@ exports.getRegimens = (req, res, next) => {
       console.log(cancerType);
       return TreatmentPlanReadOnly.findAll({
         where: { Cancer_Type: cancerType },
-        attributes: ['Plan_Name', 'Plan_ID'],
+        attributes: ['Plan_Name', 'Plan_ID','number_of_Cycles','number_of_Weeks'],
       });
     })
     .then((regimenName) => {
