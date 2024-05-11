@@ -7,7 +7,8 @@ import Loader from "components/Loader/Loader";
 
 export default function DropDownMenu() {
   const { newRegimenDetails } = useRegimenDetails();
-  const { plansNames, plansIds, setPlanId, isLoading } = usePlanDetails();
+  const { plansNames, plansIds, setPlanId, isLoading, setPlanName } =
+    usePlanDetails();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("none");
   const dropdownRef = useRef(null);
@@ -39,7 +40,9 @@ export default function DropDownMenu() {
     const index = plansNames.indexOf(option);
     if (index !== -1) {
       const planId = plansIds[index];
+      const planName = plansNames[index];
       setPlanId(planId);
+      setPlanName(planName);
       setSelectedOption(option);
       setIsOpen(false);
     }

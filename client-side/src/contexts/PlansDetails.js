@@ -8,6 +8,7 @@ export const PlansDetailsProvider = ({ children }) => {
   const [plansNames, setPlansNames] = useState([]);
   const [plansIds, setPlansIds] = useState([]);
   const [planId, setPlanId] = useState();
+  const [planName, setPlanName] = useState();
 
   // id will be taken later from patient page or something
   const patientId = 1; // or 2 for now
@@ -43,6 +44,8 @@ export const PlansDetailsProvider = ({ children }) => {
         setPlansNames,
         planId,
         isLoading,
+        planName,
+        setPlanName,
       }}
     >
       {children}

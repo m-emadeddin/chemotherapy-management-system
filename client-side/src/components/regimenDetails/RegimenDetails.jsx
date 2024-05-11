@@ -3,11 +3,26 @@ import "./style.css";
 import { useEffect, useState } from "react";
 import ResetPopUp from "components/ResetPopup/ResetPopUp";
 import { usePlanData } from "contexts/PlanDataContext";
+import { usePlanDetails } from "contexts/PlansDetails";
 
-export default function RegimenDetails({ selectedOption }) {
+export default function RegimenDetails() {
   const { preMedicationsData, chemotherapyData } = usePlanData();
+  const { planName } = usePlanDetails();
+
   const [notes, setNotes] = useState("Add your notes here...");
   const [showResetPopUp, setShowResetPopUp] = useState(false);
+
+  const [initialRegimenDetails] = useState({
+    Plan_Name: planName,
+    number_of_Weeks: 7,
+    number_of_Cycles: 5,
+    PreMedications: preMedicationsData,
+    ChemotherapyMedications: chemotherapyData,
+    cycle_note: notes,
+  });
+
+  const [regimenDetails, setRegimenDetails] = useState(initialRegimenDetails);
+
   const [initialData, setInitialData] = useState({
     preMedicationsData: [],
     chemotherapyData: [],
@@ -15,6 +30,22 @@ export default function RegimenDetails({ selectedOption }) {
   const [Data, setData] = useState({
     ...initialData,
   });
+
+  useEffect(() => {
+    setRegimenDetails({
+      ...regimenDetails,
+      Plan_Name: planName,
+      number_of_Weeks: 7,
+      number_of_Cycles: 5,
+      PreMedications: preMedicationsData,
+      ChemotherapyMedications: chemotherapyData,
+      cycle_note: notes,
+    });
+  }, [planName, notes, preMedicationsData, chemotherapyData]);
+
+  useEffect(() => {
+    setNotes("Add your notes here...");
+  }, [planName]);
 
   useEffect(() => {
     if (preMedicationsData.length > 0 || chemotherapyData.length > 0) {
@@ -46,6 +77,11 @@ export default function RegimenDetails({ selectedOption }) {
     };
 
     setData(newData);
+    setRegimenDetails({
+      ...regimenDetails,
+      PreMedications: newPreMedication || [],
+      ChemotherapyMedications: newChemoTherapy || [],
+    });
   };
 
   const handleEdit = (id, editIndex, updatedItem) => {
@@ -89,6 +125,9 @@ export default function RegimenDetails({ selectedOption }) {
     setNotes("Add your notes here...");
   };
 
+  const handleNext = () => {
+    console.log(regimenDetails);
+  };
   return (
     <div className="regimen-detail">
       <div className="medications">
@@ -136,9 +175,9 @@ export default function RegimenDetails({ selectedOption }) {
           className="notes-area"
           onChange={handleNotesChange}
         ></textarea>
-        {/* <button onClick={handleNext} className="next">
+        <button onClick={handleNext} className="next">
           Next
-        </button> */}
+        </button>
       </div>
 
       {showResetPopUp && (
