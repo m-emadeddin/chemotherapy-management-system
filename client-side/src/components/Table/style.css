@@ -31,6 +31,10 @@
     padding: 19px;
 }
 
+.medications-table td:first-letter {
+    text-transform: capitalize;
+}
+
 .medications-table td:nth-child(1) {
     text-transform: uppercase;
 }
