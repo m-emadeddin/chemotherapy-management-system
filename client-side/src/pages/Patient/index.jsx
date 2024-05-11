@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
 import { useNavigate } from "react-router-dom";
+import PathologyPopup from "../../components/PatientPopUp";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -35,7 +36,8 @@ const GeneralInfoData = [
 
 export default function PatientPage() {
   const [hovered, setHovered] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPatientPopup, setShowPatientPopup] = useState(false);
+  const [showPathologyPopup, setShowPathologyPopup] = useState(false);
   const [medicalData, setMedicalData] = useState(null);
   const [radioData, setRadioData] = useState(null);
 
@@ -92,8 +94,12 @@ export default function PatientPage() {
     phonenumber: "01095368957",
     gender: "Male",
   });
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
+
+  const togglePatientPopup = () => {
+    setShowPatientPopup(!showPatientPopup);
+  };
+  const togglePathologyPopup = () => {
+    setShowPathologyPopup(!showPathologyPopup);
   };
 
   return (
@@ -197,7 +203,7 @@ export default function PatientPage() {
                       size="lg"
                       shape="circle"
                       className="w-[48px] !rounded-[24px] action-button"
-                      onClick={togglePopup}
+                      onClick={togglePatientPopup}
                     >
                       <Img src="images/img_map.svg" />
                     </Button>
@@ -232,7 +238,7 @@ export default function PatientPage() {
                   className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
                   variant="fill"
                   color="blue_500"
-                  onClick={togglePopup}
+                  onClick={togglePatientPopup}
                 >
                   View all
                 </Button>
@@ -360,8 +366,10 @@ export default function PatientPage() {
                 size="lg"
                 shape="circle"
                 className="w-[48px] !rounded-[24px] action-button"
+                onClick={togglePathologyPopup}
               >
                 <Img src="images/img_edit.svg" />
+                
               </Button>
             </div>
 
@@ -611,15 +619,35 @@ export default function PatientPage() {
                 className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
                 variant="fill"
                 color="blue_500"
+                onClick={togglePathologyPopup}
+
               >
                 View all
               </Button>
             </div>
-            {showPopup && (
+            {showPatientPopup && (
               <PatientPopup
                 name={patientData.name}
                 age={patientData.age}
-                onClose={togglePopup}
+                onClose={togglePatientPopup}
+                ID={patientData.ID}
+                Gender={patientData.gender}
+                DateOFBirth={patientData.DateofBirth}
+                bloodType={patientData.bloodType}
+                DiseaseType={patientData.diseaseType}
+                Street={patientData.street}
+                City={patientData.city}
+                Government={patientData.government}
+                Nationality={patientData.nationality}
+                PhoneNumber={patientData.phonenumber}
+              />
+            )}
+
+{showPathologyPopup && (
+              <PathologyPopup
+                name={patientData.name}
+                age={patientData.age}
+                onClose={togglePathologyPopup}
                 ID={patientData.ID}
                 Gender={patientData.gender}
                 DateOFBirth={patientData.DateofBirth}

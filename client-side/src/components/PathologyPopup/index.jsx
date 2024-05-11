@@ -1,4 +1,4 @@
-export default function PathologyPopup({
+export default function PatientPopup({
   ID,
   Gender,
   name,
