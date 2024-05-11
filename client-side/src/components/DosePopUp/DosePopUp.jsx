@@ -4,14 +4,13 @@ import "./style.css";
 export default function DosePopUp({
   onClose,
   onConfirm,
-  selectedOption,
   data,
   doseIndex,
   onChangeDose,
 }) {
   const DosePopUpRef = useRef();
   const values = ["0%", "-10%", "-20%", "-30%", "-40%", "-50%"];
-  const initialDoseReduction = data[selectedOption][doseIndex].doseReduction;
+  const initialDoseReduction = data[doseIndex].doseReduction;
   const initialIndex = values.indexOf(initialDoseReduction);
   const [value, setValue] = useState(initialIndex !== -1 ? initialIndex : 0);
 
@@ -38,12 +37,16 @@ export default function DosePopUp({
   };
 
   const handleConfirm = () => {
+    let doseReduction = null;
+    if (value !== 0) {
+      doseReduction = `-${value * 10}%`;
+    }
     const updatedItem = {
-      ...data[selectedOption][doseIndex],
-      doseReduction: `-${value * 10}%`,
+      ...data[doseIndex],
+      doseReduction: doseReduction,
     };
     onConfirm(updatedItem);
-    onChangeDose(selectedOption, doseIndex, updatedItem);
+    onChangeDose(doseIndex, updatedItem);
     onClose();
   };
 
@@ -65,8 +68,8 @@ export default function DosePopUp({
         </div>
         <div className="dose-data">
           <div className="data">
-            <p>{data[selectedOption][doseIndex].Medication}</p>
-            <span>{data[selectedOption][doseIndex].Instructions}</span>
+            <p>{data[doseIndex].name}</p>
+            <span>{data[doseIndex].Instructions}</span>
           </div>
           <span>{value === 0 ? "No reduction" : `- ${value * 10}%`}</span>
         </div>

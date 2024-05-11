@@ -3,15 +3,21 @@ import Routes from "./Routes";
 import { BrowserRouter as Router } from "react-router-dom";
 import { RegimenDetailsProvider } from "./contexts/RegimenDetailsContext ";
 import { AuthProvider } from "./contexts/AuthContext";
+import { PlansDetailsProvider } from "contexts/PlansDetails";
+import { PlanDataProvider } from "contexts/PlanDataContext";
 
 function App() {
   return (
     <AuthProvider>
-      <RegimenDetailsProvider>
-        <Router>
-          <Routes />
-        </Router>
-      </RegimenDetailsProvider>
+      <PlansDetailsProvider>
+        <PlanDataProvider>
+          <RegimenDetailsProvider>
+            <Router>
+              <Routes />
+            </Router>
+          </RegimenDetailsProvider>
+        </PlanDataProvider>
+      </PlansDetailsProvider>
     </AuthProvider>
   );
 }
