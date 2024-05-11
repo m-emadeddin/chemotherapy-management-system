@@ -72,6 +72,18 @@ export default function RegimenDetails({ selectedOption }) {
     setData(newData);
   };
 
+  const handleChangeDose = (doseIndex, updatedItem) => {
+    let newData = { ...Data };
+
+    newData = {
+      ...newData,
+      chemotherapyData: newData.chemotherapyData.map((item, index) =>
+        index === doseIndex ? updatedItem : item
+      ),
+    };
+    setData(newData);
+  };
+
   const resetState = () => {
     setData(initialData);
     setNotes("Add your notes here...");
@@ -102,7 +114,6 @@ export default function RegimenDetails({ selectedOption }) {
             data={Data.preMedicationsData}
             onDelete={handleDelete}
             onEdit={handleEdit}
-            // onChangeDose={handleChangeDose}
           />
         </div>
         <div className="chemotherapy">
@@ -114,7 +125,7 @@ export default function RegimenDetails({ selectedOption }) {
             onDelete={handleDelete}
             data={Data.chemotherapyData}
             onEdit={handleEdit}
-            // onChangeDose={handleChangeDose}
+            onChangeDose={handleChangeDose}
           />
         </div>
       </div>
