@@ -1,9 +1,9 @@
-import axios from "axios";
 import React, { createContext, useState, useContext, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         return localStorage.getItem("isLoggedIn") === "true";
     });
@@ -11,13 +11,9 @@ export const AuthProvider = ({ children }) => {
         return JSON.parse(localStorage.getItem("user")) || null;
     });
 
-    const [token, setToken] = useState(() => {
-        return localStorage.getItem("token") || null;
+    const [userToken, setUserToken] = useState(() => {
+        return localStorage.getItem("userToken") || null;
     });
-
-    useEffect(() => {
-        localStorage.setItem("token", token);
-    }, [token])
 
     useEffect(() => {
         localStorage.setItem("isLoggedIn", isLoggedIn);
@@ -27,33 +23,44 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("user", JSON.stringify(user));
     }, [user]);
 
+    useEffect(() => {
+        localStorage.setItem("userToken", userToken);
+    }, [userToken])
+
     const login = async (username, password) => {
         try {
-            const response = await axios.post("/users/signin", {
-                identifier: username,
-                password: password,
+            const response = await fetch("/users/signin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    identifier: username,
+                    password: password,
+                }),
             });
-            if (!response.status) {
+            if (!response.ok) {
                 throw new Error("Invalid username or password");
             }
-            const data = await response.data;
-            //console.log("userToken: " + data.token);
+            const data = await response.json();
+            console.log("userToken: " + data.token);
             const token = data.token;
-            const userResponse = await axios.get("/users/user", {
+            setUserToken(token);
+            const userResponse = await fetch("/users/user", {
+                method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (!userResponse.status) {
+            if (!userResponse.ok) {
                 throw new Error("Failed to fetch user information");
             }
-            const userData = await userResponse.data;
+            const userData = await userResponse.json();
             setUser(userData.user);
             setIsLoggedIn(true);
-            setToken(token);
         } catch (error) {
             setIsLoggedIn(false);
-            setToken(null);
+            setUserToken(null);
             setUser(null);
             console.log(error.message);
         }
@@ -61,33 +68,31 @@ export const AuthProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const response = await axios.post("/users/logout", null, {
+            const response = await fetch("/users/logout", {
+                method: "POST",
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${userToken}`
                 }
             });
 
-            if (response.status === 200) {
+            if (response.ok) {
                 setIsLoggedIn(false);
                 setUser(null);
-                setToken(null);
-                localStorage.removeItem("token");
+                setUserToken(null);
+                localStorage.removeItem("userToken");
                 localStorage.removeItem("isLoggedIn");
                 localStorage.removeItem("user");
-                //console.log("Logged out successfully.");
+                console.log("Logged out successfully.");
             }
         } catch (error) {
-            setIsLoggedIn(true);
-            setUser(user);
-            setToken(token);
             console.log(error.message);
         }
     };
 
     const authValues = {
         isLoggedIn,
+        userToken,
         user,
-        token,
         login,
         logout,
     };
