@@ -114,10 +114,11 @@ exports.getActiveCycle = (req, res, next) => {
 exports.getPremedications = (req, res, next) => {
   let info = {};
   const cycle_ID = req.params.id;
+  
   Cycles.findByPk(cycle_ID)
     .then((cycle) => {
       if (!cycle) {
-        throw new Error("Cycle not found");
+        return res.status(404).send({ message: "Cycle not found" });
       }
       // Retrieve premedications for the cycle
       return cycle.getPremedications().then((premedications) => {
@@ -142,6 +143,8 @@ exports.getPremedications = (req, res, next) => {
       res.status(500).send({ message: "Internal server error" });
     });
 };
+
+
 exports.getChemotherapy = (req, res, next) => {
   let info = {};
   const patientId = req.params.patientId;
@@ -169,16 +172,13 @@ exports.getChemotherapy = (req, res, next) => {
       return cycles[0].getChemotherapyMedications();
     })
     .then((chemotherapy) => {
-      if (!Array.isArray(chemotherapy)) {
-        throw new Error("Chemotherapy data not in the expected format");
-      }
       const chemoMeds = chemotherapy.map((med) => ({
         name: med.Medication_Name,
         dose: med.Dose,
         reduction: med.Dosage_Reduction,
         route: med.Route,
-        Instructions: med.Instructions,
-        Administered_Dose_ml: med.Administered_Dose_ml,
+        instructions: med.Instructions,
+        administeredDoseMl: med.Administered_Dose_ml,
       }));
       info = {
         cycleNumber: cycleId, // Assuming cycleId corresponds to Cycle_Number
@@ -188,15 +188,13 @@ exports.getChemotherapy = (req, res, next) => {
     })
     .catch((err) => {
       console.error("Error:", err.message);
-      // res.status(500).json({ message: "Internal server error" });
     });
-};
-
+  };
+  
 exports.updateCycleAndMedications = (req, res) => {
   const { cycleNote, cycleDocumentationDate, medications } = req.body;
   const cycleId = req.params.cycleId;
 
-  // Update cycle information
   Cycles.findByPk(cycleId)
     .then((activeCycle) => {
       if (!activeCycle) {
@@ -210,7 +208,6 @@ exports.updateCycleAndMedications = (req, res) => {
       if (cycleDocumentationDate) {
         activeCycle.Cycle_Documentation_Date = cycleDocumentationDate;
       }
-
       // Save the updated cycle
       return activeCycle.save();
     })
@@ -231,6 +228,7 @@ exports.updateCycleAndMedications = (req, res) => {
           { where: { Medication_Name: name } }
         ).catch((error) => {
           // Handle individual medication update errors
+          // not working
           console.error("Error updating medication:", error.message);
           return Promise.reject({ message: `Failed to update medication: ${name}` });
         });
