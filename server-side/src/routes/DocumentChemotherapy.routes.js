@@ -9,6 +9,8 @@ router.get('/premedications/:id',documentChemo.getPremedications); // done
 // router.get('/chemotherapy/:id',documentChemo.getChemotherapy); // done 
 router.get('/chemotherapy/:patientId/cycle/:cycleId/', documentChemo.getChemotherapy);
 
+router.patch('/cycles-updates/:cycleId',documentChemo.updateCycleAndMedications);
+
 
 
 module.exports = router;
