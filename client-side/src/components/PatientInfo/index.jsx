@@ -16,7 +16,7 @@ export default function PatientInfo({ patients }) {
 
   useEffect(() => {
     const filtered = patients.filter((patient) =>
-      patient.name.toLowerCase().includes(searchBarValue.toLowerCase())
+      patient.Name.toLowerCase().includes(searchBarValue.toLowerCase())
     );
     setFilteredPatients(filtered);
   }, [searchBarValue, patients]);
@@ -40,6 +40,14 @@ export default function PatientInfo({ patients }) {
     indexOfFirstPatient,
     indexOfLastPatient
   );
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.toLocaleString("default", { month: "short" });
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
 
   return (
     <>
@@ -73,7 +81,7 @@ export default function PatientInfo({ patients }) {
         {currentPatients.map((patient) => (
           <PatientTable
             patient={patient}
-            key={patient.id}
+            key={patient.Patient_ID}
             selected
             onClickMap={() => handleMapClick(patient)}
           />
@@ -82,19 +90,19 @@ export default function PatientInfo({ patients }) {
 
       {InfoPopupOpen && (
         <PatientPopup
-          name={selectedPatient.name}
-          age={selectedPatient.age}
+          name={selectedPatient.Name}
+          age={selectedPatient.Age}
           onClose={togglePopup}
-          ID={selectedPatient.id}
-          Gender={selectedPatient.gender}
-          DateOFBirth={selectedPatient.DateofBirth}
-          bloodType={selectedPatient.bloodType}
-          DiseaseType={selectedPatient.diseaseType}
+          ID={selectedPatient.Patient_ID}
+          Gender={selectedPatient.Gender}
+          DateOFBirth={formatDate(selectedPatient.date_of_birth)}
+          bloodType={selectedPatient.blood_type}
+          DiseaseType={selectedPatient.disease_type}
           Street={selectedPatient.street}
           City={selectedPatient.city}
           Government={selectedPatient.government}
-          Nationality={selectedPatient.nationality}
-          PhoneNumber={selectedPatient.phoneNumber}
+          Nationality={selectedPatient.governorate}
+          PhoneNumber={selectedPatient.mobile}
         />
       )}
 
