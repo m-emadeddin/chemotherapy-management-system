@@ -6,7 +6,7 @@ import { useAuth } from "contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export default function Header({
-  userPhoto = `${process.env.PUBLIC_URL}/images/img_hesham_1.png`,
+  userPhoto = `${process.env.PUBLIC_URL}/images/profile.png`,
   ...props
 }) {
   const [newLogo, setNewLogo] = useState(
