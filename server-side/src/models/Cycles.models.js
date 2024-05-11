@@ -26,7 +26,7 @@ module.exports = (db, DataTypes) => {
       allowNull: false,
       defaultValue: false
     },
-    cycle_note: {
+    Cycle_note: {
       type: DataTypes.TEXT
     },
     Cycle_Documentation_Date:{

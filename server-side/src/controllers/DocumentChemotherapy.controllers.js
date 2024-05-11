@@ -1,6 +1,7 @@
 // import models
 const Patients = require("../models/index.models").Patients;
 const Cycles = require("../models/index.models").Cycles;
+const ChemotherapyMedications = require('../models/index.models').ChemotherapyMedications;
 
 
 exports.getRegimenInfo = (req, res, next) => {
@@ -188,5 +189,61 @@ exports.getChemotherapy = (req, res, next) => {
     .catch((err) => {
       console.error("Error:", err.message);
       // res.status(500).json({ message: "Internal server error" });
+    });
+};
+
+exports.updateCycleAndMedications = (req, res) => {
+  const { cycleNote, cycleDocumentationDate, medications } = req.body;
+  const cycleId = req.params.cycleId;
+
+  // Update cycle information
+  Cycles.findByPk(cycleId)
+    .then((activeCycle) => {
+      if (!activeCycle) {
+        return res.status(404).json({ error: "Active cycle not found" });
+      }
+
+      // Update cycle note and documentation date if provided
+      if (cycleNote) {
+        activeCycle.Cycle_note = cycleNote;
+      }
+      if (cycleDocumentationDate) {
+        activeCycle.Cycle_Documentation_Date = cycleDocumentationDate;
+      }
+
+      // Save the updated cycle
+      return activeCycle.save();
+    })
+    .then(() => {
+      // Update chemotherapy medications
+      const updatePromises = medications.map((med) => {
+        const { name, administeredDose_ml, administeredDose_mg } = med;
+        if (!name) {
+          return Promise.reject({ message: "Medication name is required for update" });
+        }
+
+        // Update specific fields of the medication by name
+        return ChemotherapyMedications.update(
+          {
+            Administered_Dose_ml: administeredDose_ml,
+            Administered_Dose_mg: administeredDose_mg
+          },
+          { where: { Medication_Name: name } }
+        ).catch((error) => {
+          // Handle individual medication update errors
+          console.error("Error updating medication:", error.message);
+          return Promise.reject({ message: `Failed to update medication: ${name}` });
+        });
+      });
+
+      return Promise.all(updatePromises);
+    })
+    .then(() => {
+      res.status(200).json({ message: "Cycle and medications updated successfully" });
+    })
+    .catch((error) => {
+      // Handle any errors occurred during the update process
+      console.error("Error:", error.message);
+      res.status(500).json({ error: "Internal server error" });
     });
 };
