@@ -2,28 +2,22 @@ import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { Img, Button, Input, Text } from "../../components";
 import "./login.css";
-import axios from "axios";
-import { useAuth } from "contexts/AuthContext";
+
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "contexts/AuthContext";
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const { setToken } = useAuth();
-  const BASE_URL = "/users/signin";
+  const auth = useAuth();
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     try {
-      const response = await axios.post(`${BASE_URL}`, {
-        identifier: identifier,
-        password: password,
-      });
-      const userData = response.data;
-      setToken(userData.token);
+      auth.login(identifier, password);
       navigate("/select_patient");
     } catch (error) {
-      console.error("Login error:", error);
+      console.log(error);
     }
   };
 
