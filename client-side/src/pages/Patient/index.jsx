@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
 import { useNavigate } from "react-router-dom";
-import PathologyPopup from "../../components/PatientPopUp";
+import PathologyPopup from "../../components/PathologyPopup";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
