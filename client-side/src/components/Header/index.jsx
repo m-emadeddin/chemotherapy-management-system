@@ -3,7 +3,6 @@ import { Img, Text } from "./..";
 import "./Header.css";
 import DoctorDropMenu from "components/DoctorDropMenu";
 import { useAuth } from "contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 export default function Header({
   userPhoto = `${process.env.PUBLIC_URL}/images/profile.png`,
@@ -18,7 +17,6 @@ export default function Header({
   const [isActive, setIsActive] = useState(false);
   const [isDoctorMenuOpen, setIsDoctorMenuOpen] = useState(false);
   const auth = useAuth();
-  const navigate = useNavigate();
 
   const user = auth.user;
 
@@ -38,10 +36,9 @@ export default function Header({
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
-      auth.logout();
-      navigate("/login");
+      await auth.logout();
     } catch (error) {
       console.log(error.message);
     }
