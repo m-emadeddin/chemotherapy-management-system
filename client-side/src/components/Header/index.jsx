@@ -110,7 +110,7 @@ export default function Header({
                 className="h-[33px] w-[33px] rounded-[50%]"
               />
               <Text size="xs" as="p" className="!font-almarai">
-                {userDetails ? `Dr.${userDetails.Username}` : ""}
+                {userDetails ? `Dr. ${userDetails.Username}` : ""}
               </Text>
             </div>
             <Img
@@ -121,7 +121,7 @@ export default function Header({
             {isDoctorMenuOpen && (
               <DoctorDropMenu
                 userEmail={userDetails ? userDetails.Email : ""}
-                userName={userDetails ? `Dr.${userDetails.Username}` : ""}
+                userName={userDetails ? `Dr. ${userDetails.Username}` : ""}
                 userPhoto={userPhoto}
               />
             )}
