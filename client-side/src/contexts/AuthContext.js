@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }) => {
             if (!response.ok) {
                 throw new Error("Invalid username or password");
             }
+            setIsLoggedIn(true);
             const data = await response.json();
             console.log("userToken: " + data.token);
             const token = data.token;
@@ -57,7 +58,6 @@ export const AuthProvider = ({ children }) => {
             }
             const userData = await userResponse.json();
             setUser(userData.user);
-            setIsLoggedIn(true);
         } catch (error) {
             setIsLoggedIn(false);
             setUserToken(null);
