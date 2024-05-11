@@ -2,19 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
 import RegimenDetails from "components/regimenDetails/RegimenDetails";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
-
-const regimens = [
-  "CHOP: Protocol for Non Hodgkin Lymphoma",
-  "AC - Regimen for Non-Metastatic, Locally-Advanced Breast Cancer. Before or after Taxol",
-  "CMF-Breast Cancer Regimen",
-  "COP - Regimen for Non-Metastatic Non Hodgkin Lymphoma",
-];
+import { usePlanDetails } from "contexts/PlansDetails";
+import Loader from "components/Loader/Loader";
 
 export default function DropDownMenu() {
+  const { newRegimenDetails } = useRegimenDetails();
+  const { plansNames, plansIds, setPlanId, isLoading } = usePlanDetails();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("none");
   const dropdownRef = useRef(null);
-  const { newRegimenDetails } = useRegimenDetails();
+
   useEffect(() => {
     newRegimenDetails && setSelectedOption(newRegimenDetails.regimenName);
   }, [newRegimenDetails]);
@@ -31,14 +28,21 @@ export default function DropDownMenu() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
+  if (isLoading) {
+    return <Loader />;
+  }
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleOptionSelect = (option) => {
-    setSelectedOption(option);
-    setIsOpen(false);
+    const index = plansNames.indexOf(option);
+    if (index !== -1) {
+      const planId = plansIds[index];
+      setPlanId(planId);
+      setSelectedOption(option);
+      setIsOpen(false);
+    }
   };
 
   return (
@@ -54,7 +58,7 @@ export default function DropDownMenu() {
         </div>
         {isOpen && (
           <div className="dropdown-list">
-            {regimens.map((regimen, index) => (
+            {plansNames.map((regimen, index) => (
               <div
                 key={index}
                 className="dropdown-option"

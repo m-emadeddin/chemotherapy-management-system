@@ -3,8 +3,11 @@ import "./style.css";
 import DeletePopUp from "components/DeletePopUp/DeletePopUp";
 import EditPopUp from "components/EditPopUp/EditPopUp";
 import DosePopUp from "components/DosePopUp/DosePopUp";
+import Loader from "components/Loader/Loader";
+import { usePlanData } from "contexts/PlanDataContext";
 
 function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
+  const { isLoading } = usePlanData();
   const [expandedRows, setExpandedRows] = useState([]);
   const [showDeletePopUp, setShowDeletePopUp] = useState(false);
   const [showEditPopUp, setShowEditPopUp] = useState(false);
@@ -26,7 +29,7 @@ function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
     setDeleteIndex(index);
   };
   const handleConfirmDelete = () => {
-    onDelete(id, selectedOption, deleteIndex);
+    onDelete(id, deleteIndex);
     setShowDeletePopUp(false);
   };
   const handleEdit = (index) => {
@@ -43,6 +46,9 @@ function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
   const handleConfirmDose = () => {
     setShowDosePopUp(false);
   };
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -59,80 +65,78 @@ function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
         </thead>
         {id === "pre-med" && (
           <tbody>
-            {selectedOption &&
-              data[selectedOption]?.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.Medication}</td>
-                  <td>{item.Dose}</td>
-                  <td></td>
-                  <td>{item.Route}</td>
-                  <td
-                    className={` ${
-                      expandedRows.includes(index) ? "expanded" : "truncate"
-                    }`}
-                    onClick={() => toggleText(index)}
+            {data?.map((item, index) => (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.dose}</td>
+                <td></td>
+                <td>{item.route}</td>
+                <td
+                  className={` ${
+                    expandedRows.includes(index) ? "expanded" : "truncate"
+                  }`}
+                  onClick={() => toggleText(index)}
+                >
+                  {item.Instructions}
+                </td>{" "}
+                <td className="buttons-container">
+                  <button
+                    className="btn edit"
+                    onClick={() => handleEdit(index)}
                   >
-                    {item.Instructions}
-                  </td>{" "}
-                  <td className="buttons-container">
-                    <button
-                      className="btn edit"
-                      onClick={() => handleEdit(index)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn del"
-                      onClick={() => handleDelete(index)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    Edit
+                  </button>
+                  <button
+                    className="btn del"
+                    onClick={() => handleDelete(index)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         )}
         {id === "chemo" && (
           <tbody>
-            {selectedOption &&
-              data[selectedOption]?.map((item, index) => (
-                <tr key={index}>
-                  <td>{item.Medication}</td>
-                  <td>{item.Dose}</td>
-                  <td style={{ color: "#E84853", fontWeight: "700" }}>
-                    {item.doseReduction !== null ? item.doseReduction : null}
-                  </td>
-                  <td>{item.Route}</td>
-                  <td
-                    className={` ${
-                      expandedRows.includes(index) ? "expanded" : "truncate"
-                    }`}
-                    onClick={() => toggleText(index)}
+            {data?.map((item, index) => (
+              <tr key={index}>
+                <td>{item.name}</td>
+                <td>{item.dose}</td>
+                <td style={{ color: "#E84853", fontWeight: "700" }}>
+                  {item.doseReduction !== null ? item.doseReduction : null}
+                </td>
+                <td>{item.route}</td>
+                <td
+                  className={` ${
+                    expandedRows.includes(index) ? "expanded" : "truncate"
+                  }`}
+                  onClick={() => toggleText(index)}
+                >
+                  {item.Instructions}
+                </td>{" "}
+                <td className="buttons-container">
+                  <button
+                    className="btn dose"
+                    onClick={() => handleDose(index)}
                   >
-                    {item.Instructions}
-                  </td>{" "}
-                  <td className="buttons-container">
-                    <button
-                      className="btn dose"
-                      onClick={() => handleDose(index)}
-                    >
-                      Change Dose
-                    </button>
-                    <button
-                      className="btn edit"
-                      onClick={() => handleEdit(index)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn del"
-                      onClick={() => handleDelete(index)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                    Change Dose
+                  </button>
+                  <button
+                    className="btn edit"
+                    onClick={() => handleEdit(index)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn del"
+                    onClick={() => handleDelete(index)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         )}
       </table>
@@ -143,6 +147,7 @@ function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
           selectedOption={selectedOption}
           data={data}
           deleteIndex={deleteIndex}
+          id={id}
         />
       )}
       {showEditPopUp && (
