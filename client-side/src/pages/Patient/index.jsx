@@ -365,7 +365,7 @@ export default function PatientPage() {
                           Heart Rate
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Heart_Rate}
+                          {vitalData.response.Heart_Rate} / min 
                         </Text>
                       </div>
 
