@@ -25,7 +25,14 @@ module.exports = (db, DataTypes) => {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
+    },
+    cycle_note: {
+      type: DataTypes.TEXT
+    },
+    Cycle_Documentation_Date:{
+      type: DataTypes.DATE
     }
+
   });
 
   return Cycle;
