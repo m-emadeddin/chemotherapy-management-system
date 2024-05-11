@@ -5,16 +5,15 @@ import "./style.css";
 export default function EditPopUp({
   onClose,
   onConfirm,
-  selectedOption,
   data,
   editIndex,
   onEdit,
   id,
 }) {
-  const [dose, setDose] = useState(data[selectedOption][editIndex].Dose);
-  const [route, setRoute] = useState(data[selectedOption][editIndex].Route);
+  const [dose, setDose] = useState(data[editIndex].dose);
+  const [route, setRoute] = useState(data[editIndex].route);
   const [instructions, setInstructions] = useState(
-    data[selectedOption][editIndex].Instructions
+    data[editIndex].Instructions
   );
 
   const EditPopUpRef = useRef();
@@ -36,13 +35,13 @@ export default function EditPopUp({
   };
   const handleConfirm = () => {
     const updatedItem = {
-      ...data[selectedOption][editIndex],
-      Dose: dose,
-      Route: route,
+      ...data[editIndex],
+      dose: dose,
+      route: route,
       Instructions: instructions,
     };
     onConfirm(updatedItem);
-    onEdit(id, selectedOption, editIndex, updatedItem);
+    onEdit(id, editIndex, updatedItem);
     onClose();
   };
 
@@ -59,7 +58,7 @@ export default function EditPopUp({
         <div className="popup-heading">
           <div className="text">
             <img src="images/pop-icon.png" alt="icon" width={74} height={74} />
-            <p>{data[selectedOption][editIndex].Medication}</p>
+            <p>{data[editIndex].name}</p>
           </div>
           <div className="x-icon" onClick={handleClose}>
             <img src="images/x.svg" alt="x-icon" />

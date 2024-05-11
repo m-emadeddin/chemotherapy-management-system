@@ -12,7 +12,7 @@ export default function Reviewchemotherapyorder() {
 
   function handleSubmit() {
     console.log(patientOrder);
-    navigate("/patient");
+    navigate(-2);
   }
   return (
     <div className="review-container  mx-auto ">

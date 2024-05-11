@@ -52,6 +52,10 @@ const ProjectRoutes = () => {
           path: "document",
           element: <Documentchemotherapy />,
         },
+        {
+          path: "document/order",
+          element: <Orderchemotherapy />,
+        },
       ],
     },
   ]);

@@ -5,7 +5,7 @@ import DoctorDropMenu from "components/DoctorDropMenu";
 import { useAuth } from "contexts/AuthContext";
 
 export default function Header({
-  userPhoto = `${process.env.PUBLIC_URL}/images/img_hesham_1.png`,
+  userPhoto = `${process.env.PUBLIC_URL}/images/profile.png`,
   ...props
 }) {
   const [newLogo, setNewLogo] = useState(
@@ -80,8 +80,10 @@ export default function Header({
                 alt="heshamone"
                 className="h-[33px] w-[33px] rounded-[50%]"
               />
-              <Text size="xs" as="p" className="!font-almarai">
-                {user ? `Dr.${user.Username}` : ""}
+
+              <Text size="xs" as="p" className="font-lamasans">
+                {user ? `Dr. ${user.Username}` : ""}
+
               </Text>
             </div>
             <Img
@@ -92,7 +94,7 @@ export default function Header({
             {isDoctorMenuOpen && (
               <DoctorDropMenu
                 userEmail={user ? `${user.Email}` : ""}
-                userName={user ? `${user.Username}` : ""}
+                userName={user ? `Dr. ${user.Username}` : ""}
                 userPhoto={userPhoto}
               />
             )}
