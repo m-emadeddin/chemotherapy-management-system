@@ -84,7 +84,7 @@ export default function Header({
                 className="h-[33px] w-[33px] rounded-[50%]"
               />
               <Text size="xs" as="p" className="!font-almarai">
-                {user ? `Dr.${user.Username}` : ""}
+                {user ? `Dr. ${user.Username}` : ""}
               </Text>
             </div>
             <Img
