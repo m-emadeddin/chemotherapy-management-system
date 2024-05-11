@@ -9,7 +9,6 @@ module.exports = (db, DataTypes) => {
     Medication_Name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: false
     },
     Dose: {
       type: DataTypes.FLOAT,
