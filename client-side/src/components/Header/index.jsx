@@ -83,8 +83,10 @@ export default function Header({
                 alt="heshamone"
                 className="h-[33px] w-[33px] rounded-[50%]"
               />
-              <Text size="xs" as="p" className="!font-almarai">
+
+              <Text size="xs" as="p" className="font-lamasans">
                 {user ? `Dr. ${user.Username}` : ""}
+
               </Text>
             </div>
             <Img
@@ -95,7 +97,7 @@ export default function Header({
             {isDoctorMenuOpen && (
               <DoctorDropMenu
                 userEmail={user ? `${user.Email}` : ""}
-                userName={user ? `${user.Username}` : ""}
+                userName={user ? `Dr. ${user.Username}` : ""}
                 userPhoto={userPhoto}
               />
             )}

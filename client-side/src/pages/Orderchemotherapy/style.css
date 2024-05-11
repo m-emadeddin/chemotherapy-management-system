@@ -1,51 +1,43 @@
 .order-container {
-    height: 1315px;
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
-    width: 984px;
-    margin-top: 100px;
+  height: 1315px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  width: 984px;
+  margin-top: 100px;
 }
 
 .order-container .text-wrapper-5 {
-    color: #000000;
-    font-family: "Lama Sans-Bold", Helvetica;
-    font-size: 1.5rem;
-    font-weight: 600;
-    line-height: 25px;
-    white-space: nowrap;
+  color: #000000;
+  font-family: "Lama Sans-Bold", Helvetica;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 25px;
+  white-space: nowrap;
 }
 
 @media (max-width: 1050px) {
-    .order-container {
-        width: 700px;
-    }
-
-
+  .order-container {
+    width: 700px;
+  }
 }
 
 @media (max-width: 765px) {
-    .order-container {
-        width: 550px;
-    }
-
-
+  .order-container {
+    width: 550px;
+  }
 }
 
 @media (max-width: 595px) {
-    .order-container {
-        width: 450px;
-    }
-
-
+  .order-container {
+    width: 450px;
+  }
 }
 
 @media (max-width: 475px) {
-    .order-container {
-        width: 350px;
-    }
-
-
+  .order-container {
+    width: 350px;
+  }
 }
 
 /* .order-container .navigation {
@@ -78,7 +70,7 @@
 
 .order-chemotherapy .text-wrapper-3 {
     color: #000000;
-    font-family: "Lama Sans-Regular", Helvetica;
+    font-family: "Lama Sans", Helvetica;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0;
@@ -91,7 +83,7 @@
 
 .order-chemotherapy .text-wrapper-4 {
     color: #8e9cb4;
-    font-family: "Lama Sans-Regular", Helvetica;
+    font-family: "Lama Sans", Helvetica;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0;
