@@ -144,7 +144,6 @@ function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
         <DeletePopUp
           onClose={() => setShowDeletePopUp(false)}
           onConfirm={handleConfirmDelete}
-          selectedOption={selectedOption}
           data={data}
           deleteIndex={deleteIndex}
           id={id}
@@ -154,7 +153,6 @@ function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
         <EditPopUp
           onClose={() => setShowEditPopUp(false)}
           onConfirm={handleConfirmEdit}
-          selectedOption={selectedOption}
           data={data}
           editIndex={editIndex}
           onEdit={onEdit}

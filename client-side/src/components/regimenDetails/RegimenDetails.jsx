@@ -48,6 +48,30 @@ export default function RegimenDetails({ selectedOption }) {
     setData(newData);
   };
 
+  const handleEdit = (id, editIndex, updatedItem) => {
+    let newData = { ...Data };
+
+    if (id === "pre-med") {
+      newData = {
+        ...newData,
+        preMedicationsData: newData.preMedicationsData.map((item, index) =>
+          index === editIndex ? updatedItem : item
+        ),
+      };
+    }
+
+    if (id === "chemo") {
+      newData = {
+        ...newData,
+        chemotherapyData: newData.chemotherapyData.map((item, index) =>
+          index === editIndex ? updatedItem : item
+        ),
+      };
+    }
+
+    setData(newData);
+  };
+
   const resetState = () => {
     setData(initialData);
     setNotes("Add your notes here...");
@@ -77,7 +101,7 @@ export default function RegimenDetails({ selectedOption }) {
             id="pre-med"
             data={Data.preMedicationsData}
             onDelete={handleDelete}
-            // onEdit={handleEdit}
+            onEdit={handleEdit}
             // onChangeDose={handleChangeDose}
           />
         </div>
@@ -89,7 +113,7 @@ export default function RegimenDetails({ selectedOption }) {
             id="chemo"
             onDelete={handleDelete}
             data={Data.chemotherapyData}
-            // onEdit={handleEdit}
+            onEdit={handleEdit}
             // onChangeDose={handleChangeDose}
           />
         </div>

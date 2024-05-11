@@ -70,6 +70,10 @@
     border-top: none !important;
 }
 
+.edit-popup-container .edit-values td:first-letter {
+    text-transform: capitalize;
+}
+
 .edit-popup-container .edit-values input {
     background-color: #F8F9FC;
     border-radius: 20px;
