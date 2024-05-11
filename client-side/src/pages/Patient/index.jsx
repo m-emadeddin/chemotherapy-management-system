@@ -89,14 +89,14 @@ export default function PatientPage() {
               <Img
                 src="images/img_arrow_right_blue_gray_300_02.svg"
                 alt="arrowright"
-                className="h-[10px] self-end mr-[10px]"
+                className="h-[10px] mr-[10px]"
               />
               <Text
                 size="xs"
                 as="p"
                 className="!text-blue_gray-300_02 cursor-pointer"
               >
-                Patient Name
+                {patientData.name}
               </Text>
             </div>
           </div>
