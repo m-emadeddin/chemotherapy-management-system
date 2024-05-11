@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Img, Button, Input, Text } from "../../components";
 import "./login.css";
@@ -9,13 +9,22 @@ import { useAuth } from "contexts/AuthContext";
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [loginAttempted, setLoginAttempted] = useState(false);
   const navigate = useNavigate();
   const auth = useAuth();
 
-  const handleLogin = () => {
-    try {
-      auth.login(identifier, password);
+  useEffect(() => {
+    if (loginAttempted && auth.isLoggedIn) {
       navigate("/select_patient");
+    }
+  }, [auth.isLoggedIn, loginAttempted, navigate]);
+
+  const handleLogin = async () => {
+    try {
+      if (identifier.length > 0 && password.length > 0) {
+        await auth.login(identifier, password);
+        setLoginAttempted(true);
+      }
     } catch (error) {
       console.log(error);
     }
