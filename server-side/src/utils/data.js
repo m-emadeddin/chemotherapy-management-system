@@ -99,7 +99,7 @@ exports.insertDummyData = async () => {
     //===========================TREATMENT PLAN=============================================================
     const Treatmentplan1 = await patient1.createTreatmentPlan({
       Plan_Name: 'CHPO',
-      number_of_Cycles: 3,
+      number_of_Cycles: 2,
       number_of_Weeks: 5,
     });
     const Treatmentplan2 = await patient2.createTreatmentPlan({
@@ -242,24 +242,32 @@ exports.insertDummyData = async () => {
       Start_Date: '2024-05-01',
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
+      Is_active:true
+      // cycle_note:'all is good'
     });
     const cycle2 = await Cycles.create({
       Cycle_Number: 2,
       Start_Date: '2024-06-01',
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
+      Is_active:false,
+      // cycle_note:'👍👍👍👍👍',
+      
     });
     const cycle3 = await Cycles.create({
       Cycle_Number: 1,
       Start_Date: '2024-07-01',
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
+      Is_active:true,
+      // cycle_note:'💔💔💔💔'
     });
     const cycle4 = await Cycles.create({
       Cycle_Number: 2,
       Start_Date: '2024-10-01',
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
+      // cycle_note:'still alive'
     });
     //===========================PRE MEDICATIONS=============================================================
     const premed1 = await Premedications.create({
@@ -293,8 +301,7 @@ exports.insertDummyData = async () => {
       Route: 'Intravenous',
       Instructions: 'Administer over 2 hours',
       Dosage_Reduction: 0,
-      Administered_Dose_ml: 100,
-      Administered_Dose_mg: 20,
+    
     });
     const chemotherapy2 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug B',
@@ -302,8 +309,6 @@ exports.insertDummyData = async () => {
       Route: 'Oral',
       Instructions: 'Take with food',
       Dosage_Reduction: 25,
-      Administered_Dose_ml: 90,
-      Administered_Dose_mg: 30,
     });
     const chemotherapy3 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug C',
@@ -311,8 +316,6 @@ exports.insertDummyData = async () => {
       Route: 'Intravenous',
       Instructions: 'Administer over 2 hours',
       Dosage_Reduction: 0,
-      Administered_Dose_ml: 100,
-      Administered_Dose_mg: 20,
     });
     const chemotherapy4 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug D',
@@ -320,8 +323,6 @@ exports.insertDummyData = async () => {
       Route: 'Oral',
       Instructions: 'Take with food',
       Dosage_Reduction: 25,
-      Administered_Dose_ml: 90,
-      Administered_Dose_mg: 30,
     });
     //===========================DOCTOR=============================================================
     const doctor1 = await Doctor.create({
