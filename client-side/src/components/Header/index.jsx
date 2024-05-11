@@ -109,7 +109,7 @@ export default function Header({
                 alt="heshamone"
                 className="h-[33px] w-[33px] rounded-[50%]"
               />
-              <Text size="xs" as="p" className="!font-almarai">
+              <Text size="xs" as="p" className="font-lamasans">
                 {userDetails ? `Dr. ${userDetails.Username}` : ""}
               </Text>
             </div>
