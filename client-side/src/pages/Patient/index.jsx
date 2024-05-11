@@ -1,35 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
 import { useNavigate } from "react-router-dom";
-const data = [
-  {
-    bilateralsalpi: "Bilateral salpingo-oophorectomy",
-    thirtyTwoThousandEighteen: "03/20/19 Requested",
-  },
-  {
-    bilateralsalpi: "Bilateral salpingo-oophorectomy test",
-    thirtyTwoThousandEighteen: "09/17/17",
-  },
-  {
-    bilateralsalpi: "Excisional biopsy of left breats",
-    thirtyTwoThousandEighteen: "06/20/19 Requested",
-  },
-];
+import PathologyPopup from "../../components/PathologyPopup";
 
-const data1 = [
-  { height: "Height", distance: "176.784 cm" },
-  { height: "Weight", distance: "58.967 kg" },
-  { height: "(Calculated) BMI", distance: "19.8" },
-  { height: "Temperature", distance: "37.9 °C" },
-  { height: "Heart Rate", distance: "60 /min" },
-  { height: "Respiratory Rate", distance: "15 /min" },
-  { height: "Blood Pressure", distance: "140/80" },
-  { height: "O2 Sat", distance: "95 %" },
-];
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
 
-const data2 = [
+  return `${year}/${month}/${day}`;
+};
+
+const GeneralInfoData = [
   { id: "ID", y2Dc5F: "Y2DC5F" },
   { id: "Gender", y2Dc5F: "Male" },
   { id: "Date of birth", y2Dc5F: "12.Mar.2001 (23 y.o)" },
@@ -40,11 +25,58 @@ const data2 = [
 
 export default function PatientPage() {
   const [hovered, setHovered] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPatientPopup, setShowPatientPopup] = useState(false);
+  const [showPathologyPopup, setShowPathologyPopup] = useState(false);
+  const [medicalData, setMedicalData] = useState(null);
+  const [radioData, setRadioData] = useState(null);
+  const [vitalData, setVitalData] = useState(null);
+
   const navigate = useNavigate();
+  const id = 1;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`patient/medical/${id}`);
+        const data = await response.json();
+        setMedicalData(data);
+      } catch (error) {
+        console.error("Error fetching cycle count:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`patient/radiography/${id}`);
+        const data = await response.json();
+        setRadioData(data);
+      } catch (error) {
+        console.error("Error fetching cycle count:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`patient/vital-sign/${id}`);
+        const data = await response.json();
+        setVitalData(data);
+      } catch (error) {
+        console.error("Error fetching cycle count:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   function orderChemo() {
     navigate("/order");
+
+    // console.log(vitalData["response"]["BMI"]);
   }
 
   function docChemo() {
@@ -65,8 +97,12 @@ export default function PatientPage() {
     phonenumber: "01095368957",
     gender: "Male",
   });
-  const togglePopup = () => {
-    setShowPopup(!showPopup);
+
+  const togglePatientPopup = () => {
+    setShowPatientPopup(!showPatientPopup);
+  };
+  const togglePathologyPopup = () => {
+    setShowPathologyPopup(!showPathologyPopup);
   };
 
   return (
@@ -170,7 +206,7 @@ export default function PatientPage() {
                       size="lg"
                       shape="circle"
                       className="w-[48px] !rounded-[24px] action-button"
-                      onClick={togglePopup}
+                      onClick={togglePatientPopup}
                     >
                       <Img src="images/img_map.svg" />
                     </Button>
@@ -181,7 +217,7 @@ export default function PatientPage() {
                   </Heading>
 
                   <div className="grid grid-cols-2 gap-6 self-stretch md:grid-cols-1">
-                    {data2.map((d, index) => (
+                    {GeneralInfoData.map((d, index) => (
                       <div
                         key={"patient1" + index}
                         className="flex w-full flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5 overflow-hidden whitespace-nowrap"
@@ -205,7 +241,7 @@ export default function PatientPage() {
                   className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
                   variant="fill"
                   color="blue_500"
-                  onClick={togglePopup}
+                  onClick={togglePatientPopup}
                 >
                   View all
                 </Button>
@@ -222,13 +258,6 @@ export default function PatientPage() {
                       Cancer Overview
                     </Heading>
                   </div>
-                  <Button
-                    size="lg"
-                    shape="circle"
-                    className="w-[48px] !rounded-[24px] action-button"
-                  >
-                    <Img src="images/img_edit.svg" />
-                  </Button>
                 </div>
                 <Heading size="s" as="h3">
                   General info
@@ -270,9 +299,9 @@ export default function PatientPage() {
             </div>
 
             {/* vital signs section */}
-            <div className="flex w-[49%] flex-col items-start gap-[25px] rounded-[40px] bg-white-A700 p-[15px] md:w-full">
-              <div className="flex items-center justify-between gap-5 self-stretch sm:flex-col">
-                <div className="flex w-[77%] items-center gap-[15px] sm:w-full">
+            <div className="flex w-[49%] flex-col gap-4 rounded-[40px] bg-white-A700 py-[15px] pl-[15px] md:w-full px-4">
+            <div className="flex items-center justify-between gap-5">
+              <div className="flex w-[77%] items-center gap-[15px]">
                   <Img
                     src="images/img_patient_in_a_circle_1.png"
                     alt="patientina"
@@ -282,42 +311,103 @@ export default function PatientPage() {
                     Vital Signs
                   </Heading>
                 </div>
-                <Button
-                  size="lg"
-                  shape="circle"
-                  className="w-[48px] !rounded-[24px] action-button"
-                >
-                  <Img src="images/img_clock.svg" />
-                </Button>
               </div>
-              <Heading size="xs">Last update: 12/04/2024</Heading>
-              <div className="flex flex-col items-start gap-[15px] self-stretch">
-                <div className="grid grid-cols-2 gap-6 self-stretch md:grid-cols-1">
-                  {data1.map((d, index) => (
-                    <div
-                      key={"patient" + index}
-                      className="flex w-full flex-col items-start justify-center gap-2 rounded-[10px] bg-gray-50 p-2.5"
-                    >
-                      <Text
-                        size="xs"
-                        as="p"
-                        className="mt-[5px] !text-blue_gray-300"
-                      >
-                        {d.height}
-                      </Text>
-                      <Text as="p" className="mb-[5px]">
-                        {d.distance}
-                      </Text>
+
+              <div className="flex flex-col items-center gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
+                  {vitalData && vitalData.response && (
+                    <div className="grid grid-cols-2 gap-5">
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Blood Pressure
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {vitalData.response.Blood_Pressure} / 80
+                        </Text>
+                      </div>
+
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Height
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {vitalData.response.Height} Cm
+                        </Text>
+                      </div>
+
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Weight
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {vitalData.response.Weight} Kg
+                        </Text>
+                      </div>
+
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Heart Rate
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {vitalData.response.Heart_Rate} / min 
+                        </Text>
+                      </div>
+
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          BMI
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {vitalData.response.BMI}
+                        </Text>
+                      </div>
+
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Temperature
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {vitalData.response.Temperature} ْC
+                        </Text>
+                      </div>
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Chief Complaint
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {vitalData.response.Chief_Complaint}
+                        </Text>
+                      </div>
                     </div>
-                  ))}
-                </div>
-                <div className="flex flex-col items-start justify-center gap-[9px] rounded-[10px] bg-gray-50 p-2.5">
-                  <Text size="xs" as="p" className="mt-1 !text-blue_gray-300">
-                    Chief Complaint
-                  </Text>
-                  <Text as="p" className="mb-[5px]">
-                    Shortness of breath
-                  </Text>
+                  )}
                 </div>
               </div>
             </div>
@@ -340,60 +430,300 @@ export default function PatientPage() {
                 size="lg"
                 shape="circle"
                 className="w-[48px] !rounded-[24px] action-button"
+                onClick={togglePathologyPopup}
               >
                 <Img src="images/img_edit.svg" />
               </Button>
             </div>
 
+            <Heading size="s" as="h3">
+              Medical Analysis
+            </Heading>
+            <Heading size="xs">
+              Last update:{" "}
+              {medicalData &&
+                medicalData.MedicalAnalysis &&
+                formatDate(medicalData["MedicalAnalysis"][0]["updatedAt"])}
+            </Heading>
+
             <div className="flex flex-col items-center gap-5">
-              <div className="flex flex-col gap-5 self-stretch pr-[157px] md:pr-5">
-                {data.map((d, index) => (
-                  <div
-                    key={"content" + index}
-                    className="flex flex-col items-start gap-[15px] pt-1"
-                  >
-                    <Heading size="xs" as="p">
-                      {d.bilateralsalpi}
-                    </Heading>
-                    <div className="flex flex-col items-start justify-center gap-[11px] rounded-[10px] bg-gray-50 p-2.5">
-                      <Text size="xs" className="!text-blue_gray-300">
-                        Latest Status
-                      </Text>
-                      <Text as="p">
-                        <span className="text-black-900">
-                          {d.thirtyTwoThousandEighteen}
-                        </span>
-                      </Text>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
+                {medicalData &&
+                  medicalData.MedicalAnalysis &&
+                  medicalData.MedicalAnalysis.map((analysis, index) => (
+                    <div
+                      key={"medicalAnalysis" + index}
+                      className="grid grid-cols-2 gap-5"
+                    >
+                      {/* Urinanalysis */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Urinanalysis
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.Urinanalysis}
+                        </Text>
+                      </div>
+
+                      {/* CBC */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          CBC
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.CBC}
+                        </Text>
+                      </div>
+
+                      {/* Electrophoresis */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Electrophoresis
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.Electrophoresis}
+                        </Text>
+                      </div>
+
+                      {/* CEA */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          CEA
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.CEA}
+                        </Text>
+                      </div>
+
+                      {/* AFP */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          AFP
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.AFP}
+                        </Text>
+                      </div>
+
+                      {/* B2M */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          B2M
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.B2M}
+                        </Text>
+                      </div>
+
+                      {/* Tumor_size */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Tumor Size
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.Tumor_size}
+                        </Text>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
+            </div>
+
+            <Heading size="s" as="h3">
+              Radiography
+            </Heading>
+
+            <Heading size="xs">
+              Last update:{" "}
+              {radioData &&
+                radioData.radiography &&
+                formatDate(radioData["radiography"][0]["updatedAt"])}
+            </Heading>
+
+            <div className="flex flex-col items-center gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
+                {radioData &&
+                  radioData.radiography &&
+                  radioData.radiography.map((analysis, index) => (
+                    <div
+                      key={"radiography" + index}
+                      className="grid grid-cols-2 gap-5"
+                    >
+                      {/* Urinanalysis */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          MRI
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.MRI}
+                        </Text>
+                      </div>
+
+                      {/* CBC */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          CT
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.CT}
+                        </Text>
+                      </div>
+
+                      {/* Electrophoresis */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          PET_CT
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.PET_CT}
+                        </Text>
+                      </div>
+
+                      {/* Ultrasound */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Ultrasound
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.Ultrasound}
+                        </Text>
+                      </div>
+
+                      {/* XRay */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          XRay
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.XRay}
+                        </Text>
+                      </div>
+
+                      {/* Mammography */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Mammography
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.Mammography}
+                        </Text>
+                      </div>
+
+                      {/* DEXA */}
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          DEXA
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {analysis.DEXA}
+                        </Text>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
               <Button
                 size="sm"
                 className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
                 variant="fill"
                 color="blue_500"
+                onClick={togglePathologyPopup}
               >
                 View all
               </Button>
-              {showPopup && (
-                <PatientPopup
-                  name={patientData.name}
-                  age={patientData.age}
-                  onClose={togglePopup}
-                  ID={patientData.ID}
-                  Gender={patientData.gender}
-                  DateOFBirth={patientData.DateofBirth}
-                  bloodType={patientData.bloodType}
-                  DiseaseType={patientData.diseaseType}
-                  Street={patientData.street}
-                  City={patientData.city}
-                  Government={patientData.government}
-                  Nationality={patientData.nationality}
-                  PhoneNumber={patientData.phonenumber}
-                />
-              )}
             </div>
+
+            {showPatientPopup && (
+              <PatientPopup
+                name={patientData.name}
+                age={patientData.age}
+                onClose={togglePatientPopup}
+                ID={patientData.ID}
+                Gender={patientData.gender}
+                DateOFBirth={patientData.DateofBirth}
+                bloodType={patientData.bloodType}
+                DiseaseType={patientData.diseaseType}
+                Street={patientData.street}
+                City={patientData.city}
+                Government={patientData.government}
+                Nationality={patientData.nationality}
+                PhoneNumber={patientData.phonenumber}
+              />
+            )}
+
+            {showPathologyPopup && (
+              <PathologyPopup
+                name={patientData.name}
+                age={patientData.age}
+                onClose={togglePathologyPopup}
+                ID={patientData.ID}
+                Gender={patientData.gender}
+                DateOFBirth={patientData.DateofBirth}
+                bloodType={patientData.bloodType}
+                DiseaseType={patientData.diseaseType}
+                Street={patientData.street}
+                City={patientData.city}
+                Government={patientData.government}
+                Nationality={patientData.nationality}
+                PhoneNumber={patientData.phonenumber}
+              />
+            )}
           </div>
         </div>
       </div>
