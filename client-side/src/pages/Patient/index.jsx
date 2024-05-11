@@ -38,6 +38,25 @@ const data2 = [
   { id: "Phone number", y2Dc5F: "01095368957" },
 ];
 
+const MedicalData = [
+  { id: "Urinalysis", value: "Y2DC5F" },
+  { id: "CBC", value: "Male" },
+  { id: "Electrophoresis", value: "12.Mar.2001 (23 y.o)" },
+  { id: "CEA", value: "A+" },
+  { id: "AFP", value: "Lung Cancer" },
+  { id: "B2M ", value: "01095368957" },
+];
+const Radiography = [
+  { id: "MRI", value: "Y2DC5F" },
+  { id: "CT", value: "Male" },
+  { id: "PET_CT", value: "12.Mar.2001 (23 y.o)" },
+  { id: "Ultrasound", value: "A+" },
+  { id: "XRay", value: "Lung Cancer" },
+  { id: "Mammography", value: "01095368957" },
+  { id: "DEXA", value: "01095368957" },
+];
+
+
 export default function PatientPage() {
   const [hovered, setHovered] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
@@ -345,29 +364,56 @@ export default function PatientPage() {
               </Button>
             </div>
 
+            <Heading size="s" as="h3">
+              Medical Analysis
+            </Heading>
             <div className="flex flex-col items-center gap-5">
-              <div className="flex flex-col gap-5 self-stretch pr-[157px] md:pr-5">
-                {data.map((d, index) => (
+              <div className="grid grid-cols-2 gap-5 self-stretch md:pr-5">
+                {MedicalData.map((d, index) => (
                   <div
-                    key={"content" + index}
-                    className="flex flex-col items-start gap-[15px] pt-1"
+                    key={"patient1" + index}
+                    className="flex w-full flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap"
                   >
-                    <Heading size="xs" as="p">
-                      {d.bilateralsalpi}
-                    </Heading>
-                    <div className="flex flex-col items-start justify-center gap-[11px] rounded-[10px] bg-gray-50 p-2.5">
-                      <Text size="xs" className="!text-blue_gray-300">
-                        Latest Status
-                      </Text>
-                      <Text as="p">
-                        <span className="text-black-900">
-                          {d.thirtyTwoThousandEighteen}
-                        </span>
-                      </Text>
-                    </div>
+                    <Text
+                      size="xs"
+                      as="p"
+                      className="h-[15px] w-[15px] !text-blue_gray-300"
+                    >
+                      {d.id}
+                    </Text>
+                    <Text as="p" className="mb-[5px]">
+                      {d.value}
+                    </Text>
                   </div>
                 ))}
               </div>
+            </div>
+
+            <Heading size="s" as="h3">
+            Radiography
+            </Heading>
+            <div className="flex flex-col items-center gap-5">
+              <div className="grid grid-cols-2 gap-5 self-stretch md:pr-5">
+                {Radiography.map((d, index) => (
+                  <div
+                    key={"patient1" + index}
+                    className="flex w-full flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap"
+                  >
+                    <Text
+                      size="xs"
+                      as="p"
+                      className="h-[15px] w-[15px] !text-blue_gray-300"
+                    >
+                      {d.id}
+                    </Text>
+                    <Text as="p" className="mb-[5px]">
+                      {d.value}
+                    </Text>
+                  </div>
+                ))}
+              </div>
+
+
               <Button
                 size="sm"
                 className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
@@ -376,7 +422,8 @@ export default function PatientPage() {
               >
                 View all
               </Button>
-              {showPopup && (
+            </div>
+            {showPopup && (
                 <PatientPopup
                   name={patientData.name}
                   age={patientData.age}
@@ -393,7 +440,6 @@ export default function PatientPage() {
                   PhoneNumber={patientData.phonenumber}
                 />
               )}
-            </div>
           </div>
         </div>
       </div>
