@@ -107,7 +107,7 @@ exports.getActiveCycle = (req, res, next) => {
     .catch((error) => {
       // Handle any unexpected errors
       console.error(error);
-      res.status(500).json({ error: "Internal server error" });
+      // res.status(500).json({ error: "Internal server error" });
     });
 };
 exports.getPremedications = (req, res, next) => {
@@ -123,6 +123,7 @@ exports.getPremedications = (req, res, next) => {
       return cycle.getPremedications().then((premedications) => {
         // Format premedications
         const formattedPremedications = premedications.map((premedication) => ({
+          Premed_id:premedication.Premed_ID,
           Medication: premedication.Medication_Name,
           Dose: premedication.Dose,
           Route: premedication.Route,
@@ -142,56 +143,99 @@ exports.getPremedications = (req, res, next) => {
       res.status(500).send({ message: "Internal server error" });
     });
 };
-
-
 exports.getChemotherapy = (req, res, next) => {
   let info = {};
-  const patientId = req.params.patientId;
-  const cycleId = req.params.cycleId;
+  const cycle_ID = req.params.id;
+  
+  Cycles.findByPk(cycle_ID)
+    .then((cycle) => {
+      if (!cycle) {
+        return res.status(404).send({ message: "Cycle not found" });
+      }
+      // Retrieve chemotherapy medications for the cycle
+      return cycle.getChemotherapyMedications().then((chemoMeds) => {
+        // Format chemotherapy medications
+        const formattedChemoMeds = chemoMeds.map((med) => ({
+          chemotherapy_id:med.Chemotherapy_ID,
+          name: med.Medication_Name,
+          dose: med.Dose,
+          reduction: med.Dosage_Reduction,
+          route: med.Route,
+          instructions: med.Instructions,
+          administeredDoseMl: med.Administered_Dose_ml,
+          administeredDoseMg:med.Administered_Dose_mg
+        }));
 
-  Patients.findByPk(patientId)
-    .then((patient) => {
-      if (!patient) {
-        return res.status(404).json({ message: "Patient not found" });
-      }
-      return patient.getTreatmentPlan();
-    })
-    .then((treatmentPlan) => {
-      if (!treatmentPlan) {
-        return res.status(404).json({ message: "Treatment plan not found" });
-      }
-      // Find the specific cycle by ID
-      return treatmentPlan.getCycles({ where: { Cycle_ID: cycleId } });
-    })
-    .then((cycles) => {
-      if (!cycles || cycles.length === 0) {
-        return res.status(404).json({ message: "Cycle not found" });
-      }
-      // Retrieve chemotherapy medications for the specific cycle
-      return cycles[0].getChemotherapyMedications();
-    })
-    .then((chemotherapy) => {
-      const chemoMeds = chemotherapy.map((med) => ({
-        name: med.Medication_Name,
-        dose: med.Dose,
-        reduction: med.Dosage_Reduction,
-        route: med.Route,
-        instructions: med.Instructions,
-        administeredDoseMl: med.Administered_Dose_ml,
-        administeredDoseMg:med.Administered_Dose_mg
-      }));
-      info = {
-        cycleNumber: cycleId, // Assuming cycleId corresponds to Cycle_Number
-        chemotherapyMedications: chemoMeds,
-      };
-      res.status(200).json(info);
+        // Send response
+        info = {
+          cycleNumber: cycle.Cycle_Number,
+          chemotherapyMedications: formattedChemoMeds,
+        };
+        res.status(200).send(info);
+      });
     })
     .catch((err) => {
       console.error("Error:", err.message);
+      res.status(500).send({ message: "Internal server error" });
     });
-  };
+};
+
+
+// exports.getChemotherapy = (req, res, next) => {
+//   let info = {};
+//   let Cycle_Number ;
+//   const patientId = req.params.patientId;
+//   const cycleId = req.params.cycleId;
+
+//   Patients.findByPk(patientId)
+//     .then((patient) => {
+//       if (!patient) {
+//         return res.status(404).json({ message: "Patient not found" });
+//       }
+//       return patient.getTreatmentPlan();
+//     })
+//     .then((treatmentPlan) => {
+//       if (!treatmentPlan) {
+//         return res.status(404).json({ message: "Treatment plan not found" });
+//       }
+//       // Find the specific cycle by ID
+//       return treatmentPlan.getCycles({ where: { Cycle_ID: cycleId } });
+//     })
+//     .then((cycles) => {
+//       Cycle_Number = cycles[0].Cycle_Number
+//       console.log(Cycle_Number)
+//       if (!Cycle_Number){
+//         return res.status(404).json({ message: "Cycle not found" });
+//       }
+//       console.log(Cycle_Number)
+//       if (!cycles || cycles.length === 0) {
+//         return res.status(404).json({ message: "Cycle not found" });
+//       }
+//       // Retrieve chemotherapy medications for the specific cycle
+//       return cycles[0].getChemotherapyMedications();
+//     })
+//     .then((chemotherapy) => {
+//       const chemoMeds = chemotherapy.map((med) => ({
+//         name: med.Medication_Name,
+//         dose: med.Dose,
+//         reduction: med.Dosage_Reduction,
+//         route: med.Route,
+//         instructions: med.Instructions,
+//         administeredDoseMl: med.Administered_Dose_ml,
+//         administeredDoseMg:med.Administered_Dose_mg
+//       }));
+//       info = {
+//         cycleNumber: Cycle_Number, // Assuming cycleId corresponds to Cycle_Number
+//         chemotherapyMedications: chemoMeds,
+//       };
+//       res.status(200).json(info);
+//     })
+//     .catch((err) => {
+//       console.error("Error:", err.message);
+//     });
+//   };
   
-exports.updateCycleAndMedications = (req, res) => {
+exports.updateCycleAndMedications = (req, res , next) => {
   const { cycleNote, cycleDocumentationDate, medications } = req.body;
   const cycleId = req.params.cycleId;
 
@@ -200,7 +244,12 @@ exports.updateCycleAndMedications = (req, res) => {
       if (!activeCycle) {
         return res.status(404).json({ error: "Active cycle not found" });
       }
+      const cycle_number = activeCycle.Cycle_Number
+      console.log(cycle_number)
 
+      // deactivate current cycle
+      activeCycle.Is_active = false
+      console.log(activeCycle.Is_active)
       // Update cycle note and documentation date if provided
       if (cycleNote) {
         activeCycle.Cycle_note = cycleNote;
@@ -210,6 +259,20 @@ exports.updateCycleAndMedications = (req, res) => {
       }
       // Save the updated cycle
       return activeCycle.save();
+    })
+    .then((updatedCycle) => {
+      // Find the next cycle and activate it
+      return Cycles.findOne({
+        where: {Cycle_ID:updatedCycle.Cycle_ID+1 ,  Cycle_Number: updatedCycle.Cycle_Number + 1 } 
+      });
+    })
+    .then((nextCycle) => {
+      if (nextCycle) {
+        nextCycle.Is_active = true; // Mark next cycle as active
+        return nextCycle.save();
+      }
+      // Handle if there's no next cycle
+      return Promise.resolve(); // Resolve without updating next cycle
     })
     .then(() => {
       // Update chemotherapy medications
