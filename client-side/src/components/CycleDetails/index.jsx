@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Text, PremedicationsTable, ChemotherapyTable } from "./..";
 
 const CycleDetails = ({ cycle, cycleNote }) => {
@@ -26,7 +26,7 @@ const CycleDetails = ({ cycle, cycleNote }) => {
           <Text size="md" style={{ fontWeight: "bold" }}>
             Physician notes
           </Text>
-          <Text>Dose reduced Doxorubicin because patient has weak heart</Text>
+          <Text>{cycleNote}</Text>
         </div>
       )}
     </div>

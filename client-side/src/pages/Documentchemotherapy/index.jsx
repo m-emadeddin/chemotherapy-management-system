@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
   Text,
@@ -12,19 +12,16 @@ import {
 } from "../../components";
 
 export default function DocumentchemotherapyPage() {
-  const location = useLocation();
   const navigate = useNavigate();
   const id = 1;
-  const [activeCycle, setActiveCycle] = useState(1);
+  const [activeCycle, setActiveCycle] = useState();
   const [cyclesCount, setCyclesCount] = useState(1);
   const [regimenName, setRegimenName] = useState("");
   const [redirectToDoc, setRedirectToDoc] = useState(false);
   const [dates, setDates] = useState({});
-  const [cycle, setCycle] = useState(
-    activeCycle || cyclesCount || location.state.cycle
-  );
   const [cycleID, setCycleID] = useState(1);
   const [cycleNote, setCycleNote] = useState("");
+  const [cycle, setCycle] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,32 +29,34 @@ export default function DocumentchemotherapyPage() {
         const response = await fetch(
           `document-chemotherapy/active-cycle/${id}`
         );
-        if (!response.status === 404) {
-          const data = await response.json();
-          setActiveCycle(data.activeCycleNumber);
-        } else if (
-          response.status === 404 &&
-          response.statusText === "Active cycle not found"
-        ) {
+        if (response.status === 404) {
           setActiveCycle(0);
+          return;
         }
+        const data = await response.json();
+        setActiveCycle(data.Active_Cycle_Number);
       } catch (error) {
         console.error("Error fetching Active Cycle:", error);
       }
     };
-    fetchData();
-  }, [id]);
+    setTimeout(() => {
+      fetchData();
+    }, 400);
+  }, [id, redirectToDoc]);
+
+  useEffect(() => {
+    setCycle(activeCycle || cyclesCount);
+  }, [activeCycle, cyclesCount]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/Regimen-info/${id}`
+          `document-chemotherapy/regimen-info/${id}`
         );
         const data = await response.json();
-
-        setCyclesCount(data.cycleCount);
-        setRegimenName(data.regimenName);
+        setCyclesCount(data.Cycle_Count);
+        setRegimenName(data.Regimen_Name);
       } catch (error) {
         console.error("Error fetching Regimen-info:", error);
       }
@@ -68,23 +67,23 @@ export default function DocumentchemotherapyPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`document-chemotherapy/cycles_info/${id}`);
+        const response = await fetch(`document-chemotherapy/cycles-info/${id}`);
         const data = await response.json();
         const extractedDates = {};
-        for (const key in data.cycles) {
-          const obj = data.cycles[key];
-          extractedDates[obj.cycle_id] = obj.documentation_date;
+        for (const key in data.Cycles) {
+          const obj = data.Cycles[key];
+          extractedDates[obj.Cycle_ID] = obj.Documentation_Date;
         }
         setDates(extractedDates);
-        const cycle_info = data.cycles.find((c) => c.cycle_Number === cycle);
-        setCycleID(cycle_info.cycle_id);
-        setCycleNote(cycle_info.cycle_note);
+        const cycle_info = data.Cycles.find((c) => c.Cycle_Number === cycle);
+        setCycleID(cycle_info.Cycle_ID);
+        setCycleNote(cycle_info.Cycle_Note);
       } catch (error) {
-        console.error("Error fetching cycle count:", error);
+        console.error("Error fetching Cycles info:", error);
       }
     };
     fetchData();
-  }, [id, activeCycle]);
+  }, [redirectToDoc, cycle]);
 
   return (
     <>
@@ -156,7 +155,7 @@ export default function DocumentchemotherapyPage() {
                 }}
               />
             ) : (
-              <CycleDetails cycle={cycleID} />
+              <CycleDetails cycle={cycleID} cycleNote={cycleNote} />
             )}
           </div>
         </div>
