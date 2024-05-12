@@ -11,13 +11,13 @@ export default function PatientTable({ patient, onClickMap }) {
         className="w-[85%] flex justify-between items-center"
       >
         <div className="w-[20%]">
-          <div className="name">{patient.name}</div>
-          <div className="age">{patient.age} years old</div>
+          <div className="name">{patient.Name}</div>
+          <div className="age">{patient.Age} years old</div>
         </div>
-        <div className="info w-[20%]">{patient.id}</div>
-        <div className="info w-[20%]">{patient.gender}</div>
-        <div className="info w-[20%]">{patient.diseaseType}</div>
-        <div className="info w-[20%]">{patient.phoneNumber}</div>
+        <div className="info w-[20%]">{patient.Patient_ID}</div>
+        <div className="info w-[20%]">{patient.Gender}</div>
+        <div className="info w-[20%]">{patient.disease_type}</div>
+        <div className="info w-[20%]">{patient.mobile}</div>
       </Link>
       <div className="flex items-center">
         <Button size="md" shape="circle" className="action-button">

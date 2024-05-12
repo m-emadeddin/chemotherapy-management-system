@@ -5,19 +5,22 @@ import { RegimenDetailsProvider } from "./contexts/RegimenDetailsContext ";
 import { AuthProvider } from "./contexts/AuthContext";
 import { PlansDetailsProvider } from "contexts/PlansDetails";
 import { PlanDataProvider } from "contexts/PlanDataContext";
+import { PatientsInfoProvider } from "contexts/PatientsInfoContext";
 
 function App() {
   return (
     <AuthProvider>
-      <PlansDetailsProvider>
-        <PlanDataProvider>
-          <RegimenDetailsProvider>
-            <Router>
-              <Routes />
-            </Router>
-          </RegimenDetailsProvider>
-        </PlanDataProvider>
-      </PlansDetailsProvider>
+      <PatientsInfoProvider>
+        <PlansDetailsProvider>
+          <PlanDataProvider>
+            <RegimenDetailsProvider>
+              <Router>
+                <Routes />
+              </Router>
+            </RegimenDetailsProvider>
+          </PlanDataProvider>
+        </PlansDetailsProvider>
+      </PatientsInfoProvider>
     </AuthProvider>
   );
 }
