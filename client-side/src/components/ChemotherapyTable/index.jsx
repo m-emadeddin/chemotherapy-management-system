@@ -7,17 +7,19 @@ const ChemotherapyTable = ({ cycle, id }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/chemotherapy/${id}`
+          `document-chemotherapy/chemotherapy/${id}/cycle/${cycle}`
         );
         const data = await response.json();
-        if (data && data.cycles) {
-          const chemotherapyResponse = data.cycles.find(
-            (item) => item.cycleNumber === cycle
-          )?.chemotherapyMedications;
+        console.log(data);
+        if (data) {
+          const chemotherapyResponse = data.chemotherapyMedications;
           if (chemotherapyResponse) {
             setChemotherapy(Object.values(chemotherapyResponse));
           } else {
-            console.error("Premedications not found for cycle", cycle);
+            console.error(
+              "ChemoTherapy Medications not found for cycle",
+              cycle
+            );
           }
         } else {
           console.error("Invalid data format:", data);
@@ -57,8 +59,9 @@ const ChemotherapyTable = ({ cycle, id }) => {
               <div className="w-[15%] p-[19px]">{chemo.route}</div>
               <div className="w-[30%] p-[19px]">{chemo.Instructions}</div>
               <div className="w-[20%] p-[19px]">
-                {chemo.Administered_Dose_ml}
-                {chemo.route === "Oral" ? "Miligram" : "MiliLiter"}
+                {chemo.route === "Oral"
+                  ? `${chemo.administeredDoseMg}Miligram`
+                  : `${chemo.administeredDoseMl}MiliLiter`}
               </div>
             </div>
           );
