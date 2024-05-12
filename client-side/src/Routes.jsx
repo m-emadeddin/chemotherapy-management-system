@@ -36,7 +36,7 @@ const ProjectRoutes = () => {
           element: <SelectPatient />,
         },
         {
-          path: "patient",
+          path: "patient/:id",
           element: <Patient />,
         },
         {

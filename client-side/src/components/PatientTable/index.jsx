@@ -6,7 +6,7 @@ export default function PatientTable({ patient, onClickMap, onDeleteClick }) {
   return (
     <div className="info-data-container flex w-[90%] justify-between">
       <Link
-        to={"/patient"}
+        to={`/patient/${patient.Patient_ID}`}
         state={{ selectedPatient: patient }}
         className="w-[85%] flex justify-between items-center"
       >
