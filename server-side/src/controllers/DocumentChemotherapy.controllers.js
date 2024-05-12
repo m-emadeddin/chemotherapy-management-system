@@ -17,8 +17,8 @@ exports.getRegimenInfo = (req, res, next) => {
             return res.status(404).json({ message: 'Treatment plan not found for this patient' });
           }
           const info = {
-            cycleCount: treatmentPlan.number_of_Cycles,
-            regimenName: treatmentPlan.Plan_Name
+            Cycle_Count: treatmentPlan.number_of_Cycles,
+            Regimen_Name: treatmentPlan.Plan_Name
           };
           res.status(200).json(info);
         })
@@ -53,21 +53,20 @@ exports.getCyclesInfo = (req, res, next) => {
       }
       // Represent all cycles data
       const cyclesInfo = cycles.map((cycle) => ({
-        cycle_id: cycle.Cycle_ID,
-        cycle_Number:cycle.Cycle_Number,
-        // active_cycle: cycle.Is_active,
-        cycle_note: cycle.Cycle_note,
-        documentation_date: cycle.Cycle_Documentation_Date,
+        Cycle_ID: cycle.Cycle_ID,
+        Cycle_Number:cycle.Cycle_Number,
+        Cycle_Note: cycle.Cycle_note,
+        Documentation_Date: cycle.Cycle_Documentation_Date,
       }));
       // Construct the response object
-      const responseObj = { cycles: cyclesInfo };
+      const responseObj = { Cycles: cyclesInfo };
       // Send the response with the retrieved cycles
       res.status(200).json(responseObj);
     })
     .catch((error) => {
       // Handle any unexpected errors
       console.error(error);
-      res.status(500).json({ error: "Internal server error" });
+      // res.status(500).json({ error: "Internal server error" });
     });
 };
 
@@ -97,9 +96,7 @@ exports.getActiveCycle = (req, res, next) => {
       }
       // Get the number and ID of the active cycle
       const activeCycleInfo = {
-        activeCycleId: activeCycle.Cycle_ID,
-        activeCycleNumber: activeCycle.Cycle_Number,
-        
+        Active_Cycle_Number: activeCycle.Cycle_Number,
       };
       // Send the response with the number and ID of the active cycle
       res.status(200).json(activeCycleInfo);
@@ -123,7 +120,7 @@ exports.getPremedications = (req, res, next) => {
       return cycle.getPremedications().then((premedications) => {
         // Format premedications
         const formattedPremedications = premedications.map((premedication) => ({
-          Premed_id:premedication.Premed_ID,
+          Premed_ID:premedication.Premed_ID,
           Medication: premedication.Medication_Name,
           Dose: premedication.Dose,
           Route: premedication.Route,
@@ -132,8 +129,7 @@ exports.getPremedications = (req, res, next) => {
 
         // Send response
         info = {
-          cycleNumber: cycle.Cycle_Number,
-          premedications: formattedPremedications,
+          Premedications: formattedPremedications,
         };
         res.status(200).send(info);
       });
@@ -156,20 +152,19 @@ exports.getChemotherapy = (req, res, next) => {
       return cycle.getChemotherapyMedications().then((chemoMeds) => {
         // Format chemotherapy medications
         const formattedChemoMeds = chemoMeds.map((med) => ({
-          chemotherapy_id:med.Chemotherapy_ID,
-          name: med.Medication_Name,
-          dose: med.Dose,
-          reduction: med.Dosage_Reduction,
-          route: med.Route,
-          instructions: med.Instructions,
-          administeredDoseMl: med.Administered_Dose_ml,
-          administeredDoseMg:med.Administered_Dose_mg
+          Chemotherapy_id:med.Chemotherapy_ID,
+          Name: med.Medication_Name,
+          Dose: med.Dose,
+          Reduction: med.Dosage_Reduction,
+          Route: med.Route,
+          Instructions: med.Instructions,
+          AdministeredDose_Ml: med.Administered_Dose_ml,
+          AdministeredDose_Mg:med.Administered_Dose_mg
         }));
 
         // Send response
         info = {
-          cycleNumber: cycle.Cycle_Number,
-          chemotherapyMedications: formattedChemoMeds,
+          Chemotherapy_Medications: formattedChemoMeds,
         };
         res.status(200).send(info);
       });
@@ -236,7 +231,7 @@ exports.getChemotherapy = (req, res, next) => {
 //   };
   
 exports.updateCycleAndMedications = (req, res , next) => {
-  const { cycleNote, cycleDocumentationDate, medications } = req.body;
+  const { Cycle_Note, Cycle_Documentation_Date, Medications } = req.body;
   const cycleId = req.params.cycleId;
 
   Cycles.findByPk(cycleId)
@@ -251,11 +246,11 @@ exports.updateCycleAndMedications = (req, res , next) => {
       activeCycle.Is_active = false
       console.log(activeCycle.Is_active)
       // Update cycle note and documentation date if provided
-      if (cycleNote) {
-        activeCycle.Cycle_note = cycleNote;
+      if (Cycle_Note) {
+        activeCycle.Cycle_note = Cycle_Note;
       }
-      if (cycleDocumentationDate) {
-        activeCycle.Cycle_Documentation_Date = cycleDocumentationDate;
+      if (Cycle_Documentation_Date) {
+        activeCycle.Cycle_Documentation_Date = Cycle_Documentation_Date;
       }
       // Save the updated cycle
       return activeCycle.save();
@@ -263,7 +258,7 @@ exports.updateCycleAndMedications = (req, res , next) => {
     .then((updatedCycle) => {
       // Find the next cycle and activate it
       return Cycles.findOne({
-        where: {Cycle_ID:updatedCycle.Cycle_ID+1 ,  Cycle_Number: updatedCycle.Cycle_Number + 1 } 
+        where: {Cycle_ID:updatedCycle.Cycle_ID + 1 ,  Cycle_Number: updatedCycle.Cycle_Number + 1 } 
       });
     })
     .then((nextCycle) => {
@@ -276,24 +271,23 @@ exports.updateCycleAndMedications = (req, res , next) => {
     })
     .then(() => {
       // Update chemotherapy medications
-      const updatePromises = medications.map((med) => {
-        const { name, administeredDose_ml, administeredDose_mg } = med;
-        if (!name) {
+      const updatePromises = Medications.map((med) => {
+        const { Name, AdministeredDose_Ml, AdministeredDose_Mg } = med;
+        if (!Name) {
           return Promise.reject({ message: "Medication name is required for update" });
         }
-
         // Update specific fields of the medication by name
         return ChemotherapyMedications.update(
           {
-            Administered_Dose_ml: administeredDose_ml,
-            Administered_Dose_mg: administeredDose_mg
+            Administered_Dose_ml: AdministeredDose_Ml,
+            Administered_Dose_mg: AdministeredDose_Mg
           },
-          { where: { Medication_Name: name } }
+          { where: { Medication_Name: Name } }
         ).catch((error) => {
           // Handle individual medication update errors
           // not working
           console.error("Error updating medication:", error.message);
-          return Promise.reject({ message: `Failed to update medication: ${name}` });
+          return Promise.reject({ message: `Failed to update medication: ${Name}` });
         });
       });
 
