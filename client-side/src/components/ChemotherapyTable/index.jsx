@@ -10,7 +10,6 @@ const ChemotherapyTable = ({ cycle, id }) => {
           `document-chemotherapy/chemotherapy/${id}/cycle/${cycle}`
         );
         const data = await response.json();
-        console.log(data);
         if (data) {
           const chemotherapyResponse = data.chemotherapyMedications;
           if (chemotherapyResponse) {
@@ -31,6 +30,7 @@ const ChemotherapyTable = ({ cycle, id }) => {
 
     fetchData();
   }, [cycle, id]);
+  console.log(chemotherapy);
 
   return (
     <>
@@ -47,21 +47,21 @@ const ChemotherapyTable = ({ cycle, id }) => {
             <div className="flex w-full border-t-[1px] border-gray-800">
               <div className="w-[15%] p-[19px]">{chemo.name}</div>
               <div className="w-[15%] p-[19px] flex justify-between items-center">
-                {chemo.dose}
-                {chemo.route === "Oral" ? "Miligram" : "MiliLiter"}
+                {chemo.route === "Oral"
+                  ? `${chemo.dose} Miligram`
+                  : `${chemo.dose} MiliLiter`}
                 {chemo.reduction > 0 ? (
                   <div className="bg-blue-500 p-1 text-white-A700 rounded">
                     -{chemo.reduction}%
                   </div>
                 ) : null}
               </div>
-
               <div className="w-[15%] p-[19px]">{chemo.route}</div>
-              <div className="w-[30%] p-[19px]">{chemo.Instructions}</div>
+              <div className="w-[30%] p-[19px]">{chemo.instructions}</div>
               <div className="w-[20%] p-[19px]">
                 {chemo.route === "Oral"
-                  ? `${chemo.administeredDoseMg}Miligram`
-                  : `${chemo.administeredDoseMl}MiliLiter`}
+                  ? `${chemo.administeredDoseMg} Miligram`
+                  : `${chemo.administeredDoseMl} MiliLiter`}
               </div>
             </div>
           );

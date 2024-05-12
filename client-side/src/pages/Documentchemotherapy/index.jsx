@@ -16,7 +16,6 @@ export default function DocumentchemotherapyPage() {
   const navigate = useNavigate();
   const id = 1;
   const [activeCycle, setActiveCycle] = useState(1);
-  const [activeCycleID, setActiveCycleID] = useState(1);
   const [cyclesCount, setCyclesCount] = useState(1);
   const [regimenName, setRegimenName] = useState("");
   const [redirectToDoc, setRedirectToDoc] = useState(false);
@@ -24,17 +23,24 @@ export default function DocumentchemotherapyPage() {
   const [cycle, setCycle] = useState(
     activeCycle || cyclesCount || location.state.cycle
   );
-  const [cycleID, setCycleID] = useState(activeCycleID);
+  const [cycleID, setCycleID] = useState(1);
+  const [cycleNote, setCycleNote] = useState("");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
           `document-chemotherapy/active-cycle/${id}`
         );
-        const data = await response.json();
-        console.log(data);
-        setActiveCycle(data.activeCycleNumber);
-        setActiveCycleID(data.activeCycleId);
+        if (!response.status === 404) {
+          const data = await response.json();
+          setActiveCycle(data.activeCycleNumber);
+        } else if (
+          response.status === 404 &&
+          response.statusText === "Active cycle not found"
+        ) {
+          setActiveCycle(0);
+        }
       } catch (error) {
         console.error("Error fetching Active Cycle:", error);
       }
@@ -49,10 +55,11 @@ export default function DocumentchemotherapyPage() {
           `document-chemotherapy/Regimen-info/${id}`
         );
         const data = await response.json();
+
         setCyclesCount(data.cycleCount);
         setRegimenName(data.regimenName);
       } catch (error) {
-        console.error("Error fetching cycle count:", error);
+        console.error("Error fetching Regimen-info:", error);
       }
     };
     fetchData();
@@ -61,21 +68,17 @@ export default function DocumentchemotherapyPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `document-chemotherapy//cycles_info/${id}`
-        );
-
+        const response = await fetch(`document-chemotherapy/cycles_info/${id}`);
         const data = await response.json();
-        console.log(data);
         const extractedDates = {};
         for (const key in data.cycles) {
           const obj = data.cycles[key];
           extractedDates[obj.cycle_id] = obj.documentation_date;
         }
         setDates(extractedDates);
-        const cycles_info = data.cycles.find(
-          (cycle) => cycle.cycle_id === cycleID
-        );
+        const cycle_info = data.cycles.find((c) => c.cycle_Number === cycle);
+        setCycleID(cycle_info.cycle_id);
+        setCycleNote(cycle_info.cycle_note);
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -147,7 +150,6 @@ export default function DocumentchemotherapyPage() {
                 cycle={cycleID}
                 Submit={() => {
                   setRedirectToDoc(false);
-                  setActiveCycle(activeCycle + 1);
                 }}
                 Cancel={() => {
                   setRedirectToDoc(false);
