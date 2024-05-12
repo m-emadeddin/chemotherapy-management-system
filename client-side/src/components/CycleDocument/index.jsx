@@ -11,11 +11,11 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/chemotherapy/1/cycle/1`
+          `document-chemotherapy/chemotherapy/${cycle}`
         );
         const data = await response.json();
         if (data) {
-          const chemotherapyResponse = data.chemotherapyMedications;
+          const chemotherapyResponse = data.Chemotherapy_Medications;
           if (chemotherapyResponse) {
             setChemotherapy(Object.values(chemotherapyResponse));
           } else {
@@ -37,14 +37,14 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
 
   const handleDoseInput = (event, name, route) => {
     setDoseInput((prevDoseInput) =>
-      prevDoseInput.filter((medication) => medication.name !== name)
+      prevDoseInput.filter((medication) => medication.Name !== name)
     );
     setDoseInput((prevDoseInput) => [
       ...prevDoseInput,
       {
-        name: name,
-        [`administeredDose_${route === "Oral" ? "mg" : "ml"}`]: event,
-        [`administeredDose_${route === "Oral" ? "ml" : "mg"}`]: "",
+        Name: name,
+        [`AdministeredDose_${route === "Oral" ? "Mg" : "Ml"}`]: event,
+        [`AdministeredDose_${route === "Oral" ? "Ml" : "Mg"}`]: "",
       },
     ]);
   };
@@ -55,17 +55,15 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
 
   const handleSubmit = () => {
     Submit();
-    console.log(typeof new Date().toLocaleDateString("en-GB"));
     const data = {
-      cycleDocumentationDate: new Date().toLocaleDateString("en-GB"),
-      medications: doseinput,
-      cycleNote: cycleNote,
+      Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
+      Medications: doseinput,
+      Cycle_Note: cycleNote,
     };
     sendData(data);
   };
 
   const sendData = async (data) => {
-    console.log(data);
     try {
       const response = await fetch(
         `document-chemotherapy/cycles-updates/${cycle}`,
@@ -101,27 +99,27 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
               <div className=" flex items-center justify-between gap-5 md:ml-0 md:w-full">
                 <div className="mb-[5px] flex flex-col items-start gap-[9px] self-end">
                   <Text size="md" as="p" className="uppercase">
-                    {chemo.name}
+                    {chemo.Name}
                   </Text>
                   <Text size="xs" as="p" className="text-gray-700">
-                    {chemo.route === "Oral"
-                      ? `${chemo.dose} Miligram`
-                      : `${chemo.dose} MiliLiter`}
+                    {chemo.Route === "Oral"
+                      ? `${chemo.Dose} Miligram`
+                      : `${chemo.Dose} MiliLiter`}
                   </Text>
                 </div>
                 <div className="flex w-[40%] items-center justify-between gap-5 sm:w-full">
                   <div className="flex w-[42%] flex-col items-center gap-2">
                     <Text size="xs" as="p">
-                      {chemo.route === "Oral" ? "mg" : "ml"}
+                      {chemo.Route === "Oral" ? "mg" : "ml"}
                     </Text>
                     <Input
                       className="p-1"
                       shape="round"
-                      name={chemo.name}
-                      value={chemo.name}
+                      name={chemo.Name}
+                      value={chemo.Name}
                       inputProps={{ className: "text-center" }}
                       onChange={(event) =>
-                        handleDoseInput(event, chemo.name, chemo.route)
+                        handleDoseInput(event, chemo.Name, chemo.Route)
                       }
                     />
                   </div>

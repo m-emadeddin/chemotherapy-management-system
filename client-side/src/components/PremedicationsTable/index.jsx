@@ -10,9 +10,8 @@ const PremedicationsTable = ({ cycle }) => {
           `document-chemotherapy/premedications/${cycle}`
         );
         const data = await response.json();
-        console.log(data);
         if (data) {
-          const premedicationsResponse = data.premedications;
+          const premedicationsResponse = data.Premedications;
           if (premedicationsResponse) {
             setPremedications(Object.values(premedicationsResponse));
           } else {
@@ -41,7 +40,10 @@ const PremedicationsTable = ({ cycle }) => {
 
         {premedications.map((premedication) => {
           return (
-            <div className="flex w-full border-t-[1px] border-gray-800">
+            <div
+              key={premedication.Premed_ID}
+              className="flex w-full border-t-[1px] border-gray-800"
+            >
               <div className="w-[15%] p-[19px]">{premedication.Medication}</div>
               <div className="w-[15%] p-[19px]">
                 {premedication.Dose}
