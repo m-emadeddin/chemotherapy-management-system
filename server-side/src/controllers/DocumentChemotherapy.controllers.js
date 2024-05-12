@@ -55,7 +55,7 @@ exports.getCyclesInfo = (req, res, next) => {
       const cyclesInfo = cycles.map((cycle) => ({
         cycle_id: cycle.Cycle_ID,
         cycle_Number:cycle.Cycle_Number,
-        active_cycle: cycle.Is_active,
+        // active_cycle: cycle.Is_active,
         cycle_note: cycle.Cycle_note,
         documentation_date: cycle.Cycle_Documentation_Date,
       }));
