@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
-const path = process.env.PUBLIC_URL ;
+const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -14,14 +14,23 @@ const formatDate = (dateString) => {
   return `${year}/${month}/${day}`;
 };
 
-const GeneralInfoData = [
-  { id: "ID", y2Dc5F: "Y2DC5F" },
-  { id: "Gender", y2Dc5F: "Male" },
-  { id: "Date of birth", y2Dc5F: "12.Mar.2001 (23 y.o)" },
-  { id: "Blood type", y2Dc5F: "A+" },
-  { id: "Disease type", y2Dc5F: "Lung Cancer" },
-  { id: "Phone number", y2Dc5F: "01095368957" },
-];
+function calculateAge(birthDateString) {
+  const birthDate = new Date(birthDateString);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+}
+
 
 export default function PatientPage() {
   const [hovered, setHovered] = useState(false);
@@ -30,15 +39,22 @@ export default function PatientPage() {
   const [medicalData, setMedicalData] = useState(null);
   const [radioData, setRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
+  const [cancerData, setCancerData] = useState(null);
 
   const navigate = useNavigate();
-  const id = 1;
+  const location = useLocation();
+  const patient = location.state.selectedPatient;
+  console.log(patient);
+  const id = patient.Patient_ID;
+  const age = calculateAge(patient.date_of_birth);
+  const date = formatDate(patient.date_of_birth);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`patient/medical/${id}`);
+        const response = await fetch(`/patient/medical/${id}`);
         const data = await response.json();
+        console.log(data);
         setMedicalData(data);
       } catch (error) {
         console.error("Error fetching cycle count:", error);
@@ -50,7 +66,21 @@ export default function PatientPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`patient/radiography/${id}`);
+        const response = await fetch(`/patient/cancer-overview/${id}`);
+        const data = await response.json();
+        console.log(data);
+        setCancerData(data);
+      } catch (error) {
+        console.error("Error fetching cycle count:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/patient/radiography/${id}`);
         const data = await response.json();
         setRadioData(data);
       } catch (error) {
@@ -63,7 +93,7 @@ export default function PatientPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`patient/vital-sign/${id}`);
+        const response = await fetch(`/patient/vital-sign/${id}`);
         const data = await response.json();
         setVitalData(data);
       } catch (error) {
@@ -82,21 +112,6 @@ export default function PatientPage() {
   function docChemo() {
     navigate("/document");
   }
-
-  const [patientData] = useState({
-    name: "Hazem Abdulnasser",
-    age: "23",
-    ID: "Y2DC5F",
-    bloodType: "A+",
-    DateofBirth: "12.Mar.2001",
-    diseaseType: "Lung Cancer",
-    street: "45 Mahmoud Al Nahal st.",
-    city: "Zagazig",
-    government: "Ash Sharqiah",
-    nationality: "Egyptian",
-    phonenumber: "01095368957",
-    gender: "Male",
-  });
 
   const togglePatientPopup = () => {
     setShowPatientPopup(!showPatientPopup);
@@ -118,7 +133,7 @@ export default function PatientPage() {
         {/* navigation section */}
         <div className="flex items-start justify-between gap-5 md:flex-col">
           <div className="mt-[18px] flex items-center gap-[15px]">
-            <Heading as="h1" className="cursor-pointer">
+            <Heading as="h1">
               Patient List
             </Heading>
             <div className="flex items-center">
@@ -130,9 +145,9 @@ export default function PatientPage() {
               <Text
                 size="xs"
                 as="p"
-                className="!text-blue_gray-300_02 cursor-pointer"
+                className="!text-blue_gray-300_02"
               >
-                Patient Name
+                {patient.Name}
               </Text>
             </div>
           </div>
@@ -147,13 +162,13 @@ export default function PatientPage() {
             >
               {hovered ? (
                 <Img
-                  src= {`${process.env.PUBLIC_URL}/images/icons.png`}
+                  src={`${process.env.PUBLIC_URL}/images/icons.png`}
                   alt="thumbs_up"
                   className="h-[14px] w-[14px]"
                 />
               ) : (
                 <Img
-                  src= {`${path}/images/img_thumbsup_white_a700.svg`}
+                  src={`${path}/images/img_thumbsup_white_a700.svg`}
                   alt="thumbs_up"
                   className="h-[14px] w-[14px]"
                 />
@@ -182,9 +197,9 @@ export default function PatientPage() {
           <div className="flex flex-1 flex-col gap-[30px] md:self-stretch">
             <div className="flex flex-1 items-start gap-6 md:flex-col">
               <div className="flex w-full flex-col items-center gap-5 rounded-[40px] bg-white-A700 p-[15px]">
-                <div className="flex flex-col items-start gap-[25px] self-stretch">
-                  <div className="flex items-center justify-between gap-5 self-stretch">
-                    <div className="flex w-[77%] items-center justify-center gap-[15px]">
+                <div className="flex w-[100%] flex-col gap-4 rounded-[40px] bg-white-A700  pl-[5px] md:w-full px-4">
+                  <div className="flex items-center justify-between gap-6">
+                    <div className="flex w-[77%] items-center gap-[20px]">
                       <Img
                         src={`${path}/images/img_patient_in_a_circle.png`}
                         alt="hazemabdulnassr"
@@ -195,11 +210,7 @@ export default function PatientPage() {
                         as="h2"
                         className="w-[74%] leading-[25px]"
                       >
-                        <>
-                          Hazem
-                          <br />
-                          Abdulnasser
-                        </>
+                        <>{patient.Name}</>
                       </Heading>
                     </div>
                     <Button
@@ -216,26 +227,93 @@ export default function PatientPage() {
                     General info
                   </Heading>
 
-                  <div className="grid grid-cols-2 gap-6 self-stretch md:grid-cols-1">
-                    {GeneralInfoData.map((d, index) => (
-                      <div
-                        key={"patient1" + index}
-                        className="flex w-full flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5 overflow-hidden whitespace-nowrap"
-                      >
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          {d.id}
-                        </Text>
-                        <Text as="p" className="mb-[5px]">
-                          {d.y2Dc5F}
-                        </Text>
-                      </div>
-                    ))}
+                  <div className="flex flex-col items-center gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
+                      {patient ? (
+                        <div className="grid grid-cols-2 gap-5">
+                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
+                            <Text
+                              size="xs"
+                              as="p"
+                              className="h-[15px] w-[15px] !text-blue_gray-300"
+                            >
+                              Patient ID
+                            </Text>
+                            <Text as="p" className="mb-[5px] px-2">
+                              {patient.Patient_ID}
+                            </Text>
+                          </div>
+
+                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
+                            <Text
+                              size="xs"
+                              as="p"
+                              className="h-[15px] w-[15px] !text-blue_gray-300"
+                            >
+                              Gender
+                            </Text>
+                            <Text as="p" className="mb-[5px] px-2">
+                            {patient.Gender}
+                            </Text>
+                          </div>
+
+                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
+                            <Text
+                              size="xs"
+                              as="p"
+                              className="h-[15px] w-[15px] !text-blue_gray-300"
+                            >
+                              Date Of Birth
+                            </Text>
+                            <Text as="p" className="mb-[5px] px-2">
+                            {date} ({age}) y.o
+                            </Text>
+                          </div>
+
+                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
+                            <Text
+                              size="xs"
+                              as="p"
+                              className="h-[15px] w-[15px] !text-blue_gray-300"
+                            >
+                              Blood Type
+                            </Text>
+                            <Text as="p" className="mb-[5px] px-2">
+                            {patient.blood_type}
+                            </Text>
+                          </div>
+
+                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                            <Text
+                              size="xs"
+                              as="p"
+                              className="h-[15px] w-[15px] !text-blue_gray-300"
+                            >
+                              Disease Type
+                            </Text>
+                            <Text as="p" className="mb-[5px] px-2">
+                              {patient.disease_type}
+                            </Text>
+                          </div>
+
+                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                            <Text
+                              size="xs"
+                              as="p"
+                              className="h-[15px] w-[15px] !text-blue_gray-300"
+                            >
+                              Phone Number
+                            </Text>
+                            <Text as="p" className="mb-[5px] px-2">
+                            {patient.mobile}
+                            </Text>
+                          </div>
+                        </div>
+                      ) : console.log("Error")}
+                    </div>
                   </div>
                 </div>
+
                 <Button
                   size="sm"
                   className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
@@ -246,6 +324,9 @@ export default function PatientPage() {
                   View all
                 </Button>
               </div>
+
+
+
               <div className="flex w-full flex-col items-start gap-[25px] rounded-[40px] bg-white-A700 p-[15px]">
                 <div className="flex items-center justify-between gap-5 self-stretch sm:flex-col">
                   <div className="flex w-[77%] items-center justify-center gap-[15px] pr-1.5 sm:w-full">
@@ -259,49 +340,66 @@ export default function PatientPage() {
                     </Heading>
                   </div>
                 </div>
-                <Heading size="s" as="h3">
+                <Heading size="s">
                   General info
                 </Heading>
-                <div className="flex flex-col items-start gap-[15px] self-stretch">
-                  <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5">
-                    <Text
-                      size="xs"
-                      as="p"
-                      className="mt-[5px] !text-blue_gray-300"
-                    >
-                      Diagnosis
-                    </Text>
-                    <Text as="p">Non-Hodgkin&#39;s malignant lymphoma</Text>
-                  </div>
-                  <div className="flex w-[47%] flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-2.5 md:w-full">
-                    <Text
-                      size="xs"
-                      as="p"
-                      className="mt-[5px] !text-blue_gray-300"
-                    >
-                      Staging
-                    </Text>
-                    <Text as="p">Stage || T2 N1 M0</Text>
-                  </div>
-                  <div className="flex w-[89%] flex-col items-start justify-center gap-[7px] rounded-[10px] bg-gray-50 p-[9px] md:w-full">
-                    <Text size="xs" as="p" className="mt-1 !text-blue_gray-300">
-                      Note
-                    </Text>
-                    <Text as="p" className="w-full leading-[25px]">
-                      <>
-                        Patient has a weak heart so be careful when giving
-                        NSAIDs
-                      </>
-                    </Text>
-                  </div>
+
+                <div className="flex flex-col items-center gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
+                  {cancerData && cancerData.cancerOverview && (
+                    <div className="grid grid-cols-1 gap-3">
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Diagnoses
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {cancerData.cancerOverview.Diagnoses}
+                        </Text>
+                      </div>
+
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Staging
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {cancerData.cancerOverview.Staging}
+                        </Text>
+                      </div>
+
+                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                        <Text
+                          size="xs"
+                          as="p"
+                          className="h-[15px] w-[15px] !text-blue_gray-300"
+                        >
+                          Diagnoses
+                        </Text>
+                        <Text as="p" className="mb-[5px] px-2">
+                          {cancerData.cancerOverview.Note}
+                        </Text>
+                      </div>
+                    </div>
+                  )}
                 </div>
+              </div>
+
+
+
               </div>
             </div>
 
             {/* vital signs section */}
             <div className="flex w-[49%] flex-col gap-4 rounded-[40px] bg-white-A700 py-[15px] pl-[15px] md:w-full px-4">
-            <div className="flex items-center justify-between gap-5">
-              <div className="flex w-[77%] items-center gap-[15px]">
+              <div className="flex items-center justify-between gap-5">
+                <div className="flex w-[77%] items-center gap-[15px]">
                   <Img
                     src={`${path}/images/img_patient_in_a_circle_1.png`}
                     alt="patientina"
@@ -339,7 +437,7 @@ export default function PatientPage() {
                           Height
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Height}
+                          {vitalData.response.Height} Cm
                         </Text>
                       </div>
 
@@ -352,7 +450,7 @@ export default function PatientPage() {
                           Weight
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Weight}
+                          {vitalData.response.Weight} Kg
                         </Text>
                       </div>
 
@@ -365,7 +463,7 @@ export default function PatientPage() {
                           Heart Rate
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Heart_Rate}
+                          {vitalData.response.Heart_Rate} / min
                         </Text>
                       </div>
 
@@ -391,7 +489,7 @@ export default function PatientPage() {
                           Temperature
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Temperature}
+                          {vitalData.response.Temperature} C
                         </Text>
                       </div>
                       <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
@@ -691,41 +789,25 @@ export default function PatientPage() {
 
             {showPatientPopup && (
               <PatientPopup
-                name={patientData.name}
-                age={patientData.age}
+                name={patient.Name}
+                age={age}
                 onClose={togglePatientPopup}
-                ID={patientData.ID}
-                Gender={patientData.gender}
-                DateOFBirth={patientData.DateofBirth}
-                bloodType={patientData.bloodType}
-                DiseaseType={patientData.diseaseType}
-                Street={patientData.street}
-                City={patientData.city}
-                Government={patientData.government}
-                Nationality={patientData.nationality}
-                PhoneNumber={patientData.phonenumber}
+                ID={patient.Patient_ID}
+                Gender={patient.Gender}
+                DateOFBirth={date}
+                bloodType={patient.blood_type}
+                DiseaseType={patient.disease_type}
+                Street={patient.street}
+                City={patient.city}
+                Government={patient.governorate}
+                Nationality={patient.nationality}
+                PhoneNumber={patient.mobile}
                 path={path}
               />
             )}
 
             {showPathologyPopup && (
-              <PathologyPopup
-                name={patientData.name}
-                age={patientData.age}
-                onClose={togglePathologyPopup}
-                ID={patientData.ID}
-                Gender={patientData.gender}
-                DateOFBirth={patientData.DateofBirth}
-                bloodType={patientData.bloodType}
-                DiseaseType={patientData.diseaseType}
-                Street={patientData.street}
-                City={patientData.city}
-                Government={patientData.government}
-                Nationality={patientData.nationality}
-                PhoneNumber={patientData.phonenumber}
-                path={path}
-
-              />
+              <PathologyPopup onClose={togglePathologyPopup} path={path} />
             )}
           </div>
         </div>

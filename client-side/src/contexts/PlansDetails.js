@@ -15,7 +15,7 @@ export const PlansDetailsProvider = ({ children }) => {
 
   useEffect(() => {
     axios
-      .get(`order/get-regimen/${patientId}`)
+      .get(`/order/get-regimen/${patientId}`)
       .then((res) => {
         const regimensData = res.data.regimenName;
         const newRegimens = regimensData.map((regimenData) => {
