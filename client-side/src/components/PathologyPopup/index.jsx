@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { Img, Button } from "../../components";
 import React, { useState } from "react";
 
@@ -6,6 +7,7 @@ export default function PathologyPopup({
   path,
   radioData,
   medicalData,
+  patientID,
 }) {
   const [medicaldata, setMedicalData] = useState({
     Urinanalysis: "",
@@ -43,24 +45,66 @@ export default function PathologyPopup({
     }));
   };
 
-  function save() {
+  async function putRadioData() {
+    try {
+      const response = await fetch(
+        `/patient//Radiography-update/${patientID}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(radiodata),
+        }
+      );
+      if (response.ok) {
+        console.log("radioData saved successfully!");
+        onClose();
+      } else {
+        alert("Failed to save data. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+  }
+  async function putMedicalData() {
+    try {
+      const response = await fetch(`/patient//medical-update/${patientID}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(medicaldata),
+      });
+      if (response.ok) {
+        console.log("medicalData saved successfully!");
+        onClose();
+      } else {
+        alert("Failed to save data. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+  }
+  async function save() {
     // Check if any medical data fields are empty
     const medicalFields = Object.values(medicaldata);
-    if (medicalFields.some(value => value === "")) {
+    if (medicalFields.some((value) => value === "")) {
       alert("Please fill in all medical analysis fields.");
       return;
     }
-  
     // Check if any radiology data fields are empty
     const radioFields = Object.values(radiodata);
-    if (radioFields.some(value => value === "")) {
+    if (radioFields.some((value) => value === "")) {
       alert("Please fill in all radiology fields.");
       return;
     }
-  
-    // If all fields are filled, proceed with saving
     console.log(medicaldata);
     console.log(radiodata);
+
+    putRadioData();
+    putMedicalData();
+    window.location.reload();
   }
 
   return (

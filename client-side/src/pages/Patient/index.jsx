@@ -810,6 +810,7 @@ export default function PatientPage() {
               <PathologyPopup onClose={togglePathologyPopup} path={path} 
               radioData={radioData["radiography"][0]}
               medicalData={medicalData["MedicalAnalysis"][0]}
+              patientID={patient.Patient_ID}
               />
             )}
           </div>
