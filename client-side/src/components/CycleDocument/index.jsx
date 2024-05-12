@@ -11,13 +11,12 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/chemotherapy/${id}`
+          `document-chemotherapy/chemotherapy/1/cycle/1`
         );
         const data = await response.json();
-        if (data && data.cycles) {
-          const chemotherapyResponse = data.cycles.find(
-            (item) => item.cycleNumber === cycle
-          )?.chemotherapyMedications;
+        console.log(data);
+        if (data) {
+          const chemotherapyResponse = data.chemotherapyMedications;
           if (chemotherapyResponse) {
             setChemotherapy(Object.values(chemotherapyResponse));
           } else {
@@ -45,7 +44,8 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
       ...prevDoseInput,
       {
         name: name,
-        [`Administered_Dose_${route === "Oral" ? "mg" : "ml"}`]: event,
+        [`administeredDose_${route === "Oral" ? "mg" : "ml"}`]: event,
+        [`administeredDose_${route === "Oral" ? "ml" : "mg"}`]: "",
       },
     ]);
   };
@@ -57,19 +57,17 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
   const handleSubmit = () => {
     Submit();
     const data = {
-      id: { id },
-      cycle: { cycle },
-      chemotherapyMedications: doseinput,
-      cycle_note: { cycleNote },
+      medications: doseinput,
+      cycleNote: cycleNote,
     };
     sendData(data);
   };
 
   const sendData = async (data) => {
-    console.log(data);
+    console.log(JSON.stringify(data));
     try {
-      const response = await fetch("Wating", {
-        method: "POST",
+      const response = await fetch("document-chemotherapy/cycles-updates/1", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
