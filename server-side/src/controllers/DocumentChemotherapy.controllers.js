@@ -174,8 +174,6 @@ exports.getChemotherapy = (req, res, next) => {
       res.status(500).send({ message: "Internal server error" });
     });
 };
-
-
 // exports.getChemotherapy = (req, res, next) => {
 //   let info = {};
 //   let Cycle_Number ;
