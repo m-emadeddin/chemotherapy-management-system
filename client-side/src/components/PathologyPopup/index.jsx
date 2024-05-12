@@ -1,4 +1,3 @@
-import { Navigate } from "react-router-dom";
 import { Img, Button } from "../../components";
 import React, { useState } from "react";
 

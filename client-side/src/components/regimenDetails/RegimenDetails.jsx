@@ -154,8 +154,8 @@ export default function RegimenDetails() {
   const handleNext = () => {
     newRegimenDetails = {
       Plan_Name: planName,
-      number_of_Weeks: 7,
-      number_of_Cycles: 5,
+      number_of_Weeks: 3,
+      number_of_Cycles: 6,
       PreMedications: regimenDetails.PreMedications || [],
       ChemotherapyMedications: regimenDetails.ChemotherapyMedications.map(
         (medication) => ({
