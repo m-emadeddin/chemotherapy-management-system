@@ -2,11 +2,8 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { Heading } from "../../components";
 import PatientInfo from "components/PatientInfo";
-import { usePatientsInfo } from "contexts/PatientsInfoContext";
 
 export default function SelectPatientPage() {
-  const patientsInfo = usePatientsInfo();
-  const patients = patientsInfo.patients;
   return (
     <>
       <Helmet>
@@ -23,7 +20,7 @@ export default function SelectPatientPage() {
         </Heading>
 
         <div className="w-full justify-start px-[51px]">
-          <PatientInfo patients={patients} />
+          <PatientInfo />
         </div>
       </div>
     </>

@@ -3,13 +3,19 @@ import { Button, Heading, Img, Input, Text } from "components";
 import "./patientinfo.css";
 import PatientPopup from "../PatientPopUp/index";
 import PatientTable from "components/PatientTable";
+import PatientDeletePopUp from "components/PatientDeletePopup";
+import { usePatientsInfo } from "contexts/PatientsInfoContext";
 
-export default function PatientInfo({ patients }) {
+export default function PatientInfo() {
   const [currentPage, setCurrentPage] = useState(1);
   const [InfoPopupOpen, setInfoPopupOpen] = useState(false);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [searchBarValue, setSearchBarValue] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
+  const patientsInfo = usePatientsInfo();
+  const patientDetails = patientsInfo.patientsInfo;
+  const patients = patientDetails.patients;
   const patientsPerPage = 10;
 
   const totalPages = Math.ceil(filteredPatients.length / patientsPerPage);
@@ -30,8 +36,17 @@ export default function PatientInfo({ patients }) {
     setInfoPopupOpen(true);
   };
 
+  const handleDeleteClick = (patient) => {
+    setSelectedPatient(patient);
+    setDeletePopupOpen(true);
+  };
+
   const togglePopup = () => {
     setInfoPopupOpen(!InfoPopupOpen);
+  };
+
+  const toggleDeletePopup = () => {
+    setDeletePopupOpen(!deletePopupOpen);
   };
 
   const indexOfLastPatient = currentPage * patientsPerPage;
@@ -47,6 +62,17 @@ export default function PatientInfo({ patients }) {
     const month = date.toLocaleString("default", { month: "short" });
     const year = date.getFullYear();
     return `${day}.${month}.${year}`;
+  };
+
+  const deletePatientOnConfirm = async () => {
+    if (selectedPatient) {
+      try {
+        await patientsInfo.deletePatient(selectedPatient.Patient_ID);
+        setDeletePopupOpen(false);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
 
   return (
@@ -84,6 +110,7 @@ export default function PatientInfo({ patients }) {
             key={patient.Patient_ID}
             selected
             onClickMap={() => handleMapClick(patient)}
+            onDeleteClick={() => handleDeleteClick(patient)}
           />
         ))}
       </div>
@@ -103,6 +130,13 @@ export default function PatientInfo({ patients }) {
           Government={selectedPatient.governorate}
           Nationality={selectedPatient.nationality}
           PhoneNumber={selectedPatient.mobile}
+        />
+      )}
+
+      {deletePopupOpen && (
+        <PatientDeletePopUp
+          onClose={toggleDeletePopup}
+          onConfirm={deletePatientOnConfirm}
         />
       )}
 
