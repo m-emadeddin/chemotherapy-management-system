@@ -1,19 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
-
 export default function Reviewchemotherapyorder() {
   const navigate = useNavigate();
   const { newRegimenDetails: patientOrder } = useRegimenDetails();
-  console.log("laa", patientOrder);
+  console.log("order", patientOrder);
+
   function handleBack() {
     navigate("/order");
   }
 
   function handleSubmit() {
-    console.log(patientOrder);
-    navigate("/patient");
+    navigate(-2);
   }
+
   return (
     <div className="review-container  mx-auto ">
       <div className="heading-contanier">

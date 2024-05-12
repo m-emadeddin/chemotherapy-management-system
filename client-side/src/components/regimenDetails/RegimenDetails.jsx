@@ -148,6 +148,7 @@ export default function RegimenDetails() {
   const resetState = () => {
     setData(initialData);
     setNotes("Add your notes here...");
+    setRegimenDetails(initialRegimenDetails);
   };
 
   const handleNext = () => {
