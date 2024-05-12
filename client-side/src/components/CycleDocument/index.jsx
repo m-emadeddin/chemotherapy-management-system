@@ -14,7 +14,6 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
           `document-chemotherapy/chemotherapy/1/cycle/1`
         );
         const data = await response.json();
-        console.log(data);
         if (data) {
           const chemotherapyResponse = data.chemotherapyMedications;
           if (chemotherapyResponse) {
@@ -56,7 +55,9 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
 
   const handleSubmit = () => {
     Submit();
+    console.log(typeof new Date().toLocaleDateString("en-GB"));
     const data = {
+      cycleDocumentationDate: new Date().toLocaleDateString("en-GB"),
       medications: doseinput,
       cycleNote: cycleNote,
     };
@@ -64,15 +65,18 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
   };
 
   const sendData = async (data) => {
-    console.log(JSON.stringify(data));
+    console.log(data);
     try {
-      const response = await fetch("document-chemotherapy/cycles-updates/1", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `document-chemotherapy/cycles-updates/${cycle}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         console.log("Response:", data);
@@ -100,8 +104,9 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                     {chemo.name}
                   </Text>
                   <Text size="xs" as="p" className="text-gray-700">
-                    {chemo.dose}
-                    {chemo.route === "Oral" ? "Milligram" : "Milliliter"}
+                    {chemo.route === "Oral"
+                      ? `${chemo.dose} Miligram`
+                      : `${chemo.dose} MiliLiter`}
                   </Text>
                 </div>
                 <div className="flex w-[40%] items-center justify-between gap-5 sm:w-full">
