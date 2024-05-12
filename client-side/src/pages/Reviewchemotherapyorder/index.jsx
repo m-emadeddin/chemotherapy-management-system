@@ -1,23 +1,80 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
+
 export default function Reviewchemotherapyorder() {
   const navigate = useNavigate();
   const { newRegimenDetails: patientOrder } = useRegimenDetails();
-  console.log("order", patientOrder);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleBack() {
     navigate("/order");
   }
 
-  function handleSubmit() {
-    navigate(-2);
-  }
+  const handleSubmit = () => {
+    setIsSubmitting(true);
+
+    const patientId = 1;
+    const apiUrl = `/review-chemotherapy/${patientId}`;
+    const Chemotherapy = patientOrder.ChemotherapyMedications.map(
+      (medication) => {
+        return {
+          Medication_Name: medication.name,
+          Dose: medication.dose,
+          Route: medication.route,
+          Instructions: medication.Instructions,
+          Dosage_Reduction:
+            medication.doseReduction !== undefined
+              ? medication.doseReduction
+              : null,
+        };
+      }
+    );
+    const PreMedications = patientOrder.PreMedications.map((medication) => {
+      return {
+        Medication_Name: medication.name,
+        Dose: medication.dose,
+        Route: medication.route,
+        Instructions: medication.Instructions,
+      };
+    });
+    const requestBody = {
+      Plan_Name: patientOrder.Plan_Name,
+      number_of_Weeks: patientOrder.number_of_Weeks,
+      number_of_Cycles: patientOrder.number_of_Cycles,
+      PreMedications: PreMedications,
+      ChemotherapyMedications: Chemotherapy,
+      cycle_note: patientOrder.cycle_note,
+    };
+
+    axios
+      .post(apiUrl, requestBody)
+      .then((response) => {
+        console.log("Response:", response.data);
+        if (response.data.message === "Data inserted successfully") {
+          toast.success("Data inserted successfully");
+          setTimeout(() => {
+            navigate(-2);
+          }, 1000);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("There's an error while inserting treatment plan.");
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  };
 
   return (
-    <div className="review-container  mx-auto ">
+    <div className="review-container mx-auto">
       <div className="heading-contanier">
         <h2>Review</h2>
+        <Toaster />
         <p>{patientOrder.Plan_Name}</p>
       </div>
       <div className="medications">
@@ -50,12 +107,16 @@ export default function Reviewchemotherapyorder() {
         <span className="heading">Physician Notes</span>
         <p className="notes">{patientOrder.cycle_note}</p>
       </div>
-      <div className="buttons ">
+      <div className="buttons">
         <button className="btn back" onClick={handleBack}>
           Back
         </button>
-        <button className="btn submit" onClick={handleSubmit}>
-          Submit
+        <button
+          className="btn submit"
+          onClick={handleSubmit}
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </div>
     </div>
