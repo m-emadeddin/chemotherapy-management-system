@@ -3,10 +3,12 @@ import { Button, Heading, Img, Input, Text } from "components";
 import "./patientinfo.css";
 import PatientPopup from "../PatientPopUp/index";
 import PatientTable from "components/PatientTable";
+import PatientDeletePopUp from "components/PatientDeletePopup";
 
 export default function PatientInfo({ patients }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [InfoPopupOpen, setInfoPopupOpen] = useState(false);
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [searchBarValue, setSearchBarValue] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
@@ -30,8 +32,16 @@ export default function PatientInfo({ patients }) {
     setInfoPopupOpen(true);
   };
 
+  const handleDeleteClick = () => {
+    setDeletePopupOpen(true);
+  };
+
   const togglePopup = () => {
     setInfoPopupOpen(!InfoPopupOpen);
+  };
+
+  const toggleDeletePopup = () => {
+    setDeletePopupOpen(!deletePopupOpen);
   };
 
   const indexOfLastPatient = currentPage * patientsPerPage;
@@ -84,6 +94,7 @@ export default function PatientInfo({ patients }) {
             key={patient.Patient_ID}
             selected
             onClickMap={() => handleMapClick(patient)}
+            onDeleteClick={() => handleDeleteClick()}
           />
         ))}
       </div>
@@ -105,6 +116,8 @@ export default function PatientInfo({ patients }) {
           PhoneNumber={selectedPatient.mobile}
         />
       )}
+
+      {deletePopupOpen && <PatientDeletePopUp onClose={toggleDeletePopup} />}
 
       {filteredPatients.length > 0 && (
         <div className="container-xs mt-[15px] flex justify-center pr-14 md:px-5">
