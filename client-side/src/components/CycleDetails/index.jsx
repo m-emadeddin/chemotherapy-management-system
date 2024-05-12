@@ -1,24 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Text, PremedicationsTable, ChemotherapyTable } from "./..";
 
-const CycleDetails = ({ cycle }) => {
+const CycleDetails = ({ cycle, cycleNote }) => {
   const id = 1;
-  const [cycleNote, setCycleNote] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`Waiting../${id}`);
-        const data = await response.json();
-        console.log(data);
-
-        // setCycleNote();
-      } catch (error) {
-        console.error("Error fetching cycle note:", error);
-      }
-    };
-    fetchData();
-  }, [id]);
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">
@@ -26,7 +10,7 @@ const CycleDetails = ({ cycle }) => {
           Premedications
         </Text>
         <div>
-          <PremedicationsTable cycle={cycle} id={id}></PremedicationsTable>
+          <PremedicationsTable cycle={cycle}></PremedicationsTable>
         </div>
       </div>
       <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">

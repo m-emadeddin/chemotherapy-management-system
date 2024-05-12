@@ -11,13 +11,11 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/chemotherapy/${id}`
+          `document-chemotherapy/chemotherapy/1/cycle/1`
         );
         const data = await response.json();
-        if (data && data.cycles) {
-          const chemotherapyResponse = data.cycles.find(
-            (item) => item.cycleNumber === cycle
-          )?.chemotherapyMedications;
+        if (data) {
+          const chemotherapyResponse = data.chemotherapyMedications;
           if (chemotherapyResponse) {
             setChemotherapy(Object.values(chemotherapyResponse));
           } else {
@@ -45,7 +43,8 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
       ...prevDoseInput,
       {
         name: name,
-        [`Administered_Dose_${route === "Oral" ? "mg" : "ml"}`]: event,
+        [`administeredDose_${route === "Oral" ? "mg" : "ml"}`]: event,
+        [`administeredDose_${route === "Oral" ? "ml" : "mg"}`]: "",
       },
     ]);
   };
@@ -56,11 +55,11 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
 
   const handleSubmit = () => {
     Submit();
+    console.log(typeof new Date().toLocaleDateString("en-GB"));
     const data = {
-      id: { id },
-      cycle: { cycle },
-      chemotherapyMedications: doseinput,
-      cycle_note: { cycleNote },
+      cycleDocumentationDate: new Date().toLocaleDateString("en-GB"),
+      medications: doseinput,
+      cycleNote: cycleNote,
     };
     sendData(data);
   };
@@ -68,13 +67,16 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
   const sendData = async (data) => {
     console.log(data);
     try {
-      const response = await fetch("Wating", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `document-chemotherapy/cycles-updates/${cycle}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         console.log("Response:", data);
@@ -102,8 +104,9 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                     {chemo.name}
                   </Text>
                   <Text size="xs" as="p" className="text-gray-700">
-                    {chemo.dose}
-                    {chemo.route === "Oral" ? "Milligram" : "Milliliter"}
+                    {chemo.route === "Oral"
+                      ? `${chemo.dose} Miligram`
+                      : `${chemo.dose} MiliLiter`}
                   </Text>
                 </div>
                 <div className="flex w-[40%] items-center justify-between gap-5 sm:w-full">

@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 
-const PremedicationsTable = ({ cycle, id }) => {
+const PremedicationsTable = ({ cycle }) => {
   const [premedications, setPremedications] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/document-chemotherapy/premedications/${id}`
+          `document-chemotherapy/premedications/${cycle}`
         );
         const data = await response.json();
-        if (data && data.cycles) {
-          const premedicationsResponse = data.cycles.find(
-            (item) => item.cycleNumber === cycle
-          )?.premedications;
+        console.log(data);
+        if (data) {
+          const premedicationsResponse = data.premedications;
           if (premedicationsResponse) {
             setPremedications(Object.values(premedicationsResponse));
           } else {
@@ -28,7 +27,7 @@ const PremedicationsTable = ({ cycle, id }) => {
     };
 
     fetchData();
-  }, [cycle, id]);
+  }, [cycle]);
 
   return (
     <>

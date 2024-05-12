@@ -15,44 +15,76 @@ export default function DocumentchemotherapyPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const id = 1;
-  const [activeCycle, setActiveCycle] = useState(2);
+  const [activeCycle, setActiveCycle] = useState(1);
   const [cyclesCount, setCyclesCount] = useState(1);
+  const [regimenName, setRegimenName] = useState("");
   const [redirectToDoc, setRedirectToDoc] = useState(false);
-  const [dates, setDates] = useState({ 1: "01/05/2024" });
+  const [dates, setDates] = useState({});
   const [cycle, setCycle] = useState(
     activeCycle || cyclesCount || location.state.cycle
   );
+  const [cycleID, setCycleID] = useState(1);
+  const [cycleNote, setCycleNote] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/cycles-count/${id}`
+          `document-chemotherapy/active-cycle/${id}`
         );
-        const data = await response.json();
-        setCyclesCount(data.cycle_count);
-      } catch (error) {
-        console.error("Error fetching cycle count:", error);
-      }
-    };
-    fetchData();
-  }, [id]);
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `waiting/${id}`
-        );
-        const data = await response.json();
-        console.log(data)
-        // setActiveCycle(data);
+        if (!response.status === 404) {
+          const data = await response.json();
+          setActiveCycle(data.activeCycleNumber);
+        } else if (
+          response.status === 404 &&
+          response.statusText === "Active cycle not found"
+        ) {
+          setActiveCycle(0);
+        }
       } catch (error) {
         console.error("Error fetching Active Cycle:", error);
       }
     };
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `document-chemotherapy/Regimen-info/${id}`
+        );
+        const data = await response.json();
+
+        setCyclesCount(data.cycleCount);
+        setRegimenName(data.regimenName);
+      } catch (error) {
+        console.error("Error fetching Regimen-info:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`document-chemotherapy/cycles_info/${id}`);
+        const data = await response.json();
+        const extractedDates = {};
+        for (const key in data.cycles) {
+          const obj = data.cycles[key];
+          extractedDates[obj.cycle_id] = obj.documentation_date;
+        }
+        setDates(extractedDates);
+        const cycle_info = data.cycles.find((c) => c.cycle_Number === cycle);
+        setCycleID(cycle_info.cycle_id);
+        setCycleNote(cycle_info.cycle_note);
+      } catch (error) {
+        console.error("Error fetching cycle count:", error);
+      }
+    };
+    fetchData();
+  }, [id, activeCycle]);
 
   return (
     <>
@@ -83,9 +115,7 @@ export default function DocumentchemotherapyPage() {
           <div className="flex flex-col gap-[20px]">
             <div className="flex items-center justify-between p-[19px] md:flex-col">
               <div className="flex flex-col items-start gap-3.5 lg:w-[55%] md:items-center ">
-                <Heading as="h1">
-                  CHOP: Protocol for Non Hodgkin Lymphoma
-                </Heading>
+                <Heading as="h1">{regimenName}</Heading>
                 <Text size="xs" as="p">
                   Cycle {cycle} of {cyclesCount}
                 </Text>
@@ -117,22 +147,16 @@ export default function DocumentchemotherapyPage() {
             </div>
             {redirectToDoc && cycle === activeCycle ? (
               <CycleDocument
-                cycle={cycle}
+                cycle={cycleID}
                 Submit={() => {
                   setRedirectToDoc(false);
-                  setActiveCycle((cycle + 1) % (cyclesCount + 1));
-                  setCycle((cycle + 1) % (cyclesCount + 1));
-                  setDates({
-                    ...dates,
-                    [cycle]: new Date().toLocaleDateString("en-GB"),
-                  });
                 }}
                 Cancel={() => {
                   setRedirectToDoc(false);
                 }}
               />
             ) : (
-              <CycleDetails cycle={cycle} />
+              <CycleDetails cycle={cycleID} />
             )}
           </div>
         </div>

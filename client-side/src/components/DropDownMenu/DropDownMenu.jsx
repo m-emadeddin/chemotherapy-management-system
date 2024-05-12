@@ -14,7 +14,7 @@ export default function DropDownMenu() {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    newRegimenDetails && setSelectedOption(newRegimenDetails.regimenName);
+    newRegimenDetails && setSelectedOption(newRegimenDetails.Plan_Name);
   }, [newRegimenDetails]);
 
   useEffect(() => {
@@ -73,9 +73,7 @@ export default function DropDownMenu() {
           </div>
         )}
       </div>
-      {selectedOption !== "none" && (
-        <RegimenDetails selectedOption={selectedOption} />
-      )}
+      {selectedOption !== "none" && <RegimenDetails />}
     </div>
   );
 }

@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
+import WarningPopUp from "../../components/WarningPopUp";
 import { useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
+import { useRegimenDetails } from "../../contexts/RegimenDetailsContext ";
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -24,15 +26,18 @@ const GeneralInfoData = [
 ];
 
 export default function PatientPage() {
-  const [hovered, setHovered] = useState(false);
+  const [orderHovered, setOrderHovered] = useState(false);
+  const [documentHovered, setDocumentHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
   const [showPathologyPopup, setShowPathologyPopup] = useState(false);
+  const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [medicalData, setMedicalData] = useState(null);
   const [radioData, setRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
-
+  const { newRegimenDetails: patientOrder } = useRegimenDetails();
   const navigate = useNavigate();
   const id = 1;
+  console.log(patientOrder);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -80,7 +85,11 @@ export default function PatientPage() {
   }
 
   function docChemo() {
-    navigate("/document");
+    if (patientOrder) {
+      navigate("/document");
+    } else {
+      setShowWarningPopup(true);
+    }
   }
 
   const [patientData] = useState({
@@ -103,6 +112,9 @@ export default function PatientPage() {
   };
   const togglePathologyPopup = () => {
     setShowPathologyPopup(!showPathologyPopup);
+  };
+  const toggleWarningPopUp = () => {
+    setShowWarningPopup(!showWarningPopup);
   };
 
   return (
@@ -140,38 +152,40 @@ export default function PatientPage() {
           <div className="flex gap-[22px]">
             <Button
               size="xl"
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
+              onMouseEnter={() => setOrderHovered(true)}
+              onMouseLeave={() => setOrderHovered(false)}
               className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
               onClick={orderChemo}
             >
-              {hovered ? (
+              {
                 <Img
-                  src="images/icons.png"
+                  src={
+                    orderHovered
+                      ? "images/img_tube.svg"
+                      : "images/img_thumbsup_white_a700.svg"
+                  }
                   alt="thumbs_up"
                   className="h-[14px] w-[14px]"
                 />
-              ) : (
-                <Img
-                  src="images/img_thumbsup_white_a700.svg"
-                  alt="thumbs_up"
-                  className="h-[14px] w-[14px]"
-                />
-              )}
+              }
               Order Chemotherapy
             </Button>
             <Button
               size="xl"
-              leftIcon={
-                <Img
-                  src="images/img_megaphone.svg"
-                  alt="megaphone"
-                  className="h-[14px] w-[14px]"
-                />
-              }
-              className="min-w-[213px] gap-2.5 rounded-[20px] font-lama sans bg-blue-500 text-white custom-button"
+              onMouseEnter={() => setDocumentHovered(true)}
+              onMouseLeave={() => setDocumentHovered(false)}
+              className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
               onClick={docChemo}
             >
+              <Img
+                src={
+                  documentHovered
+                    ? "images/img_megaphone.svg"
+                    : "images/img_megaphone_white_a700.svg"
+                }
+                alt="thumbs_up"
+                className="h-[14px] w-[14px]"
+              />
               Document Chemotherapy
             </Button>
           </div>
@@ -300,8 +314,8 @@ export default function PatientPage() {
 
             {/* vital signs section */}
             <div className="flex w-[49%] flex-col gap-4 rounded-[40px] bg-white-A700 py-[15px] pl-[15px] md:w-full px-4">
-            <div className="flex items-center justify-between gap-5">
-              <div className="flex w-[77%] items-center gap-[15px]">
+              <div className="flex items-center justify-between gap-5">
+                <div className="flex w-[77%] items-center gap-[15px]">
                   <Img
                     src="images/img_patient_in_a_circle_1.png"
                     alt="patientina"
@@ -365,7 +379,7 @@ export default function PatientPage() {
                           Heart Rate
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Heart_Rate} / min 
+                          {vitalData.response.Heart_Rate} / min
                         </Text>
                       </div>
 
@@ -724,6 +738,7 @@ export default function PatientPage() {
                 PhoneNumber={patientData.phonenumber}
               />
             )}
+            {showWarningPopup && <WarningPopUp onClose={toggleWarningPopUp} />}
           </div>
         </div>
       </div>

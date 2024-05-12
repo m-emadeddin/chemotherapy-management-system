@@ -4,10 +4,14 @@ import { useEffect, useState } from "react";
 import ResetPopUp from "components/ResetPopup/ResetPopUp";
 import { usePlanData } from "contexts/PlanDataContext";
 import { usePlanDetails } from "contexts/PlansDetails";
+import { useNavigate } from "react-router-dom";
+import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 
 export default function RegimenDetails() {
+  let { newRegimenDetails, setNewRegimenDetails } = useRegimenDetails();
   const { preMedicationsData, chemotherapyData } = usePlanData();
   const { planName } = usePlanDetails();
+  const navigate = useNavigate();
 
   const [notes, setNotes] = useState("Add your notes here...");
   const [showResetPopUp, setShowResetPopUp] = useState(false);
@@ -32,6 +36,18 @@ export default function RegimenDetails() {
   });
 
   useEffect(() => {
+    if (preMedicationsData.length > 0 || chemotherapyData.length > 0) {
+      setInitialData({ ...initialData, preMedicationsData, chemotherapyData });
+      setData({ preMedicationsData, chemotherapyData });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chemotherapyData, preMedicationsData]);
+
+  useEffect(() => {
+    setNotes("Add your notes here...");
+  }, [planName]);
+
+  useEffect(() => {
     setRegimenDetails({
       ...regimenDetails,
       Plan_Name: planName,
@@ -41,34 +57,33 @@ export default function RegimenDetails() {
       ChemotherapyMedications: chemotherapyData,
       cycle_note: notes,
     });
-  }, [planName, notes, preMedicationsData, chemotherapyData]);
-
-  useEffect(() => {
-    setNotes("Add your notes here...");
-  }, [planName]);
-
-  useEffect(() => {
-    if (preMedicationsData.length > 0 || chemotherapyData.length > 0) {
-      setInitialData({ ...initialData, preMedicationsData, chemotherapyData });
-      setData({ preMedicationsData, chemotherapyData });
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chemotherapyData, preMedicationsData]);
+  }, [planName, preMedicationsData, chemotherapyData]);
+
+  useEffect(() => {
+    if (newRegimenDetails) {
+      setData({
+        preMedicationsData: newRegimenDetails.PreMedications,
+        chemotherapyData: newRegimenDetails.ChemotherapyMedications,
+      });
+      setNotes(newRegimenDetails.cycle_note);
+      setRegimenDetails(newRegimenDetails);
+    }
+  }, [newRegimenDetails]);
 
   const handleNotesChange = (event) => {
     setNotes(event.target.value);
   };
 
   const handleDelete = (id, index) => {
-    const newPreMedication =
-      id === "pre-med"
-        ? Data.preMedicationsData.filter((_, i) => i !== index)
-        : Data.preMedicationsData;
+    let newPreMedication = Data.preMedicationsData;
+    let newChemoTherapy = Data.chemotherapyData;
 
-    const newChemoTherapy =
-      id === "chemo"
-        ? Data.chemotherapyData.filter((_, i) => i !== index)
-        : Data.chemotherapyData;
+    if (id === "pre-med") {
+      newPreMedication = newPreMedication.filter((_, i) => i !== index);
+    } else if (id === "chemo") {
+      newChemoTherapy = newChemoTherapy.filter((_, i) => i !== index);
+    }
 
     const newData = {
       ...Data,
@@ -106,6 +121,11 @@ export default function RegimenDetails() {
     }
 
     setData(newData);
+    setRegimenDetails({
+      ...regimenDetails,
+      PreMedications: newData.preMedicationsData || [],
+      ChemotherapyMedications: newData.chemotherapyData || [],
+    });
   };
 
   const handleChangeDose = (doseIndex, updatedItem) => {
@@ -118,6 +138,11 @@ export default function RegimenDetails() {
       ),
     };
     setData(newData);
+    setRegimenDetails({
+      ...regimenDetails,
+      PreMedications: newData.preMedicationsData || [],
+      ChemotherapyMedications: newData.chemotherapyData || [],
+    });
   };
 
   const resetState = () => {
@@ -126,7 +151,28 @@ export default function RegimenDetails() {
   };
 
   const handleNext = () => {
-    console.log(regimenDetails);
+    newRegimenDetails = {
+      Plan_Name: planName,
+      number_of_Weeks: 7,
+      number_of_Cycles: 5,
+      PreMedications: regimenDetails.PreMedications || [],
+      ChemotherapyMedications: regimenDetails.ChemotherapyMedications.map(
+        (medication) => ({
+          ...medication,
+          doseReduction:
+            medication.doseReduction !== undefined
+              ? medication.doseReduction
+              : null,
+        })
+      ),
+      cycle_note:
+        notes === "Add your notes here..." || notes.trim() === ""
+          ? "There isn't any notes"
+          : notes,
+    };
+    setNotes(regimenDetails.cycle_note);
+    setNewRegimenDetails(newRegimenDetails);
+    navigate("review-order");
   };
   return (
     <div className="regimen-detail">
