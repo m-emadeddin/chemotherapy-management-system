@@ -311,6 +311,7 @@ exports.insertDummyData = async () => {
       Instructions: 'Administer over 2 hours',
       Dosage_Reduction: 0,
     
+      
     });
     const chemotherapy2 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug B',
