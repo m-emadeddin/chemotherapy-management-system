@@ -32,8 +32,6 @@ exports.getRegimenInfo = (req, res, next) => {
       res.status(500).json({ message: 'Internal server error' });
     });
 };
-
-
 exports.getCyclesInfo = (req, res, next) => {
   const ID = req.params.id;
   Patients.findByPk(ID)
@@ -56,9 +54,10 @@ exports.getCyclesInfo = (req, res, next) => {
       // Represent all cycles data
       const cyclesInfo = cycles.map((cycle) => ({
         cycle_id: cycle.Cycle_ID,
-        active_cycle: cycle.Is_active,
-        cycle_note: cycle.cycle_note,
-        documentation_date: cycle.updatedAt,
+        cycle_Number:cycle.Cycle_Number,
+        // active_cycle: cycle.Is_active,
+        cycle_note: cycle.Cycle_note,
+        documentation_date: cycle.Cycle_Documentation_Date,
       }));
       // Construct the response object
       const responseObj = { cycles: cyclesInfo };
@@ -179,6 +178,7 @@ exports.getChemotherapy = (req, res, next) => {
         route: med.Route,
         instructions: med.Instructions,
         administeredDoseMl: med.Administered_Dose_ml,
+        administeredDoseMg:med.Administered_Dose_mg
       }));
       info = {
         cycleNumber: cycleId, // Assuming cycleId corresponds to Cycle_Number
