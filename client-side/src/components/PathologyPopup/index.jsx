@@ -1,20 +1,68 @@
-import { Img } from "../../components";
+import { Img, Button } from "../../components";
+import React, { useState } from "react";
 
-export default function PatientPopup({
-  ID,
-  Gender,
-  name,
-  DateOFBirth,
-  bloodType,
-  DiseaseType,
-  Street,
-  City,
-  Government,
-  Nationality,
-  PhoneNumber,
+export default function PathologyPopup({
   onClose,
   path,
+  radioData,
+  medicalData,
 }) {
+  const [medicaldata, setMedicalData] = useState({
+    Urinanalysis: "",
+    CBC: "",
+    Electrophoresis: "",
+    CEA: "",
+    AFP: "",
+    B2M: "",
+    Tumor_size: "",
+  });
+
+  const [radiodata, setRadioData] = useState({
+    MRI: "",
+    CT: "",
+    PET_CT: "",
+    Ultrasound: "",
+    XRay: "",
+    Mammography: "",
+    DEXA: "",
+  });
+
+  const handleMedicalInputChange = (e) => {
+    const { id, value } = e.target;
+    setMedicalData((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
+  const handleRadioInputChange = (e) => {
+    const { id, value } = e.target;
+    setRadioData((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
+  function save() {
+    // Check if any medical data fields are empty
+    const medicalFields = Object.values(medicaldata);
+    if (medicalFields.some(value => value === "")) {
+      alert("Please fill in all medical analysis fields.");
+      return;
+    }
+  
+    // Check if any radiology data fields are empty
+    const radioFields = Object.values(radiodata);
+    if (radioFields.some(value => value === "")) {
+      alert("Please fill in all radiology fields.");
+      return;
+    }
+  
+    // If all fields are filled, proceed with saving
+    console.log(medicaldata);
+    console.log(radiodata);
+  }
+
   return (
     <div className="edit-popup-overlay">
       <div className="edit-popup-container">
@@ -30,6 +78,13 @@ export default function PatientPopup({
                 <div className="flex items-center gap-5">
                   <div className="grow text-ellipsis">Pathology</div>
                 </div>
+                <Button
+                  size="xl"
+                  onClick={save}
+                  className="gap-2.5 rounded-[20px] font-lama bg-green-500 text-white custom-button"
+                >
+                  Save Changes
+                </Button>
               </div>
             </div>
           </div>
@@ -64,44 +119,64 @@ export default function PatientPopup({
               AFP
             </div>
           </div>
-
           <div className="flex gap-3">
+            {/* Input for Urinanalysis */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="Urinanalysis"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${medicalData.Urinanalysis}`}
+                onChange={handleMedicalInputChange}
+                value={medicaldata.Urinanalysis}
               />
             </div>
 
+            {/* Input for CBC */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="CBC"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${medicalData.CBC}`}
+                onChange={handleMedicalInputChange}
+                value={medicaldata.CBC}
               />
             </div>
 
+            {/* Input for Electrophoresis */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="Electrophoresis"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${medicalData.Electrophoresis}`}
+                onChange={handleMedicalInputChange}
+                value={medicaldata.Electrophoresis}
               />
             </div>
 
+            {/* Input for CEA */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="CEA"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${medicalData.CEA}`}
+                onChange={handleMedicalInputChange}
+                value={medicaldata.CEA}
               />
             </div>
+
+            {/* Input for AFP */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="AFP"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${medicalData.AFP}`}
+                onChange={handleMedicalInputChange}
+                value={medicaldata.AFP}
               />
             </div>
           </div>
@@ -116,19 +191,27 @@ export default function PatientPopup({
           </div>
 
           <div className="flex gap-3">
+            {/* Input for B2M */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="B2M"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${medicalData.B2M}`}
+                onChange={handleMedicalInputChange}
+                value={medicaldata.B2M}
               />
             </div>
 
+            {/* Input for Tumor Size */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="Tumor_size"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${medicalData.Tumor_size}`}
+                onChange={handleMedicalInputChange}
+                value={medicaldata.Tumor_size}
               />
             </div>
           </div>
@@ -154,44 +237,64 @@ export default function PatientPopup({
               XRay
             </div>
           </div>
-
           <div className="flex gap-3">
+            {/* Input for MRI */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="MRI"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${radioData.MRI}`}
+                onChange={handleRadioInputChange}
+                value={radiodata.MRI}
               />
             </div>
 
+            {/* Input for CT */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="CT"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${radioData.CT}`}
+                onChange={handleRadioInputChange}
+                value={radiodata.CT}
               />
             </div>
 
+            {/* Input for PET_CT */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="PET_CT"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${radioData.PET_CT}`}
+                onChange={handleRadioInputChange}
+                value={radiodata.PET_CT}
               />
             </div>
 
+            {/* Input for Ultrasound */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="Ultrasound"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${radioData.Ultrasound}`}
+                onChange={handleRadioInputChange}
+                value={radiodata.Ultrasound}
               />
             </div>
+
+            {/* Input for XRay */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="XRay"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${radioData.XRay}`}
+                onChange={handleRadioInputChange}
+                value={radiodata.XRay}
               />
             </div>
           </div>
@@ -206,19 +309,27 @@ export default function PatientPopup({
           </div>
 
           <div className="flex gap-3">
+            {/* Input for Mammography */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="Mammography"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${radioData.Mammography}`}
+                onChange={handleRadioInputChange}
+                value={radiodata.Mammography}
               />
             </div>
 
+            {/* Input for DEXA */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
+                id="DEXA"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder="Normal"
+                placeholder={`${radioData.DEXA}`}
+                onChange={handleRadioInputChange}
+                value={radiodata.DEXA}
               />
             </div>
           </div>
