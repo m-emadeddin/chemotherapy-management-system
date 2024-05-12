@@ -13,6 +13,7 @@ export default function PatientPopup({
   Nationality,
   PhoneNumber,
   onClose,
+  path,
 }) {
   return (
     <div className="edit-popup-overlay">
@@ -22,7 +23,7 @@ export default function PatientPopup({
             <div className="text">
               <div className="flex gap-5 justify-between self-center mt-0 w-full text-2xl font-bold leading-6 text-black whitespace-nowrap max-w-[55px] max-md:flex-wrap max-md:max-w-full">
                 <Img
-                  src="images/img_patient_in_a_circle_2.png"
+                  src={`${path}/images/img_patient_in_a_circle_2.png`}
                   alt="patientina"
                   className="self-center w-16 aspect-[1.1]"
                 />

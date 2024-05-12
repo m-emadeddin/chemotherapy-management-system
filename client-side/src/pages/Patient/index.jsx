@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
-import WarningPopUp from "../../components/WarningPopUp";
 import { useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
-import { useRegimenDetails } from "../../contexts/RegimenDetailsContext ";
-
+const path = process.env.PUBLIC_URL ;
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -26,18 +24,15 @@ const GeneralInfoData = [
 ];
 
 export default function PatientPage() {
-  const [orderHovered, setOrderHovered] = useState(false);
-  const [documentHovered, setDocumentHovered] = useState(false);
+  const [hovered, setHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
   const [showPathologyPopup, setShowPathologyPopup] = useState(false);
-  const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [medicalData, setMedicalData] = useState(null);
   const [radioData, setRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
-  const { newRegimenDetails: patientOrder } = useRegimenDetails();
+
   const navigate = useNavigate();
   const id = 1;
-  console.log(patientOrder);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -85,11 +80,7 @@ export default function PatientPage() {
   }
 
   function docChemo() {
-    if (patientOrder) {
-      navigate("/document");
-    } else {
-      setShowWarningPopup(true);
-    }
+    navigate("/document");
   }
 
   const [patientData] = useState({
@@ -113,9 +104,6 @@ export default function PatientPage() {
   const togglePathologyPopup = () => {
     setShowPathologyPopup(!showPathologyPopup);
   };
-  const toggleWarningPopUp = () => {
-    setShowWarningPopup(!showWarningPopup);
-  };
 
   return (
     <>
@@ -135,16 +123,16 @@ export default function PatientPage() {
             </Heading>
             <div className="flex items-center">
               <Img
-                src="images/img_arrow_right_blue_gray_300_02.svg"
+                src={`${process.env.PUBLIC_URL}/images/img_arrow_right_blue_gray_300_02.svg`}
                 alt="arrowright"
-                className="h-[10px] mr-[10px]"
+                className="h-[10px] self-end mr-[10px]"
               />
               <Text
                 size="xs"
                 as="p"
                 className="!text-blue_gray-300_02 cursor-pointer"
               >
-                {patientData.name}
+                Patient Name
               </Text>
             </div>
           </div>
@@ -152,40 +140,38 @@ export default function PatientPage() {
           <div className="flex gap-[22px]">
             <Button
               size="xl"
-              onMouseEnter={() => setOrderHovered(true)}
-              onMouseLeave={() => setOrderHovered(false)}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
               className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
               onClick={orderChemo}
             >
-              {
+              {hovered ? (
                 <Img
-                  src={
-                    orderHovered
-                      ? "images/img_tube.svg"
-                      : "images/img_thumbsup_white_a700.svg"
-                  }
+                  src= {`${process.env.PUBLIC_URL}/images/icons.png`}
                   alt="thumbs_up"
                   className="h-[14px] w-[14px]"
                 />
-              }
+              ) : (
+                <Img
+                  src= {`${path}/images/img_thumbsup_white_a700.svg`}
+                  alt="thumbs_up"
+                  className="h-[14px] w-[14px]"
+                />
+              )}
               Order Chemotherapy
             </Button>
             <Button
               size="xl"
-              onMouseEnter={() => setDocumentHovered(true)}
-              onMouseLeave={() => setDocumentHovered(false)}
-              className="min-w-[213px] gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
+              leftIcon={
+                <Img
+                  src={`${process.env.PUBLIC_URL}/images/img_megaphone.svg`}
+                  alt="megaphone"
+                  className="h-[14px] w-[14px]"
+                />
+              }
+              className="min-w-[213px] gap-2.5 rounded-[20px] font-lama sans bg-blue-500 text-white custom-button"
               onClick={docChemo}
             >
-              <Img
-                src={
-                  documentHovered
-                    ? "images/img_megaphone.svg"
-                    : "images/img_megaphone_white_a700.svg"
-                }
-                alt="thumbs_up"
-                className="h-[14px] w-[14px]"
-              />
               Document Chemotherapy
             </Button>
           </div>
@@ -200,7 +186,7 @@ export default function PatientPage() {
                   <div className="flex items-center justify-between gap-5 self-stretch">
                     <div className="flex w-[77%] items-center justify-center gap-[15px]">
                       <Img
-                        src="images/img_patient_in_a_circle.png"
+                        src={`${path}/images/img_patient_in_a_circle.png`}
                         alt="hazemabdulnassr"
                         className="h-[74px] w-[73px] object-cover"
                       />
@@ -222,7 +208,7 @@ export default function PatientPage() {
                       className="w-[48px] !rounded-[24px] action-button"
                       onClick={togglePatientPopup}
                     >
-                      <Img src="images/img_map.svg" />
+                      <Img src={`${path}/images/img_map.svg`} />
                     </Button>
                   </div>
 
@@ -264,7 +250,7 @@ export default function PatientPage() {
                 <div className="flex items-center justify-between gap-5 self-stretch sm:flex-col">
                   <div className="flex w-[77%] items-center justify-center gap-[15px] pr-1.5 sm:w-full">
                     <Img
-                      src="images/img_patient_in_a_circle_74x73.png"
+                      src={`${path}/images/img_patient_in_a_circle_74x73.png`}
                       alt="cancer_overview"
                       className="h-[74px] w-[73px] object-cover"
                     />
@@ -314,10 +300,10 @@ export default function PatientPage() {
 
             {/* vital signs section */}
             <div className="flex w-[49%] flex-col gap-4 rounded-[40px] bg-white-A700 py-[15px] pl-[15px] md:w-full px-4">
-              <div className="flex items-center justify-between gap-5">
-                <div className="flex w-[77%] items-center gap-[15px]">
+            <div className="flex items-center justify-between gap-5">
+              <div className="flex w-[77%] items-center gap-[15px]">
                   <Img
-                    src="images/img_patient_in_a_circle_1.png"
+                    src={`${path}/images/img_patient_in_a_circle_1.png`}
                     alt="patientina"
                     className="h-[74px] w-[73px] object-cover"
                   />
@@ -340,7 +326,7 @@ export default function PatientPage() {
                           Blood Pressure
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Blood_Pressure} / 80
+                          {vitalData.response.Blood_Pressure}
                         </Text>
                       </div>
 
@@ -353,7 +339,7 @@ export default function PatientPage() {
                           Height
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Height} Cm
+                          {vitalData.response.Height}
                         </Text>
                       </div>
 
@@ -366,7 +352,7 @@ export default function PatientPage() {
                           Weight
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Weight} Kg
+                          {vitalData.response.Weight}
                         </Text>
                       </div>
 
@@ -379,7 +365,7 @@ export default function PatientPage() {
                           Heart Rate
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Heart_Rate} / min
+                          {vitalData.response.Heart_Rate}
                         </Text>
                       </div>
 
@@ -405,7 +391,7 @@ export default function PatientPage() {
                           Temperature
                         </Text>
                         <Text as="p" className="mb-[5px] px-2">
-                          {vitalData.response.Temperature} ْC
+                          {vitalData.response.Temperature}
                         </Text>
                       </div>
                       <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
@@ -432,7 +418,7 @@ export default function PatientPage() {
             <div className="flex items-center justify-between gap-5">
               <div className="flex w-[77%] items-center gap-[15px]">
                 <Img
-                  src="images/img_patient_in_a_circle_2.png"
+                  src={`${path}/images/img_patient_in_a_circle_2.png`}
                   alt="patientina"
                   className="h-[74px] w-[73px] object-cover"
                 />
@@ -446,7 +432,7 @@ export default function PatientPage() {
                 className="w-[48px] !rounded-[24px] action-button"
                 onClick={togglePathologyPopup}
               >
-                <Img src="images/img_edit.svg" />
+                <Img src={`${path}/images/img_edit.svg`} />
               </Button>
             </div>
 
@@ -718,6 +704,7 @@ export default function PatientPage() {
                 Government={patientData.government}
                 Nationality={patientData.nationality}
                 PhoneNumber={patientData.phonenumber}
+                path={path}
               />
             )}
 
@@ -736,9 +723,10 @@ export default function PatientPage() {
                 Government={patientData.government}
                 Nationality={patientData.nationality}
                 PhoneNumber={patientData.phonenumber}
+                path={path}
+
               />
             )}
-            {showWarningPopup && <WarningPopUp onClose={toggleWarningPopUp} />}
           </div>
         </div>
       </div>
