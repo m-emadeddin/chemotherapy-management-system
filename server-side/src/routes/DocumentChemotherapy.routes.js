@@ -11,6 +11,4 @@ router.get('/chemotherapy/:patientId/cycle/:cycleId/', documentChemo.getChemothe
 
 router.patch('/cycles-updates/:cycleId',documentChemo.updateCycleAndMedications);
 
-
-
 module.exports = router;
