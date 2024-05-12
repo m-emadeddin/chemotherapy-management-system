@@ -42,4 +42,6 @@ exports.deletePatient = (req, res, next) => {
             console.error("Error fetching patient:", error);
             res.status(500).json({ error: "Internal Server Error" });
     });
+
 };
+
