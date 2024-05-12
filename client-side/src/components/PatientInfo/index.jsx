@@ -100,8 +100,8 @@ export default function PatientInfo({ patients }) {
           DiseaseType={selectedPatient.disease_type}
           Street={selectedPatient.street}
           City={selectedPatient.city}
-          Government={selectedPatient.government}
-          Nationality={selectedPatient.governorate}
+          Government={selectedPatient.governorate}
+          Nationality={selectedPatient.nationality}
           PhoneNumber={selectedPatient.mobile}
         />
       )}
