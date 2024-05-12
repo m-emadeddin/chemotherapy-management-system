@@ -65,6 +65,10 @@
     font-weight: 900;
 }
 
+.dose-popup-container .dose-data .data span {
+    width: 600px;
+}
+
 .dose-popup-container .dose-data span {
     color: #8C9AB3;
 }

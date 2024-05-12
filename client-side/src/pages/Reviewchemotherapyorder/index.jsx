@@ -12,30 +12,30 @@ export default function Reviewchemotherapyorder() {
 
   function handleSubmit() {
     console.log(patientOrder);
-    navigate(-2);
+    navigate("/patient");
   }
   return (
     <div className="review-container  mx-auto ">
       <div className="heading-contanier">
         <h2>Review</h2>
-        <p>{patientOrder.regimenName}</p>
+        <p>{patientOrder.Plan_Name}</p>
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>
         <div className="pre-medication">
           <div className="table-name">PreMediactions</div>
-          {patientOrder.preMedication.map((med, index) => (
+          {patientOrder.PreMedications.map((med, index) => (
             <div key={index} className="table-rows">
-              <p className="med-name">{med.Medication}</p>
+              <p className="med-name">{med.name}</p>
               <p className="med-instruction">{med.Instructions}</p>
             </div>
           ))}
         </div>
         <div className="chemo-therapy">
           <div className="table-name">ChemoTherapy</div>
-          {patientOrder.chemoTherapy.map((med, index) => (
+          {patientOrder.ChemotherapyMedications.map((med, index) => (
             <div key={index} className="table-rows">
-              <p className="med-name">{med.Medication}</p>
+              <p className="med-name">{med.name}</p>
               <div className="instructions">
                 <p className="med-instruction">{med.Instructions}</p>
                 <p className={med.doseReduction === null ? "" : "dose"}>
@@ -48,7 +48,7 @@ export default function Reviewchemotherapyorder() {
       </div>
       <div className="notes-container">
         <span className="heading">Physician Notes</span>
-        <p className="notes">{patientOrder.physicianNotes}</p>
+        <p className="notes">{patientOrder.cycle_note}</p>
       </div>
       <div className="buttons ">
         <button className="btn back" onClick={handleBack}>
