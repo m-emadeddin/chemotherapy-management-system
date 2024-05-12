@@ -269,6 +269,15 @@ exports.insertDummyData = async () => {
       End_Time: '17:00:00',
       // cycle_note:'still alive'
     });
+    const cycle5 = await Cycles.create({
+      Cycle_Number: 3,
+      Start_Date: '2024-10-01',
+      Start_Time: '08:00:00',
+      End_Time: '17:00:00',
+      // cycle_note:'still alive'
+    });
+    
+    
     //===========================PRE MEDICATIONS=============================================================
     const premed1 = await Premedications.create({
       Medication_Name: 'Premed A',
@@ -302,6 +311,7 @@ exports.insertDummyData = async () => {
       Instructions: 'Administer over 2 hours',
       Dosage_Reduction: 0,
     
+      
     });
     const chemotherapy2 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug B',
@@ -352,7 +362,7 @@ exports.insertDummyData = async () => {
 
     // Associate Treatment plans with cycles (many-to-many)
     await Treatmentplan1.addCycles([cycle1, cycle2]);
-    await Treatmentplan2.addCycles([cycle3, cycle4]);
+    await Treatmentplan2.addCycles([cycle3, cycle4 ,cycle5]);
 
     // Association cycles with premedication
     await cycle1.addPremedication([premed1, premed2]);
@@ -361,6 +371,7 @@ exports.insertDummyData = async () => {
     // for patient 2
     await cycle3.addPremedication([premed4, premed1]);
     await cycle4.addPremedication([premed4, premed3]);
+    await cycle5.addPremedication([premed2, premed1]);
 
     // Associate Cycles with ChemotherapyMedications
     // patient 1
@@ -369,6 +380,7 @@ exports.insertDummyData = async () => {
     // patient 2
     await cycle3.addChemotherapyMedication([chemotherapy4, chemotherapy1]);
     await cycle4.addChemotherapyMedication([chemotherapy4, chemotherapy2]);
+    await cycle5.addChemotherapyMedication([chemotherapy2, chemotherapy1]);
 
     // Associate patient with Reserved beds
     await patient1.addReservedbeds(bed1, {
