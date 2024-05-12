@@ -2,7 +2,7 @@ import { Button, Img } from "components";
 import { Link } from "react-router-dom";
 import "../PatientInfo/patientinfo.css";
 
-export default function PatientTable({ patient, onClickMap }) {
+export default function PatientTable({ patient, onClickMap, onDeleteClick }) {
   return (
     <div className="info-data-container flex w-[90%] justify-between">
       <Link
@@ -20,7 +20,12 @@ export default function PatientTable({ patient, onClickMap }) {
         <div className="info w-[20%]">{patient.mobile}</div>
       </Link>
       <div className="flex items-center">
-        <Button size="md" shape="circle" className="action-button">
+        <Button
+          size="md"
+          shape="circle"
+          className="action-button"
+          onClick={onDeleteClick}
+        >
           <Img src="images/img_thumbs_up.svg" />
         </Button>
         <Button
