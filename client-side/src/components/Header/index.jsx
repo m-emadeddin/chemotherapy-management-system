@@ -83,7 +83,6 @@ export default function Header({
 
               <Text size="xs" as="p" className="font-lamasans">
                 {user ? `Dr. ${user.Username}` : ""}
-
               </Text>
             </div>
             <Img
@@ -96,6 +95,7 @@ export default function Header({
                 userEmail={user ? `${user.Email}` : ""}
                 userName={user ? `Dr. ${user.Username}` : ""}
                 userPhoto={userPhoto}
+                handleLogoutOptionClick={handleLogout}
               />
             )}
           </div>
