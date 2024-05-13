@@ -270,22 +270,22 @@ exports.updateCycleAndMedications = (req, res , next) => {
     .then(() => {
       // Update chemotherapy medications
       const updatePromises = Medications.map((med) => {
-        const { Name, AdministeredDose_Ml, AdministeredDose_Mg } = med;
-        if (!Name) {
-          return Promise.reject({ message: "Medication name is required for update" });
+        const { ID , AdministeredDose_Ml, AdministeredDose_Mg } = med;
+        if (!ID) {
+          return Promise.reject({ message: "Medication ID is required for update" });
         }
-        // Update specific fields of the medication by name
+        // Update specific fields of the medication by ID
         return ChemotherapyMedications.update(
           {
             Administered_Dose_ml: AdministeredDose_Ml,
             Administered_Dose_mg: AdministeredDose_Mg
           },
-          { where: { Medication_Name: Name } }
+          { where: { Chemotherapy_ID: ID } }
         ).catch((error) => {
           // Handle individual medication update errors
           // not working
           console.error("Error updating medication:", error.message);
-          return Promise.reject({ message: `Failed to update medication: ${Name}` });
+          return Promise.reject({ message: `Failed to update medication: ${ID}` });
         });
       });
 
@@ -297,6 +297,6 @@ exports.updateCycleAndMedications = (req, res , next) => {
     .catch((error) => {
       // Handle any errors occurred during the update process
       console.error("Error:", error.message);
-      res.status(500).json({ error: "Internal server error" });
+      
     });
 };
