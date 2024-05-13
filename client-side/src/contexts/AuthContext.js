@@ -1,9 +1,9 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
         return localStorage.getItem("isLoggedIn") === "true";
     });
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         localStorage.setItem("userToken", userToken);
-    }, [userToken])
+    }, [userToken]);
 
     const login = async (username, password) => {
         try {
@@ -44,7 +44,6 @@ export const AuthProvider = ({ children }) => {
             }
             setIsLoggedIn(true);
             const data = await response.json();
-            console.log("userToken: " + data.token);
             const token = data.token;
             setUserToken(token);
             const userResponse = await fetch("/users/user", {
@@ -58,11 +57,12 @@ export const AuthProvider = ({ children }) => {
             }
             const userData = await userResponse.json();
             setUser(userData.user);
+            toast.success("Logged in successfully!", { duration: 1000 });
         } catch (error) {
             setIsLoggedIn(false);
             setUserToken(null);
             setUser(null);
-            console.log(error.message);
+            toast.error(error.message);
         }
     };
 
@@ -82,10 +82,10 @@ export const AuthProvider = ({ children }) => {
                 localStorage.removeItem("userToken");
                 localStorage.removeItem("isLoggedIn");
                 localStorage.removeItem("user");
-                console.log("Logged out successfully.");
+                toast.success("Logged out successfully!");
             }
         } catch (error) {
-            console.log(error.message);
+            toast.error(error.message);
         }
     };
 
@@ -98,7 +98,10 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={authValues}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={authValues}>
+            {children}
+            <Toaster />
+        </AuthContext.Provider>
     );
 };
 
