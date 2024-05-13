@@ -18,7 +18,12 @@ export default function WarningPopUp({ onClose }) {
       onClick={closeWarningPopUp}
     >
       <div className="warning-popup-container">
-        <img src="images/exclamation.png" alt="icon" width={124} height={124} />
+        <img
+          src={`${process.env.PUBLIC_URL}/images/exclamation.png`}
+          alt="icon"
+          width={124}
+          height={124}
+        />
         <p className="heading">
           This patient doesn't have active chemotherapy plan
         </p>
