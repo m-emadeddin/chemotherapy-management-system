@@ -297,6 +297,6 @@ exports.updateCycleAndMedications = (req, res , next) => {
     .catch((error) => {
       // Handle any errors occurred during the update process
       console.error("Error:", error.message);
-      res.status(500).json({ error: "Internal server error" });
+      
     });
 };
