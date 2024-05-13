@@ -102,7 +102,7 @@ exports.getMedicalAnalysis = (req, res, next) => {
 };
 exports.updateMedicalAnalysis = (req, res, next) => {
   const patientId = req.params.id;
-  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M } = req.body;
+  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M ,Tumor_size} = req.body;
   Patients.findByPk(patientId)
       .then((patient) => {
           if (!patient) {
@@ -121,7 +121,8 @@ exports.updateMedicalAnalysis = (req, res, next) => {
               Electrophoresis: Electrophoresis,
               CEA: CEA,
               AFP: AFP,
-              B2M: B2M
+              B2M: B2M,
+              Tumor_size:Tumor_size
           })
           .then(() => {
               res.status(200).json({ message: 'Medical Analysis updated successfully' });
