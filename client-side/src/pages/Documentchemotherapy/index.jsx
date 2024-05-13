@@ -12,9 +12,10 @@ import {
 } from "../../components";
 
 export default function DocumentchemotherapyPage() {
-  const navigate = useNavigate();
   const id = 1;
-  const [activeCycle, setActiveCycle] = useState();
+  const navigate = useNavigate();
+
+  const [activeCycle, setActiveCycle] = useState(1);
   const [cyclesCount, setCyclesCount] = useState(1);
   const [regimenName, setRegimenName] = useState("");
   const [redirectToDoc, setRedirectToDoc] = useState(false);
@@ -29,12 +30,16 @@ export default function DocumentchemotherapyPage() {
         const response = await fetch(
           `document-chemotherapy/active-cycle/${id}`
         );
-        if (response.status === 404) {
+        const data = await response.json();
+        if (
+          response.status === 404 &&
+          data.error === "Active cycle not found"
+        ) {
           setActiveCycle(0);
           return;
         }
-        const data = await response.json();
         setActiveCycle(data.Active_Cycle_Number);
+        console.log("Active Cycle Fetched Successfully");
       } catch (error) {
         console.error("Error fetching Active Cycle:", error);
       }
@@ -57,6 +62,7 @@ export default function DocumentchemotherapyPage() {
         const data = await response.json();
         setCyclesCount(data.Cycle_Count);
         setRegimenName(data.Regimen_Name);
+        console.log("Regimen Info Fetched Successfully");
       } catch (error) {
         console.error("Error fetching Regimen-info:", error);
       }
@@ -68,22 +74,27 @@ export default function DocumentchemotherapyPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`document-chemotherapy/cycles-info/${id}`);
-        const data = await response.json();
-        const extractedDates = {};
-        for (const key in data.Cycles) {
-          const obj = data.Cycles[key];
-          extractedDates[obj.Cycle_ID] = obj.Documentation_Date;
-        }
-        setDates(extractedDates);
-        const cycle_info = data.Cycles.find((c) => c.Cycle_Number === cycle);
+        const { Cycles } = await response.json();
+        extractDates(Cycles);
+        const cycle_info = Cycles.find((c) => c.Cycle_Number === cycle);
         setCycleID(cycle_info.Cycle_ID);
         setCycleNote(cycle_info.Cycle_Note);
+        console.log("Cycles Info Fetched Successfully");
       } catch (error) {
         console.error("Error fetching Cycles info:", error);
       }
     };
     fetchData();
-  }, [redirectToDoc, cycle]);
+  }, [cycle]);
+
+  const extractDates = (cyclesInfo) => {
+    const extractedDates = {};
+    for (const key in cyclesInfo) {
+      const obj = cyclesInfo[key];
+      extractedDates[obj.Cycle_ID] = obj.Documentation_Date;
+    }
+    setDates(extractedDates);
+  };
 
   return (
     <>
@@ -134,7 +145,7 @@ export default function DocumentchemotherapyPage() {
                     size="xl"
                     className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-base text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
                     onClick={() => {
-                      navigate("/order");
+                      navigate("order");
                     }}
                   >
                     Modify Order

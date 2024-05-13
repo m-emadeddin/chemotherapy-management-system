@@ -37,15 +37,14 @@ table {
   color: white;
   transition: all 0.3s ease;
   border: 2px solid transparent; /* Add transparent border */
-
 }
 
 .custom-button:hover {
   background-color: white;
   color: black;
   border-color: black; /* Change border color to black on hover */
-
-}.edit-popup-overlay {
+}
+.edit-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -93,4 +92,10 @@ table {
 
 .hover-container:hover .hover-text {
   opacity: 1;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus,
+input:-internal-autofill-selected {
+  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s;
 }
