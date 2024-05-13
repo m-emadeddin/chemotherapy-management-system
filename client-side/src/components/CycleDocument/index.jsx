@@ -14,25 +14,12 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
         const response = await fetch(
           `document-chemotherapy/chemotherapy/${cycle}`
         );
-        const data = await response.json();
-        if (data) {
-          const chemotherapyResponse = data.Chemotherapy_Medications;
-          if (chemotherapyResponse) {
-            setChemotherapy(Object.values(chemotherapyResponse));
-          } else {
-            console.error(
-              "ChemoTherapy Medications not found for cycle",
-              cycle
-            );
-          }
-        } else {
-          console.error("Invalid data format:", data);
-        }
+        const { Chemotherapy_Medications } = await response.json();
+        setChemotherapy(Chemotherapy_Medications);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, [cycle, id]);
 
@@ -56,7 +43,6 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
 
   const handleSubmit = () => {
     Submit();
-    console.log(selectedValues);
     const cycleData = {
       Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
       Medications: doseinput,
@@ -70,7 +56,6 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
       ...prevState,
       [name]: val,
     }));
-    console.log(selectedValues);
   };
 
   const sendCycleData = async (data) => {
@@ -87,8 +72,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
         }
       );
       if (response.ok) {
-        const data = await response.json();
-        console.log("Response:", data);
+        console.log("Cycle Updates Sent Successfully");
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -108,8 +92,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        const data = await response.json();
-        console.log("Response:", data);
+        console.log("Patient Symptoms Sent Successfully");
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -142,11 +125,14 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
         Please record the dosage given to the patient
       </Text>
       <div className="flex">
-        <div className="flex flex-col gap-[15px] w-[60%] px-[20px]">
+        <div className="flex flex-col gap-[15px] w-[50%] px-[20px]">
           {/* dosage entry section prednisone */}
           {chemotherapy.map((chemo) => {
             return (
-              <>
+              <div
+                key={chemo.Chemotherapy_id}
+                className="flex flex-col gap-[15px]"
+              >
                 <div className=" flex items-center justify-between gap-5 md:ml-0 md:w-full">
                   <div className="mb-[5px] flex flex-col items-start gap-[9px] self-end">
                     <Text size="md" as="p" className="uppercase">
@@ -158,13 +144,14 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                         : `${chemo.Dose} MiliLiter`}
                     </Text>
                   </div>
-                  <div className="flex w-[40%] items-center justify-between gap-5 sm:w-full">
+                  <div className="flex w-[40%] items-center justify-end gap-5 sm:w-full">
                     <div className="flex w-[42%] flex-col items-center gap-2">
                       <Text size="xs" as="p">
                         {chemo.Route === "Oral" ? "mg" : "ml"}
                       </Text>
                       <Input
-                        className="p-1"
+                        className="p-1 border hover:border-black-900"
+                        autocomplete="off"
                         shape="round"
                         name={chemo.Name}
                         value={chemo.Name}
@@ -181,11 +168,11 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                   </div>
                 </div>
                 <div className="h-px bg-gray-800" />
-              </>
+              </div>
             );
           })}
         </div>
-        <div className="flex flex-col w-[40%] gap-[15px] px-[20px]">
+        <div className="flex flex-col w-[50%] gap-[15px] px-[20px]">
           <div className="flex justify-between">
             <div className="w-[25%]"></div>
             <div className="w-[75%] flex justify-evenly">
