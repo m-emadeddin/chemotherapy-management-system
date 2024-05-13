@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./style.css";
+import { usePlanDetails } from "contexts/PlansDetails";
 
 export default function MiniDropMenu({
   title,
@@ -7,6 +8,8 @@ export default function MiniDropMenu({
   defaultValue,
   onChange,
 }) {
+  const { setPlanCycles, setPlanWeeks } = usePlanDetails();
+
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(defaultValue || " ");
   const dropdownRef = useRef(null);
@@ -37,8 +40,9 @@ export default function MiniDropMenu({
     if (onChange) {
       onChange(option);
     }
+    if (title === "Cycles") setPlanCycles(option);
+    if (title === "Weeks") setPlanWeeks(option);
   };
-
   return (
     <>
       <div className="mini-dropdown-container" ref={dropdownRef}>
@@ -47,7 +51,12 @@ export default function MiniDropMenu({
           onClick={toggleDropdown}
         >
           <span>{selectedOption}</span>
-          {title === "Weeks" && selectedOption !== "None" && <span>Weeks</span>}
+          {title === "Weeks" && (
+            <span>{selectedOption === 1 ? "Week" : "Weeks"}</span>
+          )}
+          {title === "Cycles" && (
+            <span>{selectedOption === 1 ? "Cycle" : "Cycles"}</span>
+          )}
           <span className={`arrow ${isOpen ? "up" : "down"}`}></span>
         </div>
         {isOpen && (

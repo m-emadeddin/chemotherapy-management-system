@@ -47,6 +47,10 @@ const ProjectRoutes = () => {
           path: "order/review-order",
           element: <Reviewchemotherapyorder />,
         },
+        {
+          path: "document/order/review-order",
+          element: <Reviewchemotherapyorder />,
+        },
 
         {
           path: "document",

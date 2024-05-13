@@ -6,11 +6,13 @@ import { usePlanData } from "contexts/PlanDataContext";
 import { usePlanDetails } from "contexts/PlansDetails";
 import { useNavigate } from "react-router-dom";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
+import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
+import Date from "components/Date/Date";
 
 export default function RegimenDetails() {
   let { newRegimenDetails, setNewRegimenDetails } = useRegimenDetails();
   const { preMedicationsData, chemotherapyData } = usePlanData();
-  const { planName } = usePlanDetails();
+  const { planName, planCycles, planWeeks } = usePlanDetails();
   const navigate = useNavigate();
 
   const [notes, setNotes] = useState("Add your notes here...");
@@ -18,8 +20,8 @@ export default function RegimenDetails() {
 
   const [initialRegimenDetails] = useState({
     Plan_Name: planName,
-    number_of_Weeks: 7,
-    number_of_Cycles: 5,
+    number_of_Weeks: planWeeks,
+    number_of_Cycles: planCycles,
     PreMedications: preMedicationsData,
     ChemotherapyMedications: chemotherapyData,
     cycle_note: notes,
@@ -51,14 +53,14 @@ export default function RegimenDetails() {
     setRegimenDetails({
       ...regimenDetails,
       Plan_Name: planName,
-      number_of_Weeks: 7,
-      number_of_Cycles: 5,
+      number_of_Weeks: planWeeks,
+      number_of_Cycles: planCycles,
       PreMedications: preMedicationsData,
       ChemotherapyMedications: chemotherapyData,
       cycle_note: notes,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [planName, preMedicationsData, chemotherapyData]);
+  }, [planName, planCycles, planWeeks, preMedicationsData, chemotherapyData]);
 
   useEffect(() => {
     if (newRegimenDetails) {
@@ -154,8 +156,8 @@ export default function RegimenDetails() {
   const handleNext = () => {
     newRegimenDetails = {
       Plan_Name: planName,
-      number_of_Weeks: 3,
-      number_of_Cycles: 6,
+      number_of_Weeks: regimenDetails.number_of_Weeks,
+      number_of_Cycles: regimenDetails.number_of_Cycles,
       PreMedications: regimenDetails.PreMedications || [],
       ChemotherapyMedications: regimenDetails.ChemotherapyMedications.map(
         (medication) => ({
@@ -175,8 +177,28 @@ export default function RegimenDetails() {
     setNewRegimenDetails(newRegimenDetails);
     navigate("review-order");
   };
+  const weeks = Array.from({ length: 30 }, (_, index) => index + 1);
+  const cycles = Array.from({ length: 8 }, (_, index) => index + 1);
+
   return (
     <div className="regimen-detail">
+      <div className="cycles-container">
+        <span className="heading">Cycles</span>{" "}
+        <div className="cycles-row">
+          <MiniDropMenu
+            title="Cycles"
+            options={cycles}
+            defaultValue={planCycles}
+          />
+          <span>Over</span>
+          <MiniDropMenu
+            title="Weeks"
+            options={weeks}
+            defaultValue={planWeeks}
+          />
+          <Date />
+        </div>
+      </div>
       <div className="medications">
         <div className="header">
           <span className="heading" style={{ alignSelf: "center" }}>

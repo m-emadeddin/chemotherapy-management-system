@@ -9,7 +9,7 @@ export default function Reviewchemotherapyorder() {
   const navigate = useNavigate();
   const { newRegimenDetails: patientOrder } = useRegimenDetails();
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  console.log(patientOrder);
   function handleBack() {
     navigate("/order");
   }
@@ -76,6 +76,10 @@ export default function Reviewchemotherapyorder() {
         <h2>Review</h2>
         <Toaster />
         <p>{patientOrder.Plan_Name}</p>
+        <span className="cycles">
+          {patientOrder.number_of_Cycles} Cycles over{" "}
+          {patientOrder.number_of_Weeks} Weeks
+        </span>
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>

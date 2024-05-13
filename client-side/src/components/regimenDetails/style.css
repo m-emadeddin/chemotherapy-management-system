@@ -38,6 +38,18 @@
   border-radius: 20px;
 }
 
+.regimen-detail .cycles-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.regimen-detail .cycles-container .cycles-row {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
 .pre-mediaction-header,
 .chemotherapy-header {
   display: flex;

@@ -8,7 +8,6 @@ export const PlanDataProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
   const [chemotherapyData, setChemotherapyData] = useState([]);
   const [preMedicationsData, setPreMedicationsData] = useState([]);
-
   const { planId } = usePlanDetails();
 
   useEffect(() => {
