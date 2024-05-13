@@ -1,0 +1,67 @@
+.date-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    transition: ease 0.3s;
+}
+
+.date-popup-container {
+    background-color: white;
+    border-radius: 40px;
+    width: 451px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    z-index: 100000000;
+    position: sticky;
+    left: 600px;
+    top: 200px;
+    align-items: center;
+}
+
+.date-popup-container .heading {
+    font-weight: 900;
+}
+
+.date-popup-container .text {
+    color: #8C9AB3
+}
+
+.date-popup-container .text span {
+    color: red;
+    font-weight: 800;
+}
+
+.date-popup-container .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    color: white;
+}
+
+.date-popup-container .buttons .btn {
+    width: 141px;
+    height: 39px;
+    border-radius: 15px;
+}
+
+.date-popup-container .buttons .cancel {
+    background-color: #e84853;
+}
+
+.date-popup-container .buttons .yes {
+    background-color: #66C060;
+}
+
+.date-popup-container .buttons .cancel:hover {
+    background-color: #fa4c58;
+}
+
+.date-popup-container .buttons .yes:hover {
+    background-color: #6acf62;
+}

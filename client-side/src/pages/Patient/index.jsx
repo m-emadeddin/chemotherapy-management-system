@@ -31,7 +31,6 @@ function calculateAge(birthDateString) {
   return age;
 }
 
-
 export default function PatientPage() {
   const [hovered, setHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
@@ -133,20 +132,14 @@ export default function PatientPage() {
         {/* navigation section */}
         <div className="flex items-start justify-between gap-5 md:flex-col">
           <div className="mt-[18px] flex items-center gap-[15px]">
-            <Heading as="h1">
-              Patient List
-            </Heading>
+            <Heading as="h1">Patient List</Heading>
             <div className="flex items-center">
               <Img
                 src={`${process.env.PUBLIC_URL}/images/img_arrow_right_blue_gray_300_02.svg`}
                 alt="arrowright"
                 className="h-[10px] self-end mr-[10px]"
               />
-              <Text
-                size="xs"
-                as="p"
-                className="!text-blue_gray-300_02"
-              >
+              <Text size="xs" as="p" className="!text-blue_gray-300_02">
                 {patient.Name}
               </Text>
             </div>
@@ -253,7 +246,7 @@ export default function PatientPage() {
                               Gender
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                            {patient.Gender}
+                              {patient.Gender}
                             </Text>
                           </div>
 
@@ -266,7 +259,7 @@ export default function PatientPage() {
                               Date Of Birth
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                            {date} ({age}) y.o
+                              {date} ({age}) y.o
                             </Text>
                           </div>
 
@@ -279,7 +272,7 @@ export default function PatientPage() {
                               Blood Type
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                            {patient.blood_type}
+                              {patient.blood_type}
                             </Text>
                           </div>
 
@@ -305,11 +298,13 @@ export default function PatientPage() {
                               Phone Number
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                            {patient.mobile}
+                              {patient.mobile}
                             </Text>
                           </div>
                         </div>
-                      ) : console.log("Error")}
+                      ) : (
+                        console.log("Error")
+                      )}
                     </div>
                   </div>
                 </div>
@@ -325,8 +320,6 @@ export default function PatientPage() {
                 </Button>
               </div>
 
-
-
               <div className="flex w-full flex-col items-start gap-[25px] rounded-[40px] bg-white-A700 p-[15px]">
                 <div className="flex items-center justify-between gap-5 self-stretch sm:flex-col">
                   <div className="flex w-[77%] items-center justify-center gap-[15px] pr-1.5 sm:w-full">
@@ -340,59 +333,54 @@ export default function PatientPage() {
                     </Heading>
                   </div>
                 </div>
-                <Heading size="s">
-                  General info
-                </Heading>
+                <Heading size="s">General info</Heading>
 
                 <div className="flex flex-col items-center gap-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
-                  {cancerData && cancerData.cancerOverview && (
-                    <div className="grid grid-cols-1 gap-3">
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          Diagnoses
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {cancerData.cancerOverview.Diagnoses}
-                        </Text>
-                      </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
+                    {cancerData && cancerData.cancerOverview && (
+                      <div className="grid grid-cols-1 gap-3">
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Diagnoses
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {cancerData.cancerOverview.Diagnoses}
+                          </Text>
+                        </div>
 
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          Staging
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {cancerData.cancerOverview.Staging}
-                        </Text>
-                      </div>
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Staging
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {cancerData.cancerOverview.Staging}
+                          </Text>
+                        </div>
 
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          Diagnoses
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {cancerData.cancerOverview.Note}
-                        </Text>
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Diagnoses
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {cancerData.cancerOverview.Note}
+                          </Text>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-
-
-
               </div>
             </div>
 
@@ -807,10 +795,12 @@ export default function PatientPage() {
             )}
 
             {showPathologyPopup && (
-              <PathologyPopup onClose={togglePathologyPopup} path={path} 
-              radioData={radioData["radiography"][0]}
-              medicalData={medicalData["MedicalAnalysis"][0]}
-              patientID={patient.Patient_ID}
+              <PathologyPopup
+                onClose={togglePathologyPopup}
+                path={path}
+                radioData={radioData["radiography"][0]}
+                medicalData={medicalData["MedicalAnalysis"][0]}
+                patientID={patient.Patient_ID}
               />
             )}
           </div>

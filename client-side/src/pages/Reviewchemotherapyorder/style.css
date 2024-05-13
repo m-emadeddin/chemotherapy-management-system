@@ -24,6 +24,10 @@
   line-height: 25px;
 }
 
+.review-container .heading-contanier .cycles {
+  font-size: 1.2rem;
+}
+
 .review-container .medications {
   display: flex;
   flex-direction: column;
