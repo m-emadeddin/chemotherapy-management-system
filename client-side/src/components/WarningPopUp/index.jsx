@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import "./style.css";
 export default function WarningPopUp({ onClose }) {
   const DeletPopRef = useRef();

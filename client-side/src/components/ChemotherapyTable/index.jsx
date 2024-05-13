@@ -9,27 +9,15 @@ const ChemotherapyTable = ({ cycle, id }) => {
         const response = await fetch(
           `document-chemotherapy/chemotherapy/${cycle}`
         );
-        const data = await response.json();
-        if (data) {
-          const chemotherapyResponse = data.Chemotherapy_Medications;
-          if (chemotherapyResponse) {
-            setChemotherapy(Object.values(chemotherapyResponse));
-          } else {
-            console.error(
-              "ChemoTherapy Medications not found for cycle",
-              cycle
-            );
-          }
-        } else {
-          console.error("Invalid data format:", data);
-        }
+        const { Chemotherapy_Medications } = await response.json();
+        setChemotherapy(Chemotherapy_Medications);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     setTimeout(() => {
       fetchData();
-    }, 500);
+    }, 400);
   }, [cycle, id]);
 
   return (
