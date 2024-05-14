@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const PatientsInfoContext = createContext();
 
@@ -18,6 +19,7 @@ export const PatientsInfoProvider = ({ children }) => {
             localStorage.setItem('patientsInfo', JSON.stringify(data));
         } catch (error) {
             console.error(error);
+            toast.error('Failed to fetch patient details');
         }
     };
 
@@ -33,23 +35,26 @@ export const PatientsInfoProvider = ({ children }) => {
                 method: 'DELETE',
             });
             if (!response.ok) {
+                toast.error('Failed to delete patient');
                 throw new Error('Failed to delete patient');
             }
-            // After successful deletion, fetch updated patient info
             fetchPatientsInfo();
+            toast.success('Patient deleted successfully', { duration: 900 });
         } catch (error) {
             console.error(error);
+            toast.error('Failed to delete patient');
         }
     };
 
-    const patientsInfoValies = {
+    const patientsInfoValues = {
         patientsInfo,
         deletePatient,
     }
 
     return (
-        <PatientsInfoContext.Provider value={patientsInfoValies}>
+        <PatientsInfoContext.Provider value={patientsInfoValues}>
             {patientsInfo !== null ? children : null}
+            <Toaster />
         </PatientsInfoContext.Provider>
     );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Img, Button, Input, Text } from "../../components";
 import "./login.css";
-
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
 
@@ -24,6 +24,8 @@ export default function LoginPage() {
       if (identifier.length > 0 && password.length > 0) {
         await auth.login(identifier, password);
         setLoginAttempted(true);
+      } else {
+        toast.error("Please enter both username and password");
       }
     } catch (error) {
       console.log(error);
@@ -44,6 +46,7 @@ export default function LoginPage() {
         <div className="container-xs mb-[97px] mt-[47px] flex justify-center px-[367px] md:p-5 md:px-5">
           <div className="flex w-full flex-col items-center gap-[130px] md:gap-[97px] sm:gap-[65px]">
             <div className="flex flex-col items-center gap-9 self-stretch">
+              <Toaster />
               <Text size="lg" as="p" className="!font-inter">
                 Login
               </Text>
