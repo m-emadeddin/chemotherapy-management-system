@@ -1,6 +1,6 @@
 import { Img, Button } from "../../components";
 import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function PathologyPopup({
   onClose,
