@@ -6,6 +6,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
 import WarningPopUp from "components/WarningPopUp";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
+import { useSelectedPatient } from "contexts/SelectedPatientProvider";
+
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -43,12 +45,13 @@ export default function PatientPage() {
   const [radioData, setRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
+  const { selectedPatientId, setSelectedPatientId } = useSelectedPatient();
 
   const navigate = useNavigate();
   const location = useLocation();
   const patient = location.state.selectedPatient;
-  console.log(patient);
   const id = patient.Patient_ID;
+  setSelectedPatientId(id);
   const age = calculateAge(patient.date_of_birth);
   const date = formatDate(patient.date_of_birth);
 
@@ -59,7 +62,7 @@ export default function PatientPage() {
       try {
         const response = await fetch(`/patient/medical/${id}`);
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         setMedicalData(data);
       } catch (error) {
         console.error("Error fetching cycle count:", error);
@@ -73,7 +76,7 @@ export default function PatientPage() {
       try {
         const response = await fetch(`/patient/cancer-overview/${id}`);
         const data = await response.json();
-        console.log(data);
+        //console.log(data);
         setCancerData(data);
       } catch (error) {
         console.error("Error fetching cycle count:", error);
@@ -241,7 +244,7 @@ export default function PatientPage() {
                               Patient ID
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.Patient_ID}
+                              {selectedPatientId}
                             </Text>
                           </div>
 
@@ -379,7 +382,7 @@ export default function PatientPage() {
                             as="p"
                             className="h-[15px] w-[15px] !text-blue_gray-300"
                           >
-                            Diagnoses
+                            Notes
                           </Text>
                           <Text as="p" className="mb-[5px] px-2">
                             {cancerData.cancerOverview.Note}
