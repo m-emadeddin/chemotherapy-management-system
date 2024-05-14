@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useSelectedPatient } from "./SelectedPatientProvider";
 
 const PlanDetailsContext = createContext();
 
@@ -13,13 +14,13 @@ export const PlansDetailsProvider = ({ children }) => {
   const [planCycles, setPlanCycles] = useState(1);
   const [AllWeeks, setAllWeeks] = useState([]);
   const [planWeeks, setPlanWeeks] = useState(1);
-
-  // id will be taken later from patient page or something
-  const patientId = 2; // or 2 for now
+  const [originalCycles, setoriginalCycles] = useState();
+  const [originalWeeks, setoriginalWeeks] = useState();
+  const { selectedPatientId } = useSelectedPatient();
 
   useEffect(() => {
     axios
-      .get(`/order/get-regimen/${patientId}`)
+      .get(`/order/get-regimen/${selectedPatientId}`)
       .then((res) => {
         const regimensData = res.data.regimenName;
         const newRegimens = regimensData.map((regimenData) => {
@@ -43,7 +44,7 @@ export const PlansDetailsProvider = ({ children }) => {
       .catch((err) => {
         console.log("Error in fetching PlansDetails", err);
       });
-  }, [patientId]);
+  }, [selectedPatientId]);
 
   return (
     <PlanDetailsContext.Provider
@@ -62,6 +63,10 @@ export const PlansDetailsProvider = ({ children }) => {
         AllWeeks,
         planWeeks,
         setPlanWeeks,
+        originalCycles,
+        originalWeeks,
+        setoriginalCycles,
+        setoriginalWeeks,
       }}
     >
       {children}

@@ -42,10 +42,10 @@ export const AuthProvider = ({ children }) => {
             if (!response.ok) {
                 throw new Error("Invalid username or password");
             }
-            setIsLoggedIn(true);
             const data = await response.json();
             const token = data.token;
             console.log(`userToken: ${token}`)
+            setIsLoggedIn(true);
             setUserToken(token);
             const userResponse = await fetch("/users/user", {
                 method: "GET",
@@ -75,8 +75,8 @@ export const AuthProvider = ({ children }) => {
                     Authorization: `Bearer ${userToken}`
                 }
             });
-
-            if (response.ok) {
+            // console.log(`from logout: userToken ${userToken}`);
+            if (response.ok || userToken !== null) {
                 setIsLoggedIn(false);
                 setUser(null);
                 setUserToken(null);
@@ -85,7 +85,9 @@ export const AuthProvider = ({ children }) => {
                 localStorage.removeItem("user");
                 toast.success("Logged out successfully!");
             }
+            // console.log(`after if, from logout: userToken ${userToken}`);
         } catch (error) {
+            console.log(`from catch error logout: userToken ${userToken}`);
             toast.error(error.message);
         }
     };

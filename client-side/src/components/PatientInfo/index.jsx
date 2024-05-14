@@ -14,6 +14,7 @@ export default function PatientInfo() {
   const [searchBarValue, setSearchBarValue] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
   const patientsInfo = usePatientsInfo();
+
   const patientDetails = patientsInfo.patientsInfo;
   const patients = patientDetails.patients;
   const patientsPerPage = 10;
@@ -29,7 +30,6 @@ export default function PatientInfo() {
 
   const goToPage = (page) => {
     setCurrentPage(page);
-    
   };
 
   const handleMapClick = (patient) => {
@@ -44,7 +44,6 @@ export default function PatientInfo() {
 
   const togglePopup = () => {
     setInfoPopupOpen(!InfoPopupOpen);
-
   };
 
   const toggleDeletePopup = () => {
@@ -113,6 +112,7 @@ export default function PatientInfo() {
             selected
             onClickMap={() => handleMapClick(patient)}
             onDeleteClick={() => handleDeleteClick(patient)}
+            
           />
         ))}
       </div>
