@@ -11,7 +11,7 @@ export default function PatientPopup({
   Nationality,
   PhoneNumber,
   onClose,
-  path,
+  path = process.env.PUBLIC_URL,
 }) {
   return (
     <div className="edit-popup-overlay">
