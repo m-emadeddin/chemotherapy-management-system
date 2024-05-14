@@ -110,7 +110,7 @@ exports.getVitalSigns = (req, res, next) => {
       return patient.getVitalSign();
     })
     .then((VitalSign) => {
-      if (!VitalSign) {
+      if (!VitalSign || VitalSign.length === 0) {
         return res.status(404).json({ error: 'Vital signs not found' });
       }
       //let bmi = VitalSign.Weight / (VitalSign.Height / 100) ** 2;
@@ -201,8 +201,8 @@ exports.getRadiography = (req, res, next) => {
       }
       return patient.getRadiographies();
     })
-    .then((radiography) => {
-      if (!radiography) {
+    .then((radiography ) => {
+      if (!radiography || radiography.length === 0) {
         return res.status(404).json({ error: 'Radiography Not found' });
       }
       return res.status(200).json({ radiography });
@@ -313,8 +313,8 @@ exports.getMedicalAnalysis = (req, res, next) => {
       return patient.getMedicals();
     })
     .then((MedicalAnalysis) => {
-      if (!MedicalAnalysis) {
-        return res.status(404).json({ error: 'Radiography Not found' });
+      if (!MedicalAnalysis || MedicalAnalysis.length === 0) {
+        return res.status(404).json({ error: 'Medical Analysis Not found' });
       }
       return res.status(200).json({ MedicalAnalysis });
     })
