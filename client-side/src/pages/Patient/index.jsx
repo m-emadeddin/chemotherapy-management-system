@@ -460,7 +460,7 @@ export default function PatientPage() {
             </Heading>
 
             {radioIsPresent ? (
-              <RadiologyComponent radioData={radioData}></RadiologyComponent>
+              <RadiologyComponent radioData={radioData} togglePathologyPopup={togglePathologyPopup}></RadiologyComponent>
             ) : (
               <p1 className="mb-5 px-3">No Radio Data</p1>
             )}
