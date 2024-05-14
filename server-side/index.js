@@ -28,7 +28,7 @@ app.use(express.json()); // as we get all the api information on json format
 
 app.use('/document-chemotherapy', PatientMedicationInfoRoutes);
 app.use('/users', UserRoute);
-app.use(PatientPageRoute);
+app.use('/patient',PatientPageRoute);
 app.use('/order',OrderChemoRoute);
 app.use("/review-chemotherapy", reviewChemotherabyRouter);
 

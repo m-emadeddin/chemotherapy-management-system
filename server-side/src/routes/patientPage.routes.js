@@ -3,26 +3,26 @@ const router = express.Router();
 const PatientPage = require('../controllers/PatientPage.controllers');
 
 //=========================Patient====================================
-router.get('/patients/all-patients', PatientPage.getAllPatients);
+router.get('/all-patients', PatientPage.getAllPatients);
 router.post('/add-patient', PatientPage.postNewPatient);
-router.delete('/patients/delete-patient/:id', PatientPage.deletePatient);
+router.delete('/delete-patient/:id', PatientPage.deletePatient);
 
 //=========================Vital Signs================================
-router.get('/patient/vital-sign/:id', PatientPage.getVitalSigns);
+router.get('/vital-sign/:id', PatientPage.getVitalSigns);
 router.post('/add-vital-signs/:id', PatientPage.postVitalSigns);
 
 //=========================Radiography================================
-router.get('/patient/radiography/:id', PatientPage.getRadiography);
+router.get('/radiography/:id', PatientPage.getRadiography);
 router.post('/add-radiography/:id', PatientPage.postRadiography);
-router.put('/patient/Radiography-update/:id', PatientPage.updateRadiography);
+router.put('/radiography-update/:id', PatientPage.updateRadiography);
 
 //=========================Medical Analysis===========================
-router.get('/patient/medical/:id', PatientPage.getMedicalAnalysis);
+router.get('/medical/:id', PatientPage.getMedicalAnalysis);
 router.post('/add-medical/:id', PatientPage.postMedicalAnalysis);
-router.put('/patient/medical-update/:id', PatientPage.updateMedicalAnalysis);
+router.put('/medical-update/:id', PatientPage.updateMedicalAnalysis);
 
 //=========================Cancer Overview============================
-router.get('/patient/cancer-overview/:id', PatientPage.getCancerOverview);
+router.get('/cancer-overview/:id', PatientPage.getCancerOverview);
 router.post('/add-cancer-overview/:id', PatientPage.postCancerOverview);
 
 //=========================Side Effects============================
