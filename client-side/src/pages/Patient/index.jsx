@@ -5,6 +5,7 @@ import PatientPopup from "../../components/PatientPopUp";
 import { useLocation, useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
 import MedicalAnalysisComponent from "../../components/Medical";
+import CancerComponent from "../../components/CancerOverview";
 import WarningPopUp from "components/WarningPopUp";
 import RadiologyComponent from "components/Radiology";
 import VitalSignComponent from "components/VitalSign";
@@ -55,6 +56,7 @@ export default function PatientPage() {
   const medicalIsPresent = true;
   const radioIsPresent = true;
   const vitalIsPresent = true;
+  const cancerIsPresent = true;
   const patient = location.state.selectedPatient;
   const id = patient.Patient_ID;
   setSelectedPatientId(id);
@@ -350,52 +352,11 @@ export default function PatientPage() {
                 </div>
                 <Heading size="s">General info</Heading>
 
-                <div className="flex flex-col items-center gap-5">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
-                    {cancerData && cancerData.cancerOverview && (
-                      <div className="grid grid-cols-1 gap-3">
-                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                          <Text
-                            size="xs"
-                            as="p"
-                            className="h-[15px] w-[15px] !text-blue_gray-300"
-                          >
-                            Diagnoses
-                          </Text>
-                          <Text as="p" className="mb-[5px] px-2">
-                            {cancerData.cancerOverview.Diagnoses}
-                          </Text>
-                        </div>
-
-                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                          <Text
-                            size="xs"
-                            as="p"
-                            className="h-[15px] w-[15px] !text-blue_gray-300"
-                          >
-                            Staging
-                          </Text>
-                          <Text as="p" className="mb-[5px] px-2">
-                            {cancerData.cancerOverview.Staging}
-                          </Text>
-                        </div>
-
-                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                          <Text
-                            size="xs"
-                            as="p"
-                            className="h-[15px] w-[15px] !text-blue_gray-300"
-                          >
-                            Notes
-                          </Text>
-                          <Text as="p" className="mb-[5px] px-2">
-                            {cancerData.cancerOverview.Note}
-                          </Text>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
+                {cancerIsPresent ? (
+                  <CancerComponent cancerData={cancerData}></CancerComponent>
+                ) : (
+                  <p1 className="mb-5 px-3">No Cancer Data</p1>
+                )}
               </div>
             </div>
 
@@ -460,7 +421,10 @@ export default function PatientPage() {
             </Heading>
 
             {radioIsPresent ? (
-              <RadiologyComponent radioData={radioData} togglePathologyPopup={togglePathologyPopup}></RadiologyComponent>
+              <RadiologyComponent
+                radioData={radioData}
+                togglePathologyPopup={togglePathologyPopup}
+              ></RadiologyComponent>
             ) : (
               <p1 className="mb-5 px-3">No Radio Data</p1>
             )}
