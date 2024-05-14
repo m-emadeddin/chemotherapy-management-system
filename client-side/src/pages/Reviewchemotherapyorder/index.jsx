@@ -4,11 +4,14 @@ import "./style.css";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
+import { useSelectedPatient } from "contexts/SelectedPatientProvider";
 
 export default function Reviewchemotherapyorder() {
-  const navigate = useNavigate();
+  const { selectedPatientId } = useSelectedPatient();
   const { newRegimenDetails: patientOrder } = useRegimenDetails();
+
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
   console.log(patientOrder);
   function handleBack() {
     navigate("/order");
@@ -17,8 +20,7 @@ export default function Reviewchemotherapyorder() {
   const handleSubmit = () => {
     setIsSubmitting(true);
 
-    const patientId = 1;
-    const apiUrl = `/review-chemotherapy/${patientId}`;
+    const apiUrl = `/review-chemotherapy/${selectedPatientId}`;
     const Chemotherapy = patientOrder.ChemotherapyMedications.map(
       (medication) => {
         return {
@@ -48,6 +50,7 @@ export default function Reviewchemotherapyorder() {
       PreMedications: PreMedications,
       ChemotherapyMedications: Chemotherapy,
       cycle_note: patientOrder.cycle_note,
+      Start_Date: patientOrder.Start_Date,
     };
 
     axios
@@ -57,7 +60,7 @@ export default function Reviewchemotherapyorder() {
         if (response.data.message === "Data inserted successfully") {
           toast.success("Data inserted successfully");
           setTimeout(() => {
-            navigate(-2);
+            // navigate(`/patient/${selectedPatientId}`);
           }, 1000);
         }
       })

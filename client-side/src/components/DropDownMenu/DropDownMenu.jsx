@@ -16,6 +16,8 @@ export default function DropDownMenu() {
     AllCycles,
     setPlanCycles,
     AllWeeks,
+    setoriginalCycles,
+    setoriginalWeeks,
     setPlanWeeks,
   } = usePlanDetails();
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +55,8 @@ export default function DropDownMenu() {
       const planCycles = AllCycles[index];
       const planWeeks = AllWeeks[index];
       setPlanCycles(planCycles);
+      setoriginalCycles(planCycles);
+      setoriginalWeeks(planWeeks);
       setPlanWeeks(planWeeks);
       setPlanId(planId);
       setPlanName(planName);

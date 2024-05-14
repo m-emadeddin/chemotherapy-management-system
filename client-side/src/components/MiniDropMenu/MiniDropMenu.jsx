@@ -5,13 +5,16 @@ import { usePlanDetails } from "contexts/PlansDetails";
 export default function MiniDropMenu({
   title,
   options,
-  defaultValue,
+  defaultValueCycles,
+  defaultValueWeeks,
   onChange,
 }) {
   const { setPlanCycles, setPlanWeeks } = usePlanDetails();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(defaultValue || " ");
+  const [selectedOption, setSelectedOption] = useState(
+    title === "Weeks" ? defaultValueWeeks : defaultValueCycles
+  );
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -27,8 +30,10 @@ export default function MiniDropMenu({
     };
   }, []);
   useEffect(() => {
-    setSelectedOption(defaultValue || " ");
-  }, [defaultValue, options]);
+    setSelectedOption(
+      title === "Weeks" ? defaultValueWeeks : defaultValueCycles
+    );
+  }, [defaultValueWeeks, defaultValueCycles, options]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -41,6 +46,7 @@ export default function MiniDropMenu({
       onChange(option);
     }
     if (title === "Cycles") setPlanCycles(option);
+
     if (title === "Weeks") setPlanWeeks(option);
   };
   return (

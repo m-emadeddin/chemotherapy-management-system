@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import "./style.css";
-export default function DatePopUp({ onClose, onConfirm }) {
+export default function DatePopUp({ onClose, onConfirm, patientsNumber }) {
   const DatePopRef = useRef();
 
   const closeDatePopUp = (e) => {
@@ -21,7 +21,8 @@ export default function DatePopUp({ onClose, onConfirm }) {
         <img src="images/exclamation.png" alt="icon" width={124} height={124} />
         <p className="heading">Are you sure?</p>
         <p className="text">
-          <span>10</span> Patients ordered a chemotherapy at this day.
+          <span>{patientsNumber}</span> Patients ordered a chemotherapy at this
+          day.
         </p>
 
         <div className="buttons">
