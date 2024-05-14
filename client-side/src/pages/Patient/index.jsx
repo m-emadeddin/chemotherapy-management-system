@@ -382,7 +382,7 @@ export default function PatientPage() {
                             as="p"
                             className="h-[15px] w-[15px] !text-blue_gray-300"
                           >
-                            Diagnoses
+                            Notes
                           </Text>
                           <Text as="p" className="mb-[5px] px-2">
                             {cancerData.cancerOverview.Note}
