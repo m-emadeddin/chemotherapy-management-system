@@ -2,7 +2,12 @@ const TreatmentPlanReadOnly =
   require('../models/index.models').treatmentPlanReadOnly;
 const Patients = require('../models/index.models').Patients;
 const db = require("../models/index.models");
+const { Op, fn, col } = require("sequelize");
 
+function removeSpecialCharacters(str) {
+  // Remove other non-word and non-space characters
+  return str.replace(/[^\w\s]/gi, ''); // Replace all non-word and non-space characters
+}
 
 exports.getRegimens = (req, res, next) => {
   const ID = req.params.id;
@@ -20,14 +25,17 @@ exports.getRegimens = (req, res, next) => {
       return Canceroverview.Cancer_type;
     })
     .then((cancerType) => {
-      console.log(cancerType);
+      const cleanedCancerType = removeSpecialCharacters(cancerType);
+      console.log(cleanedCancerType,cancerType);
       return TreatmentPlanReadOnly.findAll({
-        where: { Cancer_Type: cancerType },
+        where: {Cancer_Type: {
+          [Op.like]: `%${cancerType.toLowerCase()}%`
+        }},
         attributes: ['Plan_Name', 'Plan_ID','number_of_Cycles','number_of_Weeks'],
       });
     })
     .then((regimenName) => {
-      if (!regimenName) {
+      if (!regimenName || regimenName.length == 0) {
         return res.status(404).json({ error: 'Regimen not found' });
       }
       res.status(200).json({ regimenName });

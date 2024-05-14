@@ -210,7 +210,7 @@ exports.insertDummyData = async () => {
 
     const cancerOverview1 = await patient1.createCancerOverview({
       Stage: 'Stage1',
-      Cancer_type: 'Non-Hodgkin Lymphoma',
+      Cancer_type: 'NON-hodgkin Lymphoma',
       Note_On_cancer: 'Note for cancer data 1',
     });
 
@@ -408,7 +408,7 @@ exports.insertRegimens = async () => {
       Plan_Name: 'CHOP: Protocol for Non-Hodgkin Lymphoma',
       number_of_Weeks: 3,
       number_of_Cycles: 6,
-      Cancer_Type: 'Non-Hodgkin Lymphoma',
+      Cancer_Type: 'Non Hodgkin Lymphoma',
     });
 
     // Step 3: Insert premedication data
@@ -524,7 +524,7 @@ exports.insertRegimens = async () => {
       Plan_Name: 'COP Regimen for Non-Metastatic Non-Hodgkin Lymphoma',
       number_of_Weeks: 3,
       number_of_Cycles: 6,
-      Cancer_Type: 'Non-Hodgkin Lymphoma',
+      Cancer_Type: 'Non Hodgkin Lymphoma',
     });
 
     // Step 3: Insert premedication data
