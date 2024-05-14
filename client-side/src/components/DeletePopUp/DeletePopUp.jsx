@@ -1,14 +1,23 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./style.css";
 export default function DeletePopUp({
   onClose,
   onConfirm,
-  selectedOption,
   data,
   deleteIndex,
+  id,
 }) {
-  const medication = data[selectedOption][deleteIndex].Medication;
+  const [medicationName, setMedicationName] = useState();
   const DeletPopRef = useRef();
+
+  useEffect(() => {
+    if (id === "pre-med") {
+      setMedicationName(data[deleteIndex].name);
+    } else if (id === "chemo") {
+      setMedicationName(data[deleteIndex].name);
+    }
+  }, [deleteIndex, id, data]);
+
   const closeDeletePopUp = (e) => {
     if (DeletPopRef.current === e.target) {
       onClose();
@@ -26,7 +35,7 @@ export default function DeletePopUp({
       <div className="delete-popup-container">
         <img src="images/exclamation.png" alt="icon" width={124} height={124} />
         <p className="heading">Are you sure?</p>
-        <p className="text">{medication} will be removed permanently</p>
+        <p className="text">{medicationName} will be removed permanently</p>
 
         <div className="buttons">
           <button className="btn cancel" onClick={handleClose}>

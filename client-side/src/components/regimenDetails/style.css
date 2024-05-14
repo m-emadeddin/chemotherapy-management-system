@@ -1,107 +1,113 @@
 .regimen-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .regimen-detail .medications {
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
 }
 
 .regimen-detail .medications .header {
-    display: flex;
-    gap: 30px;
-    justify-content: space-between;
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
 }
 
 .regimen-detail .medications .header .reset {
-    background-color: rgb(244 245 249);
-    border: 1px solid #E84853;
-    color: #E84853;
-    width: 96px;
-    height: 40px;
-    border-radius: 10px;
-    font-weight: 600;
+  background-color: rgb(244 245 249);
+  border: 1px solid #e84853;
+  color: #e84853;
+  width: 96px;
+  height: 40px;
+  border-radius: 10px;
+  font-weight: 600;
 }
 
 .regimen-detail .medications .header .reset:hover {
-    transition: ease 0.3s;
-    background-color: #E84853;
-    color: white;
+  transition: ease 0.3s;
+  background-color: #e84853;
+  color: white;
 }
 
 .regimen-detail .pre-mediaction,
 .regimen-detail .chemotherapy {
-    background-color: white;
-    border-radius: 20px;
+  background-color: white;
+  border-radius: 20px;
 }
 
+.regimen-detail .cycles-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.regimen-detail .cycles-container .cycles-row {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
 
 .pre-mediaction-header,
 .chemotherapy-header {
-    display: flex;
-    justify-content: space-between;
-    height: 54px;
-    border-bottom: 1px solid #c2c2c2;
-    padding: 15px;
-
+  display: flex;
+  justify-content: space-between;
+  height: 54px;
+  border-bottom: 1px solid #c2c2c2;
+  padding: 15px;
 }
 
-
-
 .regimen-detail .table-name {
-    font-family: "Lama Sans-Regular", Helvetica;
-    line-height: 25px;
-    text-transform: uppercase;
-    font-size: 1.125rem;
-    font-weight: 500;
+  font-family: "Lama Sans", Helvetica;
+  line-height: 25px;
+  text-transform: uppercase;
+  font-size: 1.125rem;
+  font-weight: 500;
 }
 
 .regimen-detail .heading {
-    font-family: "Lama Sans-Regular", Helvetica;
-    line-height: 25px;
-    font-size: 1.5rem;
-    font-weight: 600;
+  font-family: "Lama Sans", Helvetica;
+  line-height: 25px;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .regimen-detail .notes {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-
 .notes .notes-area {
-    height: 130px;
-    border-radius: 20px;
-    border: 1px solid #c2c2c2;
-    font-family: "Lama Sans-Regular", Helvetica;
-    padding: 15px 19px;
-    line-height: 25px;
-    color: #707070;
-    resize: none;
-    background-color: white;
+  height: 130px;
+  border-radius: 20px;
+  border: 1px solid #c2c2c2;
+  font-family: "Lama Sans", Helvetica;
+  padding: 15px 19px;
+  line-height: 25px;
+  color: #707070;
+  resize: none;
+  background-color: white;
 }
 
 .notes .next {
-    width: 218px;
-    height: 39px;
-    background-color: #1FA6EF;
-    color: white;
-    font-family: "Lama Sans-Regular", Helvetica;
-    line-height: 25px;
-    border-radius: 15px;
-    align-self: center;
-    text-align: center;
-    margin-bottom: 10px;
+  width: 218px;
+  height: 39px;
+  background-color: #1fa6ef;
+  color: white;
+  font-family: "Lama Sans", Helvetica;
+  line-height: 25px;
+  border-radius: 15px;
+  align-self: center;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
 .notes .next:hover {
-    background-color: white;
-    border: 1px solid black;
-    transition: all 0.3s;
-    color: black;
+  background-color: white;
+  border: 1px solid black;
+  transition: all 0.3s;
+  color: black;
 }

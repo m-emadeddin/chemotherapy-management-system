@@ -1,51 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
+import "./style.css";
 
 const CycleDocument = ({ Submit, Cancel, cycle }) => {
   const id = 1;
   const [doseinput, setDoseInput] = useState([]);
   const [cycleNote, setCycleNote] = useState({});
   const [chemotherapy, setChemotherapy] = useState([]);
+  const [selectedValues, setSelectedValues] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/chemotherapy/${id}`
+          `document-chemotherapy/chemotherapy/${cycle}`
         );
-        const data = await response.json();
-        if (data && data.cycles) {
-          const chemotherapyResponse = data.cycles.find(
-            (item) => item.cycleNumber === cycle
-          )?.chemotherapyMedications;
-          if (chemotherapyResponse) {
-            setChemotherapy(Object.values(chemotherapyResponse));
-          } else {
-            console.error(
-              "ChemoTherapy Medications not found for cycle",
-              cycle
-            );
-          }
-        } else {
-          console.error("Invalid data format:", data);
-        }
+        const { Chemotherapy_Medications } = await response.json();
+        setChemotherapy(Chemotherapy_Medications);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, [cycle, id]);
 
-  const handleDoseInput = (event, name, route) => {
+  const handleDoseInput = (event, id, route) => {
     setDoseInput((prevDoseInput) =>
-      prevDoseInput.filter((medication) => medication.name !== name)
+      prevDoseInput.filter((medication) => medication.ID !== id)
     );
     setDoseInput((prevDoseInput) => [
       ...prevDoseInput,
       {
-        name: name,
-        [`Administered_Dose_${route === "Oral" ? "mg" : "ml"}`]: event,
+        ID: id,
+        [`AdministeredDose_${route === "Oral" ? "Mg" : "Ml"}`]: event,
+        [`AdministeredDose_${route === "Oral" ? "Ml" : "Mg"}`]: "",
       },
     ]);
   };
@@ -54,30 +42,39 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     setCycleNote(input);
   };
 
-  const handleSubmit = () => {
-    Submit();
-    const data = {
-      id: { id },
-      cycle: { cycle },
-      chemotherapyMedications: doseinput,
-      cycle_note: { cycleNote },
-    };
-    sendData(data);
+  const handleSideEffectsInput = (val, name) => {
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      [name]: val,
+    }));
   };
 
-  const sendData = async (data) => {
-    console.log(data);
+  const handleSubmit = () => {
+    const cycleData = {
+      Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
+      Medications: doseinput,
+      Cycle_Note: cycleNote,
+    };
+    sendSymptomsData(selectedValues);
+    sendCycleData(cycleData);
+    Submit();
+  };
+
+  const sendCycleData = async (data) => {
+    console.log(JSON.stringify(data));
     try {
-      const response = await fetch("Wating", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `document-chemotherapy/cycles-updates/${cycle}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
       if (response.ok) {
-        const data = await response.json();
-        console.log("Response:", data);
+        console.log("Cycle Updates Sent Successfully");
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -86,48 +83,137 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     }
   };
 
+  const sendSymptomsData = async (data) => {
+    console.log(JSON.stringify(data));
+    try {
+      const response = await fetch(`Waiting/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        console.log("Patient Symptoms Sent Successfully");
+      } else {
+        console.error("Failed to submit:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  const possibleValues = ["High", "Moderate", "Low"];
+  const symptoms = [
+    { name: "Nausea", value: possibleValues },
+    { name: "Loss of appetite", value: possibleValues },
+    { name: "Hair loss", value: possibleValues },
+    {
+      name: "Gastrointestinal disturbances",
+      value: possibleValues,
+    },
+    { name: "Loss of memory", value: possibleValues },
+    { name: "Skin change", value: possibleValues },
+    { name: "Blood cell loss", value: possibleValues },
+    { name: "Psychological effects", value: possibleValues },
+    {
+      name: "Changes in kidney and liver function",
+      value: possibleValues,
+    },
+  ];
+
   return (
     <div className="flex flex-col p-[19px] gap-[25px]">
-      <Text as="p" style={{ fontWeight: "bold" }}>
-        Please record the dosage given to the patient
-      </Text>
-      <div className="flex flex-col gap-[15px] w-[60%] px-[20px]">
-        {/* dosage entry section prednisone */}
-        {chemotherapy.map((chemo) => {
-          return (
-            <>
-              <div className=" flex items-center justify-between gap-5 md:ml-0 md:w-full">
-                <div className="mb-[5px] flex flex-col items-start gap-[9px] self-end">
-                  <Text size="md" as="p" className="uppercase">
-                    {chemo.name}
-                  </Text>
-                  <Text size="xs" as="p" className="text-gray-700">
-                    {chemo.dose}
-                    {chemo.route === "Oral" ? "Milligram" : "Milliliter"}
-                  </Text>
-                </div>
-                <div className="flex w-[40%] items-center justify-between gap-5 sm:w-full">
-                  <div className="flex w-[42%] flex-col items-center gap-2">
-                    <Text size="xs" as="p">
-                      {chemo.route === "Oral" ? "mg" : "ml"}
-                    </Text>
+      <div className="flex">
+        <div className="flex flex-col w-[50%] gap-[15px] px-[20px]">
+          <Text as="p" style={{ fontWeight: "bold" }}>
+            Please record the side effects to the patient
+          </Text>
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between">
+              <div className="w-[55%]"></div>
+              <div className="w-[45%] flex justify-evenly">
+                <Text className="text-red-0">High</Text>
+                <Text className="text-blue-500">Moderate</Text>
+                <Text className="text-green-0">Low</Text>
+              </div>
+            </div>
+            {symptoms.map((symptom, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center border border-gray-800 p-2 rounded-md container"
+              >
+                <Text className="w-[55%]">{symptom.name}</Text>
+                <div className="w-[45%] flex justify-evenly">
+                  {symptom.value.map((val, idx) => (
                     <Input
-                      className="p-1"
-                      shape="round"
-                      name={chemo.name}
-                      value={chemo.name}
-                      inputProps={{ className: "text-center" }}
-                      onChange={(event) =>
-                        handleDoseInput(event, chemo.name, chemo.route)
+                      key={idx}
+                      type="radio"
+                      className="w-[20%] bg-transparent-0 h-[15px]"
+                      name={symptom.name.replace(/\s+/g, "")}
+                      inputProps={{ value: val }}
+                      onChange={() =>
+                        handleSideEffectsInput(
+                          val,
+                          symptom.name.replace(/\s+/g, "_")
+                        )
                       }
                     />
-                  </div>
+                  ))}
                 </div>
               </div>
-              <div className="h-px bg-gray-800" />
-            </>
-          );
-        })}
+            ))}
+          </div>
+        </div>
+        <div className="h-full bg-gray-800 w-[1px]"></div>
+        <div className="flex flex-col gap-[15px] w-[50%] px-[20px]">
+          <Text as="p" style={{ fontWeight: "bold" }}>
+            Please record the dosage given to the patient
+          </Text>
+          {chemotherapy.map((chemo) => {
+            return (
+              <div
+                key={chemo.Chemotherapy_id}
+                className="flex flex-col gap-[15px]"
+              >
+                <div className=" flex items-center justify-between gap-5 md:ml-0 md:w-full">
+                  <div className="mb-[5px] flex flex-col items-start gap-[9px] self-end">
+                    <Text size="md" as="p" className="uppercase">
+                      {chemo.Name}
+                    </Text>
+                    <Text size="xs" as="p" className="text-gray-700">
+                      {chemo.Route === "Oral"
+                        ? `${chemo.Dose} Miligram`
+                        : `${chemo.Dose} MiliLiter`}
+                    </Text>
+                  </div>
+                  <div className="flex w-[40%] items-center justify-end gap-5 sm:w-full">
+                    <div className="flex w-[42%] flex-col items-center gap-2">
+                      <Text size="xs" as="p">
+                        {chemo.Route === "Oral" ? "mg" : "ml"}
+                      </Text>
+                      <Input
+                        className="p-1 border hover:border-black-900"
+                        autocomplete="off"
+                        shape="round"
+                        name={chemo.Name}
+                        value={chemo.Name}
+                        inputProps={{ className: "text-center" }}
+                        onChange={(event) =>
+                          handleDoseInput(
+                            event,
+                            chemo.Chemotherapy_id,
+                            chemo.Route
+                          )
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="h-px bg-gray-800" />
+              </div>
+            );
+          })}
+        </div>
       </div>
       <div className="flex flex-col gap-5">
         <Text as="p" style={{ fontWeight: "bold" }}>

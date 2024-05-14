@@ -7,27 +7,17 @@ const ChemotherapyTable = ({ cycle, id }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/chemotherapy/${id}`
+          `document-chemotherapy/chemotherapy/${cycle}`
         );
-        const data = await response.json();
-        if (data && data.cycles) {
-          const chemotherapyResponse = data.cycles.find(
-            (item) => item.cycleNumber === cycle
-          )?.chemotherapyMedications;
-          if (chemotherapyResponse) {
-            setChemotherapy(Object.values(chemotherapyResponse));
-          } else {
-            console.error("Premedications not found for cycle", cycle);
-          }
-        } else {
-          console.error("Invalid data format:", data);
-        }
+        const { Chemotherapy_Medications } = await response.json();
+        setChemotherapy(Chemotherapy_Medications);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
-    fetchData();
+    setTimeout(() => {
+      fetchData();
+    }, 400);
   }, [cycle, id]);
 
   return (
@@ -42,23 +32,28 @@ const ChemotherapyTable = ({ cycle, id }) => {
         </div>
         {chemotherapy.map((chemo) => {
           return (
-            <div className="flex w-full border-t-[1px] border-gray-800">
-              <div className="w-[15%] p-[19px]">{chemo.name}</div>
+            <div
+              key={chemo.Chemotherapy_id}
+              className="flex w-full border-t-[1px] border-gray-800"
+            >
+              <div className="w-[15%] p-[19px]">{chemo.Name}</div>
               <div className="w-[15%] p-[19px] flex justify-between items-center">
-                {chemo.dose}
-                {chemo.route === "Oral" ? "Miligram" : "MiliLiter"}
-                {chemo.reduction > 0 ? (
+                {chemo.Route === "Oral"
+                  ? `${chemo.Dose} Miligram`
+                  : `${chemo.Dose} MiliLiter`}
+                {chemo.Reduction > 0 ? (
                   <div className="bg-blue-500 p-1 text-white-A700 rounded">
-                    -{chemo.reduction}%
+                    -{chemo.Reduction}%
                   </div>
                 ) : null}
               </div>
-
-              <div className="w-[15%] p-[19px]">{chemo.route}</div>
+              <div className="w-[15%] p-[19px]">{chemo.Route}</div>
               <div className="w-[30%] p-[19px]">{chemo.Instructions}</div>
               <div className="w-[20%] p-[19px]">
-                {chemo.Administered_Dose_ml}
-                {chemo.route === "Oral" ? "Miligram" : "MiliLiter"}
+                {chemo.AdministeredDose_Mg !== null && chemo.Route === "Oral"
+                  ? `${chemo.AdministeredDose_Mg} Milligram`
+                  : chemo.AdministeredDose_Ml !== null &&
+                    `${chemo.AdministeredDose_Ml} Milliliter`}
               </div>
             </div>
           );

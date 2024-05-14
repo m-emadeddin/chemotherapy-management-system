@@ -9,6 +9,8 @@ import Orderchemotherapy from "pages/Orderchemotherapy";
 import Reviewchemotherapyorder from "pages/Reviewchemotherapyorder";
 import Documentchemotherapy from "pages/Documentchemotherapy";
 import AppLayout from "components/AppLayout";
+import AlreadyLoggedIn from "contexts/AlreadyLoggedIn";
+import RequireAuth from "contexts/RequireAuth";
 
 const ProjectRoutes = () => {
   let element = useRoutes([
@@ -16,17 +18,25 @@ const ProjectRoutes = () => {
     { path: "*", element: <NotFound /> },
     {
       path: "login",
-      element: <Loginpage />,
+      element: (
+        <AlreadyLoggedIn>
+          <Loginpage />
+        </AlreadyLoggedIn>
+      ),
     },
     {
-      element: <AppLayout />,
+      element: (
+        <RequireAuth>
+          <AppLayout />
+        </RequireAuth>
+      ),
       children: [
         {
           path: "select_patient",
           element: <SelectPatient />,
         },
         {
-          path: "patient",
+          path: "patient/:id",
           element: <Patient />,
         },
         {
@@ -37,10 +47,18 @@ const ProjectRoutes = () => {
           path: "order/review-order",
           element: <Reviewchemotherapyorder />,
         },
+        {
+          path: "document/order/review-order",
+          element: <Reviewchemotherapyorder />,
+        },
 
         {
           path: "document",
           element: <Documentchemotherapy />,
+        },
+        {
+          path: "document/order",
+          element: <Orderchemotherapy />,
         },
       ],
     },

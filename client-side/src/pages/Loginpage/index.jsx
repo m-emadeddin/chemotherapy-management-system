@@ -1,29 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Img, Button, Input, Text } from "../../components";
 import "./login.css";
-import axios from "axios";
-import { useAuth } from "contexts/AuthContext";
+import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "contexts/AuthContext";
 
 export default function LoginPage() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [loginAttempted, setLoginAttempted] = useState(false);
   const navigate = useNavigate();
-  const { setToken } = useAuth();
-  const BASE_URL = "/users/signin";
+  const auth = useAuth();
+
+  useEffect(() => {
+    if (loginAttempted && auth.isLoggedIn) {
+      navigate("/select_patient");
+    }
+  }, [auth.isLoggedIn, loginAttempted, navigate]);
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${BASE_URL}`, {
-        identifier: identifier,
-        password: password,
-      });
-      const userData = response.data;
-      setToken(userData.token);
-      navigate("/select_patient");
+      if (identifier.length > 0 && password.length > 0) {
+        await auth.login(identifier, password);
+        setLoginAttempted(true);
+      } else {
+        toast.error("Please enter both username and password");
+      }
     } catch (error) {
-      console.error("Login error:", error);
+      console.log(error);
     }
   };
 
@@ -41,6 +46,7 @@ export default function LoginPage() {
         <div className="container-xs mb-[97px] mt-[47px] flex justify-center px-[367px] md:p-5 md:px-5">
           <div className="flex w-full flex-col items-center gap-[130px] md:gap-[97px] sm:gap-[65px]">
             <div className="flex flex-col items-center gap-9 self-stretch">
+              <Toaster />
               <Text size="lg" as="p" className="!font-inter">
                 Login
               </Text>

@@ -1,34 +1,24 @@
 import React, { useState, useEffect } from "react";
 
-const PremedicationsTable = ({ cycle, id }) => {
+const PremedicationsTable = ({ cycle }) => {
   const [premedications, setPremedications] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/document-chemotherapy/premedications/${id}`
+          `document-chemotherapy/premedications/${cycle}`
         );
-        const data = await response.json();
-        if (data && data.cycles) {
-          const premedicationsResponse = data.cycles.find(
-            (item) => item.cycleNumber === cycle
-          )?.premedications;
-          if (premedicationsResponse) {
-            setPremedications(Object.values(premedicationsResponse));
-          } else {
-            console.error("Premedications not found for cycle", cycle);
-          }
-        } else {
-          console.error("Invalid data format:", data);
-        }
+        const { Premedications } = await response.json();
+        setPremedications(Premedications);
+        console.log("Premedications Fetched Successfully");
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching Premedications:", error);
       }
     };
 
     fetchData();
-  }, [cycle, id]);
+  }, [cycle]);
 
   return (
     <>
@@ -42,11 +32,14 @@ const PremedicationsTable = ({ cycle, id }) => {
 
         {premedications.map((premedication) => {
           return (
-            <div className="flex w-full border-t-[1px] border-gray-800">
+            <div
+              key={premedication.Premed_ID}
+              className="flex w-full border-t-[1px] border-gray-800"
+            >
               <div className="w-[15%] p-[19px]">{premedication.Medication}</div>
               <div className="w-[15%] p-[19px]">
                 {premedication.Dose}
-                {premedication.Route === "Oral" ? "Miligram" : "Milliliter"}
+                {premedication.Route === "Oral" ? " Miligram" : " Milliliter"}
               </div>
               <div className="w-[15%] p-[19px]">{premedication.Route}</div>
               <div className="w-[30%] p-[19px]">

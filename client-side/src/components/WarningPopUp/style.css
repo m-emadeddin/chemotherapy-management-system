@@ -1,0 +1,51 @@
+.warning-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9998;
+  transition: ease 0.3s;
+}
+
+.warning-popup-container {
+  background-color: white;
+  border-radius: 40px;
+  width: 451px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  z-index: 100000000;
+  position: sticky;
+  left: 600px;
+  top: 200px;
+  align-items: center;
+}
+
+.warning-popup-container .heading {
+  font-weight: 900;
+}
+
+.warning-popup-container .buttons .btn {
+  width: 141px;
+  height: 39px;
+  border-radius: 15px;
+  transition: ease 0.1s;
+}
+
+.warning-popup-container .buttons .cancel {
+  background-color: #fa4c58;
+  color: white;
+  font-weight: bold;
+  border: 2px solid transparent;
+}
+
+.warning-popup-container .buttons .cancel:hover {
+  /* background-color: #e84853; */
+  background-color: white;
+  color: #e84853;
+  font-weight: bold;
+  border: 2px solid #e84853;
+}
