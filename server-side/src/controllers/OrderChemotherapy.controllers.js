@@ -1,6 +1,8 @@
 const TreatmentPlanReadOnly =
   require('../models/index.models').treatmentPlanReadOnly;
 const Patients = require('../models/index.models').Patients;
+const db = require("../models/index.models");
+
 
 exports.getRegimens = (req, res, next) => {
   const ID = req.params.id;
@@ -88,4 +90,14 @@ exports.getPreMedications = (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
+};
+exports.cycleDate = async (req,res,next)=> {
+      const {date} = req.params
+      const dateTime = new Date(date)
+      const cycles = await db.Cycles.findAll({
+        where: {
+          Start_Date:dateTime,
+        },
+      });
+      res.status(200).json({patientsNumber:cycles.length});
 };
