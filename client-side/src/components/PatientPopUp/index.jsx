@@ -28,12 +28,6 @@ export default function PatientPopup({
                 />
                 <div className="flex items-center gap-5">
                   <div className="grow text-ellipsis">{name}</div>
-                  <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/df690d57ab643da68c80957406d7e0577e5b281de2eb89748175ef071c34ad20?"
-                    className="shrink-0 aspect-[1.05] w-[21px] cursor-pointer"
-                    alt="afnsllmk"
-                  />
                 </div>
               </div>
             </div>
