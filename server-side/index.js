@@ -13,6 +13,7 @@ const OrderChemoRoute = require('./src/routes/OrderChemotherapy.routes');
 const reviewChemotherabyRouter = require("./src/routes/ReviewChemotherapy.routes");
 const SelectPatientRoute = require('./src/routes/SelectPatient.routes');
 const PatientPageRoute = require("./src/routes/patientPage.routes");
+const SideEffectsRoute = require('./src/routes/SideEffects.routes');
 
 //=============================== Database ===============================================
 
@@ -33,6 +34,7 @@ app.use('/patient',PatientPageRoute);
 app.use('/order',OrderChemoRoute);
 app.use("/review-chemotherapy", reviewChemotherabyRouter);
 app.use('/patients',SelectPatientRoute);
+app.use('/side-effect',SideEffectsRoute);
 
 
 //conection to Db
