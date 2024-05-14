@@ -157,3 +157,99 @@ exports.postCancerOverview = (req, res) => {
       return res.status(500).json({ error: 'internal server error' });
     });
 };
+
+exports.postRadiography = (req, res) => {
+  const id = req.params.id;
+  const { MRI, CT, PET_CT, Ultrasound, XRay, Mammography, DEXA } = req.body;
+  //1. check if data is null
+  if (
+    MRI == null &&
+    CT == null &&
+    PET_CT == null &&
+    Ultrasound == null &&
+    XRay == null &&
+    Mammography == null &&
+    DEXA == null
+  ) {
+    return res.status(400).json({ error: 'empty json' });
+  }
+  //2. find patient
+  Patients.findByPk(id)
+    .then((patient) => {
+      if (!patient) {
+        return res.status(404).json({ message: 'Patient not found' });
+      }
+      //3. create new radiography
+      patient
+        .createRadiography({
+          MRI: MRI,
+          CT: CT,
+          PET_CT: PET_CT,
+          Ultrasound: Ultrasound,
+          XRay: XRay,
+          Mammography: Mammography,
+          DEXA: DEXA,
+        })
+        .then(() => {
+          return res
+            .status(200)
+            .json({ message: 'New radiography added successfully' });
+        })
+        .catch((err) => {
+          console.log(err);
+          return res.status(500).json({ error: 'internal server error' });
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).json({ error: 'internal server error' });
+    });
+};
+exports.postMedicalAnalysis = (req, res) => {
+  const id = req.params.id;
+  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M, Tumor_size } =
+    req.body;
+  //1. check if data is null
+  if (
+    Urinanalysis == null &&
+    CBC == null &&
+    Electrophoresis == null &&
+    CEA == null &&
+    AFP == null &&
+    B2M == null &&
+    Tumor_size == null
+  ) {
+    return res.status(400).json({ error: 'empty json' });
+  }
+  //2. find patient
+  Patients.findByPk(id)
+    .then((patient) => {
+      if (!patient) {
+        return res.status(404).json({ message: 'Patient not found' });
+      }
+      //3. create new radiography
+      patient
+        .createMedical({
+          Urinanalysis: Urinanalysis,
+          CBC: CBC,
+          Electrophoresis: Electrophoresis,
+          CEA: CEA,
+          AFP: AFP,
+          B2M: B2M,
+          Tumor_size: Tumor_size,
+        })
+        .then(() => {
+          return res
+            .status(200)
+            .json({ message: 'New Medical analysis added successfully' });
+        })
+        .catch((err) => {
+          console.log(err);
+          return res.status(500).json({ error: 'internal server error' });
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).json({ error: 'internal server error' });
+    });
+};
