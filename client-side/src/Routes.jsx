@@ -11,10 +11,10 @@ import Documentchemotherapy from "pages/Documentchemotherapy";
 import AppLayout from "components/AppLayout";
 import AlreadyLoggedIn from "contexts/AlreadyLoggedIn";
 import RequireAuth from "contexts/RequireAuth";
-import CheckLoggedIn from "contexts/CheckLoggedIn";
+import { TokenValidityProvider } from "./contexts/TokenValidityContext";
 
 const ProjectRoutes = () => {
-  let element = useRoutes([
+  const element = useRoutes([
     { path: "/", element: <Home /> },
     { path: "*", element: <NotFound /> },
     {
@@ -28,41 +28,19 @@ const ProjectRoutes = () => {
     {
       element: (
         <RequireAuth>
-          <CheckLoggedIn>
+          <TokenValidityProvider>
             <AppLayout />
-          </CheckLoggedIn>
+          </TokenValidityProvider>
         </RequireAuth>
       ),
       children: [
-        {
-          path: "select_patient",
-          element: <SelectPatient />,
-        },
-        {
-          path: "patient/:id",
-          element: <Patient />,
-        },
-        {
-          path: "order",
-          element: <Orderchemotherapy />,
-        },
-        {
-          path: "order/review-order",
-          element: <Reviewchemotherapyorder />,
-        },
-        {
-          path: "document/order/review-order",
-          element: <Reviewchemotherapyorder />,
-        },
-
-        {
-          path: "document",
-          element: <Documentchemotherapy />,
-        },
-        {
-          path: "document/order",
-          element: <Orderchemotherapy />,
-        },
+        { path: "select_patient", element: <SelectPatient /> },
+        { path: "patient/:id", element: <Patient /> },
+        { path: "order", element: <Orderchemotherapy /> },
+        { path: "order/review-order", element: <Reviewchemotherapyorder /> },
+        { path: "document/order/review-order", element: <Reviewchemotherapyorder /> },
+        { path: "document", element: <Documentchemotherapy /> },
+        { path: "document/order", element: <Orderchemotherapy /> },
       ],
     },
   ]);
