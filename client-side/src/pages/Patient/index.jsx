@@ -4,7 +4,9 @@ import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
 import { useLocation, useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
+import MedicalAnalysisComponent from "../../components/Medical";
 import WarningPopUp from "components/WarningPopUp";
+import RadiologyComponent from "components/Radiology";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import { useSelectedPatient } from "contexts/SelectedPatientProvider";
 
@@ -46,16 +48,16 @@ export default function PatientPage() {
   const [vitalData, setVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
   const { selectedPatientId, setSelectedPatientId } = useSelectedPatient();
-
+  const { newRegimenDetails } = useRegimenDetails();
   const navigate = useNavigate();
   const location = useLocation();
+  const medicalIsPresent = true;
+  const radioIsPresent = true;
   const patient = location.state.selectedPatient;
   const id = patient.Patient_ID;
   setSelectedPatientId(id);
   const age = calculateAge(patient.date_of_birth);
   const date = formatDate(patient.date_of_birth);
-
-  const { newRegimenDetails } = useRegimenDetails();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -536,255 +538,20 @@ export default function PatientPage() {
             <Heading size="s" as="h3">
               Medical Analysis
             </Heading>
-            <Heading size="xs">
-              Last update:{" "}
-              {medicalData &&
-                medicalData.MedicalAnalysis &&
-                formatDate(medicalData["MedicalAnalysis"][0]["updatedAt"])}
-            </Heading>
-
-            <div className="flex flex-col items-center gap-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
-                {medicalData &&
-                  medicalData.MedicalAnalysis &&
-                  medicalData.MedicalAnalysis.map((analysis, index) => (
-                    <div
-                      key={"medicalAnalysis" + index}
-                      className="grid grid-cols-2 gap-5"
-                    >
-                      {/* Urinanalysis */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          Urinanalysis
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.Urinanalysis}
-                        </Text>
-                      </div>
-
-                      {/* CBC */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          CBC
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.CBC}
-                        </Text>
-                      </div>
-
-                      {/* Electrophoresis */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          Electrophoresis
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.Electrophoresis}
-                        </Text>
-                      </div>
-
-                      {/* CEA */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          CEA
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.CEA}
-                        </Text>
-                      </div>
-
-                      {/* AFP */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          AFP
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.AFP}
-                        </Text>
-                      </div>
-
-                      {/* B2M */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          B2M
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.B2M}
-                        </Text>
-                      </div>
-
-                      {/* Tumor_size */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          Tumor Size
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.Tumor_size}
-                        </Text>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-
+            { medicalIsPresent ? 
+              <MedicalAnalysisComponent
+                medicalData={medicalData}
+              ></MedicalAnalysisComponent> : <p1 className="px-3">No Medical Data</p1>
+            }
             <Heading size="s" as="h3">
               Radiography
             </Heading>
 
-            <Heading size="xs">
-              Last update:{" "}
-              {radioData &&
-                radioData.radiography &&
-                formatDate(radioData["radiography"][0]["updatedAt"])}
-            </Heading>
-
-            <div className="flex flex-col items-center gap-5">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
-                {radioData &&
-                  radioData.radiography &&
-                  radioData.radiography.map((analysis, index) => (
-                    <div
-                      key={"radiography" + index}
-                      className="grid grid-cols-2 gap-5"
-                    >
-                      {/* Urinanalysis */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          MRI
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.MRI}
-                        </Text>
-                      </div>
-
-                      {/* CBC */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          CT
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.CT}
-                        </Text>
-                      </div>
-
-                      {/* Electrophoresis */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          PET_CT
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.PET_CT}
-                        </Text>
-                      </div>
-
-                      {/* Ultrasound */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          Ultrasound
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.Ultrasound}
-                        </Text>
-                      </div>
-
-                      {/* XRay */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          XRay
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.XRay}
-                        </Text>
-                      </div>
-
-                      {/* Mammography */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          Mammography
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.Mammography}
-                        </Text>
-                      </div>
-
-                      {/* DEXA */}
-                      <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                        <Text
-                          size="xs"
-                          as="p"
-                          className="h-[15px] w-[15px] !text-blue_gray-300"
-                        >
-                          DEXA
-                        </Text>
-                        <Text as="p" className="mb-[5px] px-2">
-                          {analysis.DEXA}
-                        </Text>
-                      </div>
-                    </div>
-                  ))}
-              </div>
-
-              <Button
-                size="sm"
-                className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
-                variant="fill"
-                color="blue_500"
-                onClick={togglePathologyPopup}
-              >
-                View all
-              </Button>
-            </div>
+            {radioIsPresent ? (
+              <RadiologyComponent radioData={radioData}></RadiologyComponent>
+            ) : (
+              <p1 className="mb-5 px-3">No Radio Data</p1>
+            )}
 
             {showPatientPopup && (
               <PatientPopup
@@ -812,6 +579,8 @@ export default function PatientPage() {
                 radioData={radioData["radiography"][0]}
                 medicalData={medicalData["MedicalAnalysis"][0]}
                 patientID={patient.Patient_ID}
+                medicalIsPresent={medicalIsPresent}
+                radioIsPresent={radioIsPresent}
               />
             )}
             {showWarningPopup && <WarningPopUp onClose={toggleWarningPopup} />}
