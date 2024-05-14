@@ -11,7 +11,6 @@ const PatientMedicationInfoRoutes = require("./src/routes/DocumentChemotherapy.r
 const UserRoute = require('./src/routes/SignPage.routes');
 const OrderChemoRoute = require('./src/routes/OrderChemotherapy.routes');
 const reviewChemotherabyRouter = require("./src/routes/ReviewChemotherapy.routes");
-const SelectPatientRoute = require('./src/routes/SelectPatient.routes');
 const PatientPageRoute = require("./src/routes/patientPage.routes");
 
 //=============================== Database ===============================================
@@ -29,10 +28,9 @@ app.use(express.json()); // as we get all the api information on json format
 
 app.use('/document-chemotherapy', PatientMedicationInfoRoutes);
 app.use('/users', UserRoute);
-app.use('/patient',PatientPageRoute);
+app.use(PatientPageRoute);
 app.use('/order',OrderChemoRoute);
 app.use("/review-chemotherapy", reviewChemotherabyRouter);
-app.use('/patients',SelectPatientRoute);
 
 
 //conection to Db
