@@ -1,5 +1,6 @@
 import { Img, Button } from "../../components";
 import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function PathologyPopup({
   onClose,
@@ -89,17 +90,18 @@ export default function PathologyPopup({
     // Check if any medical data fields are empty
     const medicalFields = Object.values(medicaldata);
     if (medicalFields.some((value) => value === "")) {
-      alert("Please fill in all medical analysis fields.");
+      toast.error("Please fill in all medical analysis fields.");
       return;
     }
     // Check if any radiology data fields are empty
     const radioFields = Object.values(radiodata);
     if (radioFields.some((value) => value === "")) {
-      alert("Please fill in all radiology fields.");
+      toast.error("Please fill in all radiology fields.");
       return;
     }
     console.log(medicaldata);
     console.log(radiodata);
+    toast.success("Pathology Updated Successfully");
 
     putRadioData();
     putMedicalData();
