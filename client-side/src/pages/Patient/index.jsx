@@ -49,7 +49,7 @@ export default function PatientPage() {
   const [radioData, setRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
-  const { selectedPatientId, setSelectedPatientId } = useSelectedPatient();
+  const { selectedPatientId } = useSelectedPatient();
   const { newRegimenDetails } = useRegimenDetails();
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,11 +58,9 @@ export default function PatientPage() {
   const vitalIsPresent = true;
   const cancerIsPresent = true;
   const patient = location.state.selectedPatient;
-  const id = patient.Patient_ID;
-  setSelectedPatientId(id);
+  const id = selectedPatientId;
   const age = calculateAge(patient.date_of_birth);
   const date = formatDate(patient.date_of_birth);
-
   useEffect(() => {
     const fetchData = async () => {
       try {

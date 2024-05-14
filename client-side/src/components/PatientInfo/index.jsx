@@ -14,6 +14,7 @@ export default function PatientInfo() {
   const [searchBarValue, setSearchBarValue] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
   const patientsInfo = usePatientsInfo();
+
   const patientDetails = patientsInfo.patientsInfo;
   const patients = patientDetails.patients;
   const patientsPerPage = 10;
@@ -111,6 +112,7 @@ export default function PatientInfo() {
             selected
             onClickMap={() => handleMapClick(patient)}
             onDeleteClick={() => handleDeleteClick(patient)}
+            
           />
         ))}
       </div>

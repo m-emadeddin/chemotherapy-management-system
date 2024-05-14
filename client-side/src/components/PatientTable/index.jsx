@@ -1,14 +1,20 @@
 import { Button, Img } from "components";
 import { Link } from "react-router-dom";
 import "../PatientInfo/patientinfo.css";
+import { useSelectedPatient } from "contexts/SelectedPatientProvider";
 
-export default function PatientTable({ patient, onClickMap, onDeleteClick }) {
+
+export default function PatientTable({ patient, onClickMap, onDeleteClick}) {
+  const {setSelectedPatientId } = useSelectedPatient();
+
   return (
     <div className="info-data-container flex w-[90%] justify-between">
       <Link
         to={`/patient/${patient.Patient_ID}`}
         state={{ selectedPatient: patient }}
         className="w-[85%] flex justify-between items-center"
+        onClick={()=>{setSelectedPatientId(patient.Patient_ID)}}
+
       >
         <div className="w-[20%]">
           <div className="name">{patient.Name}</div>
