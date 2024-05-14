@@ -9,7 +9,6 @@ module.exports = (db, DataTypes) => {
     Medication_Name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: false
     },
     Dose: {
       type: DataTypes.FLOAT,
@@ -34,9 +33,6 @@ module.exports = (db, DataTypes) => {
     Administered_Dose_mg: {
       type: DataTypes.FLOAT
     },
-    cycle_note: {
-      type: DataTypes.TEXT
-    }
   },{
     timestamps: false // Disable timestamps
   });
