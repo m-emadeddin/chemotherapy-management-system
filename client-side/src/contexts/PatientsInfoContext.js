@@ -10,7 +10,7 @@ export const PatientsInfoProvider = ({ children }) => {
 
     const fetchPatientsInfo = async () => {
         try {
-            const response = await fetch('/patients/all-patients');
+            const response = await fetch('/patient/all-patients');
             if (!response.ok) {
                 throw new Error('Failed to fetch patient details');
             }
@@ -31,7 +31,7 @@ export const PatientsInfoProvider = ({ children }) => {
 
     const deletePatient = async (patientId) => {
         try {
-            const response = await fetch(`/patients/delete-patient/${patientId}`, {
+            const response = await fetch(`/patient/delete-patient/${patientId}`, {
                 method: 'DELETE',
             });
             if (!response.ok) {
