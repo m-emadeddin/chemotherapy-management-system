@@ -1,3 +1,5 @@
+const { red, green } = require("@mui/material/colors");
+
 module.exports = {
   mode: "jit",
   content: [
@@ -24,6 +26,8 @@ module.exports = {
         blue_gray: { 300: "#8c9ab3", "300_02": "#8e9cb4" },
         blue_gray_400: "#77859c",
         transparent: { 0: "transparent" },
+        red: { 0: "#ff0000" },
+        green: { 0: "#008000" },
       },
       boxShadow: { xs: "0px 4px 10px 0px #00000026" },
       fontFamily: { lamasans: "Lama Sans", almarai: "Almarai", inter: "Inter" },

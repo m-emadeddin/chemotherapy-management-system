@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
+import { useCycle } from "contexts/Cycle";
 
 import {
   Text,
@@ -14,13 +15,12 @@ import {
 export default function DocumentchemotherapyPage() {
   const id = 1;
   const navigate = useNavigate();
-
+  const { cycleID, setCycleID } = useCycle();
   const [activeCycle, setActiveCycle] = useState(1);
   const [cyclesCount, setCyclesCount] = useState(1);
   const [regimenName, setRegimenName] = useState("");
   const [redirectToDoc, setRedirectToDoc] = useState(false);
   const [dates, setDates] = useState({});
-  const [cycleID, setCycleID] = useState(1);
   const [cycleNote, setCycleNote] = useState("");
   const [cycle, setCycle] = useState(1);
 
