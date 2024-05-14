@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
+import "./style.css";
 
 const CycleDocument = ({ Submit, Cancel, cycle }) => {
   const id = 1;
@@ -41,8 +42,14 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     setCycleNote(input);
   };
 
+  const handleSideEffectsInput = (val, name) => {
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      [name]: val,
+    }));
+  };
+
   const handleSubmit = () => {
-    Submit();
     const cycleData = {
       Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
       Medications: doseinput,
@@ -50,12 +57,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     };
     sendSymptomsData(selectedValues);
     sendCycleData(cycleData);
-  };
-  const handleSideEffectsInput = (val, name) => {
-    setSelectedValues((prevState) => ({
-      ...prevState,
-      [name]: val,
-    }));
+    Submit();
   };
 
   const sendCycleData = async (data) => {
@@ -121,12 +123,52 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
 
   return (
     <div className="flex flex-col p-[19px] gap-[25px]">
-      <Text as="p" style={{ fontWeight: "bold" }}>
-        Please record the dosage given to the patient
-      </Text>
       <div className="flex">
+        <div className="flex flex-col w-[50%] gap-[15px] px-[20px]">
+          <Text as="p" style={{ fontWeight: "bold" }}>
+            Please record the side effects to the patient
+          </Text>
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-between">
+              <div className="w-[55%]"></div>
+              <div className="w-[45%] flex justify-evenly">
+                <Text className="text-red-0">High</Text>
+                <Text className="text-blue-500">Moderate</Text>
+                <Text className="text-green-0">Low</Text>
+              </div>
+            </div>
+            {symptoms.map((symptom, index) => (
+              <div
+                key={index}
+                className="flex justify-between items-center border border-gray-800 p-2 rounded-md container"
+              >
+                <Text className="w-[55%]">{symptom.name}</Text>
+                <div className="w-[45%] flex justify-evenly">
+                  {symptom.value.map((val, idx) => (
+                    <Input
+                      key={idx}
+                      type="radio"
+                      className="w-[20%] bg-transparent-0 h-[15px]"
+                      name={symptom.name.replace(/\s+/g, "")}
+                      inputProps={{ value: val }}
+                      onChange={() =>
+                        handleSideEffectsInput(
+                          val,
+                          symptom.name.replace(/\s+/g, "_")
+                        )
+                      }
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="h-full bg-gray-800 w-[1px]"></div>
         <div className="flex flex-col gap-[15px] w-[50%] px-[20px]">
-          {/* dosage entry section prednisone */}
+          <Text as="p" style={{ fontWeight: "bold" }}>
+            Please record the dosage given to the patient
+          </Text>
           {chemotherapy.map((chemo) => {
             return (
               <div
@@ -171,37 +213,6 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
               </div>
             );
           })}
-        </div>
-        <div className="flex flex-col w-[50%] gap-[15px] px-[20px]">
-          <div className="flex justify-between">
-            <div className="w-[25%]"></div>
-            <div className="w-[75%] flex justify-evenly">
-              <Text>High</Text>
-              <Text>Moderate</Text>
-              <Text>Low</Text>
-            </div>
-          </div>
-          {symptoms.map((symptom, index) => (
-            <div key={index} className="flex justify-between items-center">
-              <Text className="w-[25%]">{symptom.name}</Text>
-              <div className="w-[75%] flex justify-evenly">
-                {symptom.value.map((val, idx) => (
-                  <Input
-                    key={idx}
-                    type="radio"
-                    className="w-[20%]"
-                    name={symptom.name.replace(/\s+/g, "")}
-                    onChange={() =>
-                      handleSideEffectsInput(
-                        val,
-                        symptom.name.replace(/\s+/g, "_")
-                      )
-                    }
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
         </div>
       </div>
       <div className="flex flex-col gap-5">
