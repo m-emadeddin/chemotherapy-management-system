@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) => {
                 }
             });
 
-            if (response.ok) {
+            if (response.ok || userToken !== null) {
                 setIsLoggedIn(false);
                 setUser(null);
                 setUserToken(null);

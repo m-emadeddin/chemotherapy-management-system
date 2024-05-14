@@ -11,6 +11,7 @@ import Documentchemotherapy from "pages/Documentchemotherapy";
 import AppLayout from "components/AppLayout";
 import AlreadyLoggedIn from "contexts/AlreadyLoggedIn";
 import RequireAuth from "contexts/RequireAuth";
+import CheckLoggedIn from "contexts/CheckLoggedIn";
 
 const ProjectRoutes = () => {
   let element = useRoutes([
@@ -27,7 +28,9 @@ const ProjectRoutes = () => {
     {
       element: (
         <RequireAuth>
-          <AppLayout />
+          <CheckLoggedIn>
+            <AppLayout />
+          </CheckLoggedIn>
         </RequireAuth>
       ),
       children: [
