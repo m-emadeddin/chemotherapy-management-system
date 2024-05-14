@@ -181,6 +181,7 @@ Visits.belongsTo(Patients, {
 Patients.hasOne(VitalSign, {
   foreignKey: {
     allowNull: false,
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
@@ -190,6 +191,7 @@ VitalSign.belongsTo(Patients);
 Patients.hasOne(CancerOverview, {
   foreignKey: {
     allowNull: false,
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
@@ -199,6 +201,7 @@ CancerOverview.belongsTo(Patients);
 Patients.hasOne(TreatmentPlans, {
   foreignKey: {
     allowNull: false, // This makes the foreign key not null
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
@@ -208,6 +211,7 @@ TreatmentPlans.belongsTo(Patients);
 Doctor.hasOne(User, {
   foreignKey: {
     allowNull: false,
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
