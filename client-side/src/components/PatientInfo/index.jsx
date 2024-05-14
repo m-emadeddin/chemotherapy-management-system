@@ -29,7 +29,6 @@ export default function PatientInfo() {
 
   const goToPage = (page) => {
     setCurrentPage(page);
-    
   };
 
   const handleMapClick = (patient) => {
@@ -44,7 +43,6 @@ export default function PatientInfo() {
 
   const togglePopup = () => {
     setInfoPopupOpen(!InfoPopupOpen);
-
   };
 
   const toggleDeletePopup = () => {

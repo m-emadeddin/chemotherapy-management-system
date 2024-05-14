@@ -8,23 +8,26 @@ import { useNavigate } from "react-router-dom";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
 import Date from "components/Date/Date";
-
 export default function RegimenDetails() {
-  let { newRegimenDetails, setNewRegimenDetails } = useRegimenDetails();
+  let { newRegimenDetails, setNewRegimenDetails, Start_Date, setStartDate } =
+    useRegimenDetails();
   const { preMedicationsData, chemotherapyData } = usePlanData();
-  const { planName, planCycles, planWeeks } = usePlanDetails();
+  const { planName, planCycles, planWeeks, originalCycles, originalWeeks } =
+    usePlanDetails();
   const navigate = useNavigate();
 
+  const [defaultValueWeeks, setDefaultValueWeeks] = useState(planWeeks);
+  const [defaultValueCycles, setDefaultValueCycles] = useState(planCycles);
   const [notes, setNotes] = useState("Add your notes here...");
   const [showResetPopUp, setShowResetPopUp] = useState(false);
-
   const [initialRegimenDetails] = useState({
     Plan_Name: planName,
-    number_of_Weeks: planWeeks,
-    number_of_Cycles: planCycles,
+    number_of_Weeks: originalWeeks,
+    number_of_Cycles: originalCycles,
     PreMedications: preMedicationsData,
     ChemotherapyMedications: chemotherapyData,
     cycle_note: notes,
+    Start_Date: null,
   });
 
   const [regimenDetails, setRegimenDetails] = useState(initialRegimenDetails);
@@ -58,6 +61,7 @@ export default function RegimenDetails() {
       PreMedications: preMedicationsData,
       ChemotherapyMedications: chemotherapyData,
       cycle_note: notes,
+      Start_Date: Start_Date,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planName, planCycles, planWeeks, preMedicationsData, chemotherapyData]);
@@ -146,11 +150,13 @@ export default function RegimenDetails() {
       ChemotherapyMedications: newData.chemotherapyData || [],
     });
   };
-
   const resetState = () => {
     setData(initialData);
     setNotes("Add your notes here...");
     setRegimenDetails(initialRegimenDetails);
+    setDefaultValueWeeks(originalWeeks);
+    setDefaultValueCycles(originalCycles);
+    setStartDate(null);
   };
 
   const handleNext = () => {
@@ -159,7 +165,7 @@ export default function RegimenDetails() {
       number_of_Weeks: regimenDetails.number_of_Weeks,
       number_of_Cycles: regimenDetails.number_of_Cycles,
       PreMedications: regimenDetails.PreMedications || [],
-      ChemotherapyMedications: regimenDetails.ChemotherapyMedications.map(
+      ChemotherapyMedications: regimenDetails?.ChemotherapyMedications?.map(
         (medication) => ({
           ...medication,
           doseReduction:
@@ -172,6 +178,7 @@ export default function RegimenDetails() {
         notes === "Add your notes here..." || notes.trim() === ""
           ? "There isn't any notes"
           : notes,
+      Start_Date: Start_Date,
     };
     setNotes(regimenDetails.cycle_note);
     setNewRegimenDetails(newRegimenDetails);
@@ -188,13 +195,19 @@ export default function RegimenDetails() {
           <MiniDropMenu
             title="Cycles"
             options={cycles}
-            defaultValue={planCycles}
+            defaultValueCycles={defaultValueCycles}
+            onChange={(defaultValueCycles) =>
+              setDefaultValueCycles(defaultValueCycles)
+            }
           />
           <span>Over</span>
           <MiniDropMenu
             title="Weeks"
             options={weeks}
-            defaultValue={planWeeks}
+            defaultValueWeeks={defaultValueWeeks}
+            onChange={(defaultValueWeeks) =>
+              setDefaultValueWeeks(defaultValueWeeks)
+            }
           />
           <Date />
         </div>
