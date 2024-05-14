@@ -7,22 +7,25 @@ import { PlansDetailsProvider } from "contexts/PlansDetails";
 import { PlanDataProvider } from "contexts/PlanDataContext";
 import { PatientsInfoProvider } from "contexts/PatientsInfoContext";
 import { CycleProvider } from "contexts/Cycle";
+import { SelectedPatientProvider } from "./contexts/SelectedPatientProvider";
 
 function App() {
   return (
     <AuthProvider>
       <PatientsInfoProvider>
-        <PlansDetailsProvider>
-          <PlanDataProvider>
-            <RegimenDetailsProvider>
-              <CycleProvider>
-                <Router>
-                  <Routes />
-                </Router>
-              </CycleProvider>
-            </RegimenDetailsProvider>
-          </PlanDataProvider>
-        </PlansDetailsProvider>
+        <SelectedPatientProvider>
+          <PlansDetailsProvider>
+            <PlanDataProvider>
+              <RegimenDetailsProvider>
+                <CycleProvider>
+                  <Router>
+                    <Routes />
+                  </Router>
+                </CycleProvider>
+              </RegimenDetailsProvider>
+            </PlanDataProvider>
+          </PlansDetailsProvider>
+        </SelectedPatientProvider>
       </PatientsInfoProvider>
     </AuthProvider>
   );
