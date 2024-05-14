@@ -45,6 +45,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoggedIn(true);
             const data = await response.json();
             const token = data.token;
+            console.log(`userToken: ${token}`)
             setUserToken(token);
             const userResponse = await fetch("/users/user", {
                 method: "GET",
