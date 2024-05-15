@@ -55,6 +55,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   const handleSubmit = () => {
     setIsSubmitting(true);
     const cycleData = {
+      Cycle_ID: cycle,
       Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
       Medications: doseinput,
       Cycle_Note: cycleNote,
@@ -72,7 +73,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     console.log(JSON.stringify(data));
     try {
       const response = await fetch(
-        `document-chemotherapy/cycles-updates/${cycle}`,
+        `document-chemotherapy/cycles-updates/${id}`,
         {
           method: "PATCH",
           headers: {
