@@ -12,6 +12,7 @@ import { ChemotherapyTable } from "./ChemotherapyTable";
 import { CycleDetails } from "./CycleDetails";
 import { CycleDocument } from "./CycleDocument";
 import { DocumentChemotherapyCycle } from "./DocumentChemotherapyCycle";
+import { WarningPopUp } from "./WarningPopUp";
 
 export {
   Img,
@@ -28,4 +29,5 @@ export {
   CycleDetails,
   CycleDocument,
   DocumentChemotherapyCycle,
+  WarningPopUp,
 };

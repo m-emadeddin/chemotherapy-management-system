@@ -4,15 +4,19 @@ import "./style.css";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
-import { useSelectedPatient } from "contexts/SelectedPatientProvider";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 
 export default function Reviewchemotherapyorder() {
-  const { selectedPatientId } = useSelectedPatient();
+  const { selectedPatientInfo } = useSelectedPatientInfo();
   const { newRegimenDetails: patientOrder } = useRegimenDetails();
+  const originalDate = patientOrder.Start_Date;
+  const dateParts = originalDate.split("-");
+  const reversedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   console.log(patientOrder);
+
   function handleBack() {
     navigate("/order");
   }
@@ -20,7 +24,7 @@ export default function Reviewchemotherapyorder() {
   const handleSubmit = () => {
     setIsSubmitting(true);
 
-    const apiUrl = `/review-chemotherapy/${selectedPatientId}`;
+    const apiUrl = `/review-chemotherapy/${selectedPatientInfo.Patient_ID}`;
     const Chemotherapy = patientOrder.ChemotherapyMedications.map(
       (medication) => {
         return {
@@ -60,7 +64,7 @@ export default function Reviewchemotherapyorder() {
         if (response.data.message === "Data inserted successfully") {
           toast.success("Data inserted successfully");
           setTimeout(() => {
-            // navigate(`/patient/${selectedPatientId}`);
+            navigate(`/patient/${selectedPatientInfo.Patient_ID}`);
           }, 1000);
         }
       })
@@ -83,6 +87,7 @@ export default function Reviewchemotherapyorder() {
           {patientOrder.number_of_Cycles} Cycles over{" "}
           {patientOrder.number_of_Weeks} Weeks
         </span>
+        <span>Started from: {reversedDate}</span>
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
-import "./style.css";
+import toast, { Toaster } from "react-hot-toast";
 
-const CycleDocument = ({ Submit, Cancel, cycle }) => {
-  const id = 1;
+const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   const [doseinput, setDoseInput] = useState([]);
-  const [cycleNote, setCycleNote] = useState({});
   const [chemotherapy, setChemotherapy] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [symptomsSubmission, setSymptomsSubmission] = useState(false);
+  const [cycleSubmission, setCycleSubmission] = useState(false);
+
+  const [cycleNote, setCycleNote] = useState("");
   const [selectedValues, setSelectedValues] = useState({});
 
   useEffect(() => {
@@ -32,8 +35,10 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
       ...prevDoseInput,
       {
         ID: id,
-        [`AdministeredDose_${route === "Oral" ? "Mg" : "Ml"}`]: event,
-        [`AdministeredDose_${route === "Oral" ? "Ml" : "Mg"}`]: "",
+        [`AdministeredDose_${route.toLowerCase() === "oral" ? "Mg" : "Ml"}`]:
+          event,
+        [`AdministeredDose_${route.toLowerCase() === "oral" ? "Ml" : "Mg"}`]:
+          "",
       },
     ]);
   };
@@ -50,21 +55,26 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
   };
 
   const handleSubmit = () => {
+    setIsSubmitting(true);
     const cycleData = {
+      Cycle_ID: cycle,
       Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
       Medications: doseinput,
       Cycle_Note: cycleNote,
     };
     sendSymptomsData(selectedValues);
     sendCycleData(cycleData);
-    Submit();
   };
+  useEffect(() => {
+    if (symptomsSubmission && cycleSubmission) {
+      Submit();
+    }
+  }, [symptomsSubmission, cycleSubmission, Submit]);
 
   const sendCycleData = async (data) => {
-    console.log(JSON.stringify(data));
     try {
       const response = await fetch(
-        `document-chemotherapy/cycles-updates/${cycle}`,
+        `document-chemotherapy/cycles-updates/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -74,7 +84,8 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
         }
       );
       if (response.ok) {
-        console.log("Cycle Updates Sent Successfully");
+        toast.success("Cycle Updates Sent Successfully");
+        setSymptomsSubmission(true);
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -84,17 +95,17 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
   };
 
   const sendSymptomsData = async (data) => {
-    console.log(JSON.stringify(data));
     try {
-      const response = await fetch(`Waiting/${id}`, {
-        method: "PATCH",
+      const response = await fetch(`patient/add-side-effects/${id}`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        console.log("Patient Symptoms Sent Successfully");
+        toast.success("Patient Symptoms Sent Successfully");
+        setCycleSubmission(true);
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -102,6 +113,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
       console.error("Error:", error);
     }
   };
+
   const possibleValues = ["High", "Moderate", "Low"];
   const symptoms = [
     { name: "Nausea", value: possibleValues },
@@ -125,6 +137,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
     <div className="flex flex-col p-[19px] gap-[25px]">
       <div className="flex">
         <div className="flex flex-col w-[50%] gap-[15px] px-[20px]">
+          <Toaster />
           <Text as="p" style={{ fontWeight: "bold" }}>
             Please record the side effects to the patient
           </Text>
@@ -132,15 +145,15 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
             <div className="flex justify-between">
               <div className="w-[55%]"></div>
               <div className="w-[45%] flex justify-evenly">
-                <Text className="text-red-0">High</Text>
-                <Text className="text-blue-500">Moderate</Text>
-                <Text className="text-green-0">Low</Text>
+                <Text>High</Text>
+                <Text>Moderate</Text>
+                <Text>Low</Text>
               </div>
             </div>
             {symptoms.map((symptom, index) => (
               <div
                 key={index}
-                className="flex justify-between items-center border border-gray-800 p-2 rounded-md container"
+                className="flex justify-between items-center border border-2 border-gray-800 p-2 rounded-md container"
               >
                 <Text className="w-[55%]">{symptom.name}</Text>
                 <div className="w-[45%] flex justify-evenly">
@@ -148,7 +161,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                     <Input
                       key={idx}
                       type="radio"
-                      className="w-[20%] bg-transparent-0 h-[15px]"
+                      className="w-[20%] bg-transparent-0 !h-[10px]"
                       name={symptom.name.replace(/\s+/g, "")}
                       inputProps={{ value: val }}
                       onChange={() =>
@@ -178,10 +191,10 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                 <div className=" flex items-center justify-between gap-5 md:ml-0 md:w-full">
                   <div className="mb-[5px] flex flex-col items-start gap-[9px] self-end">
                     <Text size="md" as="p" className="uppercase">
-                      {chemo.Name}
+                      {chemo.Name.toUpperCase()}
                     </Text>
                     <Text size="xs" as="p" className="text-gray-700">
-                      {chemo.Route === "Oral"
+                      {chemo.Route.toLowerCase() === "oral"
                         ? `${chemo.Dose} Miligram`
                         : `${chemo.Dose} MiliLiter`}
                     </Text>
@@ -189,7 +202,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                   <div className="flex w-[40%] items-center justify-end gap-5 sm:w-full">
                     <div className="flex w-[42%] flex-col items-center gap-2">
                       <Text size="xs" as="p">
-                        {chemo.Route === "Oral" ? "mg" : "ml"}
+                        {chemo.Route.toLowerCase() === "oral" ? "mg" : "ml"}
                       </Text>
                       <Input
                         className="p-1 border hover:border-black-900"
@@ -197,7 +210,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
                         shape="round"
                         name={chemo.Name}
                         value={chemo.Name}
-                        inputProps={{ className: "text-center" }}
+                        inputProps={{ className: "text-center h-full" }}
                         onChange={(event) =>
                           handleDoseInput(
                             event,
@@ -235,7 +248,7 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
           size="sm"
           onClick={handleSubmit}
         >
-          Submit
+          {isSubmitting ? "Submitting ..." : "Submit"}
         </Button>
         <Button
           size="sm"

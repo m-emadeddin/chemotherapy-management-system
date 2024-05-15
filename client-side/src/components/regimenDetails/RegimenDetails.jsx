@@ -8,9 +8,16 @@ import { useNavigate } from "react-router-dom";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
 import Date from "components/Date/Date";
+import toast, { Toaster } from "react-hot-toast";
+import { setDate } from "components/Date/Date";
 export default function RegimenDetails() {
-  let { newRegimenDetails, setNewRegimenDetails, Start_Date, setStartDate } =
-    useRegimenDetails();
+  let {
+    newRegimenDetails,
+    setNewRegimenDetails,
+    Start_Date,
+    setStartDate,
+    dateValue,
+  } = useRegimenDetails();
   const { preMedicationsData, chemotherapyData } = usePlanData();
   const { planName, planCycles, planWeeks, originalCycles, originalWeeks } =
     usePlanDetails();
@@ -50,6 +57,9 @@ export default function RegimenDetails() {
 
   useEffect(() => {
     setNotes("Add your notes here...");
+    setStartDate(null);
+    setDate(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planName]);
 
   useEffect(() => {
@@ -65,7 +75,6 @@ export default function RegimenDetails() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planName, planCycles, planWeeks, preMedicationsData, chemotherapyData]);
-
   useEffect(() => {
     if (newRegimenDetails) {
       setData({
@@ -74,7 +83,10 @@ export default function RegimenDetails() {
       });
       setNotes(newRegimenDetails.cycle_note);
       setRegimenDetails(newRegimenDetails);
+      setStartDate(Start_Date);
+      setDate(dateValue);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newRegimenDetails]);
 
   const handleNotesChange = (event) => {
@@ -157,38 +169,44 @@ export default function RegimenDetails() {
     setDefaultValueWeeks(originalWeeks);
     setDefaultValueCycles(originalCycles);
     setStartDate(null);
+    setDate(null);
   };
 
   const handleNext = () => {
-    newRegimenDetails = {
-      Plan_Name: planName,
-      number_of_Weeks: regimenDetails.number_of_Weeks,
-      number_of_Cycles: regimenDetails.number_of_Cycles,
-      PreMedications: regimenDetails.PreMedications || [],
-      ChemotherapyMedications: regimenDetails?.ChemotherapyMedications?.map(
-        (medication) => ({
-          ...medication,
-          doseReduction:
-            medication.doseReduction !== undefined
-              ? medication.doseReduction
-              : null,
-        })
-      ),
-      cycle_note:
-        notes === "Add your notes here..." || notes.trim() === ""
-          ? "There isn't any notes"
-          : notes,
-      Start_Date: Start_Date,
-    };
-    setNotes(regimenDetails.cycle_note);
-    setNewRegimenDetails(newRegimenDetails);
-    navigate("review-order");
+    if (Start_Date === null) {
+      toast.error("You have to choose date first!");
+    } else {
+      newRegimenDetails = {
+        Plan_Name: planName,
+        number_of_Weeks: regimenDetails.number_of_Weeks,
+        number_of_Cycles: regimenDetails.number_of_Cycles,
+        PreMedications: regimenDetails.PreMedications || [],
+        ChemotherapyMedications: regimenDetails?.ChemotherapyMedications?.map(
+          (medication) => ({
+            ...medication,
+            doseReduction:
+              medication.doseReduction !== undefined
+                ? medication.doseReduction
+                : null,
+          })
+        ),
+        cycle_note:
+          notes === "Add your notes here..." || notes.trim() === ""
+            ? "There isn't any notes"
+            : notes,
+        Start_Date: Start_Date,
+      };
+      setNotes(regimenDetails.cycle_note);
+      setNewRegimenDetails(newRegimenDetails);
+      navigate("review-order");
+    }
   };
   const weeks = Array.from({ length: 30 }, (_, index) => index + 1);
   const cycles = Array.from({ length: 8 }, (_, index) => index + 1);
 
   return (
     <div className="regimen-detail">
+      <Toaster />
       <div className="cycles-container">
         <span className="heading">Cycles</span>{" "}
         <div className="cycles-row">

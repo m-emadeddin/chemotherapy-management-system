@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ChemotherapyTable = ({ cycle, id }) => {
+const ChemotherapyTable = ({ cycle }) => {
   const [chemotherapy, setChemotherapy] = useState([]);
 
   useEffect(() => {
@@ -15,20 +15,18 @@ const ChemotherapyTable = ({ cycle, id }) => {
         console.error("Error fetching data:", error);
       }
     };
-    setTimeout(() => {
-      fetchData();
-    }, 400);
-  }, [cycle, id]);
+    fetchData();
+  }, [cycle]);
 
   return (
     <>
       <div className="flex flex-col">
         <div className="flex text-gray-600 w-full border-t-[1px] border-gray-800">
-          <div className="w-[15%] p-[19px]">Medication</div>
+          <div className="w-[20%] p-[19px]">Medication</div>
           <div className="w-[15%] p-[19px]">Dose</div>
           <div className="w-[15%] p-[19px]">Route</div>
-          <div className="w-[30%] p-[19px]">Instructions</div>
-          <div className="w-[20%] p-[19px]">Administered dose</div>
+          <div className="w-[34%] p-[19px]">Instructions</div>
+          <div className="w-[16%] p-[19px]">Administered dose</div>
         </div>
         {chemotherapy.map((chemo) => {
           return (
@@ -36,9 +34,9 @@ const ChemotherapyTable = ({ cycle, id }) => {
               key={chemo.Chemotherapy_id}
               className="flex w-full border-t-[1px] border-gray-800"
             >
-              <div className="w-[15%] p-[19px]">{chemo.Name}</div>
-              <div className="w-[15%] p-[19px] flex justify-between items-center">
-                {chemo.Route === "Oral"
+              <div className="w-[20%] p-[19px]">{chemo.Name.toUpperCase()}</div>
+              <div className="w-[15%] p-[19px] flex justify-between">
+                {chemo.Route.toLowerCase() === "oral"
                   ? `${chemo.Dose} Miligram`
                   : `${chemo.Dose} MiliLiter`}
                 {chemo.Reduction > 0 ? (
@@ -47,10 +45,13 @@ const ChemotherapyTable = ({ cycle, id }) => {
                   </div>
                 ) : null}
               </div>
-              <div className="w-[15%] p-[19px]">{chemo.Route}</div>
-              <div className="w-[30%] p-[19px]">{chemo.Instructions}</div>
-              <div className="w-[20%] p-[19px]">
-                {chemo.AdministeredDose_Mg !== null && chemo.Route === "Oral"
+              <div className="w-[15%] p-[19px]">
+                {chemo.Route[0].toUpperCase() + chemo.Route.slice(1)}
+              </div>
+              <div className="w-[34%] p-[19px]">{chemo.Instructions}</div>
+              <div className="w-[16%] p-[19px]">
+                {chemo.AdministeredDose_Mg !== null &&
+                chemo.Route.toLowerCase() === "oral"
                   ? `${chemo.AdministeredDose_Mg} Milligram`
                   : chemo.AdministeredDose_Ml !== null &&
                     `${chemo.AdministeredDose_Ml} Milliliter`}

@@ -1,16 +1,17 @@
 import React from "react";
 import { Text, PremedicationsTable, ChemotherapyTable } from "./..";
+import { Toaster } from "react-hot-toast";
 
-const CycleDetails = ({ cycle, cycleNote }) => {
-  const id = 1;
+const CycleDetails = ({ id, cycle, cycleNote }) => {
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">
+        <Toaster />
         <Text size="md" as="p" className="uppercase md:ml-0 p-[19px]">
           Premedications
         </Text>
         <div>
-          <PremedicationsTable cycle={cycle}></PremedicationsTable>
+          <PremedicationsTable id={id} cycle={cycle}></PremedicationsTable>
         </div>
       </div>
       <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">
@@ -18,7 +19,7 @@ const CycleDetails = ({ cycle, cycleNote }) => {
           Chemotherapy
         </Text>
         <div>
-          <ChemotherapyTable cycle={cycle} id={id} />
+          <ChemotherapyTable id={id} cycle={cycle} />
         </div>
       </div>
       {cycleNote && (

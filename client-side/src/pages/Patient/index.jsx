@@ -2,15 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
 import MedicalAnalysisComponent from "../../components/Medical";
 import CancerComponent from "../../components/CancerOverview";
-import WarningPopUp from "components/WarningPopUp";
+import { WarningPopUp } from "../../components";
 import RadiologyComponent from "components/Radiology";
 import VitalSignComponent from "components/VitalSign";
-import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
-import { useSelectedPatient } from "contexts/SelectedPatientProvider";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
@@ -40,6 +39,8 @@ function calculateAge(birthDateString) {
 }
 
 export default function PatientPage() {
+  const { selectedPatientInfo } = useSelectedPatientInfo();
+
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
@@ -49,25 +50,27 @@ export default function PatientPage() {
   const [radioData, setRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
-  const { selectedPatientId } = useSelectedPatient();
-  const { newRegimenDetails } = useRegimenDetails();
   const navigate = useNavigate();
-  const location = useLocation();
-  const medicalIsPresent = true;
-  const radioIsPresent = true;
-  const vitalIsPresent = true;
-  const cancerIsPresent = true;
-  const patient = location.state.selectedPatient;
-  const id = selectedPatientId;
-  const age = calculateAge(patient.date_of_birth);
-  const date = formatDate(patient.date_of_birth);
+  const [medicalIsPresent, setmedicalIsPresent] = useState(false);
+  const [radioIsPresent, setradioIsPresent] = useState(false);
+  const [vitalIsPresent, setvitalIsPresent] = useState(false);
+  const [cancerIsPresent, setcancerIsPresent] = useState(false);
+
+  const id = selectedPatientInfo.Patient_ID;
+  const age = calculateAge(selectedPatientInfo.date_of_birth);
+  const date = formatDate(selectedPatientInfo.date_of_birth);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/medical/${id}`);
-        const data = await response.json();
-        //console.log(data);
-        setMedicalData(data);
+        if (response.status === 200) {
+          const data = await response.json();
+          setMedicalData(data);
+          setmedicalIsPresent(true);
+        } else if (response.status === 404) {
+          setmedicalIsPresent(false);
+        }
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -79,9 +82,13 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/cancer-overview/${id}`);
-        const data = await response.json();
-        //console.log(data);
-        setCancerData(data);
+        if (response.status === 200) {
+          const data = await response.json();
+          setCancerData(data);
+          setcancerIsPresent(true);
+        } else if (response.status === 404) {
+          setcancerIsPresent(false);
+        }
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -93,8 +100,13 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/radiography/${id}`);
-        const data = await response.json();
-        setRadioData(data);
+        if (response.status === 200) {
+          const data = await response.json();
+          setRadioData(data);
+          setradioIsPresent(true);
+        } else if (response.status === 404) {
+          setradioIsPresent(false);
+        }
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -106,8 +118,13 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/vital-sign/${id}`);
-        const data = await response.json();
-        setVitalData(data);
+        if (response.status === 200) {
+          const data = await response.json();
+          setVitalData(data);
+          setvitalIsPresent(true);
+        } else if (response.status === 404) {
+          setvitalIsPresent(false);
+        }
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -120,16 +137,30 @@ export default function PatientPage() {
   }
 
   function docChemo() {
-    if (newRegimenDetails) navigate("/document");
-    else setShowWarningPopup(true);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/patient/has-treatmentplan/${id}`);
+        const { exists } = await response.json();
+        if (exists) {
+          navigate("/document");
+        } else {
+          setShowWarningPopup(true);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
   }
 
   const togglePatientPopup = () => {
     setShowPatientPopup(!showPatientPopup);
   };
+
   const togglePathologyPopup = () => {
     setShowPathologyPopup(!showPathologyPopup);
   };
+
   const toggleWarningPopup = () => {
     setShowWarningPopup(!showWarningPopup);
   };
@@ -155,7 +186,7 @@ export default function PatientPage() {
                 className="h-[10px] mr-[10px]"
               />
               <Text size="xs" as="p" className="!text-blue_gray-300_02">
-                {patient.Name}
+                {selectedPatientInfo.Name}
               </Text>
             </div>
           </div>
@@ -218,7 +249,7 @@ export default function PatientPage() {
                         as="h2"
                         className="w-[74%] leading-[25px]"
                       >
-                        <>{patient.Name}</>
+                        <>{selectedPatientInfo.Name}</>
                       </Heading>
                     </div>
                     <Button
@@ -237,7 +268,7 @@ export default function PatientPage() {
 
                   <div className="flex flex-col items-center gap-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
-                      {patient ? (
+                      {selectedPatientInfo ? (
                         <div className="grid grid-cols-2 gap-5">
                           <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
                             <Text
@@ -248,7 +279,7 @@ export default function PatientPage() {
                               Patient ID
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {selectedPatientId}
+                              {selectedPatientInfo.Patient_ID}
                             </Text>
                           </div>
 
@@ -261,7 +292,7 @@ export default function PatientPage() {
                               Gender
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.Gender}
+                              {selectedPatientInfo.Gender}
                             </Text>
                           </div>
 
@@ -287,7 +318,7 @@ export default function PatientPage() {
                               Blood Type
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.blood_type}
+                              {selectedPatientInfo.blood_type}
                             </Text>
                           </div>
 
@@ -300,7 +331,7 @@ export default function PatientPage() {
                               Disease Type
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.disease_type}
+                              {selectedPatientInfo.disease_type}
                             </Text>
                           </div>
 
@@ -313,7 +344,7 @@ export default function PatientPage() {
                               Phone Number
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.mobile}
+                              {selectedPatientInfo.mobile}
                             </Text>
                           </div>
                         </div>
@@ -353,7 +384,7 @@ export default function PatientPage() {
                 {cancerIsPresent ? (
                   <CancerComponent cancerData={cancerData}></CancerComponent>
                 ) : (
-                  <p1 className="mb-5 px-3">No Cancer Data</p1>
+                  <p className="mb-5 px-3">No Cancer Data</p>
                 )}
               </div>
             </div>
@@ -375,7 +406,7 @@ export default function PatientPage() {
               {vitalIsPresent ? (
                 <VitalSignComponent vitalData={vitalData}></VitalSignComponent>
               ) : (
-                <p1 className="mb-5 px-3">No Vital Data</p1>
+                <p className="mb-5 px-3">No Vital Data</p>
               )}
             </div>
           </div>
@@ -411,7 +442,7 @@ export default function PatientPage() {
                 medicalData={medicalData}
               ></MedicalAnalysisComponent>
             ) : (
-              <p1 className="px-3">No Medical Data</p1>
+              <p className="px-3">No Medical Data</p>
             )}
 
             <Heading size="s" as="h3">
@@ -424,24 +455,24 @@ export default function PatientPage() {
                 togglePathologyPopup={togglePathologyPopup}
               ></RadiologyComponent>
             ) : (
-              <p1 className="mb-5 px-3">No Radio Data</p1>
+              <p className="mb-5 px-3">No Radio Data</p>
             )}
 
             {showPatientPopup && (
               <PatientPopup
-                name={patient.Name}
+                name={selectedPatientInfo.Name}
                 age={age}
                 onClose={togglePatientPopup}
-                ID={patient.Patient_ID}
-                Gender={patient.Gender}
+                ID={selectedPatientInfo.Patient_ID}
+                Gender={selectedPatientInfo.Gender}
                 DateOFBirth={date}
-                bloodType={patient.blood_type}
-                DiseaseType={patient.disease_type}
-                Street={patient.street}
-                City={patient.city}
-                Government={patient.governorate}
-                Nationality={patient.nationality}
-                PhoneNumber={patient.mobile}
+                bloodType={selectedPatientInfo.blood_type}
+                DiseaseType={selectedPatientInfo.disease_type}
+                Street={selectedPatientInfo.street}
+                City={selectedPatientInfo.city}
+                Government={selectedPatientInfo.governorate}
+                Nationality={selectedPatientInfo.nationality}
+                PhoneNumber={selectedPatientInfo.mobile}
                 path={path}
               />
             )}
@@ -450,14 +481,21 @@ export default function PatientPage() {
               <PathologyPopup
                 onClose={togglePathologyPopup}
                 path={path}
-                radioData={radioData["radiography"][0]}
-                medicalData={medicalData["MedicalAnalysis"][0]}
-                patientID={patient.Patient_ID}
+                radioData={radioIsPresent ? radioData["radiography"][0] : " "}
+                medicalData={
+                  medicalIsPresent ? medicalData["MedicalAnalysis"][0] : " "
+                }
+                patientID={selectedPatientInfo.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}
               />
             )}
-            {showWarningPopup && <WarningPopUp onClose={toggleWarningPopup} />}
+            {showWarningPopup && (
+              <WarningPopUp
+                onClose={toggleWarningPopup}
+                message={"This patient doesn't have active chemotherapy plan"}
+              />
+            )}
           </div>
         </div>
       </div>

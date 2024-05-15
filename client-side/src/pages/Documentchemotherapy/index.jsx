@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useNavigate } from "react-router-dom";
-import { useCycle } from "contexts/Cycle";
 
 import {
   Text,
@@ -10,43 +8,50 @@ import {
   CycleDetails,
   CycleDocument,
   DocumentChemotherapyCycle,
+  WarningPopUp,
 } from "../../components";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 
 export default function DocumentchemotherapyPage() {
-  const id = 1;
-  const navigate = useNavigate();
-  const { cycleID, setCycleID } = useCycle();
+  const { selectedPatientInfo } = useSelectedPatientInfo();
+  const id = selectedPatientInfo.Patient_ID;
+
+  const [cycleID, setCycleID] = useState(1);
   const [activeCycle, setActiveCycle] = useState(1);
   const [cyclesCount, setCyclesCount] = useState(1);
-  const [regimenName, setRegimenName] = useState("");
-  const [redirectToDoc, setRedirectToDoc] = useState(false);
-  const [dates, setDates] = useState({});
-  const [cycleNote, setCycleNote] = useState("");
   const [cycle, setCycle] = useState(1);
 
+  const [regimenName, setRegimenName] = useState("");
+  const [cycleNote, setCycleNote] = useState("");
+
+  const [dates, setDates] = useState({});
+
+  const [redirectToDoc, setRedirectToDoc] = useState(false);
+  const [showWarningPopup, setShowWarningPopup] = useState(false);
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `document-chemotherapy/active-cycle/${id}`
-        );
-        const data = await response.json();
-        if (
-          response.status === 404 &&
-          data.error === "Active cycle not found"
-        ) {
-          setActiveCycle(0);
-          return;
-        }
-        setActiveCycle(data.Active_Cycle_Number);
-        console.log("Active Cycle Fetched Successfully");
-      } catch (error) {
-        console.error("Error fetching Active Cycle:", error);
-      }
+    const fetchData = () => {
+      fetch(`document-chemotherapy/active-cycle/${id}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.error === "Active cycle not found") {
+            setActiveCycle(0);
+          } else {
+            setActiveCycle(data.Active_Cycle_Number);
+            console.log("Active Cycle Fetched Successfully");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching Active Cycle:", error);
+        });
     };
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       fetchData();
     }, 400);
+
+    return () => clearTimeout(timeoutId);
   }, [id, redirectToDoc]);
 
   useEffect(() => {
@@ -74,26 +79,33 @@ export default function DocumentchemotherapyPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`document-chemotherapy/cycles-info/${id}`);
+
         const { Cycles } = await response.json();
         extractDates(Cycles);
+
         const cycle_info = Cycles.find((c) => c.Cycle_Number === cycle);
         setCycleID(cycle_info.Cycle_ID);
         setCycleNote(cycle_info.Cycle_Note);
+
         console.log("Cycles Info Fetched Successfully");
       } catch (error) {
         console.error("Error fetching Cycles info:", error);
       }
     };
     fetchData();
-  }, [cycle]);
+  }, [id, cycle, activeCycle]);
 
   const extractDates = (cyclesInfo) => {
     const extractedDates = {};
     for (const key in cyclesInfo) {
       const obj = cyclesInfo[key];
-      extractedDates[obj.Cycle_ID] = obj.Documentation_Date;
+      extractedDates[obj.Cycle_Number] = obj.Documentation_Date;
     }
     setDates(extractedDates);
+  };
+
+  const toggleWarningPopup = () => {
+    setShowWarningPopup(!showWarningPopup);
   };
 
   return (
@@ -145,7 +157,7 @@ export default function DocumentchemotherapyPage() {
                     size="xl"
                     className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-base text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
                     onClick={() => {
-                      navigate("order");
+                      setShowWarningPopup(true);
                     }}
                   >
                     Modify Order
@@ -157,6 +169,7 @@ export default function DocumentchemotherapyPage() {
             </div>
             {redirectToDoc && cycle === activeCycle ? (
               <CycleDocument
+                id={id}
                 cycle={cycleID}
                 Submit={() => {
                   setRedirectToDoc(false);
@@ -166,11 +179,17 @@ export default function DocumentchemotherapyPage() {
                 }}
               />
             ) : (
-              <CycleDetails cycle={cycleID} cycleNote={cycleNote} />
+              <CycleDetails id={id} cycle={cycleID} cycleNote={cycleNote} />
             )}
           </div>
         </div>
       </div>
+      {showWarningPopup && (
+        <WarningPopUp
+          onClose={toggleWarningPopup}
+          message={"This feature isn't available yet"}
+        />
+      )}
     </>
   );
 }
