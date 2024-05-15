@@ -28,6 +28,7 @@ export default function DocumentchemotherapyPage() {
 
   const [redirectToDoc, setRedirectToDoc] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
+  console.log(dates);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,13 +94,13 @@ export default function DocumentchemotherapyPage() {
       }
     };
     fetchData();
-  }, [id, cycle]);
+  }, [id, cycle, activeCycle]);
 
   const extractDates = (cyclesInfo) => {
     const extractedDates = {};
     for (const key in cyclesInfo) {
       const obj = cyclesInfo[key];
-      extractedDates[obj.Cycle_ID] = obj.Documentation_Date;
+      extractedDates[obj.Cycle_Number] = obj.Documentation_Date;
     }
     setDates(extractedDates);
   };

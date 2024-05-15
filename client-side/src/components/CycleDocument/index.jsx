@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
+import toast, { Toaster } from "react-hot-toast";
 
 const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
-  
   const [doseinput, setDoseInput] = useState([]);
   const [chemotherapy, setChemotherapy] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [symptomsSubmission, setSymptomsSubmission] = useState(false);
+  const [cycleSubmission, setCycleSubmission] = useState(false);
 
   const [cycleNote, setCycleNote] = useState("");
   const [selectedValues, setSelectedValues] = useState({});
@@ -50,21 +53,27 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   };
 
   const handleSubmit = () => {
+    setIsSubmitting(true);
     const cycleData = {
+      Cycle_ID: cycle,
       Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
       Medications: doseinput,
       Cycle_Note: cycleNote,
     };
     sendSymptomsData(selectedValues);
     sendCycleData(cycleData);
-    Submit();
   };
+  useEffect(() => {
+    if (symptomsSubmission && cycleSubmission) {
+      Submit();
+    }
+  }, [symptomsSubmission, cycleSubmission]);
 
   const sendCycleData = async (data) => {
     console.log(JSON.stringify(data));
     try {
       const response = await fetch(
-        `document-chemotherapy/cycles-updates/${cycle}`,
+        `document-chemotherapy/cycles-updates/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -74,7 +83,8 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
         }
       );
       if (response.ok) {
-        console.log("Cycle Updates Sent Successfully");
+        toast.success("Cycle Updates Sent Successfully");
+        setSymptomsSubmission(true);
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -86,15 +96,16 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   const sendSymptomsData = async (data) => {
     console.log(JSON.stringify(data));
     try {
-      const response = await fetch(`Waiting/${id}`, {
-        method: "PATCH",
+      const response = await fetch(`patient/add-side-effects/${id}`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
       if (response.ok) {
-        console.log("Patient Symptoms Sent Successfully");
+        toast.success("Patient Symptoms Sent Successfully");
+        setCycleSubmission(true);
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -126,6 +137,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     <div className="flex flex-col p-[19px] gap-[25px]">
       <div className="flex">
         <div className="flex flex-col w-[50%] gap-[15px] px-[20px]">
+          <Toaster />
           <Text as="p" style={{ fontWeight: "bold" }}>
             Please record the side effects to the patient
           </Text>
@@ -236,7 +248,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
           size="sm"
           onClick={handleSubmit}
         >
-          Submit
+          {isSubmitting ? "Submitting ..." : "Submit"}
         </Button>
         <Button
           size="sm"
