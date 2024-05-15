@@ -40,7 +40,6 @@ function calculateAge(birthDateString) {
 
 export default function PatientPage() {
   const { selectedPatientInfo } = useSelectedPatientInfo();
-  console.log(selectedPatientInfo);
 
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
