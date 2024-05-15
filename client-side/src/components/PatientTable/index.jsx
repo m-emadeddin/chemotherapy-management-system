@@ -2,18 +2,13 @@ import { Button, Img } from "components";
 import "../PatientInfo/patientinfo.css";
 import { useNavigate } from "react-router-dom";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
-import { useSelectedPatient } from "contexts/SelectedPatientProvider";
 
 export default function PatientTable({ patient, onClickMap, onDeleteClick }) {
   const navigate = useNavigate();
-  const selectedPatientInfo = useSelectedPatientInfo();
-  const {setSelectedPatientId } = useSelectedPatient();
+  const { setSelectedPatientInfo } = useSelectedPatientInfo();
   const handlePatientClick = () => {
-    selectedPatientInfo.setSelectedPatientInfo(patient);
-    setSelectedPatientId(patient.Patient_ID)
-    navigate(`/patient/${patient.Patient_ID}`, {
-      state: { selectedPatient: patient },
-    });
+    setSelectedPatientInfo(patient);
+    navigate(`/patient/${patient.Patient_ID}`);
   };
   return (
     <div className="info-data-container flex w-[90%] justify-between">

@@ -38,7 +38,10 @@ const ProjectRoutes = () => {
         { path: "patient/:id", element: <Patient /> },
         { path: "order", element: <Orderchemotherapy /> },
         { path: "order/review-order", element: <Reviewchemotherapyorder /> },
-        { path: "document/order/review-order", element: <Reviewchemotherapyorder /> },
+        {
+          path: "document/order/review-order",
+          element: <Reviewchemotherapyorder />,
+        },
         { path: "document", element: <Documentchemotherapy /> },
         { path: "document/order", element: <Orderchemotherapy /> },
       ],

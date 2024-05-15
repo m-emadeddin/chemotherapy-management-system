@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useSelectedPatient } from "./SelectedPatientProvider";
+import { useSelectedPatientInfo } from "./SelectedPatientInfoDetails";
 
 const PlanDetailsContext = createContext();
 
 export const PlansDetailsProvider = ({ children }) => {
+  const { selectedPatientInfo } = useSelectedPatientInfo();
+
   const [isLoading, setLoading] = useState(true);
   const [plansNames, setPlansNames] = useState([]);
   const [plansIds, setPlansIds] = useState([]);
@@ -16,35 +18,36 @@ export const PlansDetailsProvider = ({ children }) => {
   const [planWeeks, setPlanWeeks] = useState(1);
   const [originalCycles, setoriginalCycles] = useState();
   const [originalWeeks, setoriginalWeeks] = useState();
-  const { selectedPatientId } = useSelectedPatient();
 
   useEffect(() => {
-    axios
-      .get(`/order/get-regimen/${selectedPatientId}`)
-      .then((res) => {
-        const regimensData = res.data.regimenName;
-        const newRegimens = regimensData.map((regimenData) => {
-          return {
-            planId: regimenData.Plan_ID,
-            planName: regimenData.Plan_Name,
-            planCycles: regimenData.number_of_Cycles,
-            planWeeks: regimenData.number_of_Weeks,
-          };
+    if (selectedPatientInfo) {
+      axios
+        .get(`/order/get-regimen/${selectedPatientInfo?.Patient_ID}`)
+        .then((res) => {
+          const regimensData = res.data.regimenName;
+          const newRegimens = regimensData.map((regimenData) => {
+            return {
+              planId: regimenData.Plan_ID,
+              planName: regimenData.Plan_Name,
+              planCycles: regimenData.number_of_Cycles,
+              planWeeks: regimenData.number_of_Weeks,
+            };
+          });
+          const plansIds = newRegimens.map((regimen) => regimen.planId);
+          const plansNames = newRegimens.map((regimen) => regimen.planName);
+          const AllCycles = newRegimens.map((regimen) => regimen.planCycles);
+          const AllWeeks = newRegimens.map((regimen) => regimen.planWeeks);
+          setAllWeeks(AllWeeks);
+          setAllCycles(AllCycles);
+          setPlansIds(plansIds);
+          setPlansNames(plansNames);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.log("Error in fetching PlansDetails", err);
         });
-        const plansIds = newRegimens.map((regimen) => regimen.planId);
-        const plansNames = newRegimens.map((regimen) => regimen.planName);
-        const AllCycles = newRegimens.map((regimen) => regimen.planCycles);
-        const AllWeeks = newRegimens.map((regimen) => regimen.planWeeks);
-        setAllWeeks(AllWeeks);
-        setAllCycles(AllCycles);
-        setPlansIds(plansIds);
-        setPlansNames(plansNames);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log("Error in fetching PlansDetails", err);
-      });
-  }, [selectedPatientId]);
+    }
+  }, [selectedPatientInfo]);
 
   return (
     <PlanDetailsContext.Provider
