@@ -141,7 +141,8 @@ exports.insertDummyData = async () => {
         Psychological_effects: 'Low',
         Changes_in_kidney_and_liver_function: 'Moderate',
         Date: '2024-05-06 08:00:00',
-      },
+        Cycle_Number:1
+      }
     );
     await patient2.createSideEffect(
       {
@@ -155,7 +156,8 @@ exports.insertDummyData = async () => {
         Psychological_effects: 'High',
         Changes_in_kidney_and_liver_function: 'Low',
         Date: '2024-05-06 08:00:00',
-      },
+        Cycle_Number:2
+      }
     );
     //===========================RADIOGRAPHY=============================================================
     await patient1.createRadiography({
