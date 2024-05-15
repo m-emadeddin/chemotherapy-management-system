@@ -54,7 +54,7 @@ export default function PatientPage() {
   const { newRegimenDetails } = useRegimenDetails();
   const navigate = useNavigate();
   const location = useLocation();
-  const [medicalIsPresent,setmedicalIsPresent] = useState(true);
+  const [medicalIsPresent,setmedicalIsPresent] = useState(false);
   const [radioIsPresent,setradioIsPresent] = useState(false);
   const [vitalIsPresent,setvitalIsPresent] = useState(false);
   const [cancerIsPresent,setcancerIsPresent] = useState(false);
@@ -374,7 +374,7 @@ export default function PatientPage() {
                 {cancerIsPresent ? (
                   <CancerComponent cancerData={cancerData}></CancerComponent>
                 ) : (
-                  <p1 className="mb-5 px-3">No Cancer Data</p1>
+                  <p className="mb-5 px-3">No Cancer Data</p>
                 )}
               </div>
             </div>
@@ -396,7 +396,7 @@ export default function PatientPage() {
               {vitalIsPresent ? (
                 <VitalSignComponent vitalData={vitalData}></VitalSignComponent>
               ) : (
-                <p1 className="mb-5 px-3">No Vital Data</p1>
+                <p className="mb-5 px-3">No Vital Data</p>
               )}
             </div>
           </div>
@@ -432,7 +432,7 @@ export default function PatientPage() {
                 medicalData={medicalData}
               ></MedicalAnalysisComponent>
             ) : (
-              <p1 className="px-3">No Medical Data</p1>
+              <p className="px-3">No Medical Data</p>
             )}
 
             <Heading size="s" as="h3">
@@ -445,7 +445,7 @@ export default function PatientPage() {
                 togglePathologyPopup={togglePathologyPopup}
               ></RadiologyComponent>
             ) : (
-              <p1 className="mb-5 px-3">No Radio Data</p1>
+              <p className="mb-5 px-3">No Radio Data</p>
             )}
 
             {showPatientPopup && (
