@@ -5,6 +5,7 @@ const orderChemo = require('../controllers/OrderChemotherapy.controllers');
 router.get('/get-regimen/:id', orderChemo.getRegimens);
 router.get('/pre-medications/:id', orderChemo.getPreMedications);
 router.get('/chemo-medications/:id', orderChemo.getChemoMedications);
+router.get('/patient-no/:date', orderChemo.cycleDate);
 
 
 module.exports = router;
