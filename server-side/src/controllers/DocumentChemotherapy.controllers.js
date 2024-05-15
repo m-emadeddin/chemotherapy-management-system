@@ -43,28 +43,27 @@ exports.getCyclesInfo = (req, res, next) => {
         return res.status(404).json({ error: 'Patient not found' });
       }
       patient
-        .getTreatmentPlan()  // .then must be added here. 
+        .getTreatmentPlan() // .then must be added here.
         .then((treatmentplan) => {
           if (!treatmentplan) {
             return res.status(404).json({ error: 'Treatment plan not found' });
           }
-          return treatmentplan.getCycles();
-        })
-        .then((cycles) => {
-          if (!cycles || cycles.length === 0) {
-            return res.status(404).json({ error: 'Cycles not found' });
-          }
-          // Represent all cycles data
-          const cyclesInfo = cycles.map((cycle) => ({
-            Cycle_ID: cycle.Cycle_ID,
-            Cycle_Number: cycle.Cycle_Number,
-            Cycle_Note: cycle.Cycle_note,
-            Documentation_Date: cycle.Cycle_Documentation_Date,
-          }));
-          // Construct the response object
-          const responseObj = { Cycles: cyclesInfo };
-          // Send the response with the retrieved cycles
-          res.status(200).json(responseObj);
+           treatmentplan.getCycles().then((cycles) => {
+            if (!cycles || cycles.length === 0) {
+              return res.status(404).json({ error: 'Cycles not found' });
+            }
+            // Represent all cycles data
+            const cyclesInfo = cycles.map((cycle) => ({
+              Cycle_ID: cycle.Cycle_ID,
+              Cycle_Number: cycle.Cycle_Number,
+              Cycle_Note: cycle.Cycle_note,
+              Documentation_Date: cycle.Cycle_Documentation_Date,
+            }));
+            // Construct the response object
+            const responseObj = { Cycles: cyclesInfo };
+            // Send the response with the retrieved cycles
+            res.status(200).json(responseObj);
+          });
         });
     })
     .catch((error) => {
@@ -81,28 +80,29 @@ exports.getActiveCycle = (req, res, next) => {
       if (!patient) {
         return res.status(404).json({ error: 'Patient not found' });
       }
-       patient.getTreatmentPlan().then((treatmentplan) => {
-      if (!treatmentplan) {
-        return res.status(404).json({ error: 'Treatment plan not found' });
-      }
-      return treatmentplan.getCycles();
-    })
-    .then((cycles) => {
-      if (!cycles || cycles.length === 0) {
-        return res.status(404).json({ error: 'Cycles not found' });
-      }
-      // Find the active cycle
-      const activeCycle = cycles.find((cycle) => cycle.Is_active);
-      if (!activeCycle) {
-        return res.status(404).json({ error: 'Active cycle not found' });
-      }
-      // Get the number and ID of the active cycle
-      const activeCycleInfo = {
-        Active_Cycle_Number: activeCycle.Cycle_Number,
-      };
-      // Send the response with the number and ID of the active cycle
-      res.status(200).json(activeCycleInfo);
-    })
+      patient
+        .getTreatmentPlan()
+        .then((treatmentplan) => {
+          if (!treatmentplan) {
+            return res.status(404).json({ error: 'Treatment plan not found' });
+          }
+           treatmentplan.getCycles() .then((cycles) => {
+            if (!cycles || cycles.length === 0) {
+              return res.status(404).json({ error: 'Cycles not found' });
+            }
+            // Find the active cycle
+            const activeCycle = cycles.find((cycle) => cycle.Is_active);
+            if (!activeCycle) {
+              return res.status(404).json({ error: 'Active cycle not found' });
+            }
+            // Get the number and ID of the active cycle
+            const activeCycleInfo = {
+              Active_Cycle_Number: activeCycle.Cycle_Number,
+            };
+            // Send the response with the number and ID of the active cycle
+            res.status(200).json(activeCycleInfo);
+          });
+        })
     })
     .catch((error) => {
       // Handle any unexpected errors
