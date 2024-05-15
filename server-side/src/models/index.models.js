@@ -180,7 +180,7 @@ VitalSign.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
-6// patients & Side effects
+//6 patients & Side effects
 Patients.hasMany(SideEffects, {
   foreignKey: {
     allowNull: false,
