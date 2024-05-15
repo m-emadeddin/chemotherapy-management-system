@@ -1,6 +1,5 @@
 // import models
 const Patients = require('../models/index.models').Patients;
-const SideEffects = require('../models/index.models').SideEffects; // use relation ya roaa "delete this "
 //=========================Patient====================================
 exports.getAllPatients = (req, res) => {
   Patients.findAll()
@@ -486,58 +485,63 @@ exports.postCancerOverview = (req, res) => {
 };
 //=========================Side Effects===============================
 exports.postSideEffects = (req, res) => {
-  const patientId = req.params.id;
-  Patients.findByPk(patientId)
+  const id = req.params.id;
+  const { Nausea,
+    Loss_of_appetite,
+    hanges_in_kidney_and_liver_function,
+    Psychological_effects,
+    Loss_of_memory,
+    Gastrointestinal_disturbances,
+    Hair_loss,
+    Skin_change,
+    Blood_cell_loss,
+    Date,
+    Cycle_Number } = req.body;
+  //1. check if data is null
+  if (Nausea == null &&
+    Loss_of_appetite == null &&
+    hanges_in_kidney_and_liver_function == null &&
+    Psychological_effects == null &&
+    Loss_of_memory == null &&
+    Gastrointestinal_disturbances == null &&
+    Hair_loss == null &&
+    Skin_change == null &&
+    Blood_cell_loss == null &&
+    Date == null &&
+    Cycle_Number == null) {
+    return res.status(400).json({ error: "attributes can't be Null" });
+  }
+  //2. find patient
+  Patients.findByPk(id)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ message: 'Patient not found' });
       }
-      return SideEffects.findOne({ where: { id: patientId } });
-    })
-    .then((sideEffect) => {
-      if (sideEffect) {
-        // Update existing side effect
-        return sideEffect
-          .update({
-            Nausea: req.body.Nausea,
-            Loss_of_appetite: req.body.Loss_of_appetite,
-            Changes_in_kidney_and_liver_function:
-              req.body.Changes_in_kidney_and_liver_function,
-            Psychological_effects: req.body.Psychological_effects,
-            Loss_of_memory: req.body.Loss_of_memory,
-            Gastrointestinal_disturbances:
-              req.body.Gastrointestinal_disturbances,
-            Hair_loss: req.body.Hair_loss,
-            Skin_change: req.body.Skin_change,
-            Blood_cell_loss: req.body.Blood_cell_loss,
-          })
-          .then((updatedSideEffect) => {
-            res.status(200).json({ sideEffect: updatedSideEffect });
-          });
-      } else {
-        // Create new side effect
-        return sideEffect
-          .create({
-            Nausea: req.body.Nausea,
-            Loss_of_appetite: req.body.Loss_of_appetite,
-            Changes_in_kidney_and_liver_function:
-              req.body.Changes_in_kidney_and_liver_function,
-            Psychological_effects: req.body.Psychological_effects,
-            Loss_of_memory: req.body.Loss_of_memory,
-            Gastrointestinal_disturbances:
-              req.body.Gastrointestinal_disturbances,
-            Hair_loss: req.body.Hair_loss,
-            Skin_change: req.body.Skin_change,
-            Blood_cell_loss: req.body.Blood_cell_loss,
-            PatientId: patientId,
-          })
-          .then((newSideEffect) => {
-            res.status(201).json({ sideEffect: newSideEffect });
-          });
-      }
+      //3. add side Effect 
+      patient.createSideEffect({
+        Nausea: req.body.Nausea,
+        Loss_of_appetite: req.body.Loss_of_appetite,
+        Changes_in_kidney_and_liver_function: req.body.Changes_in_kidney_and_liver_function,
+        Psychological_effects: req.body.Psychological_effects,
+        Loss_of_memory: req.body.Loss_of_memory,
+        Gastrointestinal_disturbances: req.body.Gastrointestinal_disturbances,
+        Hair_loss: req.body.Hair_loss,
+        Skin_change: req.body.Skin_change,
+        Blood_cell_loss: req.body.Blood_cell_loss,
+        Date: req.body.Date,
+        Cycle_Number: req.body.Cycle_Number,
+      })
+        .then((sideEffects) => {
+          return res.status(200).json({ message: 'side effects added successfully' });
+        })
+        .catch((err) => {
+          console.log(err);
+          return res.status(500).json({ error: 'internal server error' });
+        });
     })
     .catch((err) => {
-      console.error('Error adding data:', err);
+      console.log(err);
+      return res.status(500).json({ error: 'internal server error' });
     });
 };
 
