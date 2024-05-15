@@ -522,23 +522,23 @@ exports.postSideEffects = (req, res) => {
 //========================= Treatment Plan ===============================
 exports.hasTreatmentplan = (req, res, next) => {
   const ID = req.params.id;
-  let Patient_Name ;
+  let Patient_Name;
   let Treatment_plan;
   Patients.findByPk(ID)
     .then((patient) => {
-      console.log(Patient_Name)
+      console.log(Patient_Name);
       if (!patient) {
         return res.status(404).json({ error: "Patient Not found" });
       }
-      Patient_Name = patient.Name
-      return patient.getTreatmentPlan({where :{patientPatientID : ID} }); 
+      Patient_Name = patient.Name;
+      return patient.getTreatmentPlan({ where: { patientPatientID: ID } });
     })
     .then((treatmentplan) => {
       if (!treatmentplan || treatmentplan.length === 0) {
-        return res.status(404).json({ error: "This patient has no treatment plan" });
+        return res.status(200).json({exsist : false});
       }
       Treatment_plan = treatmentplan.Plan_Name;
-      return res.status(200).json({ message: `${Patient_Name} is on ${Treatment_plan} treatment.` });
+      return res.status(200).json({exsists : true});
     })
     .catch((err) => {
       console.log(err);
