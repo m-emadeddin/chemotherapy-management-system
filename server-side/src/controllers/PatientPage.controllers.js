@@ -107,27 +107,24 @@ exports.getVitalSigns = (req, res, next) => {
         return res.status(404).json({ error: 'Patient not found' });
       }
 
-      return patient.getVitalSign();
-    })
-    .then((VitalSign) => {
-      if (!VitalSign || VitalSign.length === 0) {
-        return res.status(404).json({ error: 'Vital signs not found' });
-      }
-      //let bmi = VitalSign.Weight / (VitalSign.Height / 100) ** 2;
-      // bmi = parseFloat(bmi.toFixed(1));
-
-      const response = {
-        Blood_Pressure: VitalSign.Blood_Pressure,
-        Height: VitalSign.Height,
-        Weight: VitalSign.Weight,
-        Heart_Rate: VitalSign.Heart_rate,
-        BMI: VitalSign.BMI,
-        Temperature: VitalSign.Temp,
-        Last_Update: VitalSign.last_updated,
-        Chief_Complaint: VitalSign.Chief_Complaint,
-      };
-
-      res.status(200).json({ response });
+      patient.getVitalSign().then((VitalSign) => {
+        if (!VitalSign || VitalSign.length === 0) {
+          return res.status(404).json({ error: 'Vital signs not found' });
+        }
+        //let bmi = VitalSign.Weight / (VitalSign.Height / 100) ** 2;
+        // bmi = parseFloat(bmi.toFixed(1));
+        const response = {
+          Blood_Pressure: VitalSign.Blood_Pressure,
+          Height: VitalSign.Height,
+          Weight: VitalSign.Weight,
+          Heart_Rate: VitalSign.Heart_rate,
+          BMI: VitalSign.BMI,
+          Temperature: VitalSign.Temp,
+          Last_Update: VitalSign.last_updated,
+          Chief_Complaint: VitalSign.Chief_Complaint,
+        };
+        res.status(200).json({ response });
+      });
     })
     .catch((err) => {
       console.error('Error:', err.message);
@@ -196,13 +193,12 @@ exports.getRadiography = (req, res, next) => {
       if (!patient) {
         return res.status(404).json({ error: 'Patient Not found' });
       }
-      return patient.getRadiographies();
-    })
-    .then((radiography) => {
-      if (!radiography || radiography.length === 0) {
-        return res.status(404).json({ error: 'Radiography Not found' });
-      }
-      return res.status(200).json({ radiography });
+      patient.getRadiographies().then((radiography) => {
+        if (!radiography || radiography.length === 0) {
+          return res.status(404).json({ error: 'Radiography Not found' });
+        }
+        return res.status(200).json({ radiography });
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -266,32 +262,33 @@ exports.updateRadiography = (req, res, next) => {
         return res.status(404).json({ error: 'Patient not found' });
       }
       //return patient.getRadiographies({ where: { Radiography_ID: Radiography_ID } }); // logic to update any radiography
-      return patient.getRadiographies();
-    })
-    .then((radiographies) => {
-      if (!radiographies || radiographies.length === 0) {
-        return res
-          .status(404)
-          .json({ error: 'Radiographies not found for this patient' });
-      }
-      const radiography = radiographies[radiographies.length - 1];
-      radiography
-        .update({
-          MRI: MRI,
-          CT: CT,
-          PET_CT: PET_CT,
-          Ultrasound: Ultrasound,
-          XRay: XRay,
-          Mammography: Mammography,
-          DEXA: DEXA,
-        })
-        .then(() => {
-          res.status(200).json({ message: 'Radiography updated successfully' });
-        })
-        .catch(() => {
-          console.error('Error updating radiography:');
-          res.status(500).json({ error: 'Internal Server Error' });
-        });
+      patient.getRadiographies().then((radiographies) => {
+        if (!radiographies || radiographies.length === 0) {
+          return res
+            .status(404)
+            .json({ error: 'Radiographies not found for this patient' });
+        }
+        const radiography = radiographies[radiographies.length - 1];
+        radiography
+          .update({
+            MRI: MRI,
+            CT: CT,
+            PET_CT: PET_CT,
+            Ultrasound: Ultrasound,
+            XRay: XRay,
+            Mammography: Mammography,
+            DEXA: DEXA,
+          })
+          .then(() => {
+            res
+              .status(200)
+              .json({ message: 'Radiography updated successfully' });
+          })
+          .catch(() => {
+            console.error('Error updating radiography:');
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+      });
     })
     .catch((error) => {
       console.error('Error finding patient or radiography:', error);
@@ -306,13 +303,12 @@ exports.getMedicalAnalysis = (req, res, next) => {
       if (!patient) {
         return res.status(404).json({ error: 'Patient Not found' });
       }
-      return patient.getMedicals();
-    })
-    .then((MedicalAnalysis) => {
-      if (!MedicalAnalysis || MedicalAnalysis.length === 0) {
-        return res.status(404).json({ error: 'Medical Analysis Not found' });
-      }
-      return res.status(200).json({ MedicalAnalysis });
+      patient.getMedicals().then((MedicalAnalysis) => {
+        if (!MedicalAnalysis || MedicalAnalysis.length === 0) {
+          return res.status(404).json({ error: 'Medical Analysis Not found' });
+        }
+        return res.status(200).json({ MedicalAnalysis });
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -377,37 +373,37 @@ exports.updateMedicalAnalysis = (req, res, next) => {
         return res.status(404).json({ error: 'Patient not found' });
       }
       // return patient.getMedicals({where : {MedicalAnalysis_ID : medicalId}}); // to access any premedication and edit
-      return patient.getMedicals(); //logic to edit only last one
-    })
-    .then((medicalAnalysisArray) => {
-      console.log(medicalAnalysisArray);
-      if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) {
-        return res
-          .status(404)
-          .json({ error: 'Medical Analysis not found for this patient' });
-      }
-      // const medicalAnalysis = medicalAnalysisArray[0];
-      const medicalAnalysis =
-        medicalAnalysisArray[medicalAnalysisArray.length - 1];
-      medicalAnalysis
-        .update({
-          Urinanalysis: Urinanalysis,
-          CBC: CBC,
-          Electrophoresis: Electrophoresis,
-          CEA: CEA,
-          AFP: AFP,
-          B2M: B2M,
-          Tumor_size: Tumor_size,
-        })
-        .then(() => {
-          res
-            .status(200)
-            .json({ message: 'Medical Analysis updated successfully' });
-        })
-        .catch(() => {
-          console.error('Error updating medical analysis:');
-          res.status(500).json({ error: 'Internal Server Error' });
-        });
+      patient.getMedicals().then((medicalAnalysisArray) => {
+        //logic to edit only last one
+        console.log(medicalAnalysisArray);
+        if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) {
+          return res
+            .status(404)
+            .json({ error: 'Medical Analysis not found for this patient' });
+        }
+        // const medicalAnalysis = medicalAnalysisArray[0];
+        const medicalAnalysis =
+          medicalAnalysisArray[medicalAnalysisArray.length - 1];
+        medicalAnalysis
+          .update({
+            Urinanalysis: Urinanalysis,
+            CBC: CBC,
+            Electrophoresis: Electrophoresis,
+            CEA: CEA,
+            AFP: AFP,
+            B2M: B2M,
+            Tumor_size: Tumor_size,
+          })
+          .then(() => {
+            res
+              .status(200)
+              .json({ message: 'Medical Analysis updated successfully' });
+          })
+          .catch(() => {
+            console.error('Error updating medical analysis:');
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+      });
     })
     .catch((error) => {
       console.error('Error finding patient or medical analysis:', error);
@@ -422,18 +418,17 @@ exports.getCancerOverview = (req, res) => {
       if (!patient) {
         return res.status(404).json({ error: 'Patient not found' });
       }
-      return patient.getCancerOverview();
-    })
-    .then((cancerOverview) => {
-      if (!cancerOverview) {
-        return res.status(404).json({ error: 'CancerOverview not found' });
-      }
-      cancerOverview = {
-        Diagnoses: cancerOverview.Cancer_type,
-        Staging: cancerOverview.Stage,
-        Note: cancerOverview.Note_On_cancer,
-      };
-      res.status(200).json({ cancerOverview });
+      patient.getCancerOverview().then((cancerOverview) => {
+        if (!cancerOverview) {
+          return res.status(404).json({ error: 'CancerOverview not found' });
+        }
+        cancerOverview = {
+          Diagnoses: cancerOverview.Cancer_type,
+          Staging: cancerOverview.Stage,
+          Note: cancerOverview.Note_On_cancer,
+        };
+        res.status(200).json({ cancerOverview });
+      });
     })
     .catch((err) => {
       console.error('Error getting data:', err);
@@ -486,7 +481,8 @@ exports.postCancerOverview = (req, res) => {
 //=========================Side Effects===============================
 exports.postSideEffects = (req, res) => {
   const id = req.params.id;
-  const { Nausea,
+  const {
+    Nausea,
     Loss_of_appetite,
     hanges_in_kidney_and_liver_function,
     Psychological_effects,
@@ -496,9 +492,11 @@ exports.postSideEffects = (req, res) => {
     Skin_change,
     Blood_cell_loss,
     Date,
-    Cycle_Number } = req.body;
+    Cycle_Number,
+  } = req.body;
   //1. check if data is null
-  if (Nausea == null &&
+  if (
+    Nausea == null &&
     Loss_of_appetite == null &&
     hanges_in_kidney_and_liver_function == null &&
     Psychological_effects == null &&
@@ -508,7 +506,8 @@ exports.postSideEffects = (req, res) => {
     Skin_change == null &&
     Blood_cell_loss == null &&
     Date == null &&
-    Cycle_Number == null) {
+    Cycle_Number == null
+  ) {
     return res.status(400).json({ error: "attributes can't be Null" });
   }
   //2. find patient
@@ -517,22 +516,26 @@ exports.postSideEffects = (req, res) => {
       if (!patient) {
         return res.status(404).json({ message: 'Patient not found' });
       }
-      //3. add side Effect 
-      patient.createSideEffect({
-        Nausea: req.body.Nausea,
-        Loss_of_appetite: req.body.Loss_of_appetite,
-        Changes_in_kidney_and_liver_function: req.body.Changes_in_kidney_and_liver_function,
-        Psychological_effects: req.body.Psychological_effects,
-        Loss_of_memory: req.body.Loss_of_memory,
-        Gastrointestinal_disturbances: req.body.Gastrointestinal_disturbances,
-        Hair_loss: req.body.Hair_loss,
-        Skin_change: req.body.Skin_change,
-        Blood_cell_loss: req.body.Blood_cell_loss,
-        Date: req.body.Date,
-        Cycle_Number: req.body.Cycle_Number,
-      })
+      //3. add side Effect
+      patient
+        .createSideEffect({
+          Nausea: req.body.Nausea,
+          Loss_of_appetite: req.body.Loss_of_appetite,
+          Changes_in_kidney_and_liver_function:
+            req.body.Changes_in_kidney_and_liver_function,
+          Psychological_effects: req.body.Psychological_effects,
+          Loss_of_memory: req.body.Loss_of_memory,
+          Gastrointestinal_disturbances: req.body.Gastrointestinal_disturbances,
+          Hair_loss: req.body.Hair_loss,
+          Skin_change: req.body.Skin_change,
+          Blood_cell_loss: req.body.Blood_cell_loss,
+          Date: req.body.Date,
+          Cycle_Number: req.body.Cycle_Number,
+        })
         .then((sideEffects) => {
-          return res.status(200).json({ message: 'side effects added successfully' });
+          return res
+            .status(200)
+            .json({ message: 'side effects added successfully' });
         })
         .catch((err) => {
           console.log(err);
