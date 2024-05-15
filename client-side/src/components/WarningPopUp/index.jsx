@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import "./style.css";
-export default function WarningPopUp({ onClose }) {
+export default function WarningPopUp({ onClose, message }) {
   const DeletPopRef = useRef();
 
   const closeWarningPopUp = (e) => {
@@ -24,9 +24,7 @@ export default function WarningPopUp({ onClose }) {
           width={124}
           height={124}
         />
-        <p className="heading">
-          This patient doesn't have active chemotherapy plan
-        </p>
+        <p className="heading">{message}</p>
 
         <div className="buttons">
           <button className="btn cancel" onClick={handleClose}>

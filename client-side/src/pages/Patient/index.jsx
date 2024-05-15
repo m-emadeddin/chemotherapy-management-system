@@ -39,7 +39,6 @@ function calculateAge(birthDateString) {
   return age;
 }
 
-
 export default function PatientPage() {
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
@@ -54,13 +53,13 @@ export default function PatientPage() {
   const { newRegimenDetails } = useRegimenDetails();
   const navigate = useNavigate();
   const location = useLocation();
-  const [medicalIsPresent,setmedicalIsPresent] = useState(false);
-  const [radioIsPresent,setradioIsPresent] = useState(false);
-  const [vitalIsPresent,setvitalIsPresent] = useState(false);
-  const [cancerIsPresent,setcancerIsPresent] = useState(false);
+  const [medicalIsPresent, setmedicalIsPresent] = useState(false);
+  const [radioIsPresent, setradioIsPresent] = useState(false);
+  const [vitalIsPresent, setvitalIsPresent] = useState(false);
+  const [cancerIsPresent, setcancerIsPresent] = useState(false);
   const patient = location.state.selectedPatient;
   const id = selectedPatientId;
-  console.log(id)
+  console.log(id);
   const age = calculateAge(patient.date_of_birth);
   const date = formatDate(patient.date_of_birth);
 
@@ -68,14 +67,13 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/medical/${id}`);
-        if(response.status === 200){
+        if (response.status === 200) {
           const data = await response.json();
           setMedicalData(data);
-          setmedicalIsPresent(true)
-        }else if(response.status===404){
+          setmedicalIsPresent(true);
+        } else if (response.status === 404) {
           setmedicalIsPresent(false);
         }
-
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -87,11 +85,11 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/cancer-overview/${id}`);
-        if(response.status === 200){
+        if (response.status === 200) {
           const data = await response.json();
           setCancerData(data);
-          setcancerIsPresent(true)
-        }else if(response.status===404){
+          setcancerIsPresent(true);
+        } else if (response.status === 404) {
           setcancerIsPresent(false);
         }
       } catch (error) {
@@ -105,11 +103,11 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/radiography/${id}`);
-        if(response.status === 200){
+        if (response.status === 200) {
           const data = await response.json();
           setRadioData(data);
-          setradioIsPresent(true)
-        }else if(response.status===404){
+          setradioIsPresent(true);
+        } else if (response.status === 404) {
           setradioIsPresent(false);
         }
       } catch (error) {
@@ -123,11 +121,11 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/vital-sign/${id}`);
-        if(response.status === 200){
+        if (response.status === 200) {
           const data = await response.json();
           setVitalData(data);
-          setvitalIsPresent(true)
-        }else if(response.status===404){
+          setvitalIsPresent(true);
+        } else if (response.status === 404) {
           setvitalIsPresent(false);
         }
       } catch (error) {
@@ -142,8 +140,7 @@ export default function PatientPage() {
   }
 
   function docChemo() {
-    if (newRegimenDetails) navigate("/document");
-    else setShowWarningPopup(true);
+    navigate("/document");
   }
 
   const togglePatientPopup = () => {
@@ -472,14 +469,21 @@ export default function PatientPage() {
               <PathologyPopup
                 onClose={togglePathologyPopup}
                 path={path}
-                radioData={radioIsPresent? radioData["radiography"][0]: " "}
-                medicalData={medicalIsPresent? medicalData["MedicalAnalysis"][0]:" "}
+                radioData={radioIsPresent ? radioData["radiography"][0] : " "}
+                medicalData={
+                  medicalIsPresent ? medicalData["MedicalAnalysis"][0] : " "
+                }
                 patientID={patient.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}
               />
             )}
-            {showWarningPopup && <WarningPopUp onClose={toggleWarningPopup} />}
+            {showWarningPopup && (
+              <WarningPopUp
+                onClose={toggleWarningPopup}
+                message={"This patient doesn't have active chemotherapy plan"}
+              />
+            )}
           </div>
         </div>
       </div>
