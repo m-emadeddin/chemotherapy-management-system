@@ -306,4 +306,3 @@ exports.updateCycleAndMedications = (req, res, next) => {
       console.error('Error:', error.message);
     });
 };
-
