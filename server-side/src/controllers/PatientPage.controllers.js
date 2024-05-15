@@ -91,7 +91,7 @@ exports.deletePatient = (req, res, next) => {
           res.status(500).json({ error: "Internal Server Error" });
         });
     })
-    .catch((error) => { 
+    .catch((error) => {
       console.error("Error fetching patient:", error);
       res.status(500).json({ error: "Internal Server Error" });
     });
@@ -237,9 +237,7 @@ exports.postRadiography = (req, res) => {
           DEXA: DEXA,
         })
         .then(() => {
-          return res
-            .status(200)
-            .json({ message: "New radiography added successfully" });
+          return res.status(200).json({ message: "New radiography added successfully" });
         })
         .catch((err) => {
           console.log(err);
@@ -252,7 +250,7 @@ exports.postRadiography = (req, res) => {
     });
 };
 exports.updateRadiography = (req, res, next) => {
-  const patientId = req.params.id; 
+  const patientId = req.params.id;
   const Radiography_ID = req.params.radiographyId;
   const { MRI, CT, PET_CT, Ultrasound, XRay, Mammography, DEXA } = req.body;
 
@@ -261,16 +259,15 @@ exports.updateRadiography = (req, res, next) => {
       if (!patient) {
         return res.status(404).json({ error: "Patient not found" });
       }
-
       //return patient.getRadiographies({ where: { Radiography_ID: Radiography_ID } }); // logic to update any radiography
-        return patient.getRadiographies();
+      return patient.getRadiographies();
     })
-    .then((radiographies) => { 
-      if (!radiographies || radiographies.length === 0)   {
+    .then((radiographies) => {
+      if (!radiographies || radiographies.length === 0) {
         return res.status(404).json({ error: "Radiographies not found for this patient" });
       }
-      const radiography = radiographies[radiographies.length -1 ]; 
-      radiography 
+      const radiography = radiographies[radiographies.length - 1];
+      radiography
         .update({
           MRI: MRI,
           CT: CT,
@@ -283,11 +280,11 @@ exports.updateRadiography = (req, res, next) => {
         .then(() => {
           res.status(200).json({ message: "Radiography updated successfully" });
         })
-        .catch(() => { 
+        .catch(() => {
           console.error("Error updating radiography:");
           res.status(500).json({ error: "Internal Server Error" });
         });
-    }) 
+    })
     .catch((error) => {
       console.error("Error finding patient or radiography:", error);
     });
@@ -347,7 +344,9 @@ exports.postMedicalAnalysis = (req, res) => {
           Tumor_size: Tumor_size,
         })
         .then(() => {
-          return res.status(200).json({ message: "New Medical analysis added successfully" });
+          return res
+            .status(200)
+            .json({ message: "New Medical analysis added successfully" });
         })
         .catch((err) => {
           console.log(err);
@@ -361,8 +360,9 @@ exports.postMedicalAnalysis = (req, res) => {
 };
 exports.updateMedicalAnalysis = (req, res, next) => {
   const patientId = req.params.id;
-  const medicalId = req.params.medicalId
-  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M, Tumor_size } = req.body;
+  const medicalId = req.params.medicalId;
+  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M, Tumor_size } =
+    req.body;
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
@@ -371,15 +371,16 @@ exports.updateMedicalAnalysis = (req, res, next) => {
       // return patient.getMedicals({where : {MedicalAnalysis_ID : medicalId}}); // to access any premedication and edit
       return patient.getMedicals(); //logic to edit only last one
     })
-    .then((medicalAnalysisArray) => { 
-      console.log(medicalAnalysisArray)
-      if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) { 
+    .then((medicalAnalysisArray) => {
+      console.log(medicalAnalysisArray);
+      if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) {
         return res.status(404).json({ error: "Medical Analysis not found for this patient" });
-      } 
-      // const medicalAnalysis = medicalAnalysisArray[0]; 
-      const medicalAnalysis = medicalAnalysisArray[medicalAnalysisArray.length - 1]; 
+      }
+      // const medicalAnalysis = medicalAnalysisArray[0];
+      const medicalAnalysis =
+        medicalAnalysisArray[medicalAnalysisArray.length - 1];
       medicalAnalysis
-       .update({ 
+        .update({
           Urinanalysis: Urinanalysis,
           CBC: CBC,
           Electrophoresis: Electrophoresis,
@@ -443,9 +444,7 @@ exports.postCancerOverview = (req, res) => {
       //2. check if cancer overview already exists
       patient.getCancerOverview().then((canceroverview) => {
         if (canceroverview) {
-          return res
-            .status(400)
-            .json({ message: "cancer overview already exists!" });
+          return res.status(400).json({ message: "cancer overview already exists!" });
         }
         //3. add cancer overview
         patient
@@ -455,9 +454,7 @@ exports.postCancerOverview = (req, res) => {
             Note_On_cancer: Note_On_cancer,
           })
           .then(() => {
-            return res
-              .status(200)
-              .json({ message: "cancer overview added successfully" });
+            return res.status(200).json({ message: "cancer overview added successfully" });
           })
           .catch((err) => {
             console.log(err);
