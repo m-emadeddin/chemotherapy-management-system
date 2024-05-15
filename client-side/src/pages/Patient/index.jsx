@@ -146,9 +146,11 @@ export default function PatientPage() {
   const togglePatientPopup = () => {
     setShowPatientPopup(!showPatientPopup);
   };
+  
   const togglePathologyPopup = () => {
     setShowPathologyPopup(!showPathologyPopup);
   };
+
   const toggleWarningPopup = () => {
     setShowWarningPopup(!showWarningPopup);
   };
