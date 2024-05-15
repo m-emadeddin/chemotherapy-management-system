@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
-const CycleDocument = ({ Submit, Cancel, cycle }) => {
-  const id = 1;
+
+const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   const [doseinput, setDoseInput] = useState([]);
   const [cycleNote, setCycleNote] = useState({});
   const [chemotherapy, setChemotherapy] = useState([]);
