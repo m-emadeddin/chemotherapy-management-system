@@ -1,8 +1,7 @@
 // import models
 const Patients = require("../models/index.models").Patients;
 const Cycles = require("../models/index.models").Cycles;
-const ChemotherapyMedications =
-  require("../models/index.models").ChemotherapyMedications;
+const ChemotherapyMedications =require("../models/index.models").ChemotherapyMedications;
 
 exports.getRegimenInfo = (req, res, next) => {
   const patientId = req.params.id;
@@ -233,44 +232,46 @@ exports.getChemotherapy = (req, res, next) => {
 
 exports.updateCycleAndMedications = (req, res, next) => {
   const { Cycle_Note, Cycle_Documentation_Date, Medications } = req.body;
-  const cycleId = req.params.cycleId;
+  const patientId = req.params.id;
+  let cycles; // Define cycles variable here
 
-  Cycles.findByPk(cycleId)
-    .then((activeCycle) => {
-      if (!activeCycle) {
-        return res.status(404).json({ error: "Active cycle not found" });
+  // Find the patient by ID
+  Patients.findByPk(patientId)
+    .then((patient) => {
+      if (!patient) {
+        return res.status(404).json({ error: 'Patient not found' });
       }
-      const cycle_number = activeCycle.Cycle_Number;
-      console.log(cycle_number);
-
-      // deactivate current cycle
+      return patient.getTreatmentPlan();
+    })
+    .then((treatmentPlan) => {
+      if (!treatmentPlan) {
+        return res.status(404).json({ error: 'Treatment plan not found' });
+      }
+      return treatmentPlan.getCycles();
+    })
+    .then((retrievedCycles) => {
+      cycles = retrievedCycles; // Store cycles for later use
+      const activeCycle = cycles.find((cycle) => cycle.Is_active);
+      if (!activeCycle) {
+        return res.status(404).json({ error: 'Active cycle not found' });
+      }
+      // deactivate current active cycle
       activeCycle.Is_active = false;
-      console.log(activeCycle.Is_active);
-      // Update cycle note and documentation date if provided
       if (Cycle_Note) {
         activeCycle.Cycle_note = Cycle_Note;
       }
       if (Cycle_Documentation_Date) {
         activeCycle.Cycle_Documentation_Date = Cycle_Documentation_Date;
       }
-      // Save the updated cycle
       return activeCycle.save();
     })
     .then((updatedCycle) => {
-      // Find the next cycle and activate it
-      return Cycles.findOne({
-        where: {
-          Cycle_ID: updatedCycle.Cycle_ID + 1,
-          Cycle_Number: updatedCycle.Cycle_Number + 1,
-        },
-      });
-    })
-    .then((nextCycle) => {
+      // activate next cycle
+      const nextCycle = cycles.find((cycle) => cycle.Cycle_Number === updatedCycle.Cycle_Number + 1);
       if (nextCycle) {
         nextCycle.Is_active = true; // Mark next cycle as active
         return nextCycle.save();
       }
-      // Handle if there's no next cycle
       return Promise.resolve(); // Resolve without updating next cycle
     })
     .then(() => {
@@ -279,10 +280,9 @@ exports.updateCycleAndMedications = (req, res, next) => {
         const { ID, AdministeredDose_Ml, AdministeredDose_Mg } = med;
         if (!ID) {
           return Promise.reject({
-            message: "Medication ID is required for update",
+            message: 'Medication ID is required for update',
           });
         }
-        // Update specific fields of the medication by ID
         return ChemotherapyMedications.update(
           {
             Administered_Dose_ml: AdministeredDose_Ml,
@@ -290,9 +290,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
           },
           { where: { Chemotherapy_ID: ID } }
         ).catch((error) => {
-          // Handle individual medication update errors
-          // not working
-          console.error("Error updating medication:", error.message);
+          console.error('Error updating medication:', error.message);
           return Promise.reject({
             message: `Failed to update medication: ${ID}`,
           });
@@ -302,12 +300,9 @@ exports.updateCycleAndMedications = (req, res, next) => {
       return Promise.all(updatePromises);
     })
     .then(() => {
-      res
-        .status(200)
-        .json({ message: "Cycle and medications updated successfully" });
+      res.status(200).json({ message: 'Cycle and medications updated successfully' });
     })
     .catch((error) => {
-      // Handle any errors occurred during the update process
-      console.error("Error:", error.message);
+      console.error('Error:', error.message);
     });
 };
