@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
+import { useNavigate } from "react-router-dom";
 
 import {
   Text,
@@ -13,6 +14,7 @@ import {
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 
 export default function DocumentchemotherapyPage() {
+  const navigate = useNavigate();
   const { selectedPatientInfo } = useSelectedPatientInfo();
   const id = selectedPatientInfo.Patient_ID;
 
@@ -53,10 +55,6 @@ export default function DocumentchemotherapyPage() {
 
     return () => clearTimeout(timeoutId);
   }, [id, redirectToDoc]);
-
-  useEffect(() => {
-    setCycle(activeCycle || cyclesCount);
-  }, [activeCycle, cyclesCount]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -161,6 +159,30 @@ export default function DocumentchemotherapyPage() {
                     }}
                   >
                     Modify Order
+                  </Button>
+                </div>
+              ) : (
+                ""
+              )}
+              {cycle !== activeCycle && !redirectToDoc ? (
+                <div className="flex justify-between items-center gap-2">
+                  <Button
+                    size="xl"
+                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
+                    onClick={() => {
+                      navigate(`/patient/${id}`);
+                    }}
+                  >
+                    Go to patient page
+                  </Button>
+                  <Button
+                    size="xl"
+                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
+                    onClick={() => {
+                      navigate("/select_patient");
+                    }}
+                  >
+                    Go to dashboard
                   </Button>
                 </div>
               ) : (
