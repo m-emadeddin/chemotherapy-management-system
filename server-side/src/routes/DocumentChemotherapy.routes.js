@@ -8,9 +8,6 @@ router.get("/active-cycle/:id", documentChemo.getActiveCycle); //done
 router.get("/premedications/:id", documentChemo.getPremedications); //done
 router.get("/chemotherapy/:id", documentChemo.getChemotherapy); //done
 //router.get('/chemotherapy/:patientId/cycle/:cycleId/', documentChemo.getChemotherapy);
-router.patch(
-  "/cycles-updates/:cycleId",
-  documentChemo.updateCycleAndMedications
-); //done
+router.patch("/cycles-updates/:id", documentChemo.updateCycleAndMedications); //done
 
 module.exports = router;
