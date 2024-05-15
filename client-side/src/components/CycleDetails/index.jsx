@@ -2,7 +2,6 @@ import React from "react";
 import { Text, PremedicationsTable, ChemotherapyTable } from "./..";
 
 const CycleDetails = ({ id, cycle, cycleNote }) => {
-  console.log(cycle);
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">

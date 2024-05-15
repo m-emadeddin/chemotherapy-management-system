@@ -6,10 +6,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
 import MedicalAnalysisComponent from "../../components/Medical";
 import CancerComponent from "../../components/CancerOverview";
-import WarningPopUp from "components/WarningPopUp";
+import { WarningPopUp } from "../../components";
 import RadiologyComponent from "components/Radiology";
 import VitalSignComponent from "components/VitalSign";
-import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import { useSelectedPatient } from "contexts/SelectedPatientProvider";
 
 const path = process.env.PUBLIC_URL;
@@ -50,7 +49,6 @@ export default function PatientPage() {
   const [vitalData, setVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
   const { selectedPatientId } = useSelectedPatient();
-  const { newRegimenDetails } = useRegimenDetails();
   const navigate = useNavigate();
   const location = useLocation();
   const [medicalIsPresent, setmedicalIsPresent] = useState(false);
@@ -146,7 +144,7 @@ export default function PatientPage() {
   const togglePatientPopup = () => {
     setShowPatientPopup(!showPatientPopup);
   };
-  
+
   const togglePathologyPopup = () => {
     setShowPathologyPopup(!showPathologyPopup);
   };

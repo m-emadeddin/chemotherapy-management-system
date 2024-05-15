@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
 
 const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
+  
   const [doseinput, setDoseInput] = useState([]);
-  const [cycleNote, setCycleNote] = useState({});
   const [chemotherapy, setChemotherapy] = useState([]);
+
+  const [cycleNote, setCycleNote] = useState("");
   const [selectedValues, setSelectedValues] = useState({});
 
   useEffect(() => {
@@ -100,6 +102,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
       console.error("Error:", error);
     }
   };
+
   const possibleValues = ["High", "Moderate", "Low"];
   const symptoms = [
     { name: "Nausea", value: possibleValues },

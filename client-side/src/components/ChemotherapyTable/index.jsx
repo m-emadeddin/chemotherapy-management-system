@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ChemotherapyTable = ({ cycle, id }) => {
+const ChemotherapyTable = ({ cycle }) => {
   const [chemotherapy, setChemotherapy] = useState([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const ChemotherapyTable = ({ cycle, id }) => {
     setTimeout(() => {
       fetchData();
     }, 400);
-  }, [cycle, id]);
+  }, [cycle]);
 
   return (
     <>

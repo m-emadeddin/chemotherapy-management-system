@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useSelectedPatient } from "contexts/SelectedPatientProvider";
-import WarningPopUp from "components/WarningPopUp";
 
 import {
   Text,
@@ -10,6 +9,7 @@ import {
   CycleDetails,
   CycleDocument,
   DocumentChemotherapyCycle,
+  WarningPopUp,
 } from "../../components";
 
 export default function DocumentchemotherapyPage() {
@@ -20,9 +20,12 @@ export default function DocumentchemotherapyPage() {
   const [activeCycle, setActiveCycle] = useState(1);
   const [cyclesCount, setCyclesCount] = useState(1);
   const [cycle, setCycle] = useState(1);
+
   const [regimenName, setRegimenName] = useState("");
   const [cycleNote, setCycleNote] = useState("");
+
   const [dates, setDates] = useState({});
+
   const [redirectToDoc, setRedirectToDoc] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
 

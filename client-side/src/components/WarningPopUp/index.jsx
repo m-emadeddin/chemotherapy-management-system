@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import "./style.css";
-export default function WarningPopUp({ onClose, message }) {
+
+const WarningPopUp = ({ onClose, message }) => {
   const DeletPopRef = useRef();
 
   const closeWarningPopUp = (e) => {
@@ -34,4 +35,5 @@ export default function WarningPopUp({ onClose, message }) {
       </div>
     </div>
   );
-}
+};
+export { WarningPopUp };
