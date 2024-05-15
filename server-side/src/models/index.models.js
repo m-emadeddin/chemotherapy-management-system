@@ -166,7 +166,21 @@ Visits.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
-// patients & Side effects
+
+//5.VitalSigns & patients
+Patients.hasMany(VitalSign, {
+
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+VitalSign.belongsTo(Patients, {
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+6// patients & Side effects
 Patients.hasMany(SideEffects, {
   foreignKey: {
     allowNull: false,
@@ -180,37 +194,32 @@ SideEffects.belongsTo(Patients, {
 });
 
 //========================One to One============================================
-//1. Vital signs & patients
-Patients.hasOne(VitalSign, {
-  foreignKey: {
-    allowNull: false,
-  },
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
-});
-VitalSign.belongsTo(Patients);
-//2. patients & cancer overview
+//1. patients & cancer overview
 Patients.hasOne(CancerOverview, {
   foreignKey: {
     allowNull: false,
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 CancerOverview.belongsTo(Patients);
-//3. patients & treatment plans
+//2. patients & treatment plans
 Patients.hasOne(TreatmentPlans, {
   foreignKey: {
     allowNull: false, // This makes the foreign key not null
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 TreatmentPlans.belongsTo(Patients);
-//4. User & Doctor
+//3. User & Doctor
 Doctor.hasOne(User, {
   foreignKey: {
     allowNull: true,  //to test signup 
+    allowNull: false,
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
