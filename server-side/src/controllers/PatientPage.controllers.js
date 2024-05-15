@@ -209,15 +209,15 @@ exports.postRadiography = (req, res) => {
   const { MRI, CT, PET_CT, Ultrasound, XRay, Mammography, DEXA } = req.body;
   //1. check if data is null
   if (
-    MRI == null &&
-    CT == null &&
-    PET_CT == null &&
-    Ultrasound == null &&
-    XRay == null &&
-    Mammography == null &&
+    MRI == null ||
+    CT == null ||
+    PET_CT == null ||
+    Ultrasound == null ||
+    XRay == null ||
+    Mammography == null ||
     DEXA == null
   ) {
-    return res.status(400).json({ error: 'empty json' });
+    return res.status(400).json({ error:  "attributes can't be Null" });
   }
   //2. find patient
   Patients.findByPk(id)
@@ -320,15 +320,15 @@ exports.postMedicalAnalysis = (req, res) => {
     req.body;
   //1. check if data is null
   if (
-    Urinanalysis == null &&
-    CBC == null &&
-    Electrophoresis == null &&
-    CEA == null &&
-    AFP == null &&
-    B2M == null &&
+    Urinanalysis == null ||
+    CBC == null ||
+    Electrophoresis == null ||
+    CEA == null ||
+    AFP == null ||
+    B2M == null ||
     Tumor_size == null
   ) {
-    return res.status(400).json({ error: 'empty json' });
+    return res.status(400).json({ error:  "attributes can't be Null" });
   }
   //2. find patient
   Patients.findByPk(id)
@@ -496,16 +496,16 @@ exports.postSideEffects = (req, res) => {
   } = req.body;
   //1. check if data is null
   if (
-    Nausea == null &&
-    Loss_of_appetite == null &&
-    hanges_in_kidney_and_liver_function == null &&
-    Psychological_effects == null &&
-    Loss_of_memory == null &&
-    Gastrointestinal_disturbances == null &&
-    Hair_loss == null &&
-    Skin_change == null &&
-    Blood_cell_loss == null &&
-    Date == null &&
+    Nausea == null ||
+    Loss_of_appetite == null ||
+    hanges_in_kidney_and_liver_function == null ||
+    Psychological_effects == null ||
+    Loss_of_memory == null ||
+    Gastrointestinal_disturbances == null ||
+    Hair_loss == null ||
+    Skin_change == null ||
+    Blood_cell_loss == null ||
+    Date == null ||
     Cycle_Number == null
   ) {
     return res.status(400).json({ error: "attributes can't be Null" });
