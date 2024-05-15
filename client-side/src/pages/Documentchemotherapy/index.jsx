@@ -30,28 +30,28 @@ export default function DocumentchemotherapyPage() {
   const [showWarningPopup, setShowWarningPopup] = useState(false);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          `document-chemotherapy/active-cycle/${id}`
-        );
-        const data = await response.json();
-        if (
-          response.status === 404 &&
-          data.error === "Active cycle not found"
-        ) {
-          setActiveCycle(0);
-          return;
-        }
-        setActiveCycle(data.Active_Cycle_Number);
-        console.log("Active Cycle Fetched Successfully");
-      } catch (error) {
-        console.error("Error fetching Active Cycle:", error);
-      }
+    const fetchData = () => {
+      fetch(`document-chemotherapy/active-cycle/${id}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          if (data.error === "Active cycle not found") {
+            setActiveCycle(0);
+          } else {
+            setActiveCycle(data.Active_Cycle_Number);
+            console.log("Active Cycle Fetched Successfully");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching Active Cycle:", error);
+        });
     };
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       fetchData();
     }, 400);
+
+    return () => clearTimeout(timeoutId);
   }, [id, redirectToDoc]);
 
   useEffect(() => {

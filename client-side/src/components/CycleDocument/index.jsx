@@ -35,8 +35,10 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
       ...prevDoseInput,
       {
         ID: id,
-        [`AdministeredDose_${route === "Oral" ? "Mg" : "Ml"}`]: event,
-        [`AdministeredDose_${route === "Oral" ? "Ml" : "Mg"}`]: "",
+        [`AdministeredDose_${route.toLowerCase() === "oral" ? "Mg" : "Ml"}`]:
+          event,
+        [`AdministeredDose_${route.toLowerCase() === "oral" ? "Ml" : "Mg"}`]:
+          "",
       },
     ]);
   };
@@ -67,7 +69,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     if (symptomsSubmission && cycleSubmission) {
       Submit();
     }
-  }, [symptomsSubmission, cycleSubmission]);
+  }, [symptomsSubmission, cycleSubmission, Submit]);
 
   const sendCycleData = async (data) => {
     try {
@@ -159,7 +161,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
                     <Input
                       key={idx}
                       type="radio"
-                      className="w-[20%] bg-transparent-0 h-[15px]"
+                      className="w-[20%] bg-transparent-0 h-[10px]"
                       name={symptom.name.replace(/\s+/g, "")}
                       inputProps={{ value: val }}
                       onChange={() =>
@@ -189,10 +191,10 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
                 <div className=" flex items-center justify-between gap-5 md:ml-0 md:w-full">
                   <div className="mb-[5px] flex flex-col items-start gap-[9px] self-end">
                     <Text size="md" as="p" className="uppercase">
-                      {chemo.Name}
+                      {chemo.Name.toUpperCase()}
                     </Text>
                     <Text size="xs" as="p" className="text-gray-700">
-                      {chemo.Route === "Oral"
+                      {chemo.Route.toLowerCase() === "oral"
                         ? `${chemo.Dose} Miligram`
                         : `${chemo.Dose} MiliLiter`}
                     </Text>
@@ -200,7 +202,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
                   <div className="flex w-[40%] items-center justify-end gap-5 sm:w-full">
                     <div className="flex w-[42%] flex-col items-center gap-2">
                       <Text size="xs" as="p">
-                        {chemo.Route === "Oral" ? "mg" : "ml"}
+                        {chemo.Route.toLowerCase() === "oral" ? "mg" : "ml"}
                       </Text>
                       <Input
                         className="p-1 border hover:border-black-900"
@@ -208,7 +210,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
                         shape="round"
                         name={chemo.Name}
                         value={chemo.Name}
-                        inputProps={{ className: "text-center" }}
+                        inputProps={{ className: "text-center h-full" }}
                         onChange={(event) =>
                           handleDoseInput(
                             event,
