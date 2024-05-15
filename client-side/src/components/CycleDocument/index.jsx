@@ -210,6 +210,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
                         shape="round"
                         name={chemo.Name}
                         value={chemo.Name}
+                        type="number"
                         inputProps={{ className: "text-center h-full" }}
                         onChange={(event) =>
                           handleDoseInput(
