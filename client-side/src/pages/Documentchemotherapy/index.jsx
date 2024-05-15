@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useSelectedPatient } from "contexts/SelectedPatientProvider";
+import toast, { Toaster } from "react-hot-toast";
 
 import {
   Text,
@@ -93,7 +94,7 @@ export default function DocumentchemotherapyPage() {
       }
     };
     fetchData();
-  }, [id, cycle]);
+  }, [id, cycle, activeCycle]);
 
   const extractDates = (cyclesInfo) => {
     const extractedDates = {};
@@ -119,6 +120,7 @@ export default function DocumentchemotherapyPage() {
       </Helmet>
       <div className="w-full pt-[50px] flex w-[100%] items-stretch bg-gray-100">
         <div className="flex w-[19%] flex-col items-start bg-white-A700 py-[19px]">
+          <Toaster />
           <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center mb-2">
             Chemotherapy
           </Text>

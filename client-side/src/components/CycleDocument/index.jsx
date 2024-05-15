@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
+import toast, { Toaster } from "react-hot-toast";
 
 const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
-  
   const [doseinput, setDoseInput] = useState([]);
   const [chemotherapy, setChemotherapy] = useState([]);
 
@@ -57,7 +57,9 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     };
     sendSymptomsData(selectedValues);
     sendCycleData(cycleData);
-    Submit();
+    setTimeout(() => {
+      Submit();
+    }, 5000);
   };
 
   const sendCycleData = async (data) => {
@@ -74,7 +76,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
         }
       );
       if (response.ok) {
-        console.log("Cycle Updates Sent Successfully");
+        toast.success("Cycle Updates Sent Successfully");
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -86,14 +88,15 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   const sendSymptomsData = async (data) => {
     console.log(JSON.stringify(data));
     try {
-      const response = await fetch(`Waiting/${id}`, {
-        method: "PATCH",
+      const response = await fetch(`patient/add-side-effects/${id}`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
       if (response.ok) {
+        toast.success("Patient Symptoms Sent Successfully");
         console.log("Patient Symptoms Sent Successfully");
       } else {
         console.error("Failed to submit:", response.statusText);
@@ -126,6 +129,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     <div className="flex flex-col p-[19px] gap-[25px]">
       <div className="flex">
         <div className="flex flex-col w-[50%] gap-[15px] px-[20px]">
+          <Toaster />
           <Text as="p" style={{ fontWeight: "bold" }}>
             Please record the side effects to the patient
           </Text>

@@ -1,10 +1,12 @@
 import React from "react";
 import { Text, PremedicationsTable, ChemotherapyTable } from "./..";
+import { Toaster } from "react-hot-toast";
 
 const CycleDetails = ({ id, cycle, cycleNote }) => {
   return (
     <div className="flex flex-col gap-[20px]">
       <div className="flex flex-col rounded-[20px] bg-white-A700 py-4">
+        <Toaster />
         <Text size="md" as="p" className="uppercase md:ml-0 p-[19px]">
           Premedications
         </Text>
