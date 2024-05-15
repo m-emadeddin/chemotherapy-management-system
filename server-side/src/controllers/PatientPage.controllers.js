@@ -368,43 +368,46 @@ exports.updateMedicalAnalysis = (req, res, next) => {
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ error: "Patient not found" });
       }
-      // return patient.getMedicals({where : {MedicalAnalysis_ID : medicalId}}); // to access any premedication and edit
-      patient.getMedicals().then((medicalAnalysisArray) => {
-        //logic to edit only last one
-        console.log(medicalAnalysisArray);
-        if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) {
-          return res
-            .status(404)
-            .json({ error: 'Medical Analysis not found for this patient' });
-        }
-        // const medicalAnalysis = medicalAnalysisArray[0];
-        const medicalAnalysis =
-          medicalAnalysisArray[medicalAnalysisArray.length - 1];
-        medicalAnalysis
-          .update({
-            Urinanalysis: Urinanalysis,
-            CBC: CBC,
-            Electrophoresis: Electrophoresis,
-            CEA: CEA,
-            AFP: AFP,
-            B2M: B2M,
-            Tumor_size: Tumor_size,
-          })
-          .then(() => {
-            res
-              .status(200)
-              .json({ message: 'Medical Analysis updated successfully' });
-          })
-          .catch(() => {
-            console.error('Error updating medical analysis:');
-            res.status(500).json({ error: 'Internal Server Error' });
-          });
-      });
+      // to access any premedication and edit
+      return patient
+        .getMedicals({ where: { MedicalAnalysis_ID: medicalId } })
+        .then((medicalAnalysisArray) => {
+          //logic to edit only last one
+          //patient.getMedicals().then((medicalAnalysisArray) => {
+          console.log(medicalAnalysisArray);
+          if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) {
+            return res
+              .status(404)
+              .json({ error: "Medical Analysis not found for this patient" });
+          }
+          // const medicalAnalysis = medicalAnalysisArray[0];
+          const medicalAnalysis =
+            medicalAnalysisArray[medicalAnalysisArray.length - 1];
+          medicalAnalysis
+            .update({
+              Urinanalysis: Urinanalysis,
+              CBC: CBC,
+              Electrophoresis: Electrophoresis,
+              CEA: CEA,
+              AFP: AFP,
+              B2M: B2M,
+              Tumor_size: Tumor_size,
+            })
+            .then(() => {
+              res
+                .status(200)
+                .json({ message: "Medical Analysis updated successfully" });
+            })
+            .catch(() => {
+              console.error("Error updating medical analysis:");
+              res.status(500).json({ error: "Internal Server Error" });
+            });
+        });
     })
     .catch((error) => {
-      console.error('Error finding patient or medical analysis:', error);
+      console.error("Error finding patient or medical analysis:", error);
     });
 };
 //=========================Cancer Overview============================

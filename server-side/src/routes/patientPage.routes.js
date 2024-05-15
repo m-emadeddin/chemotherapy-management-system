@@ -19,7 +19,7 @@ router.put('/:id/radiography-update/:radiographyId', PatientPage.updateRadiograp
 //=========================Medical Analysis===========================✔
 router.get('/medical/:id', PatientPage.getMedicalAnalysis);
 router.post('/add-medical/:id', PatientPage.postMedicalAnalysis);
-router.put('/:id/medical-update/:id', PatientPage.updateMedicalAnalysis);
+router.put('/:id/medical-update/:medicalId', PatientPage.updateMedicalAnalysis);
 
 //=========================Cancer Overview============================✔
 router.get('/cancer-overview/:id', PatientPage.getCancerOverview);
