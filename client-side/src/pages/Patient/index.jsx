@@ -57,7 +57,6 @@ export default function PatientPage() {
   const [cancerIsPresent, setcancerIsPresent] = useState(false);
   const patient = location.state.selectedPatient;
   const id = selectedPatientId;
-  console.log(id);
   const age = calculateAge(patient.date_of_birth);
   const date = formatDate(patient.date_of_birth);
 
@@ -138,7 +137,20 @@ export default function PatientPage() {
   }
 
   function docChemo() {
-    navigate("/document");
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/patient/has-treatmentplan/${id}`);
+        const { exists } = await response.json();
+        if (exists) {
+          navigate("/document");
+        } else {
+          setShowWarningPopup(true);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
   }
 
   const togglePatientPopup = () => {
