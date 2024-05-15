@@ -67,7 +67,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     if (symptomsSubmission && cycleSubmission) {
       Submit();
     }
-  }, [symptomsSubmission, cycleSubmission]);
+  }, [symptomsSubmission, cycleSubmission, Submit]);
 
   const sendCycleData = async (data) => {
     try {
@@ -159,7 +159,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
                     <Input
                       key={idx}
                       type="radio"
-                      className="w-[20%] bg-transparent-0 h-[15px]"
+                      className="w-[20%] bg-transparent-0 h-[10px]"
                       name={symptom.name.replace(/\s+/g, "")}
                       inputProps={{ value: val }}
                       onChange={() =>

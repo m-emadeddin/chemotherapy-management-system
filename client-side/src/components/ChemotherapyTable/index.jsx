@@ -15,9 +15,7 @@ const ChemotherapyTable = ({ cycle }) => {
         console.error("Error fetching data:", error);
       }
     };
-    setTimeout(() => {
-      fetchData();
-    }, 400);
+    fetchData();
   }, [cycle]);
 
   return (
