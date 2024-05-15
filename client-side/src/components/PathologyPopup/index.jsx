@@ -1,5 +1,5 @@
 import { Img, Button } from "../../components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 export default function PathologyPopup({
@@ -29,8 +29,17 @@ export default function PathologyPopup({
     DEXA: "",
   });
 
+  useEffect(() => {
+    setMedicalData(medicalData);
+    setRadioData(radioData);
+  }, [medicalData, radioData]);
+
   const handleMedicalInputChange = (e) => {
     const { id, value } = e.target;
+    if (id === "Tumor_size" && isNaN(value)) {
+      toast.error("Please enter a valid number for Tumor size.");
+      return;
+    }
     setMedicalData((prevState) => ({
       ...prevState,
       [id]: value,
@@ -48,7 +57,7 @@ export default function PathologyPopup({
   async function putRadioData() {
     try {
       const response = await fetch(
-        `/patient//Radiography-update/${patientID}`,
+        `/patient/Radiography-update/${patientID}`,
         {
           method: "PUT",
           headers: {
@@ -69,7 +78,7 @@ export default function PathologyPopup({
   }
   async function putMedicalData() {
     try {
-      const response = await fetch(`/patient//medical-update/${patientID}`, {
+      const response = await fetch(`/patient/medical-update/${patientID}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -171,7 +180,7 @@ export default function PathologyPopup({
                 type="text"
                 id="Urinanalysis"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${medicalData.Urinanalysis}`}
+                placeholder={medicalData.Urinanalysis || "Urinanalysis"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.Urinanalysis}
               />
@@ -183,7 +192,7 @@ export default function PathologyPopup({
                 type="text"
                 id="CBC"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${medicalData.CBC}`}
+                placeholder={medicalData.CBC || "CBC"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.CBC}
               />
@@ -195,7 +204,7 @@ export default function PathologyPopup({
                 type="text"
                 id="Electrophoresis"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${medicalData.Electrophoresis}`}
+                placeholder={medicalData.Electrophoresis || "Electrophoresis"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.Electrophoresis}
               />
@@ -207,7 +216,7 @@ export default function PathologyPopup({
                 type="text"
                 id="CEA"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${medicalData.CEA}`}
+                placeholder={medicalData.CEA || "CEA"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.CEA}
               />
@@ -219,22 +228,22 @@ export default function PathologyPopup({
                 type="text"
                 id="AFP"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${medicalData.AFP}`}
+                placeholder={medicalData.AFP || "AFP"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.AFP}
               />
             </div>
           </div>
 
-          <div className="flex">
-            <div className="self-start  text-slate-400 max-md:ml-2.5 w-[20%]">
+          {/* New row */}
+          <div className="flex gap-3">
+            <div className="self-start text-slate-400 max-md:ml-2.5 w-[20%]">
               B2M
             </div>
-            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[25%]">
-              Tumor Size
+            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
+              Tumor size
             </div>
           </div>
-
           <div className="flex gap-3">
             {/* Input for B2M */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
@@ -242,19 +251,19 @@ export default function PathologyPopup({
                 type="text"
                 id="B2M"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${medicalData.B2M}`}
+                placeholder={medicalData.B2M || "B2M"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.B2M}
               />
             </div>
 
-            {/* Input for Tumor Size */}
+            {/* Input for Tumor size */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
                 id="Tumor_size"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${medicalData.Tumor_size}`}
+                placeholder={medicalData.Tumor_size || "Tumor size"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.Tumor_size}
               />
@@ -262,9 +271,8 @@ export default function PathologyPopup({
           </div>
 
           <div className="new-row flex">
-            <div className=" font-bold text-black">Radiology</div>
+            <div className=" font-bold text-black">Radiology Analysis</div>
           </div>
-          {/* New row */}
           <div className="flex gap-3">
             <div className="self-start text-slate-400 max-md:ml-2.5 w-[20%]">
               MRI
@@ -273,7 +281,7 @@ export default function PathologyPopup({
               CT
             </div>
             <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
-              PET_CT
+              PET-CT
             </div>
             <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
               Ultrasound
@@ -289,7 +297,7 @@ export default function PathologyPopup({
                 type="text"
                 id="MRI"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${radioData.MRI}`}
+                placeholder={radioData.MRI || "MRI"}
                 onChange={handleRadioInputChange}
                 value={radiodata.MRI}
               />
@@ -301,19 +309,19 @@ export default function PathologyPopup({
                 type="text"
                 id="CT"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${radioData.CT}`}
+                placeholder={radioData.CT || "CT"}
                 onChange={handleRadioInputChange}
                 value={radiodata.CT}
               />
             </div>
 
-            {/* Input for PET_CT */}
+            {/* Input for PET-CT */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
               <input
                 type="text"
                 id="PET_CT"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${radioData.PET_CT}`}
+                placeholder={radioData.PET_CT || "PET-CT"}
                 onChange={handleRadioInputChange}
                 value={radiodata.PET_CT}
               />
@@ -325,7 +333,7 @@ export default function PathologyPopup({
                 type="text"
                 id="Ultrasound"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${radioData.Ultrasound}`}
+                placeholder={radioData.Ultrasound || "Ultrasound"}
                 onChange={handleRadioInputChange}
                 value={radiodata.Ultrasound}
               />
@@ -337,22 +345,21 @@ export default function PathologyPopup({
                 type="text"
                 id="XRay"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${radioData.XRay}`}
+                placeholder={radioData.XRay || "XRay"}
                 onChange={handleRadioInputChange}
                 value={radiodata.XRay}
               />
             </div>
           </div>
 
-          <div className="flex">
+          <div className="flex gap-3">
             <div className="self-start text-slate-400 max-md:ml-2.5 w-[20%]">
               Mammography
             </div>
-            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[25%]">
+            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
               DEXA
             </div>
           </div>
-
           <div className="flex gap-3">
             {/* Input for Mammography */}
             <div className="justify-center px-5 py-5 rounded-3xl bg-gray-200 w-[20%]">
@@ -360,7 +367,7 @@ export default function PathologyPopup({
                 type="text"
                 id="Mammography"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${radioData.Mammography}`}
+                placeholder={radioData.Mammography || "Mammography"}
                 onChange={handleRadioInputChange}
                 value={radiodata.Mammography}
               />
@@ -372,7 +379,7 @@ export default function PathologyPopup({
                 type="text"
                 id="DEXA"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={`${radioData.DEXA}`}
+                placeholder={radioData.DEXA || "DEXA"}
                 onChange={handleRadioInputChange}
                 value={radiodata.DEXA}
               />
