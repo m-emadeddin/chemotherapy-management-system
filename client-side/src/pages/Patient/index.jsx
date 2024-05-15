@@ -39,6 +39,7 @@ function calculateAge(birthDateString) {
   return age;
 }
 
+
 export default function PatientPage() {
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
@@ -53,21 +54,27 @@ export default function PatientPage() {
   const { newRegimenDetails } = useRegimenDetails();
   const navigate = useNavigate();
   const location = useLocation();
-  const medicalIsPresent = true;
-  const radioIsPresent = true;
-  const vitalIsPresent = true;
-  const cancerIsPresent = true;
+  const [medicalIsPresent,setmedicalIsPresent] = useState(true);
+  const [radioIsPresent,setradioIsPresent] = useState(false);
+  const [vitalIsPresent,setvitalIsPresent] = useState(false);
+  const [cancerIsPresent,setcancerIsPresent] = useState(false);
   const patient = location.state.selectedPatient;
   const id = selectedPatientId;
   const age = calculateAge(patient.date_of_birth);
   const date = formatDate(patient.date_of_birth);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/medical/${id}`);
-        const data = await response.json();
-        //console.log(data);
-        setMedicalData(data);
+        if(response.status === 200){
+          const data = await response.json();
+          setMedicalData(data);
+          setmedicalIsPresent(true)
+        }else if(response.status===404){
+          setmedicalIsPresent(false);
+        }
+
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -79,9 +86,13 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/cancer-overview/${id}`);
-        const data = await response.json();
-        //console.log(data);
-        setCancerData(data);
+        if(response.status === 200){
+          const data = await response.json();
+          setCancerData(data);
+          setcancerIsPresent(true)
+        }else if(response.status===404){
+          setcancerIsPresent(false);
+        }
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -93,8 +104,13 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/radiography/${id}`);
-        const data = await response.json();
-        setRadioData(data);
+        if(response.status === 200){
+          const data = await response.json();
+          setRadioData(data);
+          setradioIsPresent(true)
+        }else if(response.status===404){
+          setradioIsPresent(false);
+        }
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
@@ -106,8 +122,13 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/vital-sign/${id}`);
-        const data = await response.json();
-        setVitalData(data);
+        if(response.status === 200){
+          const data = await response.json();
+          setVitalData(data);
+          setvitalIsPresent(true)
+        }else if(response.status===404){
+          setvitalIsPresent(false);
+        }
       } catch (error) {
         console.error("Error fetching cycle count:", error);
       }
