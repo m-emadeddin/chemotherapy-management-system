@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useSelectedPatient } from "contexts/SelectedPatientProvider";
-import toast, { Toaster } from "react-hot-toast";
 
 import {
   Text,
@@ -29,6 +28,7 @@ export default function DocumentchemotherapyPage() {
 
   const [redirectToDoc, setRedirectToDoc] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
+  console.log(dates);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,7 +100,7 @@ export default function DocumentchemotherapyPage() {
     const extractedDates = {};
     for (const key in cyclesInfo) {
       const obj = cyclesInfo[key];
-      extractedDates[obj.Cycle_ID] = obj.Documentation_Date;
+      extractedDates[obj.Cycle_Number] = obj.Documentation_Date;
     }
     setDates(extractedDates);
   };
@@ -120,7 +120,6 @@ export default function DocumentchemotherapyPage() {
       </Helmet>
       <div className="w-full pt-[50px] flex w-[100%] items-stretch bg-gray-100">
         <div className="flex w-[19%] flex-col items-start bg-white-A700 py-[19px]">
-          <Toaster />
           <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center mb-2">
             Chemotherapy
           </Text>

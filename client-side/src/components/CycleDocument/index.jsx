@@ -5,6 +5,9 @@ import toast, { Toaster } from "react-hot-toast";
 const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   const [doseinput, setDoseInput] = useState([]);
   const [chemotherapy, setChemotherapy] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [symptomsSubmission, setSymptomsSubmission] = useState(false);
+  const [cycleSubmission, setCycleSubmission] = useState(false);
 
   const [cycleNote, setCycleNote] = useState("");
   const [selectedValues, setSelectedValues] = useState({});
@@ -50,6 +53,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   };
 
   const handleSubmit = () => {
+    setIsSubmitting(true);
     const cycleData = {
       Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
       Medications: doseinput,
@@ -57,10 +61,12 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     };
     sendSymptomsData(selectedValues);
     sendCycleData(cycleData);
-    setTimeout(() => {
-      Submit();
-    }, 5000);
   };
+  useEffect(() => {
+    if (symptomsSubmission && cycleSubmission) {
+      Submit();
+    }
+  }, [symptomsSubmission, cycleSubmission]);
 
   const sendCycleData = async (data) => {
     console.log(JSON.stringify(data));
@@ -77,6 +83,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
       );
       if (response.ok) {
         toast.success("Cycle Updates Sent Successfully");
+        setSymptomsSubmission(true);
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -97,7 +104,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
       });
       if (response.ok) {
         toast.success("Patient Symptoms Sent Successfully");
-        console.log("Patient Symptoms Sent Successfully");
+        setCycleSubmission(true);
       } else {
         console.error("Failed to submit:", response.statusText);
       }
@@ -240,7 +247,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
           size="sm"
           onClick={handleSubmit}
         >
-          Submit
+          {isSubmitting ? "Submitting ..." : "Submit"}
         </Button>
         <Button
           size="sm"
