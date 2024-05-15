@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
 import MedicalAnalysisComponent from "../../components/Medical";
 import CancerComponent from "../../components/CancerOverview";
 import { WarningPopUp } from "../../components";
 import RadiologyComponent from "components/Radiology";
 import VitalSignComponent from "components/VitalSign";
-import { useSelectedPatient } from "contexts/SelectedPatientProvider";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
@@ -39,6 +39,9 @@ function calculateAge(birthDateString) {
 }
 
 export default function PatientPage() {
+  const { selectedPatientInfo } = useSelectedPatientInfo();
+  console.log(selectedPatientInfo);
+
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
@@ -48,17 +51,15 @@ export default function PatientPage() {
   const [radioData, setRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
-  const { selectedPatientId } = useSelectedPatient();
   const navigate = useNavigate();
-  const location = useLocation();
   const [medicalIsPresent, setmedicalIsPresent] = useState(false);
   const [radioIsPresent, setradioIsPresent] = useState(false);
   const [vitalIsPresent, setvitalIsPresent] = useState(false);
   const [cancerIsPresent, setcancerIsPresent] = useState(false);
-  const patient = location.state.selectedPatient;
-  const id = selectedPatientId;
-  const age = calculateAge(patient.date_of_birth);
-  const date = formatDate(patient.date_of_birth);
+
+  const id = selectedPatientInfo.Patient_ID;
+  const age = calculateAge(selectedPatientInfo.date_of_birth);
+  const date = formatDate(selectedPatientInfo.date_of_birth);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -186,7 +187,7 @@ export default function PatientPage() {
                 className="h-[10px] mr-[10px]"
               />
               <Text size="xs" as="p" className="!text-blue_gray-300_02">
-                {patient.Name}
+                {selectedPatientInfo.Name}
               </Text>
             </div>
           </div>
@@ -249,7 +250,7 @@ export default function PatientPage() {
                         as="h2"
                         className="w-[74%] leading-[25px]"
                       >
-                        <>{patient.Name}</>
+                        <>{selectedPatientInfo.Name}</>
                       </Heading>
                     </div>
                     <Button
@@ -268,7 +269,7 @@ export default function PatientPage() {
 
                   <div className="flex flex-col items-center gap-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
-                      {patient ? (
+                      {selectedPatientInfo ? (
                         <div className="grid grid-cols-2 gap-5">
                           <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
                             <Text
@@ -279,7 +280,7 @@ export default function PatientPage() {
                               Patient ID
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {selectedPatientId}
+                              {selectedPatientInfo.Patient_ID}
                             </Text>
                           </div>
 
@@ -292,7 +293,7 @@ export default function PatientPage() {
                               Gender
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.Gender}
+                              {selectedPatientInfo.Gender}
                             </Text>
                           </div>
 
@@ -318,7 +319,7 @@ export default function PatientPage() {
                               Blood Type
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.blood_type}
+                              {selectedPatientInfo.blood_type}
                             </Text>
                           </div>
 
@@ -331,7 +332,7 @@ export default function PatientPage() {
                               Disease Type
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.disease_type}
+                              {selectedPatientInfo.disease_type}
                             </Text>
                           </div>
 
@@ -344,7 +345,7 @@ export default function PatientPage() {
                               Phone Number
                             </Text>
                             <Text as="p" className="mb-[5px] px-2">
-                              {patient.mobile}
+                              {selectedPatientInfo.mobile}
                             </Text>
                           </div>
                         </div>
@@ -460,19 +461,19 @@ export default function PatientPage() {
 
             {showPatientPopup && (
               <PatientPopup
-                name={patient.Name}
+                name={selectedPatientInfo.Name}
                 age={age}
                 onClose={togglePatientPopup}
-                ID={patient.Patient_ID}
-                Gender={patient.Gender}
+                ID={selectedPatientInfo.Patient_ID}
+                Gender={selectedPatientInfo.Gender}
                 DateOFBirth={date}
-                bloodType={patient.blood_type}
-                DiseaseType={patient.disease_type}
-                Street={patient.street}
-                City={patient.city}
-                Government={patient.governorate}
-                Nationality={patient.nationality}
-                PhoneNumber={patient.mobile}
+                bloodType={selectedPatientInfo.blood_type}
+                DiseaseType={selectedPatientInfo.disease_type}
+                Street={selectedPatientInfo.street}
+                City={selectedPatientInfo.city}
+                Government={selectedPatientInfo.governorate}
+                Nationality={selectedPatientInfo.nationality}
+                PhoneNumber={selectedPatientInfo.mobile}
                 path={path}
               />
             )}
@@ -485,7 +486,7 @@ export default function PatientPage() {
                 medicalData={
                   medicalIsPresent ? medicalData["MedicalAnalysis"][0] : " "
                 }
-                patientID={patient.Patient_ID}
+                patientID={selectedPatientInfo.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}
               />

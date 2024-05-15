@@ -3,8 +3,13 @@
 .MuiTypography-caption,
 .MuiPickersDay-root,
 .MuiPickersMonth-monthButton,
-.MuiPickersYear-yearButton {
+.MuiPickersYear-yearButton,
+.MuiPickersCalendarHeader-label {
     font-family: "Lama Sans", Helvetica !important;
+}
+
+.MuiPickersCalendarHeader-label {
+    font-weight: 700 !important;
 }
 
 .MuiTypography-caption {

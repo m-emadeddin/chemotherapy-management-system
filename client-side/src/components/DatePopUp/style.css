@@ -22,6 +22,7 @@
     left: 600px;
     top: 200px;
     align-items: center;
+    transition: ease 0.3s;
 }
 
 .date-popup-container .heading {

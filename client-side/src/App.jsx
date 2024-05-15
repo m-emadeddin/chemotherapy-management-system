@@ -6,7 +6,6 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { PlansDetailsProvider } from "contexts/PlansDetails";
 import { PlanDataProvider } from "contexts/PlanDataContext";
 import { PatientsInfoProvider } from "contexts/PatientsInfoContext";
-import { SelectedPatientProvider } from "./contexts/SelectedPatientProvider";
 import { SelectedPatientInfoProvider } from "contexts/SelectedPatientInfoDetails";
 
 function App() {
@@ -14,17 +13,15 @@ function App() {
     <AuthProvider>
       <PatientsInfoProvider>
         <SelectedPatientInfoProvider>
-          <SelectedPatientProvider>
-            <PlansDetailsProvider>
-              <PlanDataProvider>
-                <RegimenDetailsProvider>
-                  <Router>
-                    <Routes />
-                  </Router>
-                </RegimenDetailsProvider>
-              </PlanDataProvider>
-            </PlansDetailsProvider>
-          </SelectedPatientProvider>
+          <PlansDetailsProvider>
+            <PlanDataProvider>
+              <RegimenDetailsProvider>
+                <Router>
+                  <Routes />
+                </Router>
+              </RegimenDetailsProvider>
+            </PlanDataProvider>
+          </PlansDetailsProvider>
         </SelectedPatientInfoProvider>
       </PatientsInfoProvider>
     </AuthProvider>

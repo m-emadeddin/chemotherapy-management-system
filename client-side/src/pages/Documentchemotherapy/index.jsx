@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { useSelectedPatient } from "contexts/SelectedPatientProvider";
 
 import {
   Text,
@@ -11,10 +10,11 @@ import {
   DocumentChemotherapyCycle,
   WarningPopUp,
 } from "../../components";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 
 export default function DocumentchemotherapyPage() {
-  const { selectedPatientId } = useSelectedPatient();
-  const id = selectedPatientId;
+  const { selectedPatientInfo } = useSelectedPatientInfo();
+  const id = selectedPatientInfo.Patient_ID;
 
   const [cycleID, setCycleID] = useState(1);
   const [activeCycle, setActiveCycle] = useState(1);

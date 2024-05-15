@@ -1,16 +1,26 @@
 import { useRef } from "react";
 import "./style.css";
-export default function DatePopUp({ onClose, onConfirm, patientsNumber }) {
+
+export default function DatePopUp({
+  onClose,
+  onConfirm,
+  clearDate,
+  patientsNumber,
+}) {
   const DatePopRef = useRef();
 
   const closeDatePopUp = (e) => {
     if (DatePopRef.current === e.target) {
+      clearDate();
       onClose();
     }
   };
+
   const handleClose = () => {
+    clearDate();
     onClose();
   };
+
   return (
     <div
       className="date-popup-overlay"
