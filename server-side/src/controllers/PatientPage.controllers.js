@@ -261,14 +261,14 @@ exports.updateRadiography = (req, res, next) => {
       if (!patient) {
         return res.status(404).json({ error: 'Patient not found' });
       }
-      //return patient.getRadiographies({ where: { Radiography_ID: Radiography_ID } }); // logic to update any radiography
-      patient.getRadiographies().then((radiographies) => {
+       // logic to update any radiography
+      return patient.getRadiographies({ where: { Radiography_ID: Radiography_ID } }) .then((radiographies) => {
+      // patient.getRadiographies()
+      
         if (!radiographies || radiographies.length === 0) {
-          return res
-            .status(404)
-            .json({ error: 'Radiographies not found for this patient' });
+          return res.status(404).json({ error: 'Radiographies not found for this patient' });
         }
-        const radiography = radiographies[radiographies.length - 1];
+        const radiography = radiographies[0];
         radiography
           .update({
             MRI: MRI,
@@ -280,9 +280,7 @@ exports.updateRadiography = (req, res, next) => {
             DEXA: DEXA,
           })
           .then(() => {
-            res
-              .status(200)
-              .json({ message: 'Radiography updated successfully' });
+            res.status(200).json({ message: 'Radiography updated successfully' });
           })
           .catch(() => {
             console.error('Error updating radiography:');
