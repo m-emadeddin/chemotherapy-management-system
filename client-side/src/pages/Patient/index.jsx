@@ -60,6 +60,7 @@ export default function PatientPage() {
   const [cancerIsPresent,setcancerIsPresent] = useState(false);
   const patient = location.state.selectedPatient;
   const id = selectedPatientId;
+  console.log(id)
   const age = calculateAge(patient.date_of_birth);
   const date = formatDate(patient.date_of_birth);
 
