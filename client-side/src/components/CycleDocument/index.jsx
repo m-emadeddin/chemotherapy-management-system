@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
-import "./style.css";
-
 const CycleDocument = ({ Submit, Cancel, cycle }) => {
   const id = 1;
   const [doseinput, setDoseInput] = useState([]);
@@ -132,15 +130,15 @@ const CycleDocument = ({ Submit, Cancel, cycle }) => {
             <div className="flex justify-between">
               <div className="w-[55%]"></div>
               <div className="w-[45%] flex justify-evenly">
-                <Text className="text-red-0">High</Text>
-                <Text className="text-blue-500">Moderate</Text>
-                <Text className="text-green-0">Low</Text>
+                <Text>High</Text>
+                <Text>Moderate</Text>
+                <Text>Low</Text>
               </div>
             </div>
             {symptoms.map((symptom, index) => (
               <div
                 key={index}
-                className="flex justify-between items-center border border-gray-800 p-2 rounded-md container"
+                className="flex justify-between items-center border border-2 border-gray-800 p-2 rounded-md container"
               >
                 <Text className="w-[55%]">{symptom.name}</Text>
                 <div className="w-[45%] flex justify-evenly">
