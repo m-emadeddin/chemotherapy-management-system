@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ChemotherapyTable = ({ cycle, id }) => {
+const ChemotherapyTable = ({ cycle }) => {
   const [chemotherapy, setChemotherapy] = useState([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const ChemotherapyTable = ({ cycle, id }) => {
     setTimeout(() => {
       fetchData();
     }, 400);
-  }, [cycle, id]);
+  }, [cycle]);
 
   return (
     <>
@@ -37,7 +37,7 @@ const ChemotherapyTable = ({ cycle, id }) => {
               className="flex w-full border-t-[1px] border-gray-800"
             >
               <div className="w-[15%] p-[19px]">{chemo.Name}</div>
-              <div className="w-[15%] p-[19px] flex justify-between items-center">
+              <div className="w-[15%] p-[19px] flex justify-between">
                 {chemo.Route === "Oral"
                   ? `${chemo.Dose} Miligram`
                   : `${chemo.Dose} MiliLiter`}
