@@ -1,5 +1,6 @@
 // import models
 const Patients = require("../models/index.models").Patients;
+const SideEffects =  require("../models/index.models").SideEffects;  // use relation ya roaa "delete this "
 //=========================Patient====================================
 exports.getAllPatients = (req, res) => {
   Patients.findAll()
@@ -421,7 +422,7 @@ exports.getCancerOverview = (req, res) => {
         Staging: cancerOverview.Stage,
         Note: cancerOverview.Note_On_cancer,
       };
-      res.status(200).json({ cancerOverview });
+      res.status(200).json({ cancerOverview }); 
     })
     .catch((err) => {
       console.error("Error getting data:", err);
@@ -470,13 +471,11 @@ exports.postCancerOverview = (req, res) => {
 //=========================Side Effects===============================
 exports.postSideEffects = (req, res) => {
   const patientId = req.params.id;
-
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
         return res.status(404).json({ error: "Patient not found" });
       }
-
       return SideEffects.findOne({ where: { id: patientId } });
     })
     .then((sideEffect) => {
@@ -486,12 +485,10 @@ exports.postSideEffects = (req, res) => {
           .update({
             Nausea: req.body.Nausea,
             Loss_of_appetite: req.body.Loss_of_appetite,
-            Changes_in_kidney_and_liver_function:
-              req.body.Changes_in_kidney_and_liver_function,
+            Changes_in_kidney_and_liver_function: req.body.Changes_in_kidney_and_liver_function,
             Psychological_effects: req.body.Psychological_effects,
             Loss_of_memory: req.body.Loss_of_memory,
-            Gastrointestinal_disturbances:
-              req.body.Gastrointestinal_disturbances,
+            Gastrointestinal_disturbances: req.body.Gastrointestinal_disturbances,
             Hair_loss: req.body.Hair_loss,
             Skin_change: req.body.Skin_change,
             Blood_cell_loss: req.body.Blood_cell_loss,
@@ -501,11 +498,10 @@ exports.postSideEffects = (req, res) => {
           });
       } else {
         // Create new side effect
-        return SideEffects.create({
+        return sideEffect.create({
           Nausea: req.body.Nausea,
           Loss_of_appetite: req.body.Loss_of_appetite,
-          Changes_in_kidney_and_liver_function:
-            req.body.Changes_in_kidney_and_liver_function,
+          Changes_in_kidney_and_liver_function: req.body.Changes_in_kidney_and_liver_function,
           Psychological_effects: req.body.Psychological_effects,
           Loss_of_memory: req.body.Loss_of_memory,
           Gastrointestinal_disturbances: req.body.Gastrointestinal_disturbances,
@@ -520,5 +516,31 @@ exports.postSideEffects = (req, res) => {
     })
     .catch((err) => {
       console.error("Error adding data:", err);
+    });
+};
+
+//========================= Treatment Plan ===============================
+exports.hasTreatmentplan = (req, res, next) => {
+  const ID = req.params.id;
+  let Patient_Name ;
+  let Treatment_plan;
+  Patients.findByPk(ID)
+    .then((patient) => {
+      console.log(Patient_Name)
+      if (!patient) {
+        return res.status(404).json({ error: "Patient Not found" });
+      }
+      Patient_Name = patient.Name
+      return patient.getTreatmentPlan({where :{patientPatientID : ID} }); 
+    })
+    .then((treatmentplan) => {
+      if (!treatmentplan || treatmentplan.length === 0) {
+        return res.status(404).json({ error: "This patient has no treatment plan" });
+      }
+      Treatment_plan = treatmentplan.Plan_Name;
+      return res.status(200).json({ message: `${Patient_Name} is on ${Treatment_plan} treatment.` });
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
