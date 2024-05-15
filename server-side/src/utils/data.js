@@ -218,56 +218,56 @@ exports.insertDummyData = async () => {
     
 
     //===========================TREATMENT PLAN=============================================================
-    const Treatmentplan1 = await patient1.createTreatmentPlan({
-      Plan_Name: 'CHPO',
-      number_of_Cycles: 2,
-      number_of_Weeks: 5,
-    });
-    const Treatmentplan2 = await patient2.createTreatmentPlan({
-      Plan_Name: 'chemotherapy2',
-      number_of_Cycles: 2,
-      number_of_Weeks: 4,
-    });
-    const Treatmentplan3 = await patient3.createTreatmentPlan({
-      Plan_Name: 'chemotherapy3',
-      number_of_Cycles: 3,
-      number_of_Weeks: 4,
-    });
-    const Treatmentplan4 = await patient4.createTreatmentPlan({
-      Plan_Name: 'chemotherap4',
-      number_of_Cycles: 4,
-      number_of_Weeks: 4,
-    });
-    const Treatmentplan5 = await patient5.createTreatmentPlan({
-      Plan_Name: 'chemotherapy5',
-      number_of_Cycles: 5,
-      number_of_Weeks: 4,
-    });
-    const Treatmentplan6 = await patient6.createTreatmentPlan({
-      Plan_Name: 'chemotherapy6',
-      number_of_Cycles: 4,
-      number_of_Weeks: 4,
-    });
-    const Treatmentplan7 = await patient7.createTreatmentPlan({
-      Plan_Name: 'chemotherapy7',
-      number_of_Cycles: 3,
-      number_of_Weeks: 4,
-    });
-    const Treatmentplan8 = await patient8.createTreatmentPlan({
-      Plan_Name: 'chemotherapy8',
-      number_of_Cycles: 2,
-      number_of_Weeks: 4,
-    });
-    const Treatmentplan9 = await patient9.createTreatmentPlan({
-      Plan_Name: 'chemotherapy9',
-      number_of_Cycles: 4,
-      number_of_Weeks: 4,
-    });
-    const Treatmentplan10 = await patient10.createTreatmentPlan({
-      Plan_Name: 'chemotherapy10',
-      number_of_Cycles: 4,
-      number_of_Weeks: 4,
-    });
+    // const Treatmentplan1 = await patient1.createTreatmentPlan({
+    //   Plan_Name: 'CHPO',
+    //   number_of_Cycles: 2,
+    //   number_of_Weeks: 5,
+    // });
+    // const Treatmentplan2 = await patient2.createTreatmentPlan({
+    //   Plan_Name: 'chemotherapy2',
+    //   number_of_Cycles: 2,
+    //   number_of_Weeks: 4,
+    // });
+    // const Treatmentplan3 = await patient3.createTreatmentPlan({
+    //   Plan_Name: 'chemotherapy3',
+    //   number_of_Cycles: 3,
+    //   number_of_Weeks: 4,
+    // });
+    // const Treatmentplan4 = await patient4.createTreatmentPlan({
+    //   Plan_Name: 'chemotherap4',
+    //   number_of_Cycles: 4,
+    //   number_of_Weeks: 4,
+    // });
+    // const Treatmentplan5 = await patient5.createTreatmentPlan({
+    //   Plan_Name: 'chemotherapy5',
+    //   number_of_Cycles: 5,
+    //   number_of_Weeks: 4,
+    // });
+    // const Treatmentplan6 = await patient6.createTreatmentPlan({
+    //   Plan_Name: 'chemotherapy6',
+    //   number_of_Cycles: 4,
+    //   number_of_Weeks: 4,
+    // });
+    // const Treatmentplan7 = await patient7.createTreatmentPlan({
+    //   Plan_Name: 'chemotherapy7',
+    //   number_of_Cycles: 3,
+    //   number_of_Weeks: 4,
+    // });
+    // const Treatmentplan8 = await patient8.createTreatmentPlan({
+    //   Plan_Name: 'chemotherapy8',
+    //   number_of_Cycles: 2,
+    //   number_of_Weeks: 4,
+    // });
+    // const Treatmentplan9 = await patient9.createTreatmentPlan({
+    //   Plan_Name: 'chemotherapy9',
+    //   number_of_Cycles: 4,
+    //   number_of_Weeks: 4,
+    // });
+    // const Treatmentplan10 = await patient10.createTreatmentPlan({
+    //   Plan_Name: 'chemotherapy10',
+    //   number_of_Cycles: 4,
+    //   number_of_Weeks: 4,
+    // });
     
     //===========================VITAL SIGNS=============================================================
      // Add vital signs for patient1
@@ -660,6 +660,342 @@ exports.insertDummyData = async () => {
         Cycle_Number:2
       }
     );
+
+    await patient3.createSideEffect({
+      Nausea: 'Moderate',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'Moderate',
+      Loss_of_memory: 'High',
+      Skin_change: 'Low',
+      Blood_cell_loss: 'Moderate',
+      Psychological_effects: 'Low',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-06-01 09:00:00',
+      Cycle_Number: 1
+    });
+    
+    await patient3.createSideEffect({
+      Nausea: 'Low',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Moderate',
+      Gastrointestinal_disturbances: 'Low',
+      Loss_of_memory: 'Moderate',
+      Skin_change: 'High',
+      Blood_cell_loss: 'Low',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'Moderate',
+      Date: '2024-07-01 10:00:00',
+      Cycle_Number: 2
+    });
+    
+    await patient3.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'High',
+      Hair_loss: 'High',
+      Gastrointestinal_disturbances: 'High',
+      Loss_of_memory: 'High',
+      Skin_change: 'High',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'High',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-08-01 11:00:00',
+      Cycle_Number: 3
+    });
+    
+    await patient4.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'High',
+      Loss_of_memory: 'Moderate',
+      Skin_change: 'Low',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-06-02 08:00:00',
+      Cycle_Number: 1
+    });
+    
+    await patient4.createSideEffect({
+      Nausea: 'Moderate',
+      Loss_of_appetite: 'High',
+      Hair_loss: 'Moderate',
+      Gastrointestinal_disturbances: 'Low',
+      Loss_of_memory: 'High',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'Low',
+      Psychological_effects: 'High',
+      Changes_in_kidney_and_liver_function: 'Low',
+      Date: '2024-07-02 09:00:00',
+      Cycle_Number: 2
+    });
+    
+    await patient4.createSideEffect({
+      Nausea: 'Low',
+      Loss_of_appetite: 'Low',
+      Hair_loss: 'High',
+      Gastrointestinal_disturbances: 'Moderate',
+      Loss_of_memory: 'Low',
+      Skin_change: 'High',
+      Blood_cell_loss: 'Moderate',
+      Psychological_effects: 'Low',
+      Changes_in_kidney_and_liver_function: 'Moderate',
+      Date: '2024-08-02 10:00:00',
+      Cycle_Number: 3
+    });
+    
+    await patient5.createSideEffect({
+      Nausea: 'Low',
+      Loss_of_appetite: 'Low',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'Moderate',
+      Loss_of_memory: 'Low',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'Low',
+      Date: '2024-06-03 08:00:00',
+      Cycle_Number: 1
+    });
+    
+    await patient5.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'High',
+      Loss_of_memory: 'Moderate',
+      Skin_change: 'Low',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-07-03 09:00:00',
+      Cycle_Number: 2
+    });
+    
+    await patient5.createSideEffect({
+      Nausea: 'Moderate',
+      Loss_of_appetite: 'High',
+      Hair_loss: 'Moderate',
+      Gastrointestinal_disturbances: 'Low',
+      Loss_of_memory: 'High',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'Low',
+      Psychological_effects: 'High',
+      Changes_in_kidney_and_liver_function: 'Low',
+      Date: '2024-08-03 10:00:00',
+      Cycle_Number: 3
+    });
+        
+    await patient6.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'High',
+      Hair_loss: 'High',
+      Gastrointestinal_disturbances: 'Low',
+      Loss_of_memory: 'High',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'Low',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-06-04 08:00:00',
+      Cycle_Number: 1
+    });
+    
+    await patient6.createSideEffect({
+      Nausea: 'Low',
+      Loss_of_appetite: 'Low',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'Moderate',
+      Loss_of_memory: 'Low',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'Low',
+      Date: '2024-07-04 09:00:00',
+      Cycle_Number: 2
+    });
+    
+    await patient6.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'High',
+      Loss_of_memory: 'Moderate',
+      Skin_change: 'Low',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-08-04 10:00:00',
+      Cycle_Number: 3
+    });
+    await patient7.createSideEffect({
+      Nausea: 'Low',
+      Loss_of_appetite: 'High',
+      Hair_loss: 'Moderate',
+      Gastrointestinal_disturbances: 'High',
+      Loss_of_memory: 'Low',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'Low',
+      Changes_in_kidney_and_liver_function: 'Moderate',
+      Date: '2024-06-05 08:00:00',
+      Cycle_Number: 1
+    });
+    
+    await patient7.createSideEffect({
+      Nausea: 'Moderate',
+      Loss_of_appetite: 'Low',
+      Hair_loss: 'High',
+      Gastrointestinal_disturbances: 'Low',
+      Loss_of_memory: 'Moderate',
+      Skin_change: 'High',
+      Blood_cell_loss: 'Low',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-07-05 09:00:00',
+      Cycle_Number: 2
+    });
+    
+    await patient7.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'Moderate',
+      Loss_of_memory: 'High',
+      Skin_change: 'Low',
+      Blood_cell_loss: 'Moderate',
+      Psychological_effects: 'High',
+      Changes_in_kidney_and_liver_function: 'Low',
+      Date: '2024-08-05 10:00:00',
+      Cycle_Number: 3
+    });
+    
+    await patient8.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Moderate',
+      Gastrointestinal_disturbances: 'High',
+      Loss_of_memory: 'Low',
+      Skin_change: 'High',
+      Blood_cell_loss: 'Moderate',
+      Psychological_effects: 'Low',
+      Changes_in_kidney_and_liver_function: 'Moderate',
+      Date: '2024-06-06 08:00:00',
+      Cycle_Number: 1
+    });
+    
+    await patient8.createSideEffect({
+      Nausea: 'Low',
+      Loss_of_appetite: 'High',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'Moderate',
+      Loss_of_memory: 'Moderate',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'High',
+      Changes_in_kidney_and_liver_function: 'Low',
+      Date: '2024-07-06 09:00:00',
+      Cycle_Number: 2
+    });
+    
+    await patient8.createSideEffect({
+      Nausea: 'Moderate',
+      Loss_of_appetite: 'Low',
+      Hair_loss: 'High',
+      Gastrointestinal_disturbances: 'Low',
+      Loss_of_memory: 'High',
+      Skin_change: 'Low',
+      Blood_cell_loss: 'Moderate',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-08-06 10:00:00',
+      Cycle_Number: 3
+    });
+    
+    await patient9.createSideEffect({
+      Nausea: 'Moderate',
+      Loss_of_appetite: 'High',
+      Hair_loss: 'High',
+      Gastrointestinal_disturbances: 'Low',
+      Loss_of_memory: 'Low',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'Low',
+      Changes_in_kidney_and_liver_function: 'Moderate',
+      Date: '2024-06-07 08:00:00',
+      Cycle_Number: 1
+    });
+    
+    await patient9.createSideEffect({
+      Nausea: 'Low',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'High',
+      Loss_of_memory: 'High',
+      Skin_change: 'Low',
+      Blood_cell_loss: 'Moderate',
+      Psychological_effects: 'High',
+      Changes_in_kidney_and_liver_function: 'Low',
+      Date: '2024-07-07 09:00:00',
+      Cycle_Number: 2
+    });
+    
+    await patient9.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'Low',
+      Hair_loss: 'Moderate',
+      Gastrointestinal_disturbances: 'Moderate',
+      Loss_of_memory: 'Moderate',
+      Skin_change: 'High',
+      Blood_cell_loss: 'Low',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-08-07 10:00:00',
+      Cycle_Number: 3
+    });
+    
+    await patient10.createSideEffect({
+      Nausea: 'High',
+      Loss_of_appetite: 'High',
+      Hair_loss: 'Moderate',
+      Gastrointestinal_disturbances: 'Low',
+      Loss_of_memory: 'High',
+      Skin_change: 'Moderate',
+      Blood_cell_loss: 'Low',
+      Psychological_effects: 'Moderate',
+      Changes_in_kidney_and_liver_function: 'High',
+      Date: '2024-06-08 08:00:00',
+      Cycle_Number: 1
+    });
+    
+    await patient10.createSideEffect({
+      Nausea: 'Moderate',
+      Loss_of_appetite: 'Low',
+      Hair_loss: 'High',
+      Gastrointestinal_disturbances: 'Moderate',
+      Loss_of_memory: 'Low',
+      Skin_change: 'High',
+      Blood_cell_loss: 'Moderate',
+      Psychological_effects: 'Low',
+      Changes_in_kidney_and_liver_function: 'Moderate',
+      Date: '2024-07-08 09:00:00',
+      Cycle_Number: 2
+    });
+    
+    await patient10.createSideEffect({
+      Nausea: 'Low',
+      Loss_of_appetite: 'Moderate',
+      Hair_loss: 'Low',
+      Gastrointestinal_disturbances: 'High',
+      Loss_of_memory: 'Moderate',
+      Skin_change: 'Low',
+      Blood_cell_loss: 'High',
+      Psychological_effects: 'High',
+      Changes_in_kidney_and_liver_function: 'Low',
+      Date: '2024-08-08 10:00:00',
+      Cycle_Number: 3
+    });
+      
 
     //===========================RADIOGRAPHY=============================================================
     await patient1.createRadiography({
@@ -1178,114 +1514,8 @@ exports.insertDummyData = async () => {
     await patient10.createVisit({
       visit_time: new Date('2024-08-10 02:30:00'),
     });
-    //===========================SIDE EFFECTS==========================================================
-    // Create side effects for patient1
-    const SideEffects1 = await SideEffects.create(
-      {
-        Nausea: 'High',
-        Loss_of_appetite: 'Moderate',
-        Hair_loss: 'Low',
-        Gastrointestinal_disturbances: 'Moderate',
-        Loss_of_memory: 'High',
-        Skin_change: 'Low',
-        Blood_cell_loss: 'Low',
-        Psychological_effects: 'Moderate',
-        Changes_in_kidney_and_liver_function: 'High',
-      }
-    );
-    // Create side effects for patient6
-    const SideEffects2 = await SideEffects.create(
-      {
-        Nausea: 'High', // Example side effect
-        Loss_of_appetite: 'Moderate',
-        Hair_loss: 'Low',
-        Gastrointestinal_disturbances: 'High',
-        Loss_of_memory: 'Low',
-        Skin_change: 'Moderate',
-        Blood_cell_loss: 'High',
-        Psychological_effects: 'Low',
-        Changes_in_kidney_and_liver_function: 'Moderate',
-      });
 
-    // Create side effects for patient7
-    const SideEffects3 = await SideEffects.create(
-      {
-        Nausea: 'Low',
-        Loss_of_appetite: 'High',
-        Hair_loss: 'High',
-        Gastrointestinal_disturbances: 'Low',
-        Loss_of_memory: 'Moderate',
-        Skin_change: 'High',
-        Blood_cell_loss: 'Moderate',
-        Psychological_effects: 'High',
-        Changes_in_kidney_and_liver_function: 'Low',
-      }
-    );
-    const SideEffects4 = await SideEffects.create(
-      {
-        Nausea: 'Moderate',
-        Loss_of_appetite: 'Low',
-        Hair_loss: 'Moderate',
-        Gastrointestinal_disturbances: 'High',
-        Loss_of_memory: 'Low',
-        Skin_change: 'Moderate',
-        Blood_cell_loss: 'High',
-        Psychological_effects: 'Low',
-        Changes_in_kidney_and_liver_function: 'Moderate',
-      }
-    );
 
-    const SideEffects5 = await SideEffects.create(
-      {
-        Nausea: 'High',
-        Loss_of_appetite: 'Moderate',
-        Hair_loss: 'Low',
-        Gastrointestinal_disturbances: 'Moderate',
-        Loss_of_memory: 'High',
-        Skin_change: 'Low',
-        Blood_cell_loss: 'Low',
-        Psychological_effects: 'Moderate',
-        Changes_in_kidney_and_liver_function: 'High',
-      }
-    );
-    const SideEffects6 = await SideEffects.create(
-      {
-        Nausea: 'Low',
-        Loss_of_appetite: 'High',
-        Hair_loss: 'High',
-        Gastrointestinal_disturbances: 'Low',
-        Loss_of_memory: 'Moderate',
-        Skin_change: 'High',
-        Blood_cell_loss: 'Moderate',
-        Psychological_effects: 'High',
-        Changes_in_kidney_and_liver_function: 'Low',
-      });
-
-      const SideEffects7 = await SideEffects.create(
-      {
-        Nausea: 'Moderate',
-        Loss_of_appetite: 'Low',
-        Hair_loss: 'Moderate',
-        Gastrointestinal_disturbances: 'High',
-        Loss_of_memory: 'Low',
-        Skin_change: 'Moderate',
-        Blood_cell_loss: 'High',
-        Psychological_effects: 'Low',
-        Changes_in_kidney_and_liver_function: 'Moderate',
-      }
-    );
-    const SideEffects8 = await SideEffects.create(
-      {
-        Nausea: 'Low',
-        Loss_of_appetite: 'High',
-        Hair_loss: 'High',
-        Gastrointestinal_disturbances: 'Low',
-        Loss_of_memory: 'Moderate',
-        Skin_change: 'High',
-        Blood_cell_loss: 'Moderate',
-        Psychological_effects: 'High',
-        Changes_in_kidney_and_liver_function: 'Low',
-      });
     //===========================RESERVED BEDS=============================================================
     const bed1 = await ReservedBeds.create({
       Availability_Status: 1,
@@ -1320,319 +1550,313 @@ exports.insertDummyData = async () => {
       Bed_ID: 20,
     });
     //===========================CYCLES=============================================================
-    const cycle1 = await Cycles.create({
-      Cycle_Number: 1,
-      Start_Date: '2024-05-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-      Is_active:true
-      // cycle_note:'all is good'
-    });
+    // const cycle1 = await Cycles.create({
+    //   Cycle_Number: 1,
+    //   Start_Date: '2024-05-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    //   Is_active:true
+    //   // cycle_note:'all is good'
+    // });
     
-    const cycle2 = await Cycles.create({
-      Cycle_Number: 2,
-      Start_Date: '2024-06-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-      Is_active:false,
-      // cycle_note:'👍👍👍👍👍',
+    // const cycle2 = await Cycles.create({
+    //   Cycle_Number: 2,
+    //   Start_Date: '2024-06-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    //   Is_active:false,
+    //   // cycle_note:'👍👍👍👍👍',
       
-    });
+    // });
     
-    const cycle3 = await Cycles.create({
-      Cycle_Number: 1,
-      Start_Date: '2024-07-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-      Is_active:true,
-      // cycle_note:'💔💔💔💔'
-    });
+    // const cycle3 = await Cycles.create({
+    //   Cycle_Number: 1,
+    //   Start_Date: '2024-07-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    //   Is_active:true,
+    //   // cycle_note:'💔💔💔💔'
+    // });
     
-    const cycle4 = await Cycles.create({
-      Cycle_Number: 2,
-      Start_Date: '2024-10-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-      // cycle_note:'still alive'
-    });
-    const cycle5 = await Cycles.create({
-      Cycle_Number: 3,
-      Start_Date: '2024-10-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-      // cycle_note:'still alive'
-    });
-    const cycle5 = await Cycles.create({
-      Cycle_Number: 1,
-      Start_Date: '2025-01-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle4 = await Cycles.create({
+    //   Cycle_Number: 2,
+    //   Start_Date: '2024-10-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    //   // cycle_note:'still alive'
+    // });
+
+    // const cycle5 = await Cycles.create({
+    //   Cycle_Number: 1,
+    //   Start_Date: '2025-01-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle6 = await Cycles.create({
-      Cycle_Number: 2,
-      Start_Date: '2025-04-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle6 = await Cycles.create({
+    //   Cycle_Number: 2,
+    //   Start_Date: '2025-04-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle7 = await Cycles.create({
-      Cycle_Number: 1,
-      Start_Date: '2025-07-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle7 = await Cycles.create({
+    //   Cycle_Number: 1,
+    //   Start_Date: '2025-07-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle8 = await Cycles.create({
-      Cycle_Number: 2,
-      Start_Date: '2025-10-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
-    const cycle9 = await Cycles.create({
-      Cycle_Number: 1,
-      Start_Date: '2026-01-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle8 = await Cycles.create({
+    //   Cycle_Number: 2,
+    //   Start_Date: '2025-10-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
+    // const cycle9 = await Cycles.create({
+    //   Cycle_Number: 1,
+    //   Start_Date: '2026-01-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle10 = await Cycles.create({
-      Cycle_Number: 2,
-      Start_Date: '2026-04-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle10 = await Cycles.create({
+    //   Cycle_Number: 2,
+    //   Start_Date: '2026-04-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle11 = await Cycles.create({
-      Cycle_Number: 2,
-      Start_Date: '2026-07-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle11 = await Cycles.create({
+    //   Cycle_Number: 2,
+    //   Start_Date: '2026-07-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle12 = await Cycles.create({
-      Cycle_Number: 1,
-      Start_Date: '2026-10-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle12 = await Cycles.create({
+    //   Cycle_Number: 1,
+    //   Start_Date: '2026-10-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle13 = await Cycles.create({
-      Cycle_Number: 2,
-      Start_Date: '2027-01-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle13 = await Cycles.create({
+    //   Cycle_Number: 2,
+    //   Start_Date: '2027-01-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle14 = await Cycles.create({
-      Cycle_Number: 1,
-      Start_Date: '2027-04-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle14 = await Cycles.create({
+    //   Cycle_Number: 1,
+    //   Start_Date: '2027-04-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle15 = await Cycles.create({
-      Cycle_Number: 2,
-      Start_Date: '2027-07-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle15 = await Cycles.create({
+    //   Cycle_Number: 2,
+    //   Start_Date: '2027-07-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     
-    const cycle16 = await Cycles.create({
-      Cycle_Number: 1,
-      Start_Date: '2027-10-01',
-      Start_Time: '08:00:00',
-      End_Time: '17:00:00',
-    });
+    // const cycle16 = await Cycles.create({
+    //   Cycle_Number: 1,
+    //   Start_Date: '2027-10-01',
+    //   Start_Time: '08:00:00',
+    //   End_Time: '17:00:00',
+    // });
     //===========================PRE MEDICATIONS=============================================================
-    const premed1 = await Premedications.create({
-      Medication_Name: 'Premed A',
-      Dose: 10,
-      Route: 'Oral',
-      Instructions: 'Take before chemotherapy',
-    });
-    const premed2 = await Premedications.create({
-      Medication_Name: 'Premed B',
-      Dose: 20,
-      Route: 'Intravenous',
-      Instructions: 'Administer slowly',
-    });
-    const premed3 = await Premedications.create({
-      Medication_Name: 'Premed C',
-      Dose: 35,
-      Route: 'Oral',
-      Instructions: 'Take before chemotherapy',
-    });
-    const premed4 = await Premedications.create({
-      Medication_Name: 'Premed D',
-      Dose: 40,
-      Route: 'Intravenous',
-      Instructions: 'Administer slowly',
-    });
-    const premed5 = await Premedications.create({
-      Medication_Name: 'Premed E',
-      Dose: 25,
-      Route: 'Intravenous',
-      Instructions: 'Administer before procedure',
-    });
+    // const premed1 = await Premedications.create({
+    //   Medication_Name: 'Premed A',
+    //   Dose: 10,
+    //   Route: 'Oral',
+    //   Instructions: 'Take before chemotherapy',
+    // });
+    // const premed2 = await Premedications.create({
+    //   Medication_Name: 'Premed B',
+    //   Dose: 20,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer slowly',
+    // });
+    // const premed3 = await Premedications.create({
+    //   Medication_Name: 'Premed C',
+    //   Dose: 35,
+    //   Route: 'Oral',
+    //   Instructions: 'Take before chemotherapy',
+    // });
+    // const premed4 = await Premedications.create({
+    //   Medication_Name: 'Premed D',
+    //   Dose: 40,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer slowly',
+    // });
+    // const premed5 = await Premedications.create({
+    //   Medication_Name: 'Premed E',
+    //   Dose: 25,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer before procedure',
+    // });
     
-    const premed6 = await Premedications.create({
-      Medication_Name: 'Premed F',
-      Dose: 15,
-      Route: 'Oral',
-      Instructions: 'Take 1 hour before chemotherapy',
-    });
+    // const premed6 = await Premedications.create({
+    //   Medication_Name: 'Premed F',
+    //   Dose: 15,
+    //   Route: 'Oral',
+    //   Instructions: 'Take 1 hour before chemotherapy',
+    // });
     
-    const premed7 = await Premedications.create({
-      Medication_Name: 'Premed G',
-      Dose: 30,
-      Route: 'Intravenous',
-      Instructions: 'Administer slowly over 30 minutes',
-    });
+    // const premed7 = await Premedications.create({
+    //   Medication_Name: 'Premed G',
+    //   Dose: 30,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer slowly over 30 minutes',
+    // });
     
-    const premed8 = await Premedications.create({
-      Medication_Name: 'Premed H',
-      Dose: 50,
-      Route: 'Oral',
-      Instructions: 'Take with food',
-    });
-    const premed9 = await Premedications.create({
-      Medication_Name: 'Premed I',
-      Dose: 45,
-      Route: 'Intravenous',
-      Instructions: 'Administer before chemotherapy infusion',
-    });
+    // const premed8 = await Premedications.create({
+    //   Medication_Name: 'Premed H',
+    //   Dose: 50,
+    //   Route: 'Oral',
+    //   Instructions: 'Take with food',
+    // });
+    // const premed9 = await Premedications.create({
+    //   Medication_Name: 'Premed I',
+    //   Dose: 45,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer before chemotherapy infusion',
+    // });
     
-    const premed10 = await Premedications.create({
-      Medication_Name: 'Premed J',
-      Dose: 18,
-      Route: 'Oral',
-      Instructions: 'Take 30 minutes before treatment',
-    });
+    // const premed10 = await Premedications.create({
+    //   Medication_Name: 'Premed J',
+    //   Dose: 18,
+    //   Route: 'Oral',
+    //   Instructions: 'Take 30 minutes before treatment',
+    // });
     
-    const premed11 = await Premedications.create({
-      Medication_Name: 'Premed K',
-      Dose: 22,
-      Route: 'Intravenous',
-      Instructions: 'Administer with a saline flush',
-    });
+    // const premed11 = await Premedications.create({
+    //   Medication_Name: 'Premed K',
+    //   Dose: 22,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer with a saline flush',
+    // });
     
-    const premed12 = await Premedications.create({
-      Medication_Name: 'Premed L',
-      Dose: 28,
-      Route: 'Oral',
-      Instructions: 'Take as directed by healthcare provider',
-    });
+    // const premed12 = await Premedications.create({
+    //   Medication_Name: 'Premed L',
+    //   Dose: 28,
+    //   Route: 'Oral',
+    //   Instructions: 'Take as directed by healthcare provider',
+    // });
         
     //===========================CHEMOTHERAPY MEDICATIONS=============================================================
-    const chemotherapy1 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug A',
-      Dose: 100,
-      Route: 'Intravenous',
-      Instructions: 'Administer over 2 hours',
-      Dosage_Reduction: 0,
+    // const chemotherapy1 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug A',
+    //   Dose: 100,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer over 2 hours',
+    //   Dosage_Reduction: 0,
     
       
-    });
-    const chemotherapy2 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug B',
-      Dose: 58,
-      Route: 'Oral',
-      Instructions: 'Take with food',
-      Dosage_Reduction: 25,
-    });
-    const chemotherapy3 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug C',
-      Dose: 580,
-      Route: 'Intravenous',
-      Instructions: 'Administer over 2 hours',
-      Dosage_Reduction: 0,
-    });
-    const chemotherapy4 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug D',
-      Dose: 250,
-      Route: 'Oral',
-      Instructions: 'Take with food',
-      Dosage_Reduction: 25,
-    });
-    const chemotherapy5 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug E',
-      Dose: 75,
-      Route: 'Intravenous',
-      Instructions: 'Administer over 1 hour',
-      Dosage_Reduction: 10,
-      Administered_Dose_ml: 50,
-      Administered_Dose_mg: 25,
-    });
+    // });
+    // const chemotherapy2 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug B',
+    //   Dose: 58,
+    //   Route: 'Oral',
+    //   Instructions: 'Take with food',
+    //   Dosage_Reduction: 25,
+    // });
+    // const chemotherapy3 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug C',
+    //   Dose: 580,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer over 2 hours',
+    //   Dosage_Reduction: 0,
+    // });
+    // const chemotherapy4 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug D',
+    //   Dose: 250,
+    //   Route: 'Oral',
+    //   Instructions: 'Take with food',
+    //   Dosage_Reduction: 25,
+    // });
+    // const chemotherapy5 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug E',
+    //   Dose: 75,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer over 1 hour',
+    //   Dosage_Reduction: 10,
+    //   Administered_Dose_ml: 50,
+    //   Administered_Dose_mg: 25,
+    // });
     
-    const chemotherapy6 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug F',
-      Dose: 150,
-      Route: 'Oral',
-      Instructions: 'Take on an empty stomach',
-      Dosage_Reduction: 0,
-      Administered_Dose_ml: 120,
-      Administered_Dose_mg: 40,
-    });
+    // const chemotherapy6 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug F',
+    //   Dose: 150,
+    //   Route: 'Oral',
+    //   Instructions: 'Take on an empty stomach',
+    //   Dosage_Reduction: 0,
+    //   Administered_Dose_ml: 120,
+    //   Administered_Dose_mg: 40,
+    // });
     
-    const chemotherapy7 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug G',
-      Dose: 300,
-      Route: 'Intravenous',
-      Instructions: 'Administer slowly over 2 hours',
-      Dosage_Reduction: 15,
-      Administered_Dose_ml: 80,
-      Administered_Dose_mg: 15,
-    });
+    // const chemotherapy7 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug G',
+    //   Dose: 300,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer slowly over 2 hours',
+    //   Dosage_Reduction: 15,
+    //   Administered_Dose_ml: 80,
+    //   Administered_Dose_mg: 15,
+    // });
     
-    const chemotherapy8 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug H',
-      Dose: 200,
-      Route: 'Oral',
-      Instructions: 'Take with water',
-      Dosage_Reduction: 20,
-      Administered_Dose_ml: 100,
-      Administered_Dose_mg: 30,
-    });
-    const chemotherapy9 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug I',
-      Dose: 120,
-      Route: 'Intravenous',
-      Instructions: 'Administer over 3 hours',
-      Dosage_Reduction: 5,
-      Administered_Dose_ml: 70,
-      Administered_Dose_mg: 25,
-    });
+    // const chemotherapy8 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug H',
+    //   Dose: 200,
+    //   Route: 'Oral',
+    //   Instructions: 'Take with water',
+    //   Dosage_Reduction: 20,
+    //   Administered_Dose_ml: 100,
+    //   Administered_Dose_mg: 30,
+    // });
+    // const chemotherapy9 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug I',
+    //   Dose: 120,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer over 3 hours',
+    //   Dosage_Reduction: 5,
+    //   Administered_Dose_ml: 70,
+    //   Administered_Dose_mg: 25,
+    // });
     
-    const chemotherapy10 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug J',
-      Dose: 180,
-      Route: 'Oral',
-      Instructions: 'Take with a full glass of water',
-      Dosage_Reduction: 10,
-      Administered_Dose_ml: 150,
-      Administered_Dose_mg: 50,
-    });
+    // const chemotherapy10 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug J',
+    //   Dose: 180,
+    //   Route: 'Oral',
+    //   Instructions: 'Take with a full glass of water',
+    //   Dosage_Reduction: 10,
+    //   Administered_Dose_ml: 150,
+    //   Administered_Dose_mg: 50,
+    // });
     
-    const chemotherapy11 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug K',
-      Dose: 250,
-      Route: 'Intravenous',
-      Instructions: 'Administer over 4 hours',
-      Dosage_Reduction: 5,
-      Administered_Dose_ml: 100,
-      Administered_Dose_mg: 30,
-    });
+    // const chemotherapy11 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug K',
+    //   Dose: 250,
+    //   Route: 'Intravenous',
+    //   Instructions: 'Administer over 4 hours',
+    //   Dosage_Reduction: 5,
+    //   Administered_Dose_ml: 100,
+    //   Administered_Dose_mg: 30,
+    // });
     
-    const chemotherapy12 = await ChemotherapyMedications.create({
-      Medication_Name: 'Drug L',
-      Dose: 80,
-      Route: 'Oral',
-      Instructions: 'Take with or without food',
-      Dosage_Reduction: 0,
-      Administered_Dose_ml: 110,
-      Administered_Dose_mg: 40,
-    });
+    // const chemotherapy12 = await ChemotherapyMedications.create({
+    //   Medication_Name: 'Drug L',
+    //   Dose: 80,
+    //   Route: 'Oral',
+    //   Instructions: 'Take with or without food',
+    //   Dosage_Reduction: 0,
+    //   Administered_Dose_ml: 110,
+    //   Administered_Dose_mg: 40,
+    // });
         
     //===========================DOCTOR=============================================================
     const doctor1 = await Doctor.create({
@@ -1664,61 +1888,62 @@ exports.insertDummyData = async () => {
       is_admin: true,
     });
     await doctor3.createUser({
-      username: 'MoAbdelzaher',
-      password: 'admin',
-      email: '100100@gmail.com',
+      Username: 'MoAbdelzaher',
+      Password: 'admin',
+      Email: '100100@gmail.com',
       is_admin: true,
     });
+ 
     // Associate patient with Treatmentplans
 
     // Associate Treatment plans with cycles (many-to-many)
-    await Treatmentplan1.addCycles([cycle1, cycle2]);
-    await Treatmentplan2.addCycles([cycle3, cycle4]);
-    await Treatmentplan3.addCycles([cycle1, cycle2, cycle3]);
-    await Treatmentplan4.addCycles([cycle3, cycle4, cycle5,cycle2]);
-    await Treatmentplan5.addCycles([cycle11, cycle12,cycle6,cycle7,cycle8]);
-    await Treatmentplan6.addCycles([cycle10, cycle8, cycle5,cycle1]);
-    await Treatmentplan7.addCycles([cycle1, cycle15,cycle16]);
-    await Treatmentplan8.addCycles([cycle13, cycle14]);
-    await Treatmentplan9.addCycles([cycle16, cycle15]);
-    await Treatmentplan10.addCycles([cycle9, cycle4]);
+    // await Treatmentplan1.addCycles([cycle1, cycle2]);
+    // await Treatmentplan2.addCycles([cycle3, cycle4]);
+    // await Treatmentplan3.addCycles([cycle1, cycle2, cycle3]);
+    // await Treatmentplan4.addCycles([cycle3, cycle4, cycle5,cycle2]);
+    // await Treatmentplan5.addCycles([cycle11, cycle12,cycle6,cycle7,cycle8]);
+    // await Treatmentplan6.addCycles([cycle10, cycle8, cycle5,cycle1]);
+    // await Treatmentplan7.addCycles([cycle1, cycle15,cycle16]);
+    // await Treatmentplan8.addCycles([cycle13, cycle14]);
+    // await Treatmentplan9.addCycles([cycle16, cycle15,cycle10, cycle9]);
+    // await Treatmentplan10.addCycles([cycle9, cycle4,cycle3,cycle11]);
 
     // Association cycles with premedication
-    await cycle1.addPremedication([premed1, premed2]);
-    await cycle2.addPremedication([premed3, premed1]);
-    await cycle3.addPremedication([premed4, premed1]);
-    await cycle4.addPremedication([premed4, premed3]);
-    await cycle5.addPremedication([premed5, premed6]);
-    await cycle6.addPremedication([premed7, premed8, premed9]);
-    await cycle7.addPremedication([premed5, premed10, premed11]);
-    await cycle8.addPremedication([premed12]);
-    await cycle9.addPremedication([premed6, premed7, premed8]);
-    await cycle10.addPremedication([premed9, premed10]);
-    await cycle11.addPremedication([premed11, premed12]);
-    await cycle12.addPremedication([premed5, premed6, premed7]);
-    await cycle13.addPremedication([premed8, premed9, premed10]);
-    await cycle14.addPremedication([premed11, premed12]);
-    await cycle15.addPremedication([premed5, premed6, premed7]);
-    await cycle16.addPremedication([premed8, premed9, premed10]);
+    // await cycle1.addPremedication([premed1, premed2]);
+    // await cycle2.addPremedication([premed3, premed1]);
+    // await cycle3.addPremedication([premed4, premed1]);
+    // await cycle4.addPremedication([premed4, premed3]);
+    // await cycle5.addPremedication([premed5, premed6]);
+    // await cycle6.addPremedication([premed7, premed8, premed9]);
+    // await cycle7.addPremedication([premed5, premed10, premed11]);
+    // await cycle8.addPremedication([premed12]);
+    // await cycle9.addPremedication([premed6, premed7, premed8]);
+    // await cycle10.addPremedication([premed9, premed10]);
+    // await cycle11.addPremedication([premed11, premed12]);
+    // await cycle12.addPremedication([premed5, premed6, premed7]);
+    // await cycle13.addPremedication([premed8, premed9, premed10]);
+    // await cycle14.addPremedication([premed11, premed12]);
+    // await cycle15.addPremedication([premed5, premed6, premed7]);
+    // await cycle16.addPremedication([premed8, premed9, premed10]);
     
 
     // Associate Cycles with ChemotherapyMedications
-    await cycle1.addChemotherapyMedication([chemotherapy1, chemotherapy3]);
-    await cycle2.addChemotherapyMedication([chemotherapy1, chemotherapy2]);
-    await cycle3.addChemotherapyMedication([chemotherapy4, chemotherapy1]);
-    await cycle4.addChemotherapyMedication([chemotherapy4, chemotherapy2]);
-    await cycle5.addChemotherapyMedication([chemotherapy5, chemotherapy6]);
-    await cycle6.addChemotherapyMedication([chemotherapy6, chemotherapy7, chemotherapy8]);
-    await cycle7.addChemotherapyMedication([chemotherapy7, chemotherapy8]);
-    await cycle8.addChemotherapyMedication([chemotherapy8, chemotherapy9]);
-    await cycle9.addChemotherapyMedication([chemotherapy9, chemotherapy10]);
-    await cycle10.addChemotherapyMedication([chemotherapy10, chemotherapy11]);
-    await cycle11.addChemotherapyMedication([chemotherapy11, chemotherapy12]);
-    await cycle12.addChemotherapyMedication([chemotherapy12]);
-    await cycle13.addChemotherapyMedication([chemotherapy5, chemotherapy6]);
-    await cycle14.addChemotherapyMedication([chemotherapy6, chemotherapy7]);
-    await cycle15.addChemotherapyMedication([chemotherapy7, chemotherapy8, chemotherapy9]);
-    await cycle16.addChemotherapyMedication([chemotherapy8, chemotherapy9]);
+    // await cycle1.addChemotherapyMedication([chemotherapy1, chemotherapy3]);
+    // await cycle2.addChemotherapyMedication([chemotherapy1, chemotherapy2]);
+    // await cycle3.addChemotherapyMedication([chemotherapy4, chemotherapy1]);
+    // await cycle4.addChemotherapyMedication([chemotherapy4, chemotherapy2]);
+    // await cycle5.addChemotherapyMedication([chemotherapy5, chemotherapy6]);
+    // await cycle6.addChemotherapyMedication([chemotherapy6, chemotherapy7, chemotherapy8]);
+    // await cycle7.addChemotherapyMedication([chemotherapy7, chemotherapy8]);
+    // await cycle8.addChemotherapyMedication([chemotherapy8, chemotherapy9]);
+    // await cycle9.addChemotherapyMedication([chemotherapy9, chemotherapy10]);
+    // await cycle10.addChemotherapyMedication([chemotherapy10, chemotherapy11]);
+    // await cycle11.addChemotherapyMedication([chemotherapy11, chemotherapy12]);
+    // await cycle12.addChemotherapyMedication([chemotherapy12]);
+    // await cycle13.addChemotherapyMedication([chemotherapy5, chemotherapy6]);
+    // await cycle14.addChemotherapyMedication([chemotherapy6, chemotherapy7]);
+    // await cycle15.addChemotherapyMedication([chemotherapy7, chemotherapy8, chemotherapy9]);
+    // await cycle16.addChemotherapyMedication([chemotherapy8, chemotherapy9]);
 
 
     // Associate patient with Reserved beds
@@ -1825,154 +2050,6 @@ exports.insertDummyData = async () => {
       },
     });
 
-      // Associate patient with side effect
-    await patient1.addSideEffect(SideEffects1, {
-      through: {
-        Date: '2024-01-06 08:21:00',
-      },
-    });
-    await patient1.addSideEffect(SideEffects7, {
-      through: {
-        Date: '2024-12-09 08:00:00',
-      },
-    });
-    
-    await patient2.addSideEffect(SideEffects2, {
-      through: {
-        Date: '2024-05-06 08:38:00',
-      },
-    });
-    
-    await patient3.addSideEffect(SideEffects3, {
-      through: {
-        Date: '2024-05-06 08:23:00',
-      },
-    });
-    await patient4.addSideEffect(SideEffects1, {
-      through: {
-        Date: '2024-03-09 08:00:00',
-      },
-    });
-    
-    await patient4.addSideEffect(SideEffects2, {
-      through: {
-        Date: '2024-05-09 01:30:00',
-      },
-    });
-    
-    await patient4.addSideEffect(SideEffects3, {
-      through: {
-        Date: '2024-07-05 08:00:00',
-      },
-    });
-    
-    await patient4.addSideEffect(SideEffects4, {
-      through: {
-        Date: '2024-03-04 08:00:00',
-      },
-    });
-    
-    await patient4.addSideEffect(SideEffects5, {
-      through: {
-        Date: '2024-05-02 02:00:00',
-      },
-    });
-    
-    await patient5.addSideEffect(SideEffects1, {
-      through: {
-        Date: '2024-01-01 08:00:00',
-      },
-    });
-    
-    await patient5.addSideEffect(SideEffects2, {
-      through: {
-        Date: '2024-05-30 08:00:00',
-      },
-    });
-    
-    await patient5.addSideEffect(SideEffects3, {
-      through: {
-        Date: '2024-09-13 08:00:00',
-      },
-    });
-    
-    await patient5.addSideEffect(SideEffects4, {
-      through: {
-        Date: '2024-04-26 10:00:00',
-      },
-    });
-    
-    await patient5.addSideEffect(SideEffects5, {
-      through: {
-        Date: '2024-07-16 09:00:00',
-      },
-    });
-    
-    await patient6.addSideEffect(SideEffects1, {
-      through: {
-        Date: '2024-12-16 08:00:00',
-      },
-    });
-    
-    await patient6.addSideEffect(SideEffects2, {
-      through: {
-        Date: '2022-05-01 08:00:00',
-      },
-    });
-    
-    await patient6.addSideEffect(SideEffects3, {
-      through: {
-        Date: '2024-03-06 08:00:00',
-      },
-    });
-    
-    await patient6.addSideEffect(SideEffects4, {
-      through: {
-        Date: '2022-05-06 08:00:00',
-      },
-    });
-    
-    await patient6.addSideEffect(SideEffects5, {
-      through: {
-        Date: '2021-05-06 08:00:00',
-      },
-    });
-    await patient7.addSideEffect(SideEffects7, {
-      through: {
-        Date: '2024-05-16 08:00:00',
-      },
-    });
-    
-    await patient7.addSideEffect(SideEffects8, {
-      through: {
-        Date: '2024-11-06 08:00:00',
-      },
-    });
-    
-    await patient8.addSideEffect(SideEffects3, {
-      through: {
-        Date: '2024-04-06 08:00:00',
-      },
-    });
-    
-    await patient8.addSideEffect(SideEffects1, {
-      through: {
-        Date: '2024-05-07 08:00:00',
-      },
-    });
-    
-    await patient9.addSideEffect(SideEffects5, {
-      through: {
-        Date: '2020-05-06 08:00:00',
-      },
-    });
-    
-    await patient10.addSideEffect(SideEffects1, {
-      through: {
-        Date: '2019-05-06 08:00:00',
-      },
-    });
-    
     console.log('Dummy data inserted successfully.');
   } catch (error) {
     console.error('Error inserting dummy data:', error);
@@ -1988,7 +2065,7 @@ exports.insertRegimens = async () => {
       Plan_Name: 'CHOP',
       number_of_Weeks: 3,
       number_of_Cycles: 6,
-      Cancer_Type: 'Non-Hodgkin Lymphoma Cancer',
+      Cancer_Type: 'Lymphoma Cancer',
     });
 
     // Step 3: Insert premedication data
@@ -2050,7 +2127,7 @@ exports.insertRegimens = async () => {
       Plan_Name: 'ABVD',
       number_of_Weeks: 4,
       number_of_Cycles: 7,
-      Cancer_Type: 'Hodgkin Lymphoma Cancer',
+      Cancer_Type: 'Lymphoma Cancer',
     });
     // Step 3: Insert premedication data
     const premedicationsInserted2 = await PremedicationRead.bulkCreate([
@@ -2104,7 +2181,7 @@ exports.insertRegimens = async () => {
       Plan_Name: 'COP',
       number_of_Weeks: 3,
       number_of_Cycles: 6,
-      Cancer_Type: 'Non-Hodgkin Lymphoma Cancer',
+      Cancer_Type: 'Lymphoma Cancer',
     });
 
     // Step 3: Insert premedication data
