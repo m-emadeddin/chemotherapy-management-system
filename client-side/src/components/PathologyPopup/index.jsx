@@ -61,10 +61,10 @@ export default function PathologyPopup({
         console.log("radioData saved successfully!");
         onClose();
       } else {
-        alert("Failed to save data. Please try again later.");
+        toast.error("Failed to save data. Please try again later.");
       }
     } catch (error) {
-      console.error("Error saving data:", error);
+      toast.error("Error saving data:", error);
     }
   }
   async function putMedicalData() {
@@ -77,13 +77,13 @@ export default function PathologyPopup({
         body: JSON.stringify(medicaldata),
       });
       if (response.ok) {
-        console.log("medicalData saved successfully!");
+        toast.success("medicalData saved successfully!");
         onClose();
       } else {
-        alert("Failed to save data. Please try again later.");
+        toast.error("Failed to save data. Please try again later.");
       }
     } catch (error) {
-      console.error("Error saving data:", error);
+      toast.error("Error saving data:", error);
     }
   }
   async function save() {

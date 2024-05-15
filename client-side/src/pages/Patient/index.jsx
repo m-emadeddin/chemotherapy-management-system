@@ -472,8 +472,8 @@ export default function PatientPage() {
               <PathologyPopup
                 onClose={togglePathologyPopup}
                 path={path}
-                radioData={radioData["radiography"][0]}
-                medicalData={medicalData["MedicalAnalysis"][0]}
+                radioData={radioIsPresent? radioData["radiography"][0]: " "}
+                medicalData={medicalIsPresent? medicalData["MedicalAnalysis"][0]:" "}
                 patientID={patient.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}
