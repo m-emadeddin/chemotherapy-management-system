@@ -1,20 +1,22 @@
 import { Button, Img } from "components";
-import { Link } from "react-router-dom";
 import "../PatientInfo/patientinfo.css";
-import { useSelectedPatient } from "contexts/SelectedPatientProvider";
+import { useNavigate } from "react-router-dom";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 
-
-export default function PatientTable({ patient, onClickMap, onDeleteClick}) {
-  const {setSelectedPatientId } = useSelectedPatient();
-
+export default function PatientTable({ patient, onClickMap, onDeleteClick }) {
+  const navigate = useNavigate();
+  const selectedPatientInfo = useSelectedPatientInfo();
+  const handlePatientClick = () => {
+    selectedPatientInfo.setSelectedPatientInfo(patient);
+    navigate(`/patient/${patient.Patient_ID}`, {
+      state: { selectedPatient: patient },
+    });
+  };
   return (
     <div className="info-data-container flex w-[90%] justify-between">
-      <Link
-        to={`/patient/${patient.Patient_ID}`}
-        state={{ selectedPatient: patient }}
+      <div
         className="w-[85%] flex justify-between items-center"
-        onClick={()=>{setSelectedPatientId(patient.Patient_ID)}}
-
+        onClick={handlePatientClick}
       >
         <div className="w-[20%]">
           <div className="name">{patient.Name}</div>
@@ -24,7 +26,7 @@ export default function PatientTable({ patient, onClickMap, onDeleteClick}) {
         <div className="info w-[20%]">{patient.Gender}</div>
         <div className="info w-[20%]">{patient.disease_type}</div>
         <div className="info w-[20%]">{patient.mobile}</div>
-      </Link>
+      </div>
       <div className="flex items-center">
         <Button
           size="md"
