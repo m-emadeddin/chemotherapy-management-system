@@ -253,7 +253,7 @@ exports.postRadiography = (req, res) => {
 };
 exports.updateRadiography = (req, res, next) => {
   const patientId = req.params.id; 
-  const Radiography_ID = req.params.Radiography_ID;
+  const Radiography_ID = req.params.radiographyId;
   const { MRI, CT, PET_CT, Ultrasound, XRay, Mammography, DEXA } = req.body;
 
   Patients.findByPk(patientId)
@@ -262,13 +262,14 @@ exports.updateRadiography = (req, res, next) => {
         return res.status(404).json({ error: "Patient not found" });
       }
 
-      return patient.getRadiographies({ where: { Radiography_ID: Radiography_ID } });
+      //return patient.getRadiographies({ where: { Radiography_ID: Radiography_ID } }); // logic to update any radiography
+        return patient.getRadiographies();
     })
-    .then((radiographies) => {
-      if (!radiographies || radiographies.length === 0) {
+    .then((radiographies) => { 
+      if (!radiographies || radiographies.length === 0)   {
         return res.status(404).json({ error: "Radiographies not found for this patient" });
       }
-      const radiography = radiographies[0]; 
+      const radiography = radiographies[radiographies.length -1 ]; 
       radiography 
         .update({
           MRI: MRI,
@@ -346,9 +347,7 @@ exports.postMedicalAnalysis = (req, res) => {
           Tumor_size: Tumor_size,
         })
         .then(() => {
-          return res
-            .status(200)
-            .json({ message: "New Medical analysis added successfully" });
+          return res.status(200).json({ message: "New Medical analysis added successfully" });
         })
         .catch((err) => {
           console.log(err);
@@ -362,24 +361,25 @@ exports.postMedicalAnalysis = (req, res) => {
 };
 exports.updateMedicalAnalysis = (req, res, next) => {
   const patientId = req.params.id;
-  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M, Tumor_size } =
-    req.body;
+  const medicalId = req.params.medicalId
+  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M, Tumor_size } = req.body;
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
         return res.status(404).json({ error: "Patient not found" });
       }
-      return patient.getMedicals();
+      // return patient.getMedicals({where : {MedicalAnalysis_ID : medicalId}}); // to access any premedication and edit
+      return patient.getMedicals(); //logic to edit only last one
     })
-    .then((medicalAnalysisArray) => {
-      if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) {
-        return res
-          .status(404)
-          .json({ error: "Medical Analysis not found for this patient" });
-      }
-      const medicalAnalysis = medicalAnalysisArray[0];
+    .then((medicalAnalysisArray) => { 
+      console.log(medicalAnalysisArray)
+      if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) { 
+        return res.status(404).json({ error: "Medical Analysis not found for this patient" });
+      } 
+      // const medicalAnalysis = medicalAnalysisArray[0]; 
+      const medicalAnalysis = medicalAnalysisArray[medicalAnalysisArray.length - 1]; 
       medicalAnalysis
-        .update({
+       .update({ 
           Urinanalysis: Urinanalysis,
           CBC: CBC,
           Electrophoresis: Electrophoresis,
@@ -389,9 +389,7 @@ exports.updateMedicalAnalysis = (req, res, next) => {
           Tumor_size: Tumor_size,
         })
         .then(() => {
-          res
-            .status(200)
-            .json({ message: "Medical Analysis updated successfully" });
+          res.status(200).json({ message: "Medical Analysis updated successfully" });
         })
         .catch(() => {
           console.error("Error updating medical analysis:");

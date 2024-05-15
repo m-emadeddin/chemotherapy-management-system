@@ -14,12 +14,12 @@ router.post('/add-vital-signs/:id', PatientPage.postVitalSigns);
 //=========================Radiography================================
 router.get('/radiography/:id', PatientPage.getRadiography);
 router.post('/add-radiography/:id', PatientPage.postRadiography);
-router.put('/:id/radiography-update/:radiography-id', PatientPage.updateRadiography);
+router.put('/radiography-update/:id', PatientPage.updateRadiography);
 
 //=========================Medical Analysis===========================
 router.get('/medical/:id', PatientPage.getMedicalAnalysis);
 router.post('/add-medical/:id', PatientPage.postMedicalAnalysis);
-router.put('/:id/medical-update/:medical-id', PatientPage.updateMedicalAnalysis);
+router.put('/medical-update/:id', PatientPage.updateMedicalAnalysis);
 
 //=========================Cancer Overview============================
 router.get('/cancer-overview/:id', PatientPage.getCancerOverview);
