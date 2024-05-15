@@ -28,7 +28,6 @@ export default function DocumentchemotherapyPage() {
 
   const [redirectToDoc, setRedirectToDoc] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
-  console.log(dates);
 
   useEffect(() => {
     const fetchData = async () => {

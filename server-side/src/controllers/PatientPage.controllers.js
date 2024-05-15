@@ -535,10 +535,10 @@ exports.hasTreatmentplan = (req, res, next) => {
     })
     .then((treatmentplan) => {
       if (!treatmentplan || treatmentplan.length === 0) {
-        return res.status(200).json({exsist : false});
+        return res.status(200).json({exists : false});
       }
       Treatment_plan = treatmentplan.Plan_Name;
-      return res.status(200).json({exsists : true});
+      return res.status(200).json({exists  : true});
     })
     .catch((err) => {
       console.log(err);
