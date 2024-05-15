@@ -1,5 +1,5 @@
 // import models
-const Patients = require('../models/index.models').Patients;
+const Patients = require("../models/index.models").Patients;
 //=========================Patient====================================
 exports.getAllPatients = (req, res) => {
   Patients.findAll()
@@ -7,8 +7,8 @@ exports.getAllPatients = (req, res) => {
       res.status(200).json({ patients });
     })
     .catch((error) => {
-      console.error('Error fetching patients:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error fetching patients:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     });
 };
 exports.postNewPatient = (req, res) => {
@@ -61,11 +61,11 @@ exports.postNewPatient = (req, res) => {
     verified: verified,
   })
     .then((patient) => {
-      res.status(200).json({ message: 'patient added sucessfully' });
+      res.status(200).json({ message: "patient added sucessfully" });
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ error: 'internal server error' });
+      res.status(500).json({ error: "internal server error" });
     });
 };
 exports.deletePatient = (req, res, next) => {
@@ -74,7 +74,7 @@ exports.deletePatient = (req, res, next) => {
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ error: "Patient not found" });
       }
       Patient_Name = patient.Name;
       patient
@@ -82,20 +82,18 @@ exports.deletePatient = (req, res, next) => {
         .then((deletedRows) => {
           console.log(deletedRows);
           if (deletedRows === 0) {
-            return res.status(404).json({ error: 'Patient not found' });
+            return res.status(404).json({ error: "Patient not found" });
           }
-          res
-            .status(200)
-            .json({ message: `Patient ${Patient_Name} deleted successfully` });
+          res.status(200).json({ message: `Patient ${Patient_Name} deleted successfully` });
         })
         .catch((error) => {
-          console.error('Error deleting patient:', error);
-          res.status(500).json({ error: 'Internal Server Error' });
+          console.error("Error deleting patient:", error);
+          res.status(500).json({ error: "Internal Server Error" });
         });
     })
-    .catch((error) => {
-      console.error('Error fetching patient:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+    .catch((error) => { 
+      console.error("Error fetching patient:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     });
 };
 //=========================Vital Signs================================
@@ -104,14 +102,14 @@ exports.getVitalSigns = (req, res, next) => {
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ error: "Patient not found" });
       }
 
       return patient.getVitalSign();
     })
     .then((VitalSign) => {
       if (!VitalSign || VitalSign.length === 0) {
-        return res.status(404).json({ error: 'Vital signs not found' });
+        return res.status(404).json({ error: "Vital signs not found" });
       }
       //let bmi = VitalSign.Weight / (VitalSign.Height / 100) ** 2;
       // bmi = parseFloat(bmi.toFixed(1));
@@ -130,7 +128,7 @@ exports.getVitalSigns = (req, res, next) => {
       res.status(200).json({ response });
     })
     .catch((err) => {
-      console.error('Error:', err.message);
+      console.error("Error:", err.message);
     });
 };
 exports.postVitalSigns = (req, res) => {
@@ -160,11 +158,8 @@ exports.postVitalSigns = (req, res) => {
   Patients.findByPk(id)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ message: 'Patient not found' });
+        return res.status(404).json({ message: "Patient not found" });
       }
-      //3 calculate BMI if not calculated by other team
-      // to do ...
-      //4. create new vital sign
       patient
         .createVitalSign({
           Blood_Pressure: Blood_Pressure,
@@ -176,18 +171,16 @@ exports.postVitalSigns = (req, res) => {
           Chief_Complaint: Chief_Complaint,
         })
         .then((vitalSign) => {
-          return res
-            .status(200)
-            .json({ message: 'New vital signs added successfully' });
+          return res.status(200).json({ message: "New vital signs added successfully" });
         })
         .catch((err) => {
           console.log(err);
-          return res.status(500).json({ error: 'internal server error' });
+          return res.status(500).json({ error: "internal server error" });
         });
     })
     .catch((err) => {
       console.log(err);
-      return res.status(500).json({ error: 'internal server error' });
+      return res.status(500).json({ error: "internal server error" });
     });
 };
 //=========================Radiography================================
@@ -197,13 +190,13 @@ exports.getRadiography = (req, res, next) => {
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient Not found' });
+        return res.status(404).json({ error: "Patient Not found" });
       }
       return patient.getRadiographies();
     })
-    .then((radiography ) => {
+    .then((radiography) => {
       if (!radiography || radiography.length === 0) {
-        return res.status(404).json({ error: 'Radiography Not found' });
+        return res.status(404).json({ error: "Radiography Not found" });
       }
       return res.status(200).json({ radiography });
     })
@@ -224,13 +217,13 @@ exports.postRadiography = (req, res) => {
     Mammography == null &&
     DEXA == null
   ) {
-    return res.status(400).json({ error: 'empty json' });
+    return res.status(400).json({ error: "empty json" });
   }
   //2. find patient
   Patients.findByPk(id)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ message: 'Patient not found' });
+        return res.status(404).json({ message: "Patient not found" });
       }
       //3. create new radiography
       patient
@@ -246,39 +239,37 @@ exports.postRadiography = (req, res) => {
         .then(() => {
           return res
             .status(200)
-            .json({ message: 'New radiography added successfully' });
+            .json({ message: "New radiography added successfully" });
         })
         .catch((err) => {
           console.log(err);
-          return res.status(500).json({ error: 'internal server error' });
+          return res.status(500).json({ error: "internal server error" });
         });
     })
     .catch((err) => {
       console.log(err);
-      return res.status(500).json({ error: 'internal server error' });
+      return res.status(500).json({ error: "internal server error" });
     });
 };
 exports.updateRadiography = (req, res, next) => {
-  const patientId = req.params.id;
+  const patientId = req.params.id; 
+  const Radiography_ID = req.params.Radiography_ID;
   const { MRI, CT, PET_CT, Ultrasound, XRay, Mammography, DEXA } = req.body;
 
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ error: "Patient not found" });
       }
 
-      return patient.getRadiographies();
+      return patient.getRadiographies({ where: { Radiography_ID: Radiography_ID } });
     })
     .then((radiographies) => {
       if (!radiographies || radiographies.length === 0) {
-        return res
-          .status(404)
-          .json({ error: 'Radiographies not found for this patient' });
+        return res.status(404).json({ error: "Radiographies not found for this patient" });
       }
-
-      const radiography = radiographies[0];
-      radiography
+      const radiography = radiographies[0]; 
+      radiography 
         .update({
           MRI: MRI,
           CT: CT,
@@ -289,16 +280,15 @@ exports.updateRadiography = (req, res, next) => {
           DEXA: DEXA,
         })
         .then(() => {
-          res.status(200).json({ message: 'Radiography updated successfully' });
+          res.status(200).json({ message: "Radiography updated successfully" });
         })
-        .catch(() => {
-          console.error('Error updating radiography:');
-          res.status(500).json({ error: 'Internal Server Error' });
+        .catch(() => { 
+          console.error("Error updating radiography:");
+          res.status(500).json({ error: "Internal Server Error" });
         });
-    })
+    }) 
     .catch((error) => {
-      console.error('Error finding patient or radiography:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error finding patient or radiography:", error);
     });
 };
 
@@ -308,13 +298,13 @@ exports.getMedicalAnalysis = (req, res, next) => {
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient Not found' });
+        return res.status(404).json({ error: "Patient Not found" });
       }
       return patient.getMedicals();
     })
     .then((MedicalAnalysis) => {
       if (!MedicalAnalysis || MedicalAnalysis.length === 0) {
-        return res.status(404).json({ error: 'Medical Analysis Not found' });
+        return res.status(404).json({ error: "Medical Analysis Not found" });
       }
       return res.status(200).json({ MedicalAnalysis });
     })
@@ -336,13 +326,13 @@ exports.postMedicalAnalysis = (req, res) => {
     B2M == null &&
     Tumor_size == null
   ) {
-    return res.status(400).json({ error: 'empty json' });
+    return res.status(400).json({ error: "empty json" });
   }
   //2. find patient
   Patients.findByPk(id)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ message: 'Patient not found' });
+        return res.status(404).json({ message: "Patient not found" });
       }
       //3. create new radiography
       patient
@@ -358,16 +348,16 @@ exports.postMedicalAnalysis = (req, res) => {
         .then(() => {
           return res
             .status(200)
-            .json({ message: 'New Medical analysis added successfully' });
+            .json({ message: "New Medical analysis added successfully" });
         })
         .catch((err) => {
           console.log(err);
-          return res.status(500).json({ error: 'internal server error' });
+          return res.status(500).json({ error: "internal server error" });
         });
     })
     .catch((err) => {
       console.log(err);
-      return res.status(500).json({ error: 'internal server error' });
+      return res.status(500).json({ error: "internal server error" });
     });
 };
 exports.updateMedicalAnalysis = (req, res, next) => {
@@ -377,7 +367,7 @@ exports.updateMedicalAnalysis = (req, res, next) => {
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ error: "Patient not found" });
       }
       return patient.getMedicals();
     })
@@ -385,7 +375,7 @@ exports.updateMedicalAnalysis = (req, res, next) => {
       if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) {
         return res
           .status(404)
-          .json({ error: 'Medical Analysis not found for this patient' });
+          .json({ error: "Medical Analysis not found for this patient" });
       }
       const medicalAnalysis = medicalAnalysisArray[0];
       medicalAnalysis
@@ -401,15 +391,15 @@ exports.updateMedicalAnalysis = (req, res, next) => {
         .then(() => {
           res
             .status(200)
-            .json({ message: 'Medical Analysis updated successfully' });
+            .json({ message: "Medical Analysis updated successfully" });
         })
         .catch(() => {
-          console.error('Error updating medical analysis:');
-          res.status(500).json({ error: 'Internal Server Error' });
+          console.error("Error updating medical analysis:");
+          res.status(500).json({ error: "Internal Server Error" });
         });
     })
     .catch((error) => {
-      console.error('Error finding patient or medical analysis:', error);
+      console.error("Error finding patient or medical analysis:", error);
     });
 };
 //=========================Cancer Overview============================
@@ -419,13 +409,13 @@ exports.getCancerOverview = (req, res) => {
   Patients.findByPk(ID)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ error: "Patient not found" });
       }
       return patient.getCancerOverview();
     })
     .then((cancerOverview) => {
       if (!cancerOverview) {
-        return res.status(404).json({ error: 'CancerOverview not found' });
+        return res.status(404).json({ error: "CancerOverview not found" });
       }
       cancerOverview = {
         Diagnoses: cancerOverview.Cancer_type,
@@ -435,7 +425,7 @@ exports.getCancerOverview = (req, res) => {
       res.status(200).json({ cancerOverview });
     })
     .catch((err) => {
-      console.error('Error getting data:', err);
+      console.error("Error getting data:", err);
     });
 };
 
@@ -450,14 +440,14 @@ exports.postCancerOverview = (req, res) => {
   Patients.findByPk(id)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ message: 'Patient not found' });
+        return res.status(404).json({ message: "Patient not found" });
       }
       //2. check if cancer overview already exists
       patient.getCancerOverview().then((canceroverview) => {
         if (canceroverview) {
           return res
             .status(400)
-            .json({ message: 'cancer overview already exists!' });
+            .json({ message: "cancer overview already exists!" });
         }
         //3. add cancer overview
         patient
@@ -469,17 +459,17 @@ exports.postCancerOverview = (req, res) => {
           .then(() => {
             return res
               .status(200)
-              .json({ message: 'cancer overview added successfully' });
+              .json({ message: "cancer overview added successfully" });
           })
           .catch((err) => {
             console.log(err);
-            return res.status(500).json({ error: 'internal server error' });
+            return res.status(500).json({ error: "internal server error" });
           });
       });
     })
     .catch((err) => {
       console.log(err);
-      return res.status(500).json({ error: 'internal server error' });
+      return res.status(500).json({ error: "internal server error" });
     });
 };
 //=========================Side Effects===============================
@@ -489,7 +479,7 @@ exports.postSideEffects = (req, res) => {
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ error: "Patient not found" });
       }
 
       return SideEffects.findOne({ where: { id: patientId } });
@@ -534,6 +524,6 @@ exports.postSideEffects = (req, res) => {
       }
     })
     .catch((err) => {
-      console.error('Error adding data:', err);
+      console.error("Error adding data:", err);
     });
 };

@@ -11,7 +11,6 @@ exports.reviewChemotheraby = async (req, res, next) => {
     if (!patient) {
       return res.status(404).json({ error: "Patient not found" });
     }
-    
     // create a new treatment plane for the patient
     const {
       Plan_Name,
