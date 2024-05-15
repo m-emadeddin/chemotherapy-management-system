@@ -1,10 +1,16 @@
 // contexts/SelectedPatientProvider.js
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const SelectedPatientContext = createContext();
 
 export const SelectedPatientProvider = ({ children }) => {
-  const [selectedPatientId, setSelectedPatientId] = useState(null);
+  const [selectedPatientId, setSelectedPatientId] = useState(
+    () => JSON.parse(localStorage.getItem("selectedPatientId")) || null
+  );
+
+  useEffect(() => {
+    localStorage.setItem("selectedPatientId", JSON.stringify(selectedPatientId));
+  }, [selectedPatientId]);
 
   return (
     <SelectedPatientContext.Provider value={{ selectedPatientId, setSelectedPatientId }}>
