@@ -140,12 +140,8 @@ exports.insertDummyData = async () => {
         Blood_cell_loss: 'High',
         Psychological_effects: 'Low',
         Changes_in_kidney_and_liver_function: 'Moderate',
+        Date: '2024-05-06 08:00:00',
       },
-      {
-        through: {
-          Date: '2024-05-06 08:00:00',
-        },
-      }
     );
     await patient2.createSideEffect(
       {
@@ -158,12 +154,8 @@ exports.insertDummyData = async () => {
         Blood_cell_loss: 'Moderate',
         Psychological_effects: 'High',
         Changes_in_kidney_and_liver_function: 'Low',
+        Date: '2024-05-06 08:00:00',
       },
-      {
-        through: {
-          Date: '2024-05-06 08:00:00',
-        },
-      }
     );
     //===========================RADIOGRAPHY=============================================================
     await patient1.createRadiography({

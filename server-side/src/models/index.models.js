@@ -25,7 +25,6 @@ const PatientsReservedbedsModel = require('./PatientsReservedbeds.models');
 const TreatmentPlansCyclesModel = require('./TreatmentPlansCycles.models');
 const PremedicationsCyclesModel = require('./PremedicationsCycles.models');
 const ChemotherapyMedicationsCyclesModel = require('./ChemotherapyMedicationsCycles.models');
-const PatientsSideEffectsModel = require('./PatientsSideEffects.models');
 
 //readonly section
 const ChemotherapyPlanReadonlyModel =require("./ChemotherapyPlanReadonly.models")
@@ -56,7 +55,6 @@ const PatientsReservedbeds = PatientsReservedbedsModel(db, Sequelize);
 const TreatmentPlansCycles = TreatmentPlansCyclesModel(db, Sequelize);
 const PremedicationsCycles = PremedicationsCyclesModel(db, Sequelize);
 const ChemotherapyMedicationsCycles = ChemotherapyMedicationsCyclesModel(db, Sequelize);
-const PatientsSideEffects = PatientsSideEffectsModel(db, Sequelize);
 
 //readonly section
 const ChemotherapyPlanReadonly = ChemotherapyPlanReadonlyModel(db , Sequelize);
@@ -129,15 +127,6 @@ PremedicationRead.belongsToMany(treatmentPlanReadOnly, {
   uniqueKey: 'PremedicationPlanReadonly_unique', // Custom unique constraint name
   foreignKey: { name: 'medication_ID', allowNull: false },
 });
-// 7 patients & Side effects
-Patients.belongsToMany(SideEffects, {
-  through: PatientsSideEffects,
-  foreignKey: { name: 'patientID', allowNull: false },
-});
-SideEffects.belongsToMany(Patients, {
-  through: PatientsSideEffects,
-  foreignKey: { name: 'SideEffects_ID', allowNull: false },
-});
 
 //====================One to Many=======================
 
@@ -177,6 +166,19 @@ Visits.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
+// patients & Side effects
+Patients.hasMany(SideEffects, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+SideEffects.belongsTo(Patients, {
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
 //========================One to One============================================
 //1. Vital signs & patients
 Patients.hasOne(VitalSign, {
