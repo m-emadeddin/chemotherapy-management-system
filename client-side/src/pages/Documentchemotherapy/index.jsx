@@ -97,7 +97,13 @@ export default function DocumentchemotherapyPage() {
     const extractedDates = {};
     for (const key in cyclesInfo) {
       const obj = cyclesInfo[key];
-      extractedDates[obj.Cycle_Number] = obj.Documentation_Date;
+      extractedDates[obj.Cycle_Number] = new Date(
+        obj.Documentation_Date
+      ).toLocaleDateString("en-GB", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
     }
     setDates(extractedDates);
   };
