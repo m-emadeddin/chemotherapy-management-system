@@ -70,7 +70,6 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   }, [symptomsSubmission, cycleSubmission]);
 
   const sendCycleData = async (data) => {
-    console.log(JSON.stringify(data));
     try {
       const response = await fetch(
         `document-chemotherapy/cycles-updates/${id}`,
@@ -94,7 +93,6 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   };
 
   const sendSymptomsData = async (data) => {
-    console.log(JSON.stringify(data));
     try {
       const response = await fetch(`patient/add-side-effects/${id}`, {
         method: "POST",
