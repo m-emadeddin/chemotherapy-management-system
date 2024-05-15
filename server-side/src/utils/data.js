@@ -17,6 +17,7 @@ const {
   ChemotherapyMedRead,
   PremedicationRead,
   SideEffects,
+
 } = require('../models/index.models');
 
 // Insert data into tables
@@ -219,7 +220,7 @@ exports.insertDummyData = async () => {
     //===========================TREATMENT PLAN=============================================================
     const Treatmentplan1 = await patient1.createTreatmentPlan({
       Plan_Name: 'CHPO',
-      number_of_Cycles: 3,
+      number_of_Cycles: 2,
       number_of_Weeks: 5,
     });
     const Treatmentplan2 = await patient2.createTreatmentPlan({
@@ -269,8 +270,7 @@ exports.insertDummyData = async () => {
     });
     
     //===========================VITAL SIGNS=============================================================
-
-      // Add vital signs for patient1
+     // Add vital signs for patient1
       await patient1.createVitalSign({
         Blood_Pressure: 120.0,
         Height: 170.0,
@@ -629,7 +629,37 @@ exports.insertDummyData = async () => {
         Chief_Complaint: 'Headache',
       });
 
-
+    //===========================SIDE EFFECTS==========================================================
+    await patient1.createSideEffect(
+      {
+        Nausea: 'High',
+        Loss_of_appetite: 'Low',
+        Hair_loss: 'Moderate',
+        Gastrointestinal_disturbances: 'High',
+        Loss_of_memory: 'Low',
+        Skin_change: 'Moderate',
+        Blood_cell_loss: 'High',
+        Psychological_effects: 'Low',
+        Changes_in_kidney_and_liver_function: 'Moderate',
+        Date: '2024-05-06 08:00:00',
+        Cycle_Number:1
+      }
+    );
+    await patient2.createSideEffect(
+      {
+        Nausea: 'Low',
+        Loss_of_appetite: 'High',
+        Hair_loss: 'High',
+        Gastrointestinal_disturbances: 'Low',
+        Loss_of_memory: 'Moderate',
+        Skin_change: 'High',
+        Blood_cell_loss: 'Moderate',
+        Psychological_effects: 'High',
+        Changes_in_kidney_and_liver_function: 'Low',
+        Date: '2024-05-06 08:00:00',
+        Cycle_Number:2
+      }
+    );
 
     //===========================RADIOGRAPHY=============================================================
     await patient1.createRadiography({
@@ -992,7 +1022,6 @@ exports.insertDummyData = async () => {
       Cancer_type: 'Lymphoma Cancer',
       Note_On_cancer: 'Note for cancer data 1',
     });
-
     const cancerOverview2 = await patient2.createCancerOverview({
       Stage: 'Stage2',
       Cancer_type: 'Central Nervous System Cancer',
@@ -1296,6 +1325,8 @@ exports.insertDummyData = async () => {
       Start_Date: '2024-05-01',
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
+      Is_active:true
+      // cycle_note:'all is good'
     });
     
     const cycle2 = await Cycles.create({
@@ -1303,6 +1334,9 @@ exports.insertDummyData = async () => {
       Start_Date: '2024-06-01',
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
+      Is_active:false,
+      // cycle_note:'👍👍👍👍👍',
+      
     });
     
     const cycle3 = await Cycles.create({
@@ -1310,6 +1344,8 @@ exports.insertDummyData = async () => {
       Start_Date: '2024-07-01',
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
+      Is_active:true,
+      // cycle_note:'💔💔💔💔'
     });
     
     const cycle4 = await Cycles.create({
@@ -1317,8 +1353,15 @@ exports.insertDummyData = async () => {
       Start_Date: '2024-10-01',
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
+      // cycle_note:'still alive'
     });
-    
+    const cycle5 = await Cycles.create({
+      Cycle_Number: 3,
+      Start_Date: '2024-10-01',
+      Start_Time: '08:00:00',
+      End_Time: '17:00:00',
+      // cycle_note:'still alive'
+    });
     const cycle5 = await Cycles.create({
       Cycle_Number: 1,
       Start_Date: '2025-01-01',
@@ -1401,7 +1444,6 @@ exports.insertDummyData = async () => {
       Start_Time: '08:00:00',
       End_Time: '17:00:00',
     });
-  
     //===========================PRE MEDICATIONS=============================================================
     const premed1 = await Premedications.create({
       Medication_Name: 'Premed A',
@@ -1489,8 +1531,8 @@ exports.insertDummyData = async () => {
       Route: 'Intravenous',
       Instructions: 'Administer over 2 hours',
       Dosage_Reduction: 0,
-      Administered_Dose_ml: 100,
-      Administered_Dose_mg: 20,
+    
+      
     });
     const chemotherapy2 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug B',
@@ -1498,8 +1540,6 @@ exports.insertDummyData = async () => {
       Route: 'Oral',
       Instructions: 'Take with food',
       Dosage_Reduction: 25,
-      Administered_Dose_ml: 90,
-      Administered_Dose_mg: 30,
     });
     const chemotherapy3 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug C',
@@ -1507,8 +1547,6 @@ exports.insertDummyData = async () => {
       Route: 'Intravenous',
       Instructions: 'Administer over 2 hours',
       Dosage_Reduction: 0,
-      Administered_Dose_ml: 100,
-      Administered_Dose_mg: 20,
     });
     const chemotherapy4 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug D',
@@ -1516,8 +1554,6 @@ exports.insertDummyData = async () => {
       Route: 'Oral',
       Instructions: 'Take with food',
       Dosage_Reduction: 25,
-      Administered_Dose_ml: 90,
-      Administered_Dose_mg: 30,
     });
     const chemotherapy5 = await ChemotherapyMedications.create({
       Medication_Name: 'Drug E',
@@ -1616,15 +1652,15 @@ exports.insertDummyData = async () => {
     });
     //===========================USER=============================================================
     await doctor1.createUser({
-      username: 'Alaa',
-      password: 'Lolo',
-      email: 'alaawahbaa13@gmail.com',
+      Username: 'Alaa',
+      Password: 'Lolo',
+      Email: 'alaawahbaa13@gmail.com',
       is_admin: true,
     });
     await doctor2.createUser({
-      username: 'Halimo',
-      password: 'admin',
-      email: 'halimo@gmail.com',
+      Username: 'Halimo',
+      Password: 'admin',
+      Email: 'halimo@gmail.com',
       is_admin: true,
     });
     await doctor3.createUser({
@@ -1683,6 +1719,7 @@ exports.insertDummyData = async () => {
     await cycle14.addChemotherapyMedication([chemotherapy6, chemotherapy7]);
     await cycle15.addChemotherapyMedication([chemotherapy7, chemotherapy8, chemotherapy9]);
     await cycle16.addChemotherapyMedication([chemotherapy8, chemotherapy9]);
+
 
     // Associate patient with Reserved beds
     await patient1.addReservedbeds(bed1, {
