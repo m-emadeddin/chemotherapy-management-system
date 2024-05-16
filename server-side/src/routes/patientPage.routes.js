@@ -25,10 +25,10 @@ router.put('/:id/medical-update/:medicalId', PatientPage.updateMedicalAnalysis);
 router.get('/cancer-overview/:id', PatientPage.getCancerOverview);
 router.post('/add-cancer-overview/:id', PatientPage.postCancerOverview);
 
-//=========================Side Effects============================ ❌
+//=========================Side Effects============================ ✔
 router.post('/add-side-effects/:id', PatientPage.postSideEffects);
 
-//=========================Treatment Plan==========================
+//=========================Treatment Plan==========================✔
 router.get('/has-treatmentplan/:id', PatientPage.hasTreatmentplan);
 
 
