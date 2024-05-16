@@ -48,8 +48,11 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   };
 
   const handleSideEffectsInput = (val, name) => {
+    const today = new Date();
     setSelectedValues((prevState) => ({
       ...prevState,
+      Cycle_Number: cycle,
+      Cycle_Documentation_Date: today,
       [name]: val,
     }));
   };
@@ -58,7 +61,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     setIsSubmitting(true);
     const cycleData = {
       Cycle_ID: cycle,
-      Cycle_Documentation_Date: new Date().toLocaleDateString("en-GB"),
+      Cycle_Documentation_Date: new Date(),
       Medications: doseinput,
       Cycle_Note: cycleNote,
     };
@@ -210,6 +213,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
                         shape="round"
                         name={chemo.Name}
                         value={chemo.Name}
+                        type="number"
                         inputProps={{ className: "text-center h-full" }}
                         onChange={(event) =>
                           handleDoseInput(

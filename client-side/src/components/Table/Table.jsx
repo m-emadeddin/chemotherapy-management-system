@@ -72,13 +72,13 @@ function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
                 <td></td>
                 <td>{item.route}</td>
                 <td
-                  className={` ${
+                  className={`${
                     expandedRows.includes(index) ? "expanded" : "truncate"
                   }`}
                   onClick={() => toggleText(index)}
                 >
                   {item.Instructions}
-                </td>{" "}
+                </td>
                 <td className="buttons-container">
                   <button
                     className="btn edit"
@@ -108,13 +108,13 @@ function Table({ data, selectedOption, id, onDelete, onEdit, onChangeDose }) {
                 </td>
                 <td>{item.route}</td>
                 <td
-                  className={` ${
+                  className={`${
                     expandedRows.includes(index) ? "expanded" : "truncate"
                   }`}
                   onClick={() => toggleText(index)}
                 >
                   {item.Instructions}
-                </td>{" "}
+                </td>
                 <td className="buttons-container">
                   <button
                     className="btn dose"

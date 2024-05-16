@@ -4,6 +4,7 @@ import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
 import { useNavigate } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
+import AllPathologyPopup from "../../components/AllPathology";
 import MedicalAnalysisComponent from "../../components/Medical";
 import CancerComponent from "../../components/CancerOverview";
 import { WarningPopUp } from "../../components";
@@ -45,9 +46,12 @@ export default function PatientPage() {
   const [docBtnHovered, setDocBtnHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
   const [showPathologyPopup, setShowPathologyPopup] = useState(false);
+  const [showAllPathologyPopup, setShowAllPathologyPopup] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [medicalData, setMedicalData] = useState(null);
+  const [AllmedicalData, setAllMedicalData] = useState(null);
   const [radioData, setRadioData] = useState(null);
+  const [AllradioData, setAllRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
   const navigate = useNavigate();
@@ -55,24 +59,29 @@ export default function PatientPage() {
   const [radioIsPresent, setradioIsPresent] = useState(false);
   const [vitalIsPresent, setvitalIsPresent] = useState(false);
   const [cancerIsPresent, setcancerIsPresent] = useState(false);
-
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/medical/${id}`);
+        const data = await response.json();
         if (response.status === 200) {
-          const data = await response.json();
-          setMedicalData(data);
-          setmedicalIsPresent(true);
-        } else if (response.status === 404) {
+          setAllMedicalData(data);
+          const lastItem = data["MedicalAnalysis"].slice(-1)[0]; // Get the last item
+          if (lastItem) {
+            setMedicalData(lastItem);
+            setmedicalIsPresent(true);
+          } else {
+            setmedicalIsPresent(false);
+          }
+        } else {
           setmedicalIsPresent(false);
         }
       } catch (error) {
-        console.error("Error fetching cycle count:", error);
+        console.error("Error fetching Medical data:", error);
+        setmedicalIsPresent(false);
       }
     };
     fetchData();
@@ -100,15 +109,22 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/radiography/${id}`);
+        const data = await response.json();
         if (response.status === 200) {
-          const data = await response.json();
-          setRadioData(data);
-          setradioIsPresent(true);
-        } else if (response.status === 404) {
+          setAllRadioData(data);
+          const lastItem = data["radiography"].slice(-1)[0]; // Get the last item
+          if (lastItem) {
+            setRadioData(lastItem);
+            setradioIsPresent(true);
+          } else {
+            setradioIsPresent(false);
+          }
+        } else {
           setradioIsPresent(false);
         }
       } catch (error) {
-        console.error("Error fetching cycle count:", error);
+        console.error("Error fetching radiography data:", error);
+        setradioIsPresent(false);
       }
     };
     fetchData();
@@ -159,6 +175,10 @@ export default function PatientPage() {
 
   const togglePathologyPopup = () => {
     setShowPathologyPopup(!showPathologyPopup);
+  };
+
+  const toggleAllPathologyPopup = () => {
+    setShowAllPathologyPopup(!showAllPathologyPopup);
   };
 
   const toggleWarningPopup = () => {
@@ -452,11 +472,20 @@ export default function PatientPage() {
             {radioIsPresent ? (
               <RadiologyComponent
                 radioData={radioData}
-                togglePathologyPopup={togglePathologyPopup}
+                togglePathologyPopup={toggleAllPathologyPopup}
               ></RadiologyComponent>
             ) : (
               <p className="mb-5 px-3">No Radio Data</p>
             )}
+            <Button
+              size="sm"
+              className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
+              variant="fill"
+              color="blue_500"
+              onClick={toggleAllPathologyPopup}
+            >
+              View all
+            </Button>
 
             {showPatientPopup && (
               <PatientPopup
@@ -481,10 +510,19 @@ export default function PatientPage() {
               <PathologyPopup
                 onClose={togglePathologyPopup}
                 path={path}
-                radioData={radioIsPresent ? radioData["radiography"][0] : " "}
-                medicalData={
-                  medicalIsPresent ? medicalData["MedicalAnalysis"][0] : " "
-                }
+                radioData={radioIsPresent ? radioData : " "}
+                medicalData={medicalIsPresent ? medicalData : " "}
+                patientID={selectedPatientInfo.Patient_ID}
+                medicalIsPresent={medicalIsPresent}
+                radioIsPresent={radioIsPresent}
+              />
+            )}
+            {showAllPathologyPopup && (
+              <AllPathologyPopup
+                onClose={toggleAllPathologyPopup}
+                path={path}
+                radioData={AllradioData}
+                medicalData={AllmedicalData}
                 patientID={selectedPatientInfo.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}

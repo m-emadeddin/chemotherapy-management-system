@@ -25,7 +25,7 @@ export default function RegimenDetails() {
 
   const [defaultValueWeeks, setDefaultValueWeeks] = useState(planWeeks);
   const [defaultValueCycles, setDefaultValueCycles] = useState(planCycles);
-  const [notes, setNotes] = useState("Add your notes here...");
+  const [notes, setNotes] = useState("");
   const [showResetPopUp, setShowResetPopUp] = useState(false);
   const [initialRegimenDetails] = useState({
     Plan_Name: planName,
@@ -56,7 +56,7 @@ export default function RegimenDetails() {
   }, [chemotherapyData, preMedicationsData]);
 
   useEffect(() => {
-    setNotes("Add your notes here...");
+    setNotes("");
     setStartDate(null);
     setDate(null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -164,7 +164,7 @@ export default function RegimenDetails() {
   };
   const resetState = () => {
     setData(initialData);
-    setNotes("Add your notes here...");
+    setNotes("");
     setRegimenDetails(initialRegimenDetails);
     setDefaultValueWeeks(originalWeeks);
     setDefaultValueCycles(originalCycles);
@@ -274,6 +274,7 @@ export default function RegimenDetails() {
           value={notes}
           className="notes-area"
           onChange={handleNotesChange}
+          placeholder="Add your notes here ..."
         ></textarea>
         <button onClick={handleNext} className="next">
           Next
