@@ -27,6 +27,9 @@ export const PatientsInfoProvider = ({ children }) => {
         if (!patientsInfo) {
             fetchPatientsInfo();
         }
+        setTimeout(() => {
+            fetchPatientsInfo();
+        }, 9000)
     }, [patientsInfo]);
 
     const deletePatient = async (patientId) => {
