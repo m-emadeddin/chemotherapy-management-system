@@ -8,6 +8,10 @@ exports.reviewChemotheraby = async (req, res, next) => {
     if (!patient) {
       return res.status(404).json({ error: "Patient not found" });
     }
+    const existingTreatmentPlan = await patient.getTreatmentPlan();
+    if (existingTreatmentPlan) {
+      return res.json({ message: "Patient already has a treatment plan" });
+    }
     const {
       Plan_Name,
       number_of_Weeks,

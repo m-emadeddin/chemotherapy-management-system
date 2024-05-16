@@ -218,7 +218,7 @@ TreatmentPlans.belongsTo(Patients);
 Doctor.hasOne(User, {
   foreignKey: {
     allowNull: true,  //to test signup 
-    allowNull: false,
+    // allowNull: false,
     unique: true,
   },
   onDelete: 'CASCADE',
