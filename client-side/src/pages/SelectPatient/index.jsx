@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Heading } from "../../components";
 import PatientInfo from "components/PatientInfo";
+import { usePatientsInfo } from "contexts/PatientsInfoContext";
 
 export default function SelectPatientPage() {
+  const { fetchPatientsInfo } = usePatientsInfo();
+  useEffect(() => {
+    async function refreshPatients() {
+      await fetchPatientsInfo();
+    }
+    setTimeout(() => {
+      refreshPatients();
+    }, 2000);
+  }, [fetchPatientsInfo]);
   return (
     <>
       <Helmet>
@@ -14,7 +24,7 @@ export default function SelectPatientPage() {
         />
       </Helmet>
 
-      <div className="flex w-[87%] flex-col items-end md:ml-0 md:w-full md:p-5 mt-[100px]">
+      <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px]">
         <Heading as="h1" className="self-start">
           Patient List
         </Heading>

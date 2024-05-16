@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { usePlanDetails } from "./PlansDetails";
+import toast from "react-hot-toast";
 
 const PlanDataContext = createContext();
 
@@ -9,11 +10,12 @@ export const PlanDataProvider = ({ children }) => {
   const [chemotherapyData, setChemotherapyData] = useState([]);
   const [preMedicationsData, setPreMedicationsData] = useState([]);
   const { planId } = usePlanDetails();
+  const [hasPreMedications, setHasPreMedications] = useState(false);
 
   useEffect(() => {
     if (planId) {
       axios
-        .get(`order/chemo-medications/${planId}`)
+        .get(`/order/chemo-medications/${planId}`)
         .then((res) => {
           setChemotherapyData(res.data.chemoMedications);
           setLoading(false);
@@ -27,12 +29,15 @@ export const PlanDataProvider = ({ children }) => {
   useEffect(() => {
     if (planId) {
       axios
-        .get(`order/pre-medications/${planId}`)
+        .get(`/order/pre-medications/${planId}`)
         .then((res) => {
           setPreMedicationsData(res.data.preMedications);
           setLoading(false);
+          setHasPreMedications(true);
         })
         .catch((err) => {
+          setHasPreMedications(false);
+          toast("This regimen has no premedications");
           console.log("Error in fetching preMedications", err);
         });
     }
@@ -43,6 +48,7 @@ export const PlanDataProvider = ({ children }) => {
         chemotherapyData,
         isLoading,
         preMedicationsData,
+        hasPreMedications,
       }}
     >
       {children}

@@ -59,11 +59,11 @@ export default function DosePopUp({
       <div className="dose-popup-container">
         <div className="popup-heading">
           <div className="text">
-            <img src="images/pop-icon.png" alt="icon" width={74} height={74} />
+            <img src="/images/pop-icon.png" alt="icon" width={74} height={74} />
             <p>Change Dosage</p>
           </div>
           <div className="x-icon" onClick={handleClose}>
-            <img src="images/x.svg" alt="x-icon" />
+            <img src="/images/x.svg" alt="x-icon" />
           </div>
         </div>
         <div className="dose-data">
@@ -74,7 +74,7 @@ export default function DosePopUp({
           <span>{value === 0 ? "No reduction" : `- ${value * 10}%`}</span>
         </div>
         <div className="dose-values">
-          <img src="images/reduceicon.svg" alt="icon" width={14} height={14} />
+          <img src="/images/reduceicon.svg" alt="icon" width={14} height={14} />
           <p>Reduce the dosage by</p>
         </div>
         <div className="range-container">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Button, Text, Heading, Img } from "../../components";
 import PatientPopup from "../../components/PatientPopUp";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import PathologyPopup from "../../components/PathologyPopup";
 import AllPathologyPopup from "../../components/AllPathology";
 import MedicalAnalysisComponent from "../../components/Medical";
@@ -11,6 +11,7 @@ import { WarningPopUp } from "../../components";
 import RadiologyComponent from "components/Radiology";
 import VitalSignComponent from "components/VitalSign";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
+import AllVital from "components/AllVital";
 
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
@@ -18,7 +19,6 @@ const formatDate = (dateString) => {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const day = date.getDate().toString().padStart(2, "0");
-
   return `${year}/${month}/${day}`;
 };
 
@@ -47,21 +47,27 @@ export default function PatientPage() {
   const [showPatientPopup, setShowPatientPopup] = useState(false);
   const [showPathologyPopup, setShowPathologyPopup] = useState(false);
   const [showAllPathologyPopup, setShowAllPathologyPopup] = useState(false);
+  const [showAllVitalPopup, setShowAllVitalPopup] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [medicalData, setMedicalData] = useState(null);
   const [AllmedicalData, setAllMedicalData] = useState(null);
   const [radioData, setRadioData] = useState(null);
   const [AllradioData, setAllRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
+  const [AllvitalData, setAllVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
   const navigate = useNavigate();
   const [medicalIsPresent, setmedicalIsPresent] = useState(false);
   const [radioIsPresent, setradioIsPresent] = useState(false);
   const [vitalIsPresent, setvitalIsPresent] = useState(false);
   const [cancerIsPresent, setcancerIsPresent] = useState(false);
+  const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
+  const [treatmentPlanActive, setTreatmentPlanAcive] = useState(false);
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
+  console.log(AllvitalData)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -134,39 +140,77 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/vital-sign/${id}`);
+        const data = await response.json();
+
         if (response.status === 200) {
-          const data = await response.json();
-          setVitalData(data);
-          setvitalIsPresent(true);
+          setAllVitalData(data);
+          const lastItem = data["VitalSigns"].slice(-1)[0]; // Get the last item
+          if (lastItem) {
+            setVitalData(lastItem);
+            setvitalIsPresent(true);
+          } else {
+            setvitalIsPresent(false);
+          }
         } else if (response.status === 404) {
           setvitalIsPresent(false);
         }
       } catch (error) {
-        console.error("Error fetching cycle count:", error);
+        console.error("Error fetching Vital Signs:", error);
       }
     };
     fetchData();
   }, [id]);
 
-  function orderChemo() {
-    navigate("/order");
-  }
-
-  function docChemo() {
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/has-treatmentplan/${id}`);
         const { exists } = await response.json();
-        if (exists) {
-          navigate("/document");
-        } else {
-          setShowWarningPopup(true);
-        }
+        setHasTreatmentPlan(exists);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchData = () => {
+      fetch(`/document-chemotherapy/active-cycle/${id}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          setTreatmentPlanAcive(data.exists);
+          console.log("Active Cycle Fetched Successfully");
+        })
+        .catch((error) => {
+          console.error("Error fetching Active Cycle:", error);
+        });
+    };
+    const timeoutId = setTimeout(() => {
+      if (hasTreatmentPlan) fetchData();
+    }, 400);
+
+    return () => clearTimeout(timeoutId);
+  }, [id, hasTreatmentPlan]);
+
+  function orderChemo() {
+    console.log(hasTreatmentPlan);
+    console.log(treatmentPlanActive);
+    if (hasTreatmentPlan && treatmentPlanActive) {
+      navigate("review-order");
+    } else {
+      navigate("order");
+    }
+  }
+console.log(AllmedicalData)
+  function docChemo() {
+    if (hasTreatmentPlan) {
+      navigate("document");
+    } else {
+      setShowWarningPopup(true);
+    }
   }
 
   const togglePatientPopup = () => {
@@ -180,7 +224,9 @@ export default function PatientPage() {
   const toggleAllPathologyPopup = () => {
     setShowAllPathologyPopup(!showAllPathologyPopup);
   };
-
+  const toggleAllVitalPopup = () => {
+    setShowAllVitalPopup(!showAllVitalPopup);
+  };
   const toggleWarningPopup = () => {
     setShowWarningPopup(!showWarningPopup);
   };
@@ -197,11 +243,13 @@ export default function PatientPage() {
       <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px]">
         {/* navigation section */}
         <div className="flex items-start justify-between gap-5 md:flex-col">
-          <div className="mt-[18px] flex items-center gap-[15px]">
-            <Heading as="h1">Patient List</Heading>
+          <div className="flex items-center gap-[15px]">
+            <Heading as="h1">
+              <Link to="/select_patient">Patient List</Link>
+            </Heading>
             <div className="flex items-center">
               <Img
-                src={`${process.env.PUBLIC_URL}/images/img_arrow_right_blue_gray_300_02.svg`}
+                src={`/images/img_arrow_right_blue_gray_300_02.svg`}
                 alt="arrowright"
                 className="h-[10px] mr-[10px]"
               />
@@ -222,13 +270,15 @@ export default function PatientPage() {
               <Img
                 src={
                   orderBtnHovered
-                    ? `${process.env.PUBLIC_URL}/images/img_tube.svg`
-                    : `${path}/images/img_thumbsup_white_a700.svg`
+                    ? `/images/img_tube.svg`
+                    : `/images/img_thumbsup_white_a700.svg`
                 }
                 alt="thumbs_up"
                 className="h-[14px] w-[14px]"
               />
-              Order Chemotherapy
+              {hasTreatmentPlan && treatmentPlanActive
+                ? "Review Chemotherapy"
+                : "Order Chemotherapy"}
             </Button>
             <Button
               size="xl"
@@ -240,8 +290,8 @@ export default function PatientPage() {
               <Img
                 src={
                   docBtnHovered
-                    ? `${process.env.PUBLIC_URL}/images/img_megaphone.svg`
-                    : `${process.env.PUBLIC_URL}/images/img_megaphone_white_a700.svg`
+                    ? `/images/img_megaphone.svg`
+                    : `/images/img_megaphone_white_a700.svg`
                 }
                 alt="megaphone"
                 className="h-[14px] w-[14px]"
@@ -251,170 +301,164 @@ export default function PatientPage() {
           </div>
         </div>
 
-        <div className="flex items-start gap-6 md:flex-col">
+        <div className="flex flex-col items-start gap-6 md:flex-col">
           {/* patient info section */}
-          <div className="flex flex-1 flex-col gap-[30px] md:self-stretch">
-            <div className="flex flex-1 items-start gap-6 md:flex-col">
-              <div className="flex w-full flex-col items-center gap-5 rounded-[40px] bg-white-A700 p-[15px]">
-                <div className="flex w-[100%] flex-col gap-4 rounded-[40px] bg-white-A700  pl-[5px] md:w-full px-4">
-                  <div className="flex items-center justify-between gap-6">
-                    <div className="flex w-[77%] items-center gap-[20px]">
-                      <Img
-                        src={`${path}/images/img_patient_in_a_circle.png`}
-                        alt="hazemabdulnassr"
-                        className="h-[74px] w-[73px] object-cover"
-                      />
-                      <Heading
-                        size="md"
-                        as="h2"
-                        className="w-[74%] leading-[25px]"
-                      >
-                        <>{selectedPatientInfo.Name}</>
-                      </Heading>
-                    </div>
-                    <Button
-                      size="lg"
-                      shape="circle"
-                      className="w-[48px] !rounded-[24px] action-button"
-                      onClick={togglePatientPopup}
-                    >
-                      <Img src={`${path}/images/img_map.svg`} />
-                    </Button>
-                  </div>
-
-                  <Heading size="s" as="h3">
-                    General info
-                  </Heading>
-
-                  <div className="flex flex-col items-center gap-5">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
-                      {selectedPatientInfo ? (
-                        <div className="grid grid-cols-2 gap-5">
-                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
-                            <Text
-                              size="xs"
-                              as="p"
-                              className="h-[15px] w-[15px] !text-blue_gray-300"
-                            >
-                              Patient ID
-                            </Text>
-                            <Text as="p" className="mb-[5px] px-2">
-                              {selectedPatientInfo.Patient_ID}
-                            </Text>
-                          </div>
-
-                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
-                            <Text
-                              size="xs"
-                              as="p"
-                              className="h-[15px] w-[15px] !text-blue_gray-300"
-                            >
-                              Gender
-                            </Text>
-                            <Text as="p" className="mb-[5px] px-2">
-                              {selectedPatientInfo.Gender}
-                            </Text>
-                          </div>
-
-                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
-                            <Text
-                              size="xs"
-                              as="p"
-                              className="h-[15px] w-[15px] !text-blue_gray-300"
-                            >
-                              Date Of Birth
-                            </Text>
-                            <Text as="p" className="mb-[5px] px-2">
-                              {date} ({age}) y.o
-                            </Text>
-                          </div>
-
-                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
-                            <Text
-                              size="xs"
-                              as="p"
-                              className="h-[15px] w-[15px] !text-blue_gray-300"
-                            >
-                              Blood Type
-                            </Text>
-                            <Text as="p" className="mb-[5px] px-2">
-                              {selectedPatientInfo.blood_type}
-                            </Text>
-                          </div>
-
-                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                            <Text
-                              size="xs"
-                              as="p"
-                              className="h-[15px] w-[15px] !text-blue_gray-300"
-                            >
-                              Disease Type
-                            </Text>
-                            <Text as="p" className="mb-[5px] px-2">
-                              {selectedPatientInfo.disease_type}
-                            </Text>
-                          </div>
-
-                          <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                            <Text
-                              size="xs"
-                              as="p"
-                              className="h-[15px] w-[15px] !text-blue_gray-300"
-                            >
-                              Phone Number
-                            </Text>
-                            <Text as="p" className="mb-[5px] px-2">
-                              {selectedPatientInfo.mobile}
-                            </Text>
-                          </div>
-                        </div>
-                      ) : (
-                        console.log("Error")
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <Button
-                  size="sm"
-                  className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
-                  variant="fill"
-                  color="blue_500"
-                  onClick={togglePatientPopup}
-                >
-                  View all
-                </Button>
-              </div>
-
-              <div className="flex w-full flex-col items-start gap-[25px] rounded-[40px] bg-white-A700 p-[15px]">
-                <div className="flex items-center justify-between gap-5 self-stretch sm:flex-col">
-                  <div className="flex w-[77%] items-center justify-center gap-[15px] pr-1.5 sm:w-full">
+          <div className="flex flex-1 w-full items-stretch gap-6">
+            <div className="flex w-[33%] flex-col items-center gap-5 rounded-[40px] bg-white-A700 p-[15px]">
+              <div className="flex w-[100%] flex-col gap-4 rounded-[40px] bg-white-A700 p-[5px] md:w-full">
+                <div className="flex items-center justify-between gap-6">
+                  <div className="flex w-[77%] items-center gap-[20px]">
                     <Img
-                      src={`${path}/images/img_patient_in_a_circle_74x73.png`}
-                      alt="cancer_overview"
+                      src={`/images/img_patient_in_a_circle.png`}
                       className="h-[74px] w-[73px] object-cover"
                     />
-                    <Heading size="md" as="h4">
-                      Cancer Overview
+                    <Heading
+                      size="md"
+                      as="h2"
+                      className="w-[74%] leading-[25px]"
+                    >
+                      <>{selectedPatientInfo.Name}</>
                     </Heading>
                   </div>
+                  <Button
+                    size="lg"
+                    shape="circle"
+                    className="w-[48px] !rounded-[24px] action-button"
+                    onClick={togglePatientPopup}
+                  >
+                    <Img src={`/images/img_map.svg`} />
+                  </Button>
                 </div>
-                <Heading size="s">General info</Heading>
 
-                {cancerIsPresent ? (
-                  <CancerComponent cancerData={cancerData}></CancerComponent>
-                ) : (
-                  <p className="mb-5 px-3">No Cancer Data</p>
-                )}
+                <Heading size="s" as="h3">
+                  General info
+                </Heading>
+
+                <div className="flex flex-col items-center gap-5">
+                  <div className="grid grid-cols-1 gap-5 self-stretch">
+                    {selectedPatientInfo ? (
+                      <div className="grid grid-cols-2 gap-5">
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Patient ID
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {selectedPatientInfo.Patient_ID}
+                          </Text>
+                        </div>
+
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Gender
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {selectedPatientInfo.Gender}
+                          </Text>
+                        </div>
+
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Date Of Birth
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {date} ({age}) y.o
+                          </Text>
+                        </div>
+
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap w-full">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Blood Type
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {selectedPatientInfo.blood_type}
+                          </Text>
+                        </div>
+
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Disease Type
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {selectedPatientInfo.disease_type}
+                          </Text>
+                        </div>
+
+                        <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                          <Text
+                            size="xs"
+                            as="p"
+                            className="h-[15px] w-[15px] !text-blue_gray-300"
+                          >
+                            Phone Number
+                          </Text>
+                          <Text as="p" className="mb-[5px] px-2">
+                            {selectedPatientInfo.mobile}
+                          </Text>
+                        </div>
+                      </div>
+                    ) : (
+                      console.log("Error")
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
 
-            {/* vital signs section */}
-            <div className="flex w-[49%] flex-col gap-4 rounded-[40px] bg-white-A700 py-[15px] pl-[15px] md:w-full px-4">
-              <div className="flex items-center justify-between gap-5">
+              <Button
+                size="sm"
+                className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
+                variant="fill"
+                color="blue_500"
+                onClick={togglePatientPopup}
+              >
+                View all
+              </Button>
+            </div>
+            <div className="flex w-[33%] flex-col items-start gap-[25px] rounded-[40px] bg-white-A700 p-[15px]">
+              <div className="flex items-center justify-between gap-5 self-stretch sm:flex-col">
+                <div className="flex w-[77%] items-center gap-[20px]">
+                  <Img
+                    src="/images/img_patient_in_a_circle_74x73.png"
+                    alt="cancer_overview"
+                    className="h-[74px] w-[73px] object-cover"
+                  />
+                  <Heading size="md" as="h4">
+                    Cancer Overview
+                  </Heading>
+                </div>
+              </div>
+              <Heading size="s">General info</Heading>
+
+              {cancerIsPresent ? (
+                <CancerComponent cancerData={cancerData}></CancerComponent>
+              ) : (
+                <p className="mb-5 px-3">No Cancer Data</p>
+              )}
+            </div>
+            <div className="flex w-[33%] items-center flex-col gap-4 rounded-[40px] bg-white-A700 p-[15px] md:w-full">
+              <div className="flex items-start w-full justify-between gap-5">
                 <div className="flex w-[77%] items-center gap-[15px]">
                   <Img
-                    src={`${path}/images/img_patient_in_a_circle_1.png`}
+                    src={`/images/img_patient_in_a_circle_1.png`}
                     alt="patientina"
                     className="h-[74px] w-[73px] object-cover"
                   />
@@ -428,15 +472,24 @@ export default function PatientPage() {
               ) : (
                 <p className="mb-5 px-3">No Vital Data</p>
               )}
+              <Button
+                size="sm"
+                className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
+                variant="fill"
+                color="blue_500"
+                onClick={toggleAllVitalPopup}
+              >
+                View Vital History
+              </Button>
             </div>
           </div>
 
           {/* pathology section */}
-          <div className="flex w-[33%] flex-col gap-4 rounded-[40px] bg-white-A700 py-[15px] pl-[15px] md:w-full px-4">
-            <div className="flex items-center justify-between gap-5">
+          <div className="flex w-[100%] items-center flex-col gap-4 rounded-[40px] bg-white-A700 p-[15px] md:w-full mb-10">
+            <div className="flex items-center justify-between gap-6 w-full">
               <div className="flex w-[77%] items-center gap-[15px]">
                 <Img
-                  src={`${path}/images/img_patient_in_a_circle_2.png`}
+                  src={`/images/img_patient_in_a_circle_2.png`}
                   alt="patientina"
                   className="h-[74px] w-[73px] object-cover"
                 />
@@ -450,33 +503,38 @@ export default function PatientPage() {
                 className="w-[48px] !rounded-[24px] action-button"
                 onClick={togglePathologyPopup}
               >
-                <Img src={`${path}/images/img_edit.svg`} />
+                <Img src={`/images/img_edit.svg`} />
               </Button>
             </div>
+            <div className="flex w-full gap-5">
+              <div className="flex-col w-[50%]">
+                <Heading size="s" as="h3" className="w-full">
+                  Medical Analysis
+                </Heading>
+                {medicalIsPresent ? (
+                  <MedicalAnalysisComponent
+                    medicalData={medicalData}
+                  ></MedicalAnalysisComponent>
+                ) : (
+                  <p className="px-3">No Medical Data</p>
+                )}
+              </div>
+              <div className="flex-col w-[50%]">
+                <Heading size="s" as="h3" className="text-start w-full">
+                  Radiography
+                </Heading>
 
-            <Heading size="s" as="h3">
-              Medical Analysis
-            </Heading>
-            {medicalIsPresent ? (
-              <MedicalAnalysisComponent
-                medicalData={medicalData}
-              ></MedicalAnalysisComponent>
-            ) : (
-              <p className="px-3">No Medical Data</p>
-            )}
+                {radioIsPresent ? (
+                  <RadiologyComponent
+                    radioData={radioData}
+                    togglePathologyPopup={toggleAllPathologyPopup}
+                  ></RadiologyComponent>
+                ) : (
+                  <p className="mb-5 px-3">No Radio Data</p>
+                )}
+              </div>
+            </div>
 
-            <Heading size="s" as="h3">
-              Radiography
-            </Heading>
-
-            {radioIsPresent ? (
-              <RadiologyComponent
-                radioData={radioData}
-                togglePathologyPopup={toggleAllPathologyPopup}
-              ></RadiologyComponent>
-            ) : (
-              <p className="mb-5 px-3">No Radio Data</p>
-            )}
             <Button
               size="sm"
               className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
@@ -484,7 +542,7 @@ export default function PatientPage() {
               color="blue_500"
               onClick={toggleAllPathologyPopup}
             >
-              View all
+              View Pathology History
             </Button>
 
             {showPatientPopup && (
@@ -526,6 +584,15 @@ export default function PatientPage() {
                 patientID={selectedPatientInfo.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}
+              />
+            )}
+            {showAllVitalPopup && (
+              <AllVital
+                onClose={toggleAllVitalPopup}
+                path={path}
+                patientID={selectedPatientInfo.patientID}
+                vitalIsPresent={vitalIsPresent}
+                vitalData={AllvitalData}
               />
             )}
             {showWarningPopup && (

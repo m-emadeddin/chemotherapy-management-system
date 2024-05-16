@@ -10,6 +10,7 @@ import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
 import Date from "components/Date/Date";
 import toast, { Toaster } from "react-hot-toast";
 import { setDate } from "components/Date/Date";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 export default function RegimenDetails() {
   let {
     newRegimenDetails,
@@ -18,7 +19,12 @@ export default function RegimenDetails() {
     setStartDate,
     dateValue,
   } = useRegimenDetails();
-  const { preMedicationsData, chemotherapyData } = usePlanData();
+
+  const { selectedPatientInfo } = useSelectedPatientInfo();
+  const Patient_ID = selectedPatientInfo.Patient_ID;
+
+  const { preMedicationsData, chemotherapyData, hasPreMedications } =
+    usePlanData();
   const { planName, planCycles, planWeeks, originalCycles, originalWeeks } =
     usePlanDetails();
   const navigate = useNavigate();
@@ -27,16 +33,7 @@ export default function RegimenDetails() {
   const [defaultValueCycles, setDefaultValueCycles] = useState(planCycles);
   const [notes, setNotes] = useState("");
   const [showResetPopUp, setShowResetPopUp] = useState(false);
-  const [initialRegimenDetails] = useState({
-    Plan_Name: planName,
-    number_of_Weeks: originalWeeks,
-    number_of_Cycles: originalCycles,
-    PreMedications: preMedicationsData,
-    ChemotherapyMedications: chemotherapyData,
-    cycle_note: notes,
-    Start_Date: null,
-  });
-
+  const [initialRegimenDetails, setInitialRegimenDetails] = useState({});
   const [regimenDetails, setRegimenDetails] = useState(initialRegimenDetails);
 
   const [initialData, setInitialData] = useState({
@@ -54,6 +51,36 @@ export default function RegimenDetails() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chemotherapyData, preMedicationsData]);
+
+  useEffect(() => {
+    if (
+      planName &&
+      originalWeeks &&
+      originalCycles &&
+      preMedicationsData &&
+      chemotherapyData
+    ) {
+      const initialDetails = {
+        Plan_Name: planName,
+        number_of_Weeks: originalWeeks,
+        number_of_Cycles: originalCycles,
+        PreMedications: preMedicationsData,
+        ChemotherapyMedications: chemotherapyData,
+        cycle_note: notes,
+        Start_Date: null,
+      };
+      setInitialRegimenDetails(initialDetails);
+      setRegimenDetails(initialDetails);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    planName,
+    originalWeeks,
+    originalCycles,
+    preMedicationsData,
+    chemotherapyData,
+    notes,
+  ]);
 
   useEffect(() => {
     setNotes("");
@@ -75,6 +102,7 @@ export default function RegimenDetails() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planName, planCycles, planWeeks, preMedicationsData, chemotherapyData]);
+
   useEffect(() => {
     if (newRegimenDetails) {
       setData({
@@ -164,8 +192,8 @@ export default function RegimenDetails() {
   };
   const resetState = () => {
     setData(initialData);
-    setNotes("");
     setRegimenDetails(initialRegimenDetails);
+    setNotes("");
     setDefaultValueWeeks(originalWeeks);
     setDefaultValueCycles(originalCycles);
     setStartDate(null);
@@ -198,6 +226,15 @@ export default function RegimenDetails() {
       };
       setNotes(regimenDetails.cycle_note);
       setNewRegimenDetails(newRegimenDetails);
+      const newRegimenDetailsWithId = {
+        ...newRegimenDetails,
+        id: Patient_ID,
+      };
+
+      localStorage.setItem(
+        `regimen-details-${Patient_ID}`,
+        JSON.stringify(newRegimenDetailsWithId)
+      );
       navigate("review-order");
     }
   };
@@ -243,18 +280,19 @@ export default function RegimenDetails() {
             Reset All
           </button>
         </div>
-
-        <div className="pre-mediaction">
-          <div className="pre-mediaction-header">
-            <p className="table-name">PreMediactions</p>
+        {hasPreMedications && (
+          <div className="pre-mediaction">
+            <div className="pre-mediaction-header">
+              <p className="table-name">PreMediactions</p>
+            </div>
+            <Table
+              id="pre-med"
+              data={Data.preMedicationsData}
+              onDelete={handleDelete}
+              onEdit={handleEdit}
+            />
           </div>
-          <Table
-            id="pre-med"
-            data={Data.preMedicationsData}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-          />
-        </div>
+        )}
         <div className="chemotherapy">
           <div className="chemotherapy-header">
             <p className="table-name">ChemoTherapy</p>

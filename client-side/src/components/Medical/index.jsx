@@ -22,118 +22,113 @@ const MedicalAnalysisComponent = ({ medicalData }) => {
   };
   return (
     <>
-      <Heading size="xs">
-        Last update:{" "}
-        {medicalData &&
-          formatDate(medicalData["updatedAt"])}
+      <Heading size="xs" className="w-full">
+        Last update: {medicalData && formatDate(medicalData["updatedAt"])}
       </Heading>
 
-      <div className="flex flex-col items-center gap-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
-          {medicalData &&
-            (
-              <div
-                className="grid grid-cols-2 gap-5"
-              >
-                {/* Urinanalysis */}
-                <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                  <Text
-                    size="xs"
-                    as="p"
-                    className="h-[15px] w-[15px] !text-blue_gray-300"
-                  >
-                    Urinanalysis
-                  </Text>
-                  <Text as="p" className="mb-[5px] px-2">
-                    {medicalData.Urinanalysis}
-                  </Text>
-                </div>
-
-                {/* CBC */}
-                <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                  <Text
-                    size="xs"
-                    as="p"
-                    className="h-[15px] w-[15px] !text-blue_gray-300"
-                  >
-                    CBC
-                  </Text>
-                  <Text as="p" className="mb-[5px] px-2">
-                    {medicalData.CBC}
-                  </Text>
-                </div>
-
-                {/* Electrophoresis */}
-                <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                  <Text
-                    size="xs"
-                    as="p"
-                    className="h-[15px] w-[15px] !text-blue_gray-300"
-                  >
-                    Electrophoresis
-                  </Text>
-                  <Text as="p" className="mb-[5px] px-2">
-                    {medicalData.Electrophoresis}
-                  </Text>
-                </div>
-
-                {/* CEA */}
-                <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                  <Text
-                    size="xs"
-                    as="p"
-                    className="h-[15px] w-[15px] !text-blue_gray-300"
-                  >
-                    CEA
-                  </Text>
-                  <Text as="p" className="mb-[5px] px-2">
-                    {medicalData.CEA}
-                  </Text>
-                </div>
-
-                {/* AFP */}
-                <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                  <Text
-                    size="xs"
-                    as="p"
-                    className="h-[15px] w-[15px] !text-blue_gray-300"
-                  >
-                    AFP
-                  </Text>
-                  <Text as="p" className="mb-[5px] px-2">
-                    {medicalData.AFP}
-                  </Text>
-                </div>
-
-                {/* B2M */}
-                <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                  <Text
-                    size="xs"
-                    as="p"
-                    className="h-[15px] w-[15px] !text-blue_gray-300"
-                  >
-                    B2M
-                  </Text>
-                  <Text as="p" className="mb-[5px] px-2">
-                    {medicalData.B2M}
-                  </Text>
-                </div>
-
-                {/* Tumor_size */}
-                <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
-                  <Text
-                    size="xs"
-                    as="p"
-                    className="h-[15px] w-[15px] !text-blue_gray-300"
-                  >
-                    Tumor Size
-                  </Text>
-                  <Text as="p" className="mb-[5px] px-2">
-                    {medicalData.Tumor_size}
-                  </Text>
-                </div>
+      <div className="flex flex-col items-center gap-5 w-full">
+        <div className="grid grid-cols-1 gap-5 self-stretch md:pr-5">
+          {medicalData && (
+            <div className="grid grid-cols-2 gap-5">
+              {/* Urinanalysis */}
+              <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                <Text
+                  size="xs"
+                  as="p"
+                  className="h-[15px] w-[15px] !text-blue_gray-300"
+                >
+                  Urinanalysis
+                </Text>
+                <Text as="p" className="mb-[5px] px-2">
+                  {medicalData.Urinanalysis}
+                </Text>
               </div>
-            )}
+
+              {/* CBC */}
+              <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                <Text
+                  size="xs"
+                  as="p"
+                  className="h-[15px] w-[15px] !text-blue_gray-300"
+                >
+                  CBC
+                </Text>
+                <Text as="p" className="mb-[5px] px-2">
+                  {medicalData.CBC}
+                </Text>
+              </div>
+
+              {/* Electrophoresis */}
+              <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                <Text
+                  size="xs"
+                  as="p"
+                  className="h-[15px] w-[15px] !text-blue_gray-300"
+                >
+                  Electrophoresis
+                </Text>
+                <Text as="p" className="mb-[5px] px-2">
+                  {medicalData.Electrophoresis}
+                </Text>
+              </div>
+
+              {/* CEA */}
+              <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                <Text
+                  size="xs"
+                  as="p"
+                  className="h-[15px] w-[15px] !text-blue_gray-300"
+                >
+                  CEA
+                </Text>
+                <Text as="p" className="mb-[5px] px-2">
+                  {medicalData.CEA}
+                </Text>
+              </div>
+
+              {/* AFP */}
+              <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                <Text
+                  size="xs"
+                  as="p"
+                  className="h-[15px] w-[15px] !text-blue_gray-300"
+                >
+                  AFP
+                </Text>
+                <Text as="p" className="mb-[5px] px-2">
+                  {medicalData.AFP}
+                </Text>
+              </div>
+
+              {/* B2M */}
+              <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                <Text
+                  size="xs"
+                  as="p"
+                  className="h-[15px] w-[15px] !text-blue_gray-300"
+                >
+                  B2M
+                </Text>
+                <Text as="p" className="mb-[5px] px-2">
+                  {medicalData.B2M}
+                </Text>
+              </div>
+
+              {/* Tumor_size */}
+              <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
+                <Text
+                  size="xs"
+                  as="p"
+                  className="h-[15px] w-[15px] !text-blue_gray-300"
+                >
+                  Tumor Size
+                </Text>
+                <Text as="p" className="mb-[5px] px-2">
+                  {medicalData.Tumor_size}
+                </Text>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

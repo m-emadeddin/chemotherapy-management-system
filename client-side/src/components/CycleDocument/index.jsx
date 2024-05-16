@@ -16,7 +16,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/chemotherapy/${cycle}`
+          `/document-chemotherapy/chemotherapy/${cycle}`
         );
         const { Chemotherapy_Medications } = await response.json();
         setChemotherapy(Chemotherapy_Medications);
@@ -52,7 +52,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     setSelectedValues((prevState) => ({
       ...prevState,
       Cycle_Number: cycle,
-      Cycle_Documentation_Date: today,
+      Date: today,
       [name]: val,
     }));
   };
@@ -75,9 +75,10 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   }, [symptomsSubmission, cycleSubmission, Submit]);
 
   const sendCycleData = async (data) => {
+    console.log();
     try {
       const response = await fetch(
-        `document-chemotherapy/cycles-updates/${id}`,
+        `/document-chemotherapy/cycles-updates/${id}`,
         {
           method: "PATCH",
           headers: {
@@ -99,7 +100,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
 
   const sendSymptomsData = async (data) => {
     try {
-      const response = await fetch(`patient/add-side-effects/${id}`, {
+      const response = await fetch(`/patient/add-side-effects/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
