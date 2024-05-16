@@ -40,7 +40,7 @@ const Home = () => {
         </li>
         <li style={{ marginBottom: "10px" }}>
           <Link
-            to="/select_patient"
+            to="/dashboard"
             style={{ color: "#87CEFA", textDecoration: "none" }}
           >
             SelectPatient

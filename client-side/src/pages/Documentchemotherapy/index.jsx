@@ -117,7 +117,7 @@ export default function DocumentchemotherapyPage() {
   return (
     <>
       <Helmet>
-        <title>CMS App</title>
+        <title>Oncology MS</title>
         <meta
           name="description"
           content="Web site created using create-react-app"
@@ -187,7 +187,7 @@ export default function DocumentchemotherapyPage() {
                     size="xl"
                     className="p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
                     onClick={() => {
-                      navigate("/select_patient");
+                      navigate("/dashboard");
                     }}
                   >
                     Go to dashboard

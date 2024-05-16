@@ -7,7 +7,7 @@ export default function SelectPatientPage() {
   return (
     <>
       <Helmet>
-        <title>CMS App</title>
+        <title>Oncology MS</title>
         <meta
           name="description"
           content="Web site created using create-react-app"
