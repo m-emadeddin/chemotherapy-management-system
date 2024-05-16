@@ -409,7 +409,7 @@ console.log(AllmedicalData)
                             as="p"
                             className="h-[15px] w-[15px] !text-blue_gray-300"
                           >
-                            Phone Number
+                            Phone number
                           </Text>
                           <Text as="p" className="mb-[5px] px-2">
                             {selectedPatientInfo.mobile}
