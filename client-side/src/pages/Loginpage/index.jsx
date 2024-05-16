@@ -32,6 +32,13 @@ export default function LoginPage() {
     }
   };
 
+  const handleKeyDown = (e) => {
+    console.log(e);
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -62,6 +69,7 @@ export default function LoginPage() {
                   name="input_one"
                   value={identifier}
                   onChange={(e) => setIdentifier(e)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                   suffix={
                     <Img
                       src="images/img_settings.svg"
@@ -82,6 +90,7 @@ export default function LoginPage() {
                   name="input_three"
                   value={password}
                   onChange={(e) => setPassword(e)}
+                  onKeyDown={(e) => handleKeyDown(e)}
                   suffix={
                     <Img
                       src="images/img_settings_light_blue_600.svg"
