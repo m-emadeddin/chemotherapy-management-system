@@ -70,6 +70,7 @@ export default function Date() {
         value={date}
         format="DD/MM/YYYY"
         onChange={(newValue) => setDate(newValue)}
+        disablePast
       />
       {isFetching ? (
         <Loader />
