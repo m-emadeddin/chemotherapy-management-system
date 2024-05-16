@@ -9,6 +9,8 @@ export default function AllPathology({
   radioData,
   medicalData,
   patientID,
+  medicalIsPresent,
+  radioIsPresent
 }) {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -67,7 +69,7 @@ export default function AllPathology({
           <div className="new-row flex">
             <div className=" font-bold text-black">Medical Analysis</div>
           </div>
-          {medicalData &&
+          {medicalIsPresent?medicalData &&
             medicalData.MedicalAnalysis &&
             medicalData.MedicalAnalysis.map((analysis, index) => (
               <div key={"MedicalAnalysis" + index}>
@@ -85,12 +87,11 @@ export default function AllPathology({
                   </div>
                 </button>
               </div>
-            ))}
-
+            )) : <p className="px-3">No Current Medical Data For This Patient</p>}
           <div className="new-row flex">
             <div className=" font-bold text-black">Radiology Analysis</div>
           </div>
-          {radioData &&
+          {radioIsPresent? radioData &&
             radioData.radiography &&
             radioData.radiography.map((analysis, index) => (
               <div key={"radiography" + index}>
@@ -106,7 +107,7 @@ export default function AllPathology({
                   </div>
                 </button>
               </div>
-            ))}
+            )) : <p className="px-3">No Current Radio Data For This Patient</p>}
           {/*radioData["radiography"][0]["MRI"]*/}
         </div>
         <Button

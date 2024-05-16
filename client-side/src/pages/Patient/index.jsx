@@ -62,7 +62,7 @@ export default function PatientPage() {
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
-console.log(AllradioData)
+  console.log(AllradioData);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -478,6 +478,15 @@ console.log(AllradioData)
             ) : (
               <p className="mb-5 px-3">No Radio Data</p>
             )}
+            <Button
+              size="sm"
+              className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
+              variant="fill"
+              color="blue_500"
+              onClick={toggleAllPathologyPopup}
+            >
+              View all
+            </Button>
 
             {showPatientPopup && (
               <PatientPopup
@@ -503,9 +512,7 @@ console.log(AllradioData)
                 onClose={togglePathologyPopup}
                 path={path}
                 radioData={radioIsPresent ? radioData : " "}
-                medicalData={
-                  medicalIsPresent ? medicalData : " "
-                }
+                medicalData={medicalIsPresent ? medicalData : " "}
                 patientID={selectedPatientInfo.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}
