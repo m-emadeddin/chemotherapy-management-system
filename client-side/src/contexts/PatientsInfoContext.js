@@ -49,6 +49,7 @@ export const PatientsInfoProvider = ({ children }) => {
   const patientsInfoValues = {
     patientsInfo,
     deletePatient,
+    fetchPatientsInfo,
   };
 
   return (
