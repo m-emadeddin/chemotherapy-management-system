@@ -53,11 +53,10 @@ export default function PathologyPopup({
       [id]: value,
     }));
   };
-
   async function putRadioData() {
     try {
       const response = await fetch(
-        `/patient/Radiography-update/${patientID}`,
+        `/patient/${patientID}/radiography-update/${radioData["Radiography_ID"]}}`,
         {
           method: "PUT",
           headers: {
@@ -78,7 +77,7 @@ export default function PathologyPopup({
   }
   async function putMedicalData() {
     try {
-      const response = await fetch(`/patient/medical-update/${patientID}`, {
+      const response = await fetch(`/patient/${patientID}/medical-update/${medicalData["MedicalAnalysis_ID"]}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -108,8 +107,6 @@ export default function PathologyPopup({
       toast.error("Please fill in all radiology fields.");
       return;
     }
-    console.log(medicaldata);
-    console.log(radiodata);
     toast.success("Pathology Updated Successfully");
 
     putRadioData();

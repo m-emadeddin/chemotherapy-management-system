@@ -75,7 +75,6 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   }, [symptomsSubmission, cycleSubmission, Submit]);
 
   const sendCycleData = async (data) => {
-    console.log();
     try {
       const response = await fetch(
         `/document-chemotherapy/cycles-updates/${id}`,

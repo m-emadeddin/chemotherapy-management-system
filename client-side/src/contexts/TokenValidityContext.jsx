@@ -18,7 +18,6 @@ export const TokenValidityProvider = ({ children }) => {
                         Authorization: `Bearer ${auth.userToken}`,
                     },
                 });
-                // console.log(`Token Checked!, UserToken: ${auth.userToken}`);
                 if (!response.ok) {
                     const errorData = await response.json();
                     console.log(errorData.error);

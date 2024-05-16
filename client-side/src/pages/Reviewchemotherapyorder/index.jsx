@@ -79,7 +79,6 @@ export default function Reviewchemotherapyorder() {
     axios
       .post(apiUrl, requestBody)
       .then((response) => {
-        console.log("Response:", response.data);
         if (response.data.message === "Data inserted successfully") {
           toast.success("Data inserted successfully");
 

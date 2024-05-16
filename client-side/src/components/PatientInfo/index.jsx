@@ -97,13 +97,19 @@ export default function PatientInfo() {
 
       <div className="patient-record flex w-full flex-col gap-[5px] items-center">
         <div className="p-[10px] w-[90%] info-tablehead ">
-          <div className="w-[85%] flex justify-between">
-            <div className="w-[20%]">Patient</div>
-            <div className="w-[20%]">ID</div>
-            <div className="w-[20%]">Gender</div>
-            <div className="w-[20%]">Disease Type</div>
-            <div className="w-[20%]">Phone Number</div>
-          </div>
+        {filteredPatients.length > 0 ? (
+            <div className="w-[85%] flex justify-between">
+              <div className="w-[20%]">Patient</div>
+              <div className="w-[20%]">ID</div>
+              <div className="w-[20%]">Gender</div>
+              <div className="w-[20%]">Disease Type</div>
+              <div className="w-[20%]">Phone Number</div>
+            </div>
+          ) : (
+            <div className="w-full text-center py-5">
+              <p>No patients found with this name</p>
+            </div>
+          )}
         </div>
         {currentPatients.map((patient) => (
           <PatientTable

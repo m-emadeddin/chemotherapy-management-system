@@ -75,7 +75,6 @@ export const AuthProvider = ({ children }) => {
                     Authorization: `Bearer ${userToken}`
                 }
             });
-            // console.log(`from logout: userToken ${userToken}`);
             if (response.ok || userToken !== null) {
                 setIsLoggedIn(false);
                 setUser(null);
@@ -85,7 +84,6 @@ export const AuthProvider = ({ children }) => {
                 localStorage.removeItem("user");
                 toast.success("Logged out successfully!");
             }
-            // console.log(`after if, from logout: userToken ${userToken}`);
         } catch (error) {
             console.log(`from catch error logout: userToken ${userToken}`);
             toast.error(error.message);
