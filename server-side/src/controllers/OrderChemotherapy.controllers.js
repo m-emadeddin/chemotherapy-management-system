@@ -2,12 +2,7 @@ const TreatmentPlanReadOnly =
   require('../models/index.models').treatmentPlanReadOnly;
 const Patients = require('../models/index.models').Patients;
 const db = require("../models/index.models");
-const { Op, fn, col } = require("sequelize");
-
-function removeSpecialCharacters(str) {
-  // Remove other non-word and non-space characters
-  return str.replace(/[^\w\s]/gi, ''); // Replace all non-word and non-space characters
-}
+const { Op } = require("sequelize");
 
 exports.getRegimens = (req, res, next) => {
   const ID = req.params.id;
@@ -23,8 +18,6 @@ exports.getRegimens = (req, res, next) => {
         return Canceroverview.Cancer_type;
       })
       .then((cancerType) => {
-        const cleanedCancerType = removeSpecialCharacters(cancerType);
-        console.log(cleanedCancerType,cancerType);
         return TreatmentPlanReadOnly.findAll({
           where: {Cancer_Type: {
             [Op.like]: `%${cancerType.toLowerCase()}%`
