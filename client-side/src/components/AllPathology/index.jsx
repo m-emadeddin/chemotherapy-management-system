@@ -2,6 +2,7 @@ import { Img, Button } from "..";
 import React, { useState } from "react";
 import AddNewPathology from "../../components/AddNewPathology";
 import ShowRadio from "../../components/ShowRadio";
+import ShowMedical from "components/ShowMedical";
 
 export default function AllPathology({
   onClose,
@@ -33,14 +34,21 @@ export default function AllPathology({
   const [showAddNewPathologyPopup, setShowAddNewPathologyPopup] =
     useState(false);
   const [showradioHistoryPopup, setShowradioHistoryPopup] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [showMedicalHistoryPopup, setShowMedicalHistoryPopup] = useState(false);
+  const [MedicalselectedIndex, setMedicalSelectedIndex] = useState(null);
+  const [RadioselectedIndex, setRadioSelectedIndex] = useState(null);
   const toggleAddNewPathologyPopup = () => {
     setShowAddNewPathologyPopup(!showAddNewPathologyPopup);
   };
 
   const toggleradioHistoryPopup = (index) => {
-    setSelectedIndex(index);
+    setRadioSelectedIndex(index);
     setShowradioHistoryPopup(!showradioHistoryPopup);
+  };
+
+  const toggleMedicalHistoryPopup = (index) => {
+    setMedicalSelectedIndex(index);
+    setShowMedicalHistoryPopup(!showMedicalHistoryPopup);
   };
 
   return (
@@ -81,7 +89,9 @@ export default function AllPathology({
             medicalData.MedicalAnalysis &&
             medicalData.MedicalAnalysis.map((analysis, index) => (
               <div key={"MedicalAnalysis" + index}>
-                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full">
+                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full"
+                                  onClick={() => toggleMedicalHistoryPopup(index)}
+                                  >
                   <div className="text-black pr-2">
                     Medical Analysis {index + 1}
                   </div>
@@ -141,12 +151,20 @@ export default function AllPathology({
             patientID={patientID}
           />
         )}
-        {showradioHistoryPopup && selectedIndex !== null && (
+        {showradioHistoryPopup && RadioselectedIndex !== null && (
           <ShowRadio
             onClose={toggleradioHistoryPopup}
             path={path}
             patientID={patientID}
-            radioData={radioData["radiography"][selectedIndex]}
+            radioData={radioData["radiography"][RadioselectedIndex]}
+          />
+        )}
+                {showMedicalHistoryPopup && MedicalselectedIndex !== null && (
+          <ShowMedical
+            onClose={toggleMedicalHistoryPopup}
+            path={path}
+            patientID={patientID}
+            medicalData={medicalData["MedicalAnalysis"][MedicalselectedIndex]}
           />
         )}
       </div>
