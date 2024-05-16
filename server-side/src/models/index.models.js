@@ -8,13 +8,11 @@ const ChemotherapyModel = require('./ChemotherapyMedications.models');
 const PatientsModel = require('./Patients.models');
 const PremedicationsModel = require('./Premedications.models');
 const TreatmentModel = require('./TreatmentPlans.models');
-const ReservedBedsModel = require('./ReservedBeds.models');
 const VitalSignModel = require('./VitalSign.models');
 const RadiographyModel = require('./Radiography.models');
 const MedicalModel = require('./Medical.models');
 const UserModel = require('./User.models');
 const DoctorModel = require('./Doctor.models');
-const VisitsModel = require('./Visits.models');
 const SideEffectsModel = require('./SideEffects.models');
 
 //readonly section
@@ -35,14 +33,12 @@ const Cycles = CyclesModel(db, Sequelize);
 const CancerOverview = CancerModel(db, Sequelize);
 const ChemotherapyMedications = ChemotherapyModel(db, Sequelize);
 const Patients = PatientsModel(db, Sequelize);
-const ReservedBeds = ReservedBedsModel(db, Sequelize);
 const VitalSign = VitalSignModel(db, Sequelize);
 const Premedications = PremedicationsModel(db, Sequelize);
 const TreatmentPlans = TreatmentModel(db, Sequelize);
 const Radiography = RadiographyModel(db, Sequelize);
 const User = UserModel(db, Sequelize);
 const Doctor = DoctorModel(db, Sequelize);
-const Visits = VisitsModel(db, Sequelize);
 const Medical = MedicalModel(db, Sequelize);
 const SideEffects = SideEffectsModel(db, Sequelize);
 
@@ -51,7 +47,6 @@ const ChemotherapyMedRead = ChemotherapyMedReadonlyModel(db,Sequelize);
 const PremedicationRead = PremedicationReadonlyModel(db ,Sequelize)
 
 //==========junction tables for M to N realtions==========
-const PatientsReservedbeds = PatientsReservedbedsModel(db, Sequelize);
 const TreatmentPlansCycles = TreatmentPlansCyclesModel(db, Sequelize);
 const PremedicationsCycles = PremedicationsCyclesModel(db, Sequelize);
 const ChemotherapyMedicationsCycles = ChemotherapyMedicationsCyclesModel(db, Sequelize);
@@ -60,17 +55,7 @@ const ChemotherapyMedicationsCycles = ChemotherapyMedicationsCyclesModel(db, Seq
 const ChemotherapyPlanReadonly = ChemotherapyPlanReadonlyModel(db , Sequelize);
 const PremedicationsPlanReadonly = PremedicationsPlanReadonlyModel(db , Sequelize)
 // ====================M to N Relations===================
-//1. patients && reserved beds
-Patients.belongsToMany(ReservedBeds, {
-  through: PatientsReservedbeds,
-  foreignKey: { name: 'patientID', allowNull: false },
-});
-ReservedBeds.belongsToMany(Patients, {
-  through: PatientsReservedbeds,
-  foreignKey: { name: 'bedID', allowNull: false },
-});
-
-//2. Treatment plans & cycles
+//1. Treatment plans & cycles
 Cycles.belongsToMany(TreatmentPlans, {
   through: TreatmentPlansCycles,
   foreignKey: { name: 'cycleID', allowNull: false },
@@ -81,7 +66,7 @@ TreatmentPlans.belongsToMany(Cycles, {
 });
 
 
-//3. cycles & premedications
+//2. cycles & premedications
 Cycles.belongsToMany(Premedications, {
   through: PremedicationsCycles,
   foreignKey: { name: 'cycleID', allowNull: false },
@@ -91,7 +76,7 @@ Premedications.belongsToMany(Cycles, {
   foreignKey: { name: 'medicationID', allowNull: false },
 });
 
-//4. cycles & chemotherapy medications
+//3. cycles & chemotherapy medications
 Cycles.belongsToMany(ChemotherapyMedications, {
   through: ChemotherapyMedicationsCycles,
   uniqueKey: 'ChemotherapyCycles_unique', // Custom unique constraint name
@@ -104,7 +89,7 @@ ChemotherapyMedications.belongsToMany(Cycles, {
 });
 
 
-//5. chemotherapy-readonly with Treatment plan-readonly
+//4. chemotherapy-readonly with Treatment plan-readonly
 treatmentPlanReadOnly.belongsToMany(ChemotherapyMedRead, {
   through: ChemotherapyPlanReadonly,
   uniqueKey: 'ChemotherapyPlanreadonly_unique', // Custom unique constraint name
@@ -116,7 +101,7 @@ ChemotherapyMedRead.belongsToMany(treatmentPlanReadOnly, {
   foreignKey: { name: 'medication_ID', allowNull: false },
 });
 
-// 6 premedications-readonly with Treatment plan-readonly
+// 5 premedications-readonly with Treatment plan-readonly
 treatmentPlanReadOnly.belongsToMany(PremedicationRead, {
   through: PremedicationsPlanReadonly,
   uniqueKey: 'PremedicationPlanReadonly_unique', // Custom unique constraint name
@@ -154,20 +139,7 @@ Medical.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
-//4.patients & visits
-Patients.hasMany(Visits, {
-  foreignKey: {
-    allowNull: false,
-  },
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
-});
-Visits.belongsTo(Patients, {
-  onDelete: 'CASCADE',
-  onUpdate: 'CASCADE',
-});
-
-//5.VitalSigns & patients
+//4.VitalSigns & patients
 Patients.hasMany(VitalSign, {
 
   foreignKey: {
@@ -180,7 +152,7 @@ VitalSign.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
-//6 patients & Side effects
+//5 patients & Side effects
 Patients.hasMany(SideEffects, {
   foreignKey: {
     allowNull: false,
@@ -231,7 +203,6 @@ module.exports = {
   CancerOverview,
   ChemotherapyMedications,
   Patients,
-  ReservedBeds,
   VitalSign,
   Premedications,
   TreatmentPlans,
@@ -239,7 +210,6 @@ module.exports = {
   Medical,
   User,
   Doctor,
-  Visits,
   ChemotherapyMedRead,
   PremedicationRead,
   SideEffects,

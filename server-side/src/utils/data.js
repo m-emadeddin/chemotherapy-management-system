@@ -4,7 +4,6 @@ const {
   CancerOverview,
   ChemotherapyMedications,
   Patients,
-  ReservedBeds,
   VitalSign,
   Premedications,
   TreatmentPlans,
@@ -12,7 +11,6 @@ const {
   Medical,
   User,
   Doctor,
-  Visits,
   CycleRead,
   ChemotherapyMedRead,
   PremedicationRead,
@@ -1363,152 +1361,7 @@ exports.insertDummyData = async () => {
       Cancer_type: 'Pancreatic Cancer',
       Note_On_cancer: 'Note for cancer data 10',
     });
-    //===========================VISITS=============================================================
-    await patient1.createVisit({
-      visit_time: new Date('2024-05-06 08:00:00'),
-    });
-
-    await patient2.createVisit({
-      visit_time: new Date('2024-05-07 09:00:00'),
-    });
-    // Create visits for patient3
-    await patient3.createVisit({
-      visit_time: new Date('2024-06-06 08:00:00'),
-    });
-
-    await patient3.createVisit({
-      visit_time: new Date('2024-06-08 10:00:00'),
-    });
-
-    await patient3.createVisit({
-      visit_time: new Date('2024-06-10 11:00:00'),
-    });
-
-    // Create visits for patient4
-    await patient4.createVisit({
-      visit_time: new Date('2024-06-06 05:00:00'),
-    });
-
-    await patient4.createVisit({
-      visit_time: new Date('2024-07-08 10:00:00'),
-    });
-
-    await patient4.createVisit({
-      visit_time: new Date('2024-08-10 11:00:00'),
-    });
-
-    // Create visits for patient5
-    await patient5.createVisit({
-      visit_time: new Date('2024-05-06 12:00:00'),
-    });
-
-    await patient5.createVisit({
-      visit_time: new Date('2024-05-08 03:00:00'),
-    });
-
-    await patient5.createVisit({
-      visit_time: new Date('2024-05-10 02:00:00'),
-    });
-
-    // Create visits for patient6
-    await patient6.createVisit({
-      visit_time: new Date('2024-05-06 01:00:00'),
-    });
-
-    await patient6.createVisit({
-      visit_time: new Date('2024-09-08 10:00:00'),
-    });
-
-    await patient6.createVisit({
-      visit_time: new Date('2024-11-10 11:00:00'),
-    });
-
-    // Create visits for patient7
-    await patient7.createVisit({
-      visit_time: new Date('2024-04-06 08:00:00'),
-    });
-
-    await patient7.createVisit({
-      visit_time: new Date('2024-04-08 10:00:00'),
-    });
-
-    await patient7.createVisit({
-      visit_time: new Date('2024-04-10 11:00:00'),
-    });
-
-    // Create visits for patient8
-    await patient8.createVisit({
-      visit_time: new Date('2024-01-06 08:00:00'),
-    });
-
-    await patient8.createVisit({
-      visit_time: new Date('2024-01-08 10:00:00'),
-    });
-
-    await patient8.createVisit({
-      visit_time: new Date('2024-01-10 11:00:00'),
-    });
-
-    // Create visits for patient9
-    await patient9.createVisit({
-      visit_time: new Date('2024-02-06 08:00:00'),
-    });
-
-    await patient9.createVisit({
-      visit_time: new Date('2024-02-08 10:00:00'),
-    });
-
-    await patient9.createVisit({
-      visit_time: new Date('2024-12-10 03:00:00'),
-    });
-
-    // Create visits for patient10
-    await patient10.createVisit({
-      visit_time: new Date('2024-05-06 01:00:00'),
-    });
-
-    await patient10.createVisit({
-      visit_time: new Date('2024-05-08 02:00:00'),
-    });
-
-    await patient10.createVisit({
-      visit_time: new Date('2024-08-10 02:30:00'),
-    });
-
-
-    //===========================RESERVED BEDS=============================================================
-    const bed1 = await ReservedBeds.create({
-      Availability_Status: 1,
-      Bed_ID: 103,
-    });
-    const bed2 = await ReservedBeds.create({
-      Availability_Status: 1,
-      Bed_ID: 781,
-    });
-    const bed3 = await ReservedBeds.create({
-      Availability_Status: 1,
-      Bed_ID: 45,
-    });
-    const bed4 = await ReservedBeds.create({
-      Availability_Status: 1,
-      Bed_ID: 51,
-    });
-    const bed5 = await ReservedBeds.create({
-      Availability_Status: 1,
-      Bed_ID: 76,
-    });
-    const bed6 = await ReservedBeds.create({
-      Availability_Status: 1,
-      Bed_ID: 33,
-    });
-    const bed7 = await ReservedBeds.create({
-      Availability_Status: 1,
-      Bed_ID: 34,
-    });
-    const bed8 = await ReservedBeds.create({
-      Availability_Status: 1,
-      Bed_ID: 20,
-    });
+   
     //===========================CYCLES=============================================================
     // const cycle1 = await Cycles.create({
     //   Cycle_Number: 1,
@@ -1906,109 +1759,7 @@ exports.insertDummyData = async () => {
     // await cycle16.addChemotherapyMedication([chemotherapy8, chemotherapy9]);
 
 
-    // Associate patient with Reserved beds
-    await patient1.addReservedbeds(bed1, {
-      through: {
-        ReservationDate: '2024-05-06 08:00:00',
-        HoursReserved: 3,
-      },
-    });
-    await patient1.addReservedbeds(bed2, {
-      through: {
-        ReservationDate: '2023-05-06 08:00:00',
-        HoursReserved: 5,
-      },
-    });
-    await patient2.addReservedbeds(bed1, {
-      through: {
-        ReservationDate: '2024-05-07 08:00:00',
-        HoursReserved: 2,
-      },
-    });
-    await patient2.addReservedbeds(bed2, {
-      through: {
-        ReservationDate: '2024-08-07 08:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient3.addReservedbeds(bed5, {
-      through: {
-        ReservationDate: '2024-07-07 08:00:00',
-        HoursReserved: 2,
-      },
-    });
-    await patient3.addReservedbeds(bed6, {
-      through: {
-        ReservationDate: '2024-08-04 08:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient4.addReservedbeds(bed8, {
-      through: {
-        ReservationDate: '2024-02-07 02:00:00',
-        HoursReserved: 2,
-      },
-    });
-    await patient5.addReservedbeds(bed8, {
-      through: {
-        ReservationDate: '2024-03-07 08:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient6.addReservedbeds(bed5, {
-      through: {
-        ReservationDate: '2024-05-07 08:00:00',
-        HoursReserved: 2,
-      },
-    });
-    await patient6.addReservedbeds(bed6, {
-      through: {
-        ReservationDate: '2024-08-07 08:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient6.addReservedbeds(bed1, {
-      through: {
-        ReservationDate: '2024-04-07 08:00:00',
-        HoursReserved: 2,
-      },
-    });
-    await patient7.addReservedbeds(bed1, {
-      through: {
-        ReservationDate: '2024-08-17 02:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient7.addReservedbeds(bed5, {
-      through: {
-        ReservationDate: '2024-08-27 02:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient7.addReservedbeds(bed7, {
-      through: {
-        ReservationDate: '2024-08-07 12:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient8.addReservedbeds(bed2, {
-      through: {
-        ReservationDate: '2023-08-07 02:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient9.addReservedbeds(bed8, {
-      through: {
-        ReservationDate: '2024-10-07 02:00:00',
-        HoursReserved: 8,
-      },
-    });
-    await patient10.addReservedbeds(bed1, {
-      through: {
-        ReservationDate: '2022-08-07 02:00:00',
-        HoursReserved: 8,
-      },
-    });
+    
 
     console.log('Dummy data inserted successfully.');
   } catch (error) {
