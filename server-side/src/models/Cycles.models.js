@@ -30,7 +30,7 @@ module.exports = (db, DataTypes) => {
       type: DataTypes.TEXT
     },
     Cycle_Documentation_Date:{
-      type: DataTypes.STRING
+      type: DataTypes.DATE
     }
 
   });
