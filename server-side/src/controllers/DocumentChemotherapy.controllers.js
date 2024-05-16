@@ -8,7 +8,7 @@ exports.getRegimenInfo = (req, res, next) => {
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ message: "Patient not found" });
+        return res.status(404).json({ message: 'Patient not found' });
       }
       patient
         .getTreatmentPlan()
@@ -16,7 +16,7 @@ exports.getRegimenInfo = (req, res, next) => {
           if (!treatmentPlan) {
             return res
               .status(404)
-              .json({ message: "Treatment plan not found for this patient" });
+              .json({ message: 'Treatment plan not found for this patient' });
           }
           const info = {
             Cycle_Count: treatmentPlan.number_of_Cycles,
@@ -25,13 +25,13 @@ exports.getRegimenInfo = (req, res, next) => {
           res.status(200).json(info);
         })
         .catch((treatmentPlanError) => {
-          console.error("Error fetching treatment plan:", treatmentPlanError);
-          res.status(500).json({ message: "Internal server error" });
+          console.error('Error fetching treatment plan:', treatmentPlanError);
+          res.status(500).json({ message: 'Internal server error' });
         });
     })
     .catch((patientError) => {
-      console.error("Error fetching patient:", patientError);
-      res.status(500).json({ message: "Internal server error" });
+      console.error('Error fetching patient:', patientError);
+      res.status(500).json({ message: 'Internal server error' });
     });
 };
 exports.getCyclesInfo = (req, res, next) => {
@@ -114,7 +114,7 @@ exports.getPremedications = (req, res, next) => {
   Cycles.findByPk(cycle_ID)
     .then((cycle) => {
       if (!cycle) {
-        return res.status(404).send({ message: "Cycle not found" });
+        return res.status(404).send({ message: 'Cycle not found' });
       }
       // Retrieve premedications for the cycle
       return cycle.getPremedications().then((premedications) => {
@@ -135,8 +135,8 @@ exports.getPremedications = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.error("Error:", err.message);
-      res.status(500).send({ message: "Internal server error" });
+      console.error('Error:', err.message);
+      res.status(500).send({ message: 'Internal server error' });
     });
 };
 exports.getChemotherapy = (req, res, next) => {
@@ -146,7 +146,7 @@ exports.getChemotherapy = (req, res, next) => {
   Cycles.findByPk(cycle_ID)
     .then((cycle) => {
       if (!cycle) {
-        return res.status(404).send({ message: "Cycle not found" });
+        return res.status(404).send({ message: 'Cycle not found' });
       }
       // Retrieve chemotherapy medications for the cycle
       return cycle.getChemotherapyMedications().then((chemoMeds) => {
@@ -169,8 +169,8 @@ exports.getChemotherapy = (req, res, next) => {
       });
     })
     .catch((err) => {
-      console.error("Error:", err.message);
-      res.status(500).send({ message: "Internal server error" });
+      console.error('Error:', err.message);
+      res.status(500).send({ message: 'Internal server error' });
     });
 };
 
@@ -197,7 +197,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
       cycles = retrievedCycles; // Store cycles for later use
       const activeCycle = cycles.find((cycle) => cycle.Is_active);
       if (!activeCycle) {
-        return res.status(404).json({ error: "Active cycle not found" });
+        return res.status(404).json({ error: 'Active cycle not found' });
       }
       // deactivate current active cycle
       activeCycle.Is_active = false;
@@ -226,7 +226,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
         const { ID, AdministeredDose_Ml, AdministeredDose_Mg } = med;
         if (!ID) {
           return Promise.reject({
-            message: "Medication ID is required for update",
+            message: 'Medication ID is required for update',
           });
         }
         return ChemotherapyMedications.update(
@@ -248,7 +248,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
     .then(() => {
       res
         .status(200)
-        .json({ message: "Cycle and medications updated successfully" });
+        .json({ message: 'Cycle and medications updated successfully' });
     })
     .catch((error) => {
       console.error("Error:", error.message);
