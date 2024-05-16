@@ -14,7 +14,7 @@ export default function SelectPatientPage() {
         />
       </Helmet>
 
-      <div className="flex w-[87%] flex-col items-end md:ml-0 md:w-full md:p-5 mt-[100px]">
+      <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px]">
         <Heading as="h1" className="self-start">
           Patient List
         </Heading>

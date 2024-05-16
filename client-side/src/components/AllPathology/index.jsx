@@ -2,7 +2,6 @@ import { Img, Button } from "..";
 import React, { useState } from "react";
 import AddNewPathology from "../../components/AddNewPathology";
 
-
 export default function AllPathology({
   onClose,
   path,
@@ -10,7 +9,7 @@ export default function AllPathology({
   medicalData,
   patientID,
   medicalIsPresent,
-  radioIsPresent
+  radioIsPresent,
 }) {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -69,7 +68,8 @@ export default function AllPathology({
           <div className="new-row flex">
             <div className=" font-bold text-black">Medical Analysis</div>
           </div>
-          {medicalIsPresent?medicalData &&
+          {medicalIsPresent ? (
+            medicalData &&
             medicalData.MedicalAnalysis &&
             medicalData.MedicalAnalysis.map((analysis, index) => (
               <div key={"MedicalAnalysis" + index}>
@@ -87,11 +87,15 @@ export default function AllPathology({
                   </div>
                 </button>
               </div>
-            )) : <p className="px-3">No Current Medical Data For This Patient</p>}
+            ))
+          ) : (
+            <p className="px-3">No Current Medical Data For This Patient</p>
+          )}
           <div className="new-row flex">
             <div className=" font-bold text-black">Radiology Analysis</div>
           </div>
-          {radioIsPresent? radioData &&
+          {radioIsPresent ? (
+            radioData &&
             radioData.radiography &&
             radioData.radiography.map((analysis, index) => (
               <div key={"radiography" + index}>
@@ -107,7 +111,10 @@ export default function AllPathology({
                   </div>
                 </button>
               </div>
-            )) : <p className="px-3">No Current Radio Data For This Patient</p>}
+            ))
+          ) : (
+            <p className="px-3">No Current Radio Data For This Patient</p>
+          )}
           {/*radioData["radiography"][0]["MRI"]*/}
         </div>
         <Button
@@ -118,12 +125,12 @@ export default function AllPathology({
           Insert New Pathology
         </Button>
         {showAddNewPathologyPopup && (
-              <AddNewPathology
-                onClose={toggleAddNewPathologyPopup}
-                path={path}
-                patientID={patientID}
-              />
-            )}
+          <AddNewPathology
+            onClose={toggleAddNewPathologyPopup}
+            path={path}
+            patientID={patientID}
+          />
+        )}
       </div>
     </div>
   );

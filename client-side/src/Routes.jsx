@@ -36,14 +36,16 @@ const ProjectRoutes = () => {
       children: [
         { path: "select_patient", element: <SelectPatient /> },
         { path: "patient/:id", element: <Patient /> },
-        { path: "order", element: <Orderchemotherapy /> },
-        { path: "order/review-order", element: <Reviewchemotherapyorder /> },
+        { path: "patient/:id/order", element: <Orderchemotherapy /> },
         {
-          path: "document/order/review-order",
+          path: "patient/:id/order/review-order",
           element: <Reviewchemotherapyorder />,
         },
-        { path: "document", element: <Documentchemotherapy /> },
-        { path: "document/order", element: <Orderchemotherapy /> },
+        {
+          path: "patient/:id/review-order",
+          element: <Reviewchemotherapyorder />,
+        },
+        { path: "patient/:id/document", element: <Documentchemotherapy /> },
       ],
     },
   ]);

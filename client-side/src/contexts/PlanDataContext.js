@@ -13,7 +13,7 @@ export const PlanDataProvider = ({ children }) => {
   useEffect(() => {
     if (planId) {
       axios
-        .get(`order/chemo-medications/${planId}`)
+        .get(`/order/chemo-medications/${planId}`)
         .then((res) => {
           setChemotherapyData(res.data.chemoMedications);
           setLoading(false);
@@ -27,7 +27,7 @@ export const PlanDataProvider = ({ children }) => {
   useEffect(() => {
     if (planId) {
       axios
-        .get(`order/pre-medications/${planId}`)
+        .get(`/order/pre-medications/${planId}`)
         .then((res) => {
           setPreMedicationsData(res.data.preMedications);
           setLoading(false);

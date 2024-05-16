@@ -12,7 +12,7 @@ const VitalSignComponent = ({ vitalData }) => {
   };
   return (
     <>              <div className="flex flex-col items-center gap-5">
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 self-stretch md:pr-5">
+    <div className="grid grid-cols-1 gap-5 self-stretch md:pr-5">
       {vitalData && vitalData.response && (
         <div className="grid grid-cols-2 gap-5">
           <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">
