@@ -57,11 +57,11 @@ export default function EditPopUp({
       <div className="edit-popup-container">
         <div className="popup-heading">
           <div className="text">
-            <img src="images/pop-icon.png" alt="icon" width={74} height={74} />
+            <img src="/images/pop-icon.png" alt="icon" width={74} height={74} />
             <p>{data[editIndex].name}</p>
           </div>
           <div className="x-icon" onClick={handleClose}>
-            <img src="images/x.svg" alt="x-icon" />
+            <img src="/images/x.svg" alt="x-icon" />
           </div>
         </div>
         <div className="edit-values">

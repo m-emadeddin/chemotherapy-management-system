@@ -5,18 +5,28 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
+import { usePlanData } from "contexts/PlanDataContext";
 
 export default function Reviewchemotherapyorder() {
   const { selectedPatientInfo } = useSelectedPatientInfo();
+  const { hasPreMedications } = usePlanData();
   const id = selectedPatientInfo.Patient_ID;
   const { newRegimenDetails } = useRegimenDetails();
-  const patientOrder =
-    newRegimenDetails || JSON.parse(localStorage.getItem("regimen-details"));
-  const originalDate = patientOrder.Start_Date;
-  const dateParts = originalDate.split("-");
+  let patientOrder = newRegimenDetails;
+
+  if (!patientOrder) {
+    const storedRegimenDetails = localStorage.getItem(`regimen-details-${id}`);
+    if (storedRegimenDetails) {
+      patientOrder = JSON.parse(storedRegimenDetails);
+    }
+  }
+
+  const originalDate = patientOrder?.Start_Date;
+  const dateParts = originalDate?.split("-");
   const reversedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -109,15 +119,17 @@ export default function Reviewchemotherapyorder() {
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>
-        <div className="pre-medication">
-          <div className="table-name">PreMediactions</div>
-          {patientOrder.PreMedications.map((med, index) => (
-            <div key={index} className="table-rows">
-              <p className="med-name">{med.name}</p>
-              <p className="med-instruction">{med.Instructions}</p>
-            </div>
-          ))}
-        </div>
+        {hasPreMedications && (
+          <div className="pre-medication">
+            <div className="table-name">PreMediactions</div>
+            {patientOrder.PreMedications.map((med, index) => (
+              <div key={index} className="table-rows">
+                <p className="med-name">{med.name}</p>
+                <p className="med-instruction">{med.Instructions}</p>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="chemo-therapy">
           <div className="table-name">ChemoTherapy</div>
           {patientOrder.ChemotherapyMedications.map((med, index) => (

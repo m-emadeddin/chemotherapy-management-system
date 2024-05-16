@@ -33,7 +33,12 @@ export default function DeletePopUp({
       onClick={closeDeletePopUp}
     >
       <div className="delete-popup-container">
-        <img src="images/exclamation.png" alt="icon" width={124} height={124} />
+        <img
+          src="/images/exclamation.png"
+          alt="icon"
+          width={124}
+          height={124}
+        />
         <p className="heading">Are you sure?</p>
         <p className="text">{medicationName} will be removed permanently</p>
 
