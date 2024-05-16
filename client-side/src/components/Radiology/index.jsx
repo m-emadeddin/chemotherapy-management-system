@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Heading, Button } from "..";
+import { Text, Heading } from "..";
 
 const RadiologyComponent = ({ radioData, togglePathologyPopup }) => {
   const formatDate = (dateString) => {
