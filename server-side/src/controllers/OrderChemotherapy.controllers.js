@@ -47,6 +47,10 @@ exports.getChemoMedications = (req, res, next) => {
       return regimen.getChemotherapyMedReads();
     })
     .then((chemotherapy) => {
+      if (!chemotherapy || chemotherapy.length === 0 ) {
+        console.log(chemotherapy);
+        return res.status(404).json({ error: 'This regimen has no chemotherapy' });
+      }
       // fetches the chemotherapy related to certain regimen
       const chemoMeds = chemotherapy.map((chemoMedication) => ({
         // fetches one Medication  & iterates over all chemotherapy Medications
@@ -76,6 +80,10 @@ exports.getPreMedications = (req, res, next) => {
       return regimen.getPremedicationReads();
     })
     .then((premedications) => {
+      if (!premedications || premedications.length === 0 ) {
+        console.log(premedications);
+        return res.status(404).json({ error: 'This regimen has no premedications' });
+      }
       const preMed = premedications.map((medication) => ({
         name: medication.Medication_Name,
         dose: medication.Dose,
