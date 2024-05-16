@@ -36,7 +36,7 @@ const ProjectRoutes = () => {
       ),
       children: [
         { path: "dashboard", element: <Dashboard /> },
-        { path: "select_patient", element: <SelectPatient /> },
+        // { path: "select_patient", element: <SelectPatient /> },
         { path: "patient/:id", element: <Patient /> },
         { path: "patient/:id/order", element: <Orderchemotherapy /> },
         {
