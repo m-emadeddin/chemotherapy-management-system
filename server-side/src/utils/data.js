@@ -2521,21 +2521,21 @@ const chemotherapy9 = await ChemotherapyMedRead.bulkCreate([
   });
 
   // Step 2: Insert premedication data
-  const premedications10 = await Premedication.bulkCreate([
+  const premedications10 = await PremedicationRead.bulkCreate([
     {
-      Medication: 'Dexamethasone',
+      Medication_Name: 'Dexamethasone',
       Dose: 20,
       Route: 'Oral or Intravenous',
       Instruction: '45 minutes prior to PACLitaxel',
     },
     {
-      Medication: 'Diphenhydramine',
+      Medication_Name: 'Diphenhydramine',
       Dose: 50,
       Route: 'Oral or Intravenous',
       Instruction: '30 minutes prior to PACLitaxel',
     },
     {
-      Medication: 'Famotidine',
+      Medication_Name: 'Famotidine',
       Dose: 20,
       Route: 'Oral or Intravenous',
       Instruction: 'Over 15 minutes prior to PACLitaxel',
@@ -2543,27 +2543,27 @@ const chemotherapy9 = await ChemotherapyMedRead.bulkCreate([
   ]);
 
   // Step 3: Insert chemotherapy data
-  const chemotherapy10 = await Chemotherapy.bulkCreate([
+  const chemotherapy10 = await ChemotherapyMedRead.bulkCreate([
     {
-      Medication: 'DOXOrubicin',
+      Medication_Name: 'DOXOrubicin',
       Dose: 60,
       Route: 'Oral or Intravenous',
       Instructions: 'IV push',
     },
     {
-      Medication: 'Cyclophosphamide',
+      Medication_Name: 'Cyclophosphamide',
       Dose: 600,
       Route: 'Oral or Intravenous',
       Instructions: 'IV in 100 to 250 mL NS over 20 min to 1 hour',
     },
     {
-      Medication: 'Trastuzumab',
+      Medication_Name: 'Trastuzumab',
       Dose: 6,
       Route: 'Oral or Intravenous',
       Instructions: 'IV in 250 mL NS over 1 hour on the second dose, observe for 30 minutes post infusion',
     },
     {
-      Medication: 'PACLitaxel',
+      Medication_Name: 'PACLitaxel',
       Dose: 175,
       Route: 'Oral or Intravenous',
       Instructions: 'IV in 250 to 500 mL NS over 3 hours',
@@ -2571,8 +2571,8 @@ const chemotherapy9 = await ChemotherapyMedRead.bulkCreate([
   ]);
 
   // Step 4: Associate treatment plan with premedications and chemotherapy
-  await treatmentPlan10.setChemotherapies(chemotherapy10);
-  await treatmentPlan10.setPremedications(premedications10);
+  await treatmentPlan10.setPremedicationReads(premedications10);
+  await treatmentPlan10.setChemotherapyMedReads(chemotherapy10);
 
     console.log('Regimns inserted successfully!');
   } catch (error) {
