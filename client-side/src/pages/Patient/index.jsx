@@ -204,7 +204,7 @@ export default function PatientPage() {
       navigate("order");
     }
   }
-
+console.log(AllmedicalData)
   function docChemo() {
     if (hasTreatmentPlan) {
       navigate("document");

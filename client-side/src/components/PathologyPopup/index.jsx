@@ -53,11 +53,12 @@ export default function PathologyPopup({
       [id]: value,
     }));
   };
-
+console.log(radioData)
+console.log(medicalData)
   async function putRadioData() {
     try {
       const response = await fetch(
-        `/patient/Radiography-update/${patientID}`,
+        `/patient/${patientID}/radiography-update/${radioData["Radiography_ID"]}}`,
         {
           method: "PUT",
           headers: {
@@ -78,7 +79,7 @@ export default function PathologyPopup({
   }
   async function putMedicalData() {
     try {
-      const response = await fetch(`/patient/medical-update/${patientID}`, {
+      const response = await fetch(`/patient/${patientID}/medical-update/${medicalData["MedicalAnalysis_ID"]}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

@@ -1,6 +1,8 @@
 import { Img, Button } from "..";
 import React, { useState } from "react";
 import AddNewPathology from "../../components/AddNewPathology";
+import ShowRadio from "../../components/ShowRadio";
+import ShowMedical from "components/ShowMedical";
 
 export default function AllPathology({
   onClose,
@@ -31,8 +33,22 @@ export default function AllPathology({
   };
   const [showAddNewPathologyPopup, setShowAddNewPathologyPopup] =
     useState(false);
+  const [showradioHistoryPopup, setShowradioHistoryPopup] = useState(false);
+  const [showMedicalHistoryPopup, setShowMedicalHistoryPopup] = useState(false);
+  const [MedicalselectedIndex, setMedicalSelectedIndex] = useState(null);
+  const [RadioselectedIndex, setRadioSelectedIndex] = useState(null);
   const toggleAddNewPathologyPopup = () => {
     setShowAddNewPathologyPopup(!showAddNewPathologyPopup);
+  };
+
+  const toggleradioHistoryPopup = (index) => {
+    setRadioSelectedIndex(index);
+    setShowradioHistoryPopup(!showradioHistoryPopup);
+  };
+
+  const toggleMedicalHistoryPopup = (index) => {
+    setMedicalSelectedIndex(index);
+    setShowMedicalHistoryPopup(!showMedicalHistoryPopup);
   };
 
   return (
@@ -73,7 +89,9 @@ export default function AllPathology({
             medicalData.MedicalAnalysis &&
             medicalData.MedicalAnalysis.map((analysis, index) => (
               <div key={"MedicalAnalysis" + index}>
-                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full">
+                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full"
+                                  onClick={() => toggleMedicalHistoryPopup(index)}
+                                  >
                   <div className="text-black pr-2">
                     Medical Analysis {index + 1}
                   </div>
@@ -99,7 +117,10 @@ export default function AllPathology({
             radioData.radiography &&
             radioData.radiography.map((analysis, index) => (
               <div key={"radiography" + index}>
-                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full">
+                <button
+                  className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full"
+                  onClick={() => toggleradioHistoryPopup(index)}
+                >
                   <div className="text-black pr-2">
                     Radiology Analysis {index + 1}
                   </div>
@@ -115,7 +136,6 @@ export default function AllPathology({
           ) : (
             <p className="px-3">No Current Radio Data For This Patient</p>
           )}
-          {/*radioData["radiography"][0]["MRI"]*/}
         </div>
         <Button
           size="xl"
@@ -129,6 +149,24 @@ export default function AllPathology({
             onClose={toggleAddNewPathologyPopup}
             path={path}
             patientID={patientID}
+          />
+        )}
+        {showradioHistoryPopup && RadioselectedIndex !== null && (
+          <ShowRadio
+            onClose={toggleradioHistoryPopup}
+            RadioselectedIndex={RadioselectedIndex}
+            path={path}
+            patientID={patientID}
+            radioData={radioData["radiography"][RadioselectedIndex]}
+          />
+        )}
+                {showMedicalHistoryPopup && MedicalselectedIndex !== null && (
+          <ShowMedical
+            onClose={toggleMedicalHistoryPopup}
+            MedicalselectedIndex={MedicalselectedIndex}
+            path={path}
+            patientID={patientID}
+            medicalData={medicalData["MedicalAnalysis"][MedicalselectedIndex]}
           />
         )}
       </div>
