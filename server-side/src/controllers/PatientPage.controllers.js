@@ -485,7 +485,7 @@ exports.postSideEffects = (req, res) => {
   const {
     Nausea,
     Loss_of_appetite,
-    hanges_in_kidney_and_liver_function,
+    Changes_in_kidney_and_liver_function,
     Psychological_effects,
     Loss_of_memory,
     Gastrointestinal_disturbances,
@@ -496,10 +496,11 @@ exports.postSideEffects = (req, res) => {
     Cycle_Number,
   } = req.body;
   //1. check if data is null
+
   if (
     Nausea == null ||
     Loss_of_appetite == null ||
-    hanges_in_kidney_and_liver_function == null ||
+    Changes_in_kidney_and_liver_function == null ||
     Psychological_effects == null ||
     Loss_of_memory == null ||
     Gastrointestinal_disturbances == null ||
@@ -515,37 +516,34 @@ exports.postSideEffects = (req, res) => {
   Patients.findByPk(id)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ message: 'Patient not found' });
+        return res.status(404).json({ message: "Patient not found" });
       }
       //3. add side Effect
       patient
         .createSideEffect({
-          Nausea: req.body.Nausea,
-          Loss_of_appetite: req.body.Loss_of_appetite,
-          Changes_in_kidney_and_liver_function:
-            req.body.Changes_in_kidney_and_liver_function,
-          Psychological_effects: req.body.Psychological_effects,
-          Loss_of_memory: req.body.Loss_of_memory,
-          Gastrointestinal_disturbances: req.body.Gastrointestinal_disturbances,
-          Hair_loss: req.body.Hair_loss,
-          Skin_change: req.body.Skin_change,
-          Blood_cell_loss: req.body.Blood_cell_loss,
-          Date: req.body.Date,
-          Cycle_Number: req.body.Cycle_Number,
+          Nausea: Nausea,
+          Loss_of_appetite: Loss_of_appetite,
+          Changes_in_kidney_and_liver_function: Changes_in_kidney_and_liver_function,
+          Psychological_effects: Psychological_effects,
+          Loss_of_memory: Loss_of_memory,
+          Gastrointestinal_disturbances: Gastrointestinal_disturbances,
+          Hair_loss: Hair_loss,
+          Skin_change: Skin_change,
+          Blood_cell_loss: Blood_cell_loss,
+          Date: Date,
+          Cycle_Number: Cycle_Number,
         })
         .then((sideEffects) => {
-          return res
-            .status(200)
-            .json({ message: 'side effects added successfully' });
+          return res.status(200).json({ message: "side effects added successfully" });
         })
         .catch((err) => {
           console.log(err);
-          return res.status(500).json({ error: 'internal server error' });
+          return res.status(500).json({ error: "internal server error" });
         });
     })
     .catch((err) => {
       console.log(err);
-      return res.status(500).json({ error: 'internal server error' });
+      return res.status(500).json({ error: "internal server error" });
     });
 };
 
