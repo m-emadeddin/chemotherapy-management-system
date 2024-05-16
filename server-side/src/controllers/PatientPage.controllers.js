@@ -107,23 +107,11 @@ exports.getVitalSigns = (req, res, next) => {
         return res.status(404).json({ error: 'Patient not found' });
       }
 
-      patient.getVitalSign().then((VitalSign) => {
-        if (!VitalSign || VitalSign.length === 0) {
+      patient.getVitalSigns().then((VitalSigns) => {
+        if (!VitalSigns || VitalSigns.length === 0) {
           return res.status(404).json({ error: 'Vital signs not found' });
         }
-        //let bmi = VitalSign.Weight / (VitalSign.Height / 100) ** 2;
-        // bmi = parseFloat(bmi.toFixed(1));
-        const response = {
-          Blood_Pressure: VitalSign.Blood_Pressure,
-          Height: VitalSign.Height,
-          Weight: VitalSign.Weight,
-          Heart_Rate: VitalSign.Heart_rate,
-          BMI: VitalSign.BMI,
-          Temperature: VitalSign.Temp,
-          Last_Update: VitalSign.last_updated,
-          Chief_Complaint: VitalSign.Chief_Complaint,
-        };
-        res.status(200).json({ response });
+        res.status(200).json({ VitalSigns });
       });
     })
     .catch((err) => {
@@ -292,7 +280,6 @@ exports.updateRadiography = (req, res, next) => {
       console.error('Error finding patient or radiography:', error);
     });
 };
-
 //=========================Medical Analysis===========================
 exports.getMedicalAnalysis = (req, res, next) => {
   const ID = req.params.id;
