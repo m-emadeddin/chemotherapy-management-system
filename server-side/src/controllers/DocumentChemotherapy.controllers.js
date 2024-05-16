@@ -94,6 +94,7 @@ exports.getActiveCycle = (req, res, next) => {
           }
           // Get the number and ID of the active cycle
           const activeCycleInfo = {
+            exists : true ,
             Active_Cycle_Number: activeCycle.Cycle_Number,
           };
           // Send the response with the number and ID of the active cycle
