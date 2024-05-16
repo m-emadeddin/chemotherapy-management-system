@@ -7,8 +7,18 @@ const MedicalAnalysisComponent = ({ medicalData }) => {
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const day = date.getDate().toString().padStart(2, "0");
-  
-    return `${day}/${month}/${year}`;
+    let hour = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const amOrPm = hour >= 12 ? "PM" : "AM";
+
+    // Convert to 12-hour format
+    if (hour > 12) {
+      hour = (hour - 12).toString().padStart(2, "0");
+    } else if (hour === 0) {
+      hour = "12";
+    }
+
+    return `${day}/${month}/${year}, ${hour}:${minutes} ${amOrPm}`;
   };
   return (
     <>

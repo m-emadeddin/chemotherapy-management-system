@@ -49,7 +49,9 @@ export default function PatientPage() {
   const [showAllPathologyPopup, setShowAllPathologyPopup] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [medicalData, setMedicalData] = useState(null);
+  const [AllmedicalData, setAllMedicalData] = useState(null);
   const [radioData, setRadioData] = useState(null);
+  const [AllradioData, setAllRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
   const navigate = useNavigate();
@@ -57,17 +59,17 @@ export default function PatientPage() {
   const [radioIsPresent, setradioIsPresent] = useState(false);
   const [vitalIsPresent, setvitalIsPresent] = useState(false);
   const [cancerIsPresent, setcancerIsPresent] = useState(false);
-console.log(radioData)
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
-
+console.log(AllradioData)
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/medical/${id}`);
         const data = await response.json();
         if (response.status === 200) {
+          setAllMedicalData(data);
           const lastItem = data["MedicalAnalysis"].slice(-1)[0]; // Get the last item
           if (lastItem) {
             setMedicalData(lastItem);
@@ -79,7 +81,7 @@ console.log(radioData)
           setmedicalIsPresent(false);
         }
       } catch (error) {
-        console.error("Error fetching radiography data:", error);
+        console.error("Error fetching Medical data:", error);
         setmedicalIsPresent(false);
       }
     };
@@ -110,6 +112,7 @@ console.log(radioData)
         const response = await fetch(`/patient/radiography/${id}`);
         const data = await response.json();
         if (response.status === 200) {
+          setAllRadioData(data);
           const lastItem = data["radiography"].slice(-1)[0]; // Get the last item
           if (lastItem) {
             setRadioData(lastItem);
@@ -499,9 +502,9 @@ console.log(radioData)
               <PathologyPopup
                 onClose={togglePathologyPopup}
                 path={path}
-                radioData={radioIsPresent ? radioData["radiography"][0] : " "}
+                radioData={radioIsPresent ? radioData : " "}
                 medicalData={
-                  medicalIsPresent ? medicalData["MedicalAnalysis"][0] : " "
+                  medicalIsPresent ? medicalData : " "
                 }
                 patientID={selectedPatientInfo.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
@@ -512,10 +515,8 @@ console.log(radioData)
               <AllPathologyPopup
                 onClose={toggleAllPathologyPopup}
                 path={path}
-                radioData={radioIsPresent ? radioData["radiography"][0] : " "}
-                medicalData={
-                  medicalIsPresent ? medicalData["MedicalAnalysis"][0] : " "
-                }
+                radioData={AllradioData}
+                medicalData={AllmedicalData}
                 patientID={selectedPatientInfo.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}

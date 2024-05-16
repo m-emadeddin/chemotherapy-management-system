@@ -28,56 +28,31 @@ export default function AllPathology({
     Mammography: "",
     DEXA: "",
   });
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    let hour = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const amOrPm = hour >= 12 ? "PM" : "AM";
+
+    // Convert to 12-hour format
+    if (hour > 12) {
+      hour = (hour - 12).toString().padStart(2, "0");
+    } else if (hour === 0) {
+      hour = "12";
+    }
+
+    return `${day}/${month}/${year}, ${hour}:${minutes} ${amOrPm}`;
+  };
 
   useEffect(() => {
     setMedicalData(medicalData);
     setRadioData(radioData);
   }, [medicalData, radioData]);
 
-  async function putRadioData() {
-    try {
-      const response = await fetch(
-        `/patient/Radiography-update/${patientID}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(radiodata),
-        }
-      );
-      if (response.ok) {
-        console.log("radioData saved successfully!");
-        onClose();
-      } else {
-        toast.error("Failed to save data. Please try again later.");
-      }
-    } catch (error) {
-      toast.error("Error saving data:", error);
-    }
-  }
-
-  async function putMedicalData() {
-    try {
-      const response = await fetch(`/patient/medical-update/${patientID}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(medicaldata),
-      });
-      if (response.ok) {
-        toast.success("medicalData saved successfully!");
-        onClose();
-      } else {
-        toast.error("Failed to save data. Please try again later.");
-      }
-    } catch (error) {
-      toast.error("Error saving data:", error);
-    }
-  }
-
-  async function save() {
+  async function insertNewPathology() {
     // Check if any medical data fields are empty
     const medicalFields = Object.values(medicaldata);
     if (medicalFields.some((value) => value === "")) {
@@ -112,12 +87,6 @@ export default function AllPathology({
                 <div className="flex items-center gap-5">
                   <div className="grow text-ellipsis">All Pathology</div>
                 </div>
-                <Button
-                  size="xl"
-                  className="gap-2.5 rounded-[20px] font-lama bg-green-500 text-white custom-button"
-                >
-                  Save Changes
-                </Button>
               </div>
             </div>
           </div>
@@ -130,25 +99,58 @@ export default function AllPathology({
           />
         </div>
 
-        <div className="popup-content flex flex-col gap-4">
+        <div className="popup-content flex flex-col gap-1.5">
           <div className="new-row flex">
             <div className=" font-bold text-black">Medical Analysis</div>
           </div>
+          {medicalData &&
+            medicalData.MedicalAnalysis &&
+            medicalData.MedicalAnalysis.map((analysis, index) => (
+              <div key={"MedicalAnalysis" + index}>
+                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full">
+                  <div className="text-black pr-2">
+                    Medical Analysis {index + 1}
+                  </div>
+                  <div className="ml-auto font-bold text-black pr-2">
+                    Updated At:
+                  </div>
+                  <div className="text-black">
+                    {formatDate(
+                      medicalData["MedicalAnalysis"][index]["updatedAt"]
+                    )}
+                  </div>
+                </button>
+              </div>
+            ))}
 
           <div className="new-row flex">
             <div className=" font-bold text-black">Radiology Analysis</div>
           </div>
-
-          <div className="flex gap-3">
-            <div className="self-start text-slate-400 max-md:ml-2.5 w-[20%]">
-              Mammography
-            </div>
-
-            <div className="self-start mt-0 px-5 text-sm leading-6 text-slate-400 max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-[20%]">
-              DEXA
-            </div>
-          </div>
+          {radioData &&
+            radioData.radiography &&
+            radioData.radiography.map((analysis, index) => (
+              <div key={"radiography" + index}>
+                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full">
+                  <div className="text-black pr-2">
+                    Radiology Analysis {index + 1}
+                  </div>
+                  <div className="ml-auto font-bold text-black pr-2">
+                    Updated At:
+                  </div>
+                  <div className="text-black">
+                    {formatDate(radioData["radiography"][index]["updatedAt"])}
+                  </div>
+                </button>
+              </div>
+            ))}
+          {/*radioData["radiography"][0]["MRI"]*/}
         </div>
+        <Button
+          size="xl"
+          className="gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
+        >
+          Insert New Pathology
+        </Button>
       </div>
     </div>
   );
