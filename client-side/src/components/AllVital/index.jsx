@@ -90,9 +90,11 @@ export default function AllVital({
           {showVitalHistoryPopup && VitalselectedIndex !== null && (
             <ShowVital
               onClose={toggleVitalHistoryPopup}
+              VitalselectedIndex={VitalselectedIndex}
               path={path}
               patientID={patientID}
-              vitalData={vitalData["VitalSigns"][VitalselectedIndex]}
+              vitalData={vitalData["VitalSigns"][VitalselectedIndex]
+              }
             />
           )}
         </div>

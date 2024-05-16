@@ -1,7 +1,7 @@
 import { Img } from "..";
 import React from "react";
 
-export default function ShowVital({ onClose, path, patientID, vitalData }) {
+export default function ShowVital({ onClose, path, patientID, vitalData, VitalselectedIndex }) {
   return (
     <div className="edit-popup-overlay">
       <div className="edit-popup-container">
@@ -9,14 +9,14 @@ export default function ShowVital({ onClose, path, patientID, vitalData }) {
           <div className="flex items-center justify-between">
             <div className="text">
               <div className="flex gap-5 justify-between self-center mt-0 w-full text-2xl font-bold leading-6 text-black whitespace-nowrap max-w-[55px] max-md:flex-wrap max-md:max-w-full">
-                <Img
-                  src={`${path}/images/img_patient_in_a_circle_2.png`}
+              <Img
+                  src={`/images/img_patient_in_a_circle_1.png`}
                   alt="patientina"
-                  className="self-center w-16 aspect-[1.1]"
+                  className="h-[74px] w-[73px] object-cover"
                 />
                 <div className="flex items-center gap-5">
                   <div className="grow text-ellipsis">
-                    Vital Record No. {vitalData["VitalSigns_ID"]}
+                    Vital Record No. {VitalselectedIndex +1 }
                   </div>
                 </div>
               </div>

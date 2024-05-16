@@ -1,7 +1,7 @@
 import { Img } from "..";
 import React from "react";
 
-export default function ShowMedical({ onClose, path, patientID, medicalData }) {
+export default function ShowMedical({ onClose, path, patientID, medicalData ,MedicalselectedIndex}) {
   return (
     <div className="edit-popup-overlay">
       <div className="edit-popup-container">
@@ -16,7 +16,7 @@ export default function ShowMedical({ onClose, path, patientID, medicalData }) {
                 />
                 <div className="flex items-center gap-5">
                   <div className="grow text-ellipsis">
-                    Medical Record No. {medicalData["MedicalAnalysis_ID"]}
+                    Medical Record No. {MedicalselectedIndex+1}
                   </div>
                 </div>
               </div>

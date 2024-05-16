@@ -154,6 +154,7 @@ export default function AllPathology({
         {showradioHistoryPopup && RadioselectedIndex !== null && (
           <ShowRadio
             onClose={toggleradioHistoryPopup}
+            RadioselectedIndex={RadioselectedIndex}
             path={path}
             patientID={patientID}
             radioData={radioData["radiography"][RadioselectedIndex]}
@@ -162,6 +163,7 @@ export default function AllPathology({
                 {showMedicalHistoryPopup && MedicalselectedIndex !== null && (
           <ShowMedical
             onClose={toggleMedicalHistoryPopup}
+            MedicalselectedIndex={MedicalselectedIndex}
             path={path}
             patientID={patientID}
             medicalData={medicalData["MedicalAnalysis"][MedicalselectedIndex]}

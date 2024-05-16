@@ -1,7 +1,7 @@
 import { Img } from "..";
 import React from "react";
 
-export default function ShowRadio({ onClose, path, patientID, radioData }) {
+export default function ShowRadio({ onClose, path, patientID, radioData, RadioselectedIndex }) {
   console.log(radioData);
   return (
     <div className="edit-popup-overlay">
@@ -17,7 +17,7 @@ export default function ShowRadio({ onClose, path, patientID, radioData }) {
                 />
                 <div className="flex items-center gap-5">
                   <div className="grow text-ellipsis">
-                    Radio Record No. {radioData["Radiography_ID"]}
+                    Radio Record No. {RadioselectedIndex +1}
                   </div>
                 </div>
               </div>
