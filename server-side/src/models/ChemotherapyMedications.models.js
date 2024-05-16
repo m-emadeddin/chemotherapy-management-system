@@ -33,9 +33,6 @@ module.exports = (db, DataTypes) => {
     Administered_Dose_mg: {
       type: DataTypes.FLOAT
     },
-    cycle_note: {
-      type: DataTypes.TEXT
-    }
   },{
     timestamps: false // Disable timestamps
   });

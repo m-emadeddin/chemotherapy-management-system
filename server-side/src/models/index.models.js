@@ -25,7 +25,6 @@ const PatientsReservedbedsModel = require('./PatientsReservedbeds.models');
 const TreatmentPlansCyclesModel = require('./TreatmentPlansCycles.models');
 const PremedicationsCyclesModel = require('./PremedicationsCycles.models');
 const ChemotherapyMedicationsCyclesModel = require('./ChemotherapyMedicationsCycles.models');
-const PatientsSideEffectsModel = require('./PatientsSideEffects.models');
 
 //readonly section
 const ChemotherapyPlanReadonlyModel =require("./ChemotherapyPlanReadonly.models")
@@ -56,7 +55,6 @@ const PatientsReservedbeds = PatientsReservedbedsModel(db, Sequelize);
 const TreatmentPlansCycles = TreatmentPlansCyclesModel(db, Sequelize);
 const PremedicationsCycles = PremedicationsCyclesModel(db, Sequelize);
 const ChemotherapyMedicationsCycles = ChemotherapyMedicationsCyclesModel(db, Sequelize);
-const PatientsSideEffects = PatientsSideEffectsModel(db, Sequelize);
 
 //readonly section
 const ChemotherapyPlanReadonly = ChemotherapyPlanReadonlyModel(db , Sequelize);
@@ -117,6 +115,7 @@ ChemotherapyMedRead.belongsToMany(treatmentPlanReadOnly, {
   uniqueKey: 'ChemotherapyPlanreadonly_unique', // Custom unique constraint name
   foreignKey: { name: 'medication_ID', allowNull: false },
 });
+
 // 6 premedications-readonly with Treatment plan-readonly
 treatmentPlanReadOnly.belongsToMany(PremedicationRead, {
   through: PremedicationsPlanReadonly,
@@ -127,15 +126,6 @@ PremedicationRead.belongsToMany(treatmentPlanReadOnly, {
   through: PremedicationsPlanReadonly,
   uniqueKey: 'PremedicationPlanReadonly_unique', // Custom unique constraint name
   foreignKey: { name: 'medication_ID', allowNull: false },
-});
-// 7 patients & Side effects
-Patients.belongsToMany(SideEffects, {
-  through: PatientsSideEffects,
-  foreignKey: { name: 'patientID', allowNull: false },
-});
-SideEffects.belongsToMany(Patients, {
-  through: PatientsSideEffects,
-  foreignKey: { name: 'SideEffects_ID', allowNull: false },
 });
 
 //====================One to Many=======================
@@ -176,38 +166,60 @@ Visits.belongsTo(Patients, {
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
-//========================One to One============================================
-//1. Vital signs & patients
-Patients.hasOne(VitalSign, {
+
+//5.VitalSigns & patients
+Patients.hasMany(VitalSign, {
+
   foreignKey: {
     allowNull: false,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
-VitalSign.belongsTo(Patients);
-//2. patients & cancer overview
+VitalSign.belongsTo(Patients, {
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+//6 patients & Side effects
+Patients.hasMany(SideEffects, {
+  foreignKey: {
+    allowNull: false,
+  },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+SideEffects.belongsTo(Patients, {
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+//========================One to One============================================
+//1. patients & cancer overview
 Patients.hasOne(CancerOverview, {
   foreignKey: {
     allowNull: false,
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 CancerOverview.belongsTo(Patients);
-//3. patients & treatment plans
+//2. patients & treatment plans
 Patients.hasOne(TreatmentPlans, {
   foreignKey: {
     allowNull: false, // This makes the foreign key not null
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
 });
 TreatmentPlans.belongsTo(Patients);
-//4. User & Doctor
+//3. User & Doctor
 Doctor.hasOne(User, {
   foreignKey: {
     allowNull: true,  //to test signup 
+    allowNull: false,
+    unique: true,
   },
   onDelete: 'CASCADE',
   onUpdate: 'CASCADE',
@@ -231,4 +243,5 @@ module.exports = {
   ChemotherapyMedRead,
   PremedicationRead,
   SideEffects,
+
 };
