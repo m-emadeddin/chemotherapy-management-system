@@ -9,7 +9,7 @@ router.delete('/delete-patient/:id', PatientPage.deletePatient);
 
 //=========================Vital Signs================================✔
 router.get('/vital-sign/:id', PatientPage.getVitalSigns); 
-router.post('', PatientPage.postVitalSigns);
+router.post('/add-vital-signs/:id', PatientPage.postVitalSigns);
 
 //=========================Radiography================================✔
 router.get('/radiography/:id', PatientPage.getRadiography);
