@@ -7,7 +7,7 @@ router.get('/all-patients', PatientPage.getAllPatients);
 router.post('/add-patient', PatientPage.postNewPatient);
 router.delete('/delete-patient/:id', PatientPage.deletePatient);
 
-//=========================Vital Signs================================❌
+//=========================Vital Signs================================✔
 router.get('/vital-sign/:id', PatientPage.getVitalSigns); 
 router.post('', PatientPage.postVitalSigns);
 
