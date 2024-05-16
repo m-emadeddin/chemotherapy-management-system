@@ -36,78 +36,76 @@ exports.getRegimenInfo = (req, res, next) => {
 };
 exports.getCyclesInfo = (req, res, next) => {
   const ID = req.params.id;
-  Patients.findByPk(ID)
-    .then((patient) => {
-      if (!patient) {
-        return res.status(404).json({ error: "Patient not found" });
-      }
-      return patient.getTreatmentPlan();
-    })
-    .then((treatmentplan) => {
+  Patients.findByPk(ID).then((patient) => {
+    if (!patient) {
+      return res.status(404).json({ error: "Patient not found" });
+    }
+    patient.getTreatmentPlan().then((treatmentplan) => {
       if (!treatmentplan) {
         return res.status(404).json({ error: "Treatment plan not found" });
       }
-      return treatmentplan.getCycles();
-    })
-    .then((cycles) => {
-      if (!cycles || cycles.length === 0) {
-        return res.status(404).json({ error: "Cycles not found" });
-      }
-      // Represent all cycles data
-      const cyclesInfo = cycles.map((cycle) => ({
-        Cycle_ID: cycle.Cycle_ID,
-        Cycle_Number: cycle.Cycle_Number,
-        Cycle_Note: cycle.Cycle_note,
-        Documentation_Date: cycle.Cycle_Documentation_Date,
-      }));
-      // Construct the response object
-      const responseObj = { Cycles: cyclesInfo };
-      // Send the response with the retrieved cycles
-      res.status(200).json(responseObj);
-    })
-    .catch((error) => {
-      // Handle any unexpected errors
-      console.error(error);
-      // res.status(500).json({ error: "Internal server error" });
+      treatmentplan
+        .getCycles()
+        .then((cycles) => {
+          if (!cycles || cycles.length === 0) {
+            return res.status(404).json({ error: "Cycles not found" });
+          }
+          // Represent all cycles data
+          const cyclesInfo = cycles.map((cycle) => ({
+            Cycle_ID: cycle.Cycle_ID,
+            Cycle_Number: cycle.Cycle_Number,
+            Cycle_Note: cycle.Cycle_note,
+            Documentation_Date: cycle.Cycle_Documentation_Date,
+          }));
+          // Construct the response object
+          const responseObj = { Cycles: cyclesInfo };
+          // Send the response with the retrieved cycles
+          res.status(200).json(responseObj);
+        })
+        .catch((error) => {
+          // Handle any unexpected errors
+          console.error(error);
+          // res.status(500).json({ error: "Internal server error" });
+        });
     });
+  });
 };
 
 exports.getActiveCycle = (req, res, next) => {
   const ID = req.params.id;
-  Patients.findByPk(ID)
-    .then((patient) => {
-      if (!patient) {
-        return res.status(404).json({ error: "Patient not found" });
-      }
-      return patient.getTreatmentPlan();
-    })
-    .then((treatmentplan) => {
+  Patients.findByPk(ID).then((patient) => {
+    if (!patient) {
+      return res.status(404).json({ error: "Patient not found" });
+    }
+    patient.getTreatmentPlan().then((treatmentplan) => {
       if (!treatmentplan) {
         return res.status(404).json({ error: "Treatment plan not found" });
       }
-      return treatmentplan.getCycles();
-    })
-    .then((cycles) => {
-      if (!cycles || cycles.length === 0) {
-        return res.status(404).json({ error: "Cycles not found" });
-      }
-      // Find the active cycle
-      const activeCycle = cycles.find((cycle) => cycle.Is_active);
-      if (!activeCycle) {
-        return res.status(200).json({ exists: false });
-      }
-      // Get the number and ID of the active cycle
-      const activeCycleInfo = {
-        Active_Cycle_Number: activeCycle.Cycle_Number,
-      };
-      // Send the response with the number and ID of the active cycle
-      res.status(200).json(activeCycleInfo);
-    })
-    .catch((error) => {
-      // Handle any unexpected errors
-      console.error(error);
-      // res.status(500).json({ error: "Internal server error" });
+      return treatmentplan
+        .getCycles()
+        .then((cycles) => {
+          if (!cycles || cycles.length === 0) {
+            return res.status(404).json({ error: "Cycles not found" });
+          }
+          // Find the active cycle
+          const activeCycle = cycles.find((cycle) => cycle.Is_active);
+          if (!activeCycle) {
+            return res.status(200).json({ exists: false });
+          }
+          // Get the number and ID of the active cycle
+          const activeCycleInfo = {
+            Active_Cycle_Number: activeCycle.Cycle_Number,
+          };
+          // Send the response with the number and ID of the active cycle
+          res.status(200).json(activeCycleInfo);
+        })
+        .catch((error) => {
+          // Handle any unexpected errors
+          console.error(error);
+          res.status(500).json({ error: "Internal server error" });
+        });
     });
+  });
 };
 exports.getPremedications = (req, res, next) => {
   let info = {};
@@ -163,7 +161,6 @@ exports.getChemotherapy = (req, res, next) => {
           AdministeredDose_Ml: med.Administered_Dose_ml,
           AdministeredDose_Mg: med.Administered_Dose_mg,
         }));
-
         // Send response
         info = {
           Chemotherapy_Medications: formattedChemoMeds,
@@ -186,13 +183,13 @@ exports.updateCycleAndMedications = (req, res, next) => {
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
-        return res.status(404).json({ error: 'Patient not found' });
+        return res.status(404).json({ error: "Patient not found" });
       }
       return patient.getTreatmentPlan();
     })
     .then((treatmentPlan) => {
       if (!treatmentPlan) {
-        return res.status(404).json({ error: 'Treatment plan not found' });
+        return res.status(404).json({ error: "Treatment plan not found" });
       }
       return treatmentPlan.getCycles();
     })
@@ -200,7 +197,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
       cycles = retrievedCycles; // Store cycles for later use
       const activeCycle = cycles.find((cycle) => cycle.Is_active);
       if (!activeCycle) {
-        return res.status(404).json({ error: 'Active cycle not found' });
+        return res.status(404).json({ error: "Active cycle not found" });
       }
       // deactivate current active cycle
       activeCycle.Is_active = false;
@@ -214,7 +211,9 @@ exports.updateCycleAndMedications = (req, res, next) => {
     })
     .then((updatedCycle) => {
       // activate next cycle
-      const nextCycle = cycles.find((cycle) => cycle.Cycle_Number === updatedCycle.Cycle_Number + 1);
+      const nextCycle = cycles.find(
+        (cycle) => cycle.Cycle_Number === updatedCycle.Cycle_Number + 1
+      );
       if (nextCycle) {
         nextCycle.Is_active = true; // Mark next cycle as active
         return nextCycle.save();
@@ -227,7 +226,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
         const { ID, AdministeredDose_Ml, AdministeredDose_Mg } = med;
         if (!ID) {
           return Promise.reject({
-            message: 'Medication ID is required for update',
+            message: "Medication ID is required for update",
           });
         }
         return ChemotherapyMedications.update(
@@ -237,7 +236,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
           },
           { where: { Chemotherapy_ID: ID } }
         ).catch((error) => {
-          console.error('Error updating medication:', error.message);
+          console.error("Error updating medication:", error.message);
           return Promise.reject({
             message: `Failed to update medication: ${ID}`,
           });
@@ -247,9 +246,11 @@ exports.updateCycleAndMedications = (req, res, next) => {
       return Promise.all(updatePromises);
     })
     .then(() => {
-      res.status(200).json({ message: 'Cycle and medications updated successfully' });
+      res
+        .status(200)
+        .json({ message: "Cycle and medications updated successfully" });
     })
     .catch((error) => {
-      console.error('Error:', error.message);
+      console.error("Error:", error.message);
     });
 };
