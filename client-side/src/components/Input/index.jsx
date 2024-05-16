@@ -27,6 +27,7 @@ const Input = React.forwardRef(
       prefix,
       suffix,
       onChange,
+      onKeyDown,
       shape,
       variant = "fill",
       size = "md",
@@ -51,6 +52,7 @@ const Input = React.forwardRef(
           {!!label && label}
           {!!prefix && prefix}
           <input
+            onKeyDown={onKeyDown}
             ref={ref}
             type={type}
             name={name}
