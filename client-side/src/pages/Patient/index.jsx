@@ -62,7 +62,6 @@ export default function PatientPage() {
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
-  console.log(AllradioData);
   useEffect(() => {
     const fetchData = async () => {
       try {
