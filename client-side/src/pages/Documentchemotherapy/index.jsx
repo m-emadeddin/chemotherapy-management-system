@@ -33,17 +33,17 @@ export default function DocumentchemotherapyPage() {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch(`document-chemotherapy/active-cycle/${id}`)
+      fetch(`/document-chemotherapy/active-cycle/${id}`)
         .then((response) => {
           return response.json();
         })
         .then((data) => {
-          if (data.error === "Active cycle not found") {
-            setActiveCycle(0);
-          } else {
+          if (data.exists) {
             setActiveCycle(data.Active_Cycle_Number);
-            console.log("Active Cycle Fetched Successfully");
+          } else {
+            setActiveCycle(0);
           }
+          console.log("Active Cycle Fetched Successfully");
         })
         .catch((error) => {
           console.error("Error fetching Active Cycle:", error);
@@ -60,7 +60,7 @@ export default function DocumentchemotherapyPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/regimen-info/${id}`
+          `/document-chemotherapy/regimen-info/${id}`
         );
         const data = await response.json();
         setCyclesCount(data.Cycle_Count);
@@ -76,7 +76,9 @@ export default function DocumentchemotherapyPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`document-chemotherapy/cycles-info/${id}`);
+        const response = await fetch(
+          `/document-chemotherapy/cycles-info/${id}`
+        );
 
         const { Cycles } = await response.json();
         extractDates(Cycles);
@@ -121,8 +123,8 @@ export default function DocumentchemotherapyPage() {
           content="Web site created using create-react-app"
         />
       </Helmet>
-      <div className="w-full pt-[50px] flex w-[100%] items-stretch bg-gray-100">
-        <div className="flex w-[19%] flex-col items-start bg-white-A700 py-[19px]">
+      <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px]">
+        <div className="flex w-[19%] flex-col items-start bg-white-A700 absolute top-[55px] left-0 h-full">
           <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center mb-2">
             Chemotherapy
           </Text>
@@ -137,20 +139,20 @@ export default function DocumentchemotherapyPage() {
             }}
           />
         </div>
-        <div className="m-[30px] w-[81%] flex flex-1 flex-col gap-[30px]">
+        <div className="w-[81%] flex flex-col gap-[30px] self-end">
           <div className="flex flex-col gap-[20px]">
-            <div className="flex items-center justify-between p-[19px] md:flex-col">
-              <div className="flex flex-col items-start gap-3.5 lg:w-[55%] md:items-center ">
+            <div className="flex justify-between md:flex-col">
+              <div className="flex flex-col items-start gap-3.5 lg:w-[55%] md:items-center p-2">
                 <Heading as="h1">{regimenName}</Heading>
                 <Text size="xs" as="p">
                   Cycle {cycle} of {cyclesCount}
                 </Text>
               </div>
               {cycle === activeCycle && !redirectToDoc ? (
-                <div className="flex justify-between items-center gap-2">
+                <div className="flex justify-between gap-2">
                   <Button
                     size="xl"
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
+                    className="p-5 flex justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
                     onClick={() => {
                       setRedirectToDoc(true);
                     }}
@@ -159,7 +161,7 @@ export default function DocumentchemotherapyPage() {
                   </Button>
                   <Button
                     size="xl"
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-base text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
+                    className="p-5 flex items-center justify-center rounded-[20px] bg-gray-600 text-base text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
                     onClick={() => {
                       setShowWarningPopup(true);
                     }}
@@ -171,10 +173,10 @@ export default function DocumentchemotherapyPage() {
                 ""
               )}
               {cycle !== activeCycle && !redirectToDoc ? (
-                <div className="flex justify-between items-center gap-2">
+                <div className="flex justify-between gap-2">
                   <Button
                     size="xl"
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
+                    className="p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
                     onClick={() => {
                       navigate(`/patient/${id}`);
                     }}
@@ -183,7 +185,7 @@ export default function DocumentchemotherapyPage() {
                   </Button>
                   <Button
                     size="xl"
-                    className="h-[80%] p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
+                    className="p-5 flex items-center justify-center rounded-[20px] bg-blue-500 text-white-A700 border-2 border-transparent-0 transition-all duration-300 hover:bg-white-A700 hover:border-black-900 hover:text-black-900 p-[15px]"
                     onClick={() => {
                       navigate("/select_patient");
                     }}

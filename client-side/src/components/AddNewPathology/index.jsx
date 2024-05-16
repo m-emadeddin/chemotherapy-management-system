@@ -1,31 +1,27 @@
 import { Img, Button } from "../../components";
-import React, { useState} from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
-import axios from 'axios';
+import axios from "axios";
 
-export default function AddNewPathology({
-  onClose,
-  path,
-  patientID,
-}) {
+export default function AddNewPathology({ onClose, path, patientID }) {
   const [medicaldata, setMedicalData] = useState({
-    "Urinanalysis": "",
-    "CBC": "",
-    "Electrophoresis": "",
-    "CEA": "",
-    "AFP": "",
+    Urinanalysis: "",
+    CBC: "",
+    Electrophoresis: "",
+    CEA: "",
+    AFP: "",
     B2M: "",
     Tumor_size: "",
   });
 
   const [radiodata, setRadioData] = useState({
-    "MRI": "",
-    "CT": "",
-    "PET_CT": "",
-    "Ultrasound": "",
-    "XRay": "",
-    "Mammography": "",
-    "DEXA": "",
+    MRI: "",
+    CT: "",
+    PET_CT: "",
+    Ultrasound: "",
+    XRay: "",
+    Mammography: "",
+    DEXA: "",
   });
 
   const handleMedicalInputChange = (e) => {
@@ -48,7 +44,6 @@ export default function AddNewPathology({
     }));
   };
 
-
   async function postRadioData() {
     try {
       const response = await axios.post(
@@ -61,7 +56,7 @@ export default function AddNewPathology({
         }
       );
       if (response.status === 200) {
-        console.log("radioData saved successfully!");
+        toast.success("Radio Data saved successfully!");
         onClose();
       } else {
         toast.error("Failed to save data. Please try again later.");
@@ -70,7 +65,7 @@ export default function AddNewPathology({
       toast.error("Error saving data:", error.message);
     }
   }
-  
+
   async function postMedicalData() {
     try {
       const response = await axios.post(
@@ -82,7 +77,7 @@ export default function AddNewPathology({
           },
         }
       );
-  
+
       if (response.status === 200) {
         toast.success("medicalData saved successfully!");
         onClose();
@@ -111,8 +106,7 @@ export default function AddNewPathology({
     postMedicalData();
     postRadioData();
     toast.success("New Pathology Added Successfully");
-    window.location.reload()
-
+    window.location.reload();
   }
 
   return (

@@ -28,7 +28,12 @@ export default function DatePopUp({
       onClick={closeDatePopUp}
     >
       <div className="date-popup-container">
-        <img src="images/exclamation.png" alt="icon" width={124} height={124} />
+        <img
+          src="/images/exclamation.png"
+          alt="icon"
+          width={124}
+          height={124}
+        />
         <p className="heading">Are you sure?</p>
         <p className="text">
           <span>{patientsNumber}</span> Patients ordered a chemotherapy at this

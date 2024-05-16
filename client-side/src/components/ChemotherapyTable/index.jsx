@@ -7,7 +7,7 @@ const ChemotherapyTable = ({ cycle }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/chemotherapy/${cycle}`
+          `/document-chemotherapy/chemotherapy/${cycle}`
         );
         const { Chemotherapy_Medications } = await response.json();
         setChemotherapy(Chemotherapy_Medications);
@@ -25,8 +25,8 @@ const ChemotherapyTable = ({ cycle }) => {
           <div className="w-[20%] p-[19px]">Medication</div>
           <div className="w-[15%] p-[19px]">Dose</div>
           <div className="w-[15%] p-[19px]">Route</div>
-          <div className="w-[34%] p-[19px]">Instructions</div>
-          <div className="w-[16%] p-[19px]">Administered dose</div>
+          <div className="w-[32%] p-[19px]">Instructions</div>
+          <div className="w-[18%] p-[19px]">Administered dose</div>
         </div>
         {chemotherapy.map((chemo) => {
           return (
@@ -48,8 +48,8 @@ const ChemotherapyTable = ({ cycle }) => {
               <div className="w-[15%] p-[19px]">
                 {chemo.Route[0].toUpperCase() + chemo.Route.slice(1)}
               </div>
-              <div className="w-[34%] p-[19px]">{chemo.Instructions}</div>
-              <div className="w-[16%] p-[19px]">
+              <div className="w-[32%] p-[19px]">{chemo.Instructions}</div>
+              <div className="w-[18%] p-[19px]">
                 {chemo.AdministeredDose_Mg !== null &&
                 chemo.Route.toLowerCase() === "oral"
                   ? `${chemo.AdministeredDose_Mg} Milligram`

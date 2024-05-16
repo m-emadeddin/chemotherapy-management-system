@@ -7,7 +7,7 @@ const PremedicationsTable = ({ cycle }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `document-chemotherapy/premedications/${cycle}`
+          `/document-chemotherapy/premedications/${cycle}`
         );
         const { Premedications } = await response.json();
         setPremedications(Premedications);

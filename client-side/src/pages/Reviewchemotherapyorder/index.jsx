@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import axios from "axios";
@@ -8,23 +8,42 @@ import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 
 export default function Reviewchemotherapyorder() {
   const { selectedPatientInfo } = useSelectedPatientInfo();
-  const { newRegimenDetails: patientOrder } = useRegimenDetails();
+  const id = selectedPatientInfo.Patient_ID;
+  const { newRegimenDetails } = useRegimenDetails();
+  const patientOrder =
+    newRegimenDetails || JSON.parse(localStorage.getItem("regimen-details"));
   const originalDate = patientOrder.Start_Date;
   const dateParts = originalDate.split("-");
   const reversedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
   const navigate = useNavigate();
-  console.log(patientOrder);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/patient/has-treatmentplan/${id}`);
+        const { exists } = await response.json();
+        setHasTreatmentPlan(exists);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [id]);
 
   function handleBack() {
-    navigate("/order");
+    if (hasTreatmentPlan) {
+      navigate(`/patient/${id}`);
+    } else {
+      navigate(`/patient/${id}/order`);
+    }
   }
 
   const handleSubmit = () => {
     setIsSubmitting(true);
 
-    const apiUrl = `/review-chemotherapy/${selectedPatientInfo.Patient_ID}`;
+    const apiUrl = `/review-chemotherapy/${id}`;
     const Chemotherapy = patientOrder.ChemotherapyMedications.map(
       (medication) => {
         return {
@@ -63,9 +82,8 @@ export default function Reviewchemotherapyorder() {
         console.log("Response:", response.data);
         if (response.data.message === "Data inserted successfully") {
           toast.success("Data inserted successfully");
-          setTimeout(() => {
-            navigate(`/patient/${selectedPatientInfo.Patient_ID}`);
-          }, 1000);
+
+          navigate(`/patient/${id}`);
         }
       })
       .catch((error) => {
@@ -119,17 +137,22 @@ export default function Reviewchemotherapyorder() {
         <span className="heading">Physician Notes</span>
         <p className="notes">{patientOrder.cycle_note}</p>
       </div>
+
       <div className="buttons">
         <button className="btn back" onClick={handleBack}>
           Back
         </button>
-        <button
-          className="btn submit"
-          onClick={handleSubmit}
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
+        {!hasTreatmentPlan ? (
+          <button
+            className="btn submit"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

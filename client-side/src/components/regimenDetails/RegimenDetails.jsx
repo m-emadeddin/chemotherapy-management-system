@@ -18,6 +18,7 @@ export default function RegimenDetails() {
     setStartDate,
     dateValue,
   } = useRegimenDetails();
+
   const { preMedicationsData, chemotherapyData } = usePlanData();
   const { planName, planCycles, planWeeks, originalCycles, originalWeeks } =
     usePlanDetails();
@@ -198,6 +199,10 @@ export default function RegimenDetails() {
       };
       setNotes(regimenDetails.cycle_note);
       setNewRegimenDetails(newRegimenDetails);
+      localStorage.setItem(
+        "regimen-details",
+        JSON.stringify(newRegimenDetails)
+      );
       navigate("review-order");
     }
   };

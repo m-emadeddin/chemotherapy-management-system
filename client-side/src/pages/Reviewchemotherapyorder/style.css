@@ -100,9 +100,9 @@
 
 .review-container .buttons {
   display: flex;
+  justify-content: center;
   gap: 15px;
-  margin-left: 355px;
-  margin-bottom: 100px;
+  margin-bottom: 10px;
 }
 
 .review-container .buttons .btn {
@@ -131,19 +131,11 @@
   .review-container {
     width: 700px;
   }
-
-  .review-container .buttons {
-    margin-left: 255px;
-  }
 }
 
 @media (max-width: 765px) {
   .review-container {
     width: 550px;
-  }
-
-  .review-container .buttons {
-    margin-left: 155px;
   }
 }
 
@@ -151,18 +143,10 @@
   .review-container {
     width: 450px;
   }
-
-  .review-container .buttons {
-    margin-left: 75px;
-  }
 }
 
 @media (max-width: 475px) {
   .review-container {
     width: 350px;
-  }
-
-  .review-container .buttons {
-    margin-left: 45px;
   }
 }

@@ -27,7 +27,7 @@ const DocumentChemotherapyCycle = ({
               <div className="flex justify-between w-[80%] items-center p-1">
                 <div className="flex items-center gap-[9px]">
                   <Img
-                    src="images/img_mobile.svg"
+                    src="/images/img_mobile.svg"
                     className="h-[23px] w-[23px]"
                   />
                   <Text size="xl" as="p" className="font-bold">

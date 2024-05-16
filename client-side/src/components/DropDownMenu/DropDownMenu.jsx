@@ -40,6 +40,7 @@ export default function DropDownMenu() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  
   if (isLoading) {
     return <Loader />;
   }
