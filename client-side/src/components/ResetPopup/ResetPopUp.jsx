@@ -22,7 +22,12 @@ export default function ResetPopUp({ onClose, resetState }) {
       onClick={closeDeletePopUp}
     >
       <div className="reset-popup-container">
-        <img src="images/exclamation.png" alt="icon" width={124} height={124} />
+        <img
+          src="/images/exclamation.png"
+          alt="icon"
+          width={124}
+          height={124}
+        />
         <p className="heading">Are you sure?</p>
         <p className="text">
           All modifications from pre-medication & chemotherapy tables will be
