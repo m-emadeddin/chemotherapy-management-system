@@ -66,7 +66,6 @@ export default function PatientPage() {
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
-  console.log(AllvitalData)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -196,15 +195,12 @@ export default function PatientPage() {
   }, [id, hasTreatmentPlan]);
 
   function orderChemo() {
-    console.log(hasTreatmentPlan);
-    console.log(treatmentPlanActive);
     if (hasTreatmentPlan && treatmentPlanActive) {
       navigate("review-order");
     } else {
       navigate("order");
     }
   }
-console.log(AllmedicalData)
   function docChemo() {
     if (hasTreatmentPlan) {
       navigate("document");

@@ -4,7 +4,6 @@ exports.reviewChemotheraby = async (req, res, next) => {
   try {
     const { patientId } = req.params;
     const patient = await db.Patients.findByPk(patientId);
-    console.log("True Patient");
     if (!patient) {
       return res.status(404).json({ error: "Patient not found" });
     }
@@ -27,7 +26,6 @@ exports.reviewChemotheraby = async (req, res, next) => {
       number_of_Cycles,
       patientPatientID: patient.Patient_ID,
     });
-    console.log("True Treatment");
 
     let days = Math.floor((number_of_Weeks * 7) / number_of_Cycles) || 1;
     await createCycles(

@@ -42,7 +42,6 @@ exports.insertData = () => {
       })
       .then((treatmentPlan) => {
         treatmentPlanInstance = treatmentPlan;
-        console.log(treatmentPlan.toJSON());
 
         // Associate treatmentPlanReadOnly with CancerOverview
         return treatmentPlanInstance.update({
