@@ -66,15 +66,21 @@ console.log(radioData)
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/medical/${id}`);
+        const data = await response.json();
         if (response.status === 200) {
-          const data = await response.json();
-          setMedicalData(data);
-          setmedicalIsPresent(true);
-        } else if (response.status === 404) {
+          const lastItem = data["MedicalAnalysis"].slice(-1)[0]; // Get the last item
+          if (lastItem) {
+            setMedicalData(lastItem);
+            setmedicalIsPresent(true);
+          } else {
+            setmedicalIsPresent(false);
+          }
+        } else {
           setmedicalIsPresent(false);
         }
       } catch (error) {
-        console.error("Error fetching cycle count:", error);
+        console.error("Error fetching radiography data:", error);
+        setmedicalIsPresent(false);
       }
     };
     fetchData();
