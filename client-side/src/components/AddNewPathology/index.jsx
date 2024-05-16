@@ -110,7 +110,7 @@ export default function AddNewPathology({
     console.log(radiodata);
     postMedicalData();
     postRadioData();
-    toast.success("Pathology Updated Successfully");
+    toast.success("New Pathology Added Successfully");
     window.location.reload()
 
   }

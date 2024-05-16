@@ -1,6 +1,5 @@
 import { Img, Button } from "..";
-import React, { useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import React, { useState } from "react";
 import AddNewPathology from "../../components/AddNewPathology";
 
 
@@ -11,25 +10,6 @@ export default function AllPathology({
   medicalData,
   patientID,
 }) {
-  const [medicaldata, setMedicalData] = useState({
-    Urinanalysis: "",
-    CBC: "",
-    Electrophoresis: "",
-    CEA: "",
-    AFP: "",
-    B2M: "",
-    Tumor_size: "",
-  });
-
-  const [radiodata, setRadioData] = useState({
-    MRI: "",
-    CT: "",
-    PET_CT: "",
-    Ultrasound: "",
-    XRay: "",
-    Mammography: "",
-    DEXA: "",
-  });
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
@@ -53,31 +33,6 @@ export default function AllPathology({
   const toggleAddNewPathologyPopup = () => {
     setShowAddNewPathologyPopup(!showAddNewPathologyPopup);
   };
-
-  useEffect(() => {
-    setMedicalData(medicalData);
-    setRadioData(radioData);
-  }, [medicalData, radioData]);
-
-  async function insertNewPathology() {
-    // Check if any medical data fields are empty
-    const medicalFields = Object.values(medicaldata);
-    if (medicalFields.some((value) => value === "")) {
-      toast.error("Please fill in all medical analysis fields.");
-      return;
-    }
-    // Check if any radiology data fields are empty
-    const radioFields = Object.values(radiodata);
-    if (radioFields.some((value) => value === "")) {
-      toast.error("Please fill in all radiology fields.");
-      return;
-    }
-    console.log(medicaldata);
-    console.log(radiodata);
-    toast.success("Pathology Updated Successfully");
-
-    window.location.reload();
-  }
 
   return (
     <div className="edit-popup-overlay">
