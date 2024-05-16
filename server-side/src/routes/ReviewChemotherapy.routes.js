@@ -1,9 +1,9 @@
 const express = require("express");
 const controller = require("../controllers/ReviewChemotherapy.controllers");
 
-const reviewChemotherabyRouter = express.Router();
+const router = express.Router();
 
 // reviewChemotherabyRouter.post("/patient/:id", controller.reviewChemotheraby);
-reviewChemotherabyRouter.post("/:patientId", controller.reviewChemotheraby);
+router.post("/:patientId", controller.reviewChemotheraby);
 
-module.exports = reviewChemotherabyRouter;
+module.exports = router;

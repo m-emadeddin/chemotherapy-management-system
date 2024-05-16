@@ -2,12 +2,18 @@ const db = require("../models/index.models");
 
 exports.reviewChemotheraby = async (req, res, next) => {
   try {
+    // Define patient id
     const { patientId } = req.params;
     const patient = await db.Patients.findByPk(patientId);
-    console.log("True Patient");
     if (!patient) {
       return res.status(404).json({ error: "Patient not found" });
     }
+
+    const existingTreatmentPlan = await patient.getTreatmentPlan();
+    if (existingTreatmentPlan) {
+      return res.json({ message: "Patient already has a treatment plan" });
+    }
+    
     const {
       Plan_Name,
       number_of_Weeks,
@@ -17,91 +23,74 @@ exports.reviewChemotheraby = async (req, res, next) => {
       Start_Date,
     } = req.body;
 
-    const treatmentPlan = await db.TreatmentPlans.create({
+  
+
+    // create a new Treatment Plan
+    const treatmentPlan = await patient.createTreatmentPlan({
       Plan_Name,
       number_of_Weeks,
       number_of_Cycles,
-      patientPatientID: patient.Patient_ID,
     });
-    console.log("True Treatment");
-
+    // define number of days for one cycle
     let days = Math.floor((number_of_Weeks * 7) / number_of_Cycles) || 1;
-    await createCycles(
-      number_of_Cycles,
-      treatmentPlan,
-      PreMedications,
-      ChemotherapyMedications
-    );
-    async function createCycles(
-      number_of_Cycles,
-      treatmentPlan,
-      PreMedications,
-      ChemotherapyMedications
-    ) {
-      const cyclesPromises = [];
-      for (let i = 1; i <= number_of_Cycles; i++) {
-        const cyclePromise = createCycle(
-          i,
-          treatmentPlan,
-          PreMedications,
-          ChemotherapyMedications
-        );
-        cyclesPromises.push(cyclePromise);
-      }
-      await Promise.all(cyclesPromises);
-    }
 
-    async function createCycle(
-      i,
-      treatmentPlan,
-      PreMedications,
-      ChemotherapyMedications
-    ) {
-      const cycle = await db.Cycles.create({
-        Cycle_Number: i,
-        Is_active: i === 1 ? true : false,
-        Start_Date: addWeeks(Start_Date, (i - 1) * days),
-        Start_Time: "08:00:00",
-        End_Time: "17:00:00",
-      });
-      await treatmentPlan.addCycles(cycle);
-      await createPremedications(cycle, PreMedications);
-      await createChemotherapyMedications(cycle, ChemotherapyMedications);
-    }
-      function addWeeks(date, days) {
+    // define start date for cycle
+    function addDays(date, days) {
       const resultDate = new Date(date);
       resultDate.setDate(resultDate.getDate() + days);
       return resultDate;
     }
-    async function createPremedications(cycle, PreMedications) {
-      const promises = PreMedications.map(async (medication) => {
-        let pre = await db.Premedications.create({
-          Medication_Name: medication.Medication_Name,
-          Dose: medication.Dose,
-          Route: medication.Route,
-          Instructions: medication.Instructions,
-        });
-        await cycle.addPremedication(pre);
+    // Create Cycles
+    let Cycles = await Promise.all(
+      [...new Array(number_of_Cycles)].map( async function (_, index) {
+      let cycle =   await db.Cycles.create({
+        Cycle_Number: index + 1,
+        Is_active: index === 0 ? true : false,
+        Start_Date:addDays(Start_Date, index * days),
+        Start_Time: "08:00:00",
+        End_Time: "17:00:00",
       });
-      await Promise.all(promises);
-    }
+      return cycle;
+    }))
+    // Create Premedications
+    const premedications = await Promise.all(
+      PreMedications.map(async (premedication) =>{
+      let preMedication = await db.Premedications.create({
+        Medication_Name: premedication.Medication_Name,
+        Dose: premedication.Dose,
+        Route: premedication.Route,
+        Instructions: premedication.Instructions,
+      });
+      return preMedication
+    }))
+    // Create Chemotherapy Medications  
+    const chemotherapyMedications = await Promise.all(ChemotherapyMedications.map(async (chemotherapymedication) =>{
+      let ChemotherapyMedication = await db.ChemotherapyMedications.create({
+        Medication_Name: chemotherapymedication.Medication_Name,
+        Dose: chemotherapymedication.Dose,
+        Route: chemotherapymedication.Route,
+        Instructions: chemotherapymedication.Instructions,
+        Dosage_Reduction: chemotherapymedication.Dosage_Reduction,
+      });
+      return ChemotherapyMedication
+    }))
+    // add cycles to treatment plane
+    await treatmentPlan.addCycles(Cycles)
 
-    async function createChemotherapyMedications(
-      cycle,
-      ChemotherapyMedications
-    ) {
-      const promises = ChemotherapyMedications.map(async (medication) => {
-        let med = await db.ChemotherapyMedications.create({
-          Medication_Name: medication.Medication_Name,
-          Dose: medication.Dose,
-          Route: medication.Route,
-          Instructions: medication.Instructions,
-          Dosage_Reduction: medication.Dosage_Reduction,
-        });
-        await cycle.addChemotherapyMedications(med);
-      });
-      await Promise.all(promises);
-    }
+    // add premedications to cycles
+    await Promise.all(
+      Cycles.map(async (cycle) => {
+        return await cycle.addPremedications(premedications);
+      })
+    );
+
+    // add chemotherapy medications to cycles
+    await Promise.all(
+      Cycles.map(async (cycle) => {
+        return await cycle.addChemotherapyMedications(chemotherapyMedications);
+      })
+    );
+    // send response 
     res.json({ message: "Data inserted successfully" });
   } catch (error) {
     console.error("Error inserting data:", error);
