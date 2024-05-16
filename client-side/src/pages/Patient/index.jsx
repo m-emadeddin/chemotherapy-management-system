@@ -11,6 +11,7 @@ import { WarningPopUp } from "../../components";
 import RadiologyComponent from "components/Radiology";
 import VitalSignComponent from "components/VitalSign";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
+import AllVital from "components/AllVital";
 
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
@@ -18,7 +19,6 @@ const formatDate = (dateString) => {
   const year = date.getFullYear();
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const day = date.getDate().toString().padStart(2, "0");
-
   return `${year}/${month}/${day}`;
 };
 
@@ -47,12 +47,14 @@ export default function PatientPage() {
   const [showPatientPopup, setShowPatientPopup] = useState(false);
   const [showPathologyPopup, setShowPathologyPopup] = useState(false);
   const [showAllPathologyPopup, setShowAllPathologyPopup] = useState(false);
+  const [showAllVitalPopup, setShowAllVitalPopup] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
   const [medicalData, setMedicalData] = useState(null);
   const [AllmedicalData, setAllMedicalData] = useState(null);
   const [radioData, setRadioData] = useState(null);
   const [AllradioData, setAllRadioData] = useState(null);
   const [vitalData, setVitalData] = useState(null);
+  const [AllvitalData, setAllVitalData] = useState(null);
   const [cancerData, setCancerData] = useState(null);
   const navigate = useNavigate();
   const [medicalIsPresent, setmedicalIsPresent] = useState(false);
@@ -64,6 +66,7 @@ export default function PatientPage() {
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
+  console.log(AllvitalData)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -137,12 +140,17 @@ export default function PatientPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/patient/vital-sign/${id}`);
+        const data = await response.json();
 
         if (response.status === 200) {
-          const data = await response.json();
-          console.log(data);
-          setVitalData(data);
-          setvitalIsPresent(true);
+          setAllVitalData(data);
+          const lastItem = data["VitalSigns"].slice(-1)[0]; // Get the last item
+          if (lastItem) {
+            setVitalData(lastItem);
+            setvitalIsPresent(true);
+          } else {
+            setvitalIsPresent(false);
+          }
         } else if (response.status === 404) {
           setvitalIsPresent(false);
         }
@@ -216,7 +224,9 @@ export default function PatientPage() {
   const toggleAllPathologyPopup = () => {
     setShowAllPathologyPopup(!showAllPathologyPopup);
   };
-
+  const toggleAllVitalPopup = () => {
+    setShowAllVitalPopup(!showAllVitalPopup);
+  };
   const toggleWarningPopup = () => {
     setShowWarningPopup(!showWarningPopup);
   };
@@ -462,6 +472,15 @@ export default function PatientPage() {
               ) : (
                 <p className="mb-5 px-3">No Vital Data</p>
               )}
+              <Button
+                size="sm"
+                className="min-w-[218px] rounded-[15px] sm:px-5 custom-button"
+                variant="fill"
+                color="blue_500"
+                onClick={toggleAllVitalPopup}
+              >
+                View Vital History
+              </Button>
             </div>
           </div>
 
@@ -523,7 +542,7 @@ export default function PatientPage() {
               color="blue_500"
               onClick={toggleAllPathologyPopup}
             >
-              View all
+              View Pathology History
             </Button>
 
             {showPatientPopup && (
@@ -565,6 +584,15 @@ export default function PatientPage() {
                 patientID={selectedPatientInfo.Patient_ID}
                 medicalIsPresent={medicalIsPresent}
                 radioIsPresent={radioIsPresent}
+              />
+            )}
+            {showAllVitalPopup && (
+              <AllVital
+                onClose={toggleAllVitalPopup}
+                path={path}
+                patientID={selectedPatientInfo.patientID}
+                vitalIsPresent={vitalIsPresent}
+                vitalData={AllvitalData}
               />
             )}
             {showWarningPopup && (
