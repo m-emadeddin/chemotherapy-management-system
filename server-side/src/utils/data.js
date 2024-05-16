@@ -21,47 +21,7 @@ const {
 } = require('../models/index.models');
 
 // Insert data into tables
-// Define function to insert data # canceroverview has many treatmentplans -- with composite key
-exports.insertData = () => {
-  let cancerOverviewInstance;
-  let treatmentPlanInstance;
 
-  return (
-    CancerOverview.create({
-      Stage: 'Stage41',
-      Cancer_type: 'Type15',
-      Note_On_cancer: 'Dummy for Type1 Stage1',
-    })
-      .then((cancerOverview) => {
-        cancerOverviewInstance = cancerOverview;
-        return treatmentPlanReadOnly.create({
-          Plan_Name: 'Plan8',
-          number_of_Weeks: 5,
-          number_of_Cycles: 6,
-        });
-      })
-      .then((treatmentPlan) => {
-        treatmentPlanInstance = treatmentPlan;
-        console.log(treatmentPlan.toJSON());
-
-        // Associate treatmentPlanReadOnly with CancerOverview
-        return treatmentPlanInstance.update({
-          CancerOverview_Stage: cancerOverviewInstance.Stage,
-          CancerOverview_Cancer_type: cancerOverviewInstance.Cancer_type,
-        });
-      })
-      // .then(() => {
-      //   // Associate CancerOverview with treatmentPlanReadOnly in reverse direction
-      //   return cancerOverviewInstance.addTreatmentPlanReadOnly(treatmentPlanInstance);
-      // })
-      .then(() => {
-        console.log('Associations established successfully');
-      })
-      .catch((error) => {
-        console.error('Error inserting data:', error);
-      })
-  );
-};
 // Insert dummy data function
 exports.insertDummyData = async () => {
   try {
