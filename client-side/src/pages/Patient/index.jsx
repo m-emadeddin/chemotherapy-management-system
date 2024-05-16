@@ -235,7 +235,7 @@ export default function PatientPage() {
         <div className="flex items-start justify-between gap-5 md:flex-col">
           <div className="flex items-center gap-[15px]">
             <Heading as="h1">
-              <Link to="/select_patient">Patient List</Link>
+              <Link to="/dashboard">Patient List</Link>
             </Heading>
             <div className="flex items-center">
               <Img

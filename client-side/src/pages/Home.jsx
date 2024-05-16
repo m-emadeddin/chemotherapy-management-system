@@ -24,6 +24,14 @@ const Home = () => {
       <ul style={{ listStyle: "none", padding: "0", marginTop: "100px" }}>
         <li style={{ marginBottom: "10px" }}>
           <Link
+            to="/dashboard"
+            style={{ color: "#87CEFA", textDecoration: "none" }}
+          >
+            Dashboard
+          </Link>
+        </li>
+        <li style={{ marginBottom: "10px" }}>
+          <Link
             to="/login"
             style={{ color: "#87CEFA", textDecoration: "none" }}
           >
