@@ -1,14 +1,9 @@
-import { Img, Button } from "../../components";
-import React, { useState, useEffect } from "react";
+import { Img, Button } from "..";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
 
-export default function PathologyPopup({
-  onClose,
-  path,
-  radioData,
-  medicalData,
-  patientID,
-}) {
+export default function ShowMedical({ onClose, path, patientID }) {
   const [medicaldata, setMedicalData] = useState({
     Urinanalysis: "",
     CBC: "",
@@ -29,11 +24,6 @@ export default function PathologyPopup({
     DEXA: "",
   });
 
-  useEffect(() => {
-    setMedicalData(medicalData);
-    setRadioData(radioData);
-  }, [medicalData, radioData]);
-
   const handleMedicalInputChange = (e) => {
     const { id, value } = e.target;
     if (id === "Tumor_size" && isNaN(value)) {
@@ -53,50 +43,52 @@ export default function PathologyPopup({
       [id]: value,
     }));
   };
-console.log(radioData)
-console.log(medicalData)
-  async function putRadioData() {
+
+  async function postRadioData() {
     try {
-      const response = await fetch(
-        `/patient/${patientID}/radiography-update/${radioData["Radiography_ID"]}}`,
+      const response = await axios.post(
+        `/patient/add-radiography/${patientID}`,
+        radiodata,
         {
-          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(radiodata),
         }
       );
-      if (response.ok) {
-        console.log("radioData saved successfully!");
+      if (response.status === 200) {
+        toast.success("Radio Data saved successfully!");
         onClose();
       } else {
         toast.error("Failed to save data. Please try again later.");
       }
     } catch (error) {
-      toast.error("Error saving data:", error);
+      toast.error("Error saving data:", error.message);
     }
   }
-  async function putMedicalData() {
+
+  async function postMedicalData() {
     try {
-      const response = await fetch(`/patient/${patientID}/medical-update/${medicalData["MedicalAnalysis_ID"]}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(medicaldata),
-      });
-      if (response.ok) {
+      const response = await axios.post(
+        `/patient/add-medical/${patientID}`,
+        medicaldata,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.status === 200) {
         toast.success("medicalData saved successfully!");
         onClose();
       } else {
         toast.error("Failed to save data. Please try again later.");
       }
     } catch (error) {
-      toast.error("Error saving data:", error);
+      toast.error("Error saving data:", error.message);
     }
   }
-  async function save() {
+  async function addNew() {
     // Check if any medical data fields are empty
     const medicalFields = Object.values(medicaldata);
     if (medicalFields.some((value) => value === "")) {
@@ -111,10 +103,9 @@ console.log(medicalData)
     }
     console.log(medicaldata);
     console.log(radiodata);
-    toast.success("Pathology Updated Successfully");
-
-    putRadioData();
-    putMedicalData();
+    postMedicalData();
+    postRadioData();
+    toast.success("New Pathology Added Successfully");
     window.location.reload();
   }
 
@@ -131,14 +122,14 @@ console.log(medicalData)
                   className="self-center w-16 aspect-[1.1]"
                 />
                 <div className="flex items-center gap-5">
-                  <div className="grow text-ellipsis">Pathology</div>
+                  <div className="grow text-ellipsis">Add New Pathology</div>
                 </div>
                 <Button
                   size="xl"
-                  onClick={save}
                   className="gap-2.5 rounded-[20px] font-lama bg-green-500 text-white custom-button"
+                  onClick={addNew}
                 >
-                  Save Changes
+                  Add
                 </Button>
               </div>
             </div>
@@ -181,7 +172,7 @@ console.log(medicalData)
                 type="text"
                 id="Urinanalysis"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={medicalData.Urinanalysis || "Urinanalysis"}
+                placeholder={"Urinanalysis"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.Urinanalysis}
               />
@@ -193,7 +184,7 @@ console.log(medicalData)
                 type="text"
                 id="CBC"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={medicalData.CBC || "CBC"}
+                placeholder={"CBC"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.CBC}
               />
@@ -205,7 +196,7 @@ console.log(medicalData)
                 type="text"
                 id="Electrophoresis"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={medicalData.Electrophoresis || "Electrophoresis"}
+                placeholder={"Electrophoresis"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.Electrophoresis}
               />
@@ -217,7 +208,7 @@ console.log(medicalData)
                 type="text"
                 id="CEA"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={medicalData.CEA || "CEA"}
+                placeholder={"CEA"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.CEA}
               />
@@ -229,7 +220,7 @@ console.log(medicalData)
                 type="text"
                 id="AFP"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={medicalData.AFP || "AFP"}
+                placeholder={"AFP"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.AFP}
               />
@@ -252,7 +243,7 @@ console.log(medicalData)
                 type="text"
                 id="B2M"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={medicalData.B2M || "B2M"}
+                placeholder={"B2M"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.B2M}
               />
@@ -264,7 +255,7 @@ console.log(medicalData)
                 type="text"
                 id="Tumor_size"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={medicalData.Tumor_size || "Tumor size"}
+                placeholder={"Tumor size"}
                 onChange={handleMedicalInputChange}
                 value={medicaldata.Tumor_size}
               />
@@ -298,7 +289,7 @@ console.log(medicalData)
                 type="text"
                 id="MRI"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={radioData.MRI || "MRI"}
+                placeholder={"MRI"}
                 onChange={handleRadioInputChange}
                 value={radiodata.MRI}
               />
@@ -310,7 +301,7 @@ console.log(medicalData)
                 type="text"
                 id="CT"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={radioData.CT || "CT"}
+                placeholder={"CT"}
                 onChange={handleRadioInputChange}
                 value={radiodata.CT}
               />
@@ -322,7 +313,7 @@ console.log(medicalData)
                 type="text"
                 id="PET_CT"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={radioData.PET_CT || "PET-CT"}
+                placeholder={"PET-CT"}
                 onChange={handleRadioInputChange}
                 value={radiodata.PET_CT}
               />
@@ -334,7 +325,7 @@ console.log(medicalData)
                 type="text"
                 id="Ultrasound"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={radioData.Ultrasound || "Ultrasound"}
+                placeholder={"Ultrasound"}
                 onChange={handleRadioInputChange}
                 value={radiodata.Ultrasound}
               />
@@ -346,7 +337,7 @@ console.log(medicalData)
                 type="text"
                 id="XRay"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={radioData.XRay || "XRay"}
+                placeholder={"XRay"}
                 onChange={handleRadioInputChange}
                 value={radiodata.XRay}
               />
@@ -368,7 +359,7 @@ console.log(medicalData)
                 type="text"
                 id="Mammography"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={radioData.Mammography || "Mammography"}
+                placeholder={"Mammography"}
                 onChange={handleRadioInputChange}
                 value={radiodata.Mammography}
               />
@@ -380,7 +371,7 @@ console.log(medicalData)
                 type="text"
                 id="DEXA"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap w-full"
-                placeholder={radioData.DEXA || "DEXA"}
+                placeholder={"DEXA"}
                 onChange={handleRadioInputChange}
                 value={radiodata.DEXA}
               />

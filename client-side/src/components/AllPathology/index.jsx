@@ -1,6 +1,7 @@
 import { Img, Button } from "..";
 import React, { useState } from "react";
 import AddNewPathology from "../../components/AddNewPathology";
+import ShowRadio from "../../components/ShowRadio";
 
 export default function AllPathology({
   onClose,
@@ -31,8 +32,15 @@ export default function AllPathology({
   };
   const [showAddNewPathologyPopup, setShowAddNewPathologyPopup] =
     useState(false);
+  const [showradioHistoryPopup, setShowradioHistoryPopup] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   const toggleAddNewPathologyPopup = () => {
     setShowAddNewPathologyPopup(!showAddNewPathologyPopup);
+  };
+
+  const toggleradioHistoryPopup = (index) => {
+    setSelectedIndex(index);
+    setShowradioHistoryPopup(!showradioHistoryPopup);
   };
 
   return (
@@ -99,7 +107,10 @@ export default function AllPathology({
             radioData.radiography &&
             radioData.radiography.map((analysis, index) => (
               <div key={"radiography" + index}>
-                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full">
+                <button
+                  className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full"
+                  onClick={() => toggleradioHistoryPopup(index)}
+                >
                   <div className="text-black pr-2">
                     Radiology Analysis {index + 1}
                   </div>
@@ -115,7 +126,6 @@ export default function AllPathology({
           ) : (
             <p className="px-3">No Current Radio Data For This Patient</p>
           )}
-          {/*radioData["radiography"][0]["MRI"]*/}
         </div>
         <Button
           size="xl"
@@ -129,6 +139,14 @@ export default function AllPathology({
             onClose={toggleAddNewPathologyPopup}
             path={path}
             patientID={patientID}
+          />
+        )}
+        {showradioHistoryPopup && selectedIndex !== null && (
+          <ShowRadio
+            onClose={toggleradioHistoryPopup}
+            path={path}
+            patientID={patientID}
+            radioData={radioData["radiography"][selectedIndex]}
           />
         )}
       </div>
