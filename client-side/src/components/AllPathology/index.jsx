@@ -1,6 +1,8 @@
 import { Img, Button } from "..";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import AddNewPathology from "../../components/AddNewPathology";
+
 
 export default function AllPathology({
   onClose,
@@ -46,6 +48,11 @@ export default function AllPathology({
 
     return `${day}/${month}/${year}, ${hour}:${minutes} ${amOrPm}`;
   };
+  const [showAddNewPathologyPopup, setShowAddNewPathologyPopup] =
+    useState(false);
+  const toggleAddNewPathologyPopup = () => {
+    setShowAddNewPathologyPopup(!showAddNewPathologyPopup);
+  };
 
   useEffect(() => {
     setMedicalData(medicalData);
@@ -85,7 +92,9 @@ export default function AllPathology({
                   className="self-center w-16 aspect-[1.1]"
                 />
                 <div className="flex items-center gap-5">
-                  <div className="grow text-ellipsis">All Pathology</div>
+                  <div className="grow text-ellipsis">
+                    All Pathology Analysis
+                  </div>
                 </div>
               </div>
             </div>
@@ -112,7 +121,7 @@ export default function AllPathology({
                     Medical Analysis {index + 1}
                   </div>
                   <div className="ml-auto font-bold text-black pr-2">
-                    Updated At:
+                    Last Update :
                   </div>
                   <div className="text-black">
                     {formatDate(
@@ -135,7 +144,7 @@ export default function AllPathology({
                     Radiology Analysis {index + 1}
                   </div>
                   <div className="ml-auto font-bold text-black pr-2">
-                    Updated At:
+                    Last Update :
                   </div>
                   <div className="text-black">
                     {formatDate(radioData["radiography"][index]["updatedAt"])}
@@ -148,9 +157,17 @@ export default function AllPathology({
         <Button
           size="xl"
           className="gap-2.5 rounded-[20px] font-lama bg-blue-500 text-white custom-button"
+          onClick={toggleAddNewPathologyPopup}
         >
           Insert New Pathology
         </Button>
+        {showAddNewPathologyPopup && (
+              <AddNewPathology
+                onClose={toggleAddNewPathologyPopup}
+                path={path}
+                patientID={patientID}
+              />
+            )}
       </div>
     </div>
   );
