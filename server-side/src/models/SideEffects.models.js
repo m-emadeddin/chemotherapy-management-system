@@ -68,7 +68,15 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isIn: [['High', 'Low', 'Moderate']]
         }
-      }
+      },
+      Date: {
+        type: DataTypes.DATE,
+        allowNull: false
+      },
+      Cycle_Number: {
+        type: DataTypes.INTEGER,
+        unique: false
+      },
     },{
         timestamps: false
     });

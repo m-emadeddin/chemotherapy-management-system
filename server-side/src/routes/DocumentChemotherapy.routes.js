@@ -1,11 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const test = require('../controllers/DocumentChemotherapy.controllers')
+const documentChemo = require("../controllers/DocumentChemotherapy.controllers");
 
-router.get('/cycles-count/:id',test.getCyclesCount); // done 
-router.get('/active-cycle/:id',test.getActiveCycle); // 
-router.get('/premedications/:id',test.getPremedications); // done 
-router.get('/chemotherapy/:id',test.getChemotherapy); // done 
-
+router.get("/regimen-info/:id", documentChemo.getRegimenInfo); //done✔
+router.get("/cycles-info/:id", documentChemo.getCyclesInfo); //done✔
+router.get("/active-cycle/:id", documentChemo.getActiveCycle); //done✔
+router.get("/premedications/:id", documentChemo.getPremedications); //done✔
+router.get("/chemotherapy/:id", documentChemo.getChemotherapy); //done✔
+//router.get('/chemotherapy/:patientId/cycle/:cycleId/', documentChemo.getChemotherapy);
+router.patch("/cycles-updates/:id", documentChemo.updateCycleAndMedications); //done
 
 module.exports = router;
