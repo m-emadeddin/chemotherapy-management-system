@@ -1,5 +1,6 @@
+import ShowVital from "components/ShowVital";
 import { Img } from "..";
-import React from "react";
+import React, { useState } from "react";
 
 export default function AllVital({
   onClose,
@@ -26,6 +27,13 @@ export default function AllVital({
 
     return `${day}/${month}/${year}, ${hour}:${minutes} ${amOrPm}`;
   };
+  const [VitalselectedIndex, setVitalSelectedIndex] = useState(null);
+
+  const [showVitalHistoryPopup, setShowVitalHistoryPopup] = useState(false);
+  const toggleVitalHistoryPopup = (index) => {
+    setVitalSelectedIndex(index);
+    setShowVitalHistoryPopup(!showVitalHistoryPopup);
+  };
   return (
     <div className="edit-popup-overlay">
       <div className="edit-popup-container">
@@ -33,15 +41,13 @@ export default function AllVital({
           <div className="flex items-center justify-between">
             <div className="text">
               <div className="flex gap-5 justify-between self-center mt-0 w-full text-2xl font-bold leading-6 text-black whitespace-nowrap max-w-[55px] max-md:flex-wrap max-md:max-w-full">
-              <Img
-                    src={`/images/img_patient_in_a_circle_1.png`}
-                    alt="patientina"
-                    className="h-[74px] w-[73px] object-cover"
-                  />
+                <Img
+                  src={`/images/img_patient_in_a_circle_1.png`}
+                  alt="patientina"
+                  className="h-[74px] w-[73px] object-cover"
+                />
                 <div className="flex items-center gap-5">
-                  <div className="grow text-ellipsis">
-                    All Vital Signs
-                  </div>
+                  <div className="grow text-ellipsis">All Vital Signs</div>
                 </div>
               </div>
             </div>
@@ -64,17 +70,16 @@ export default function AllVital({
             vitalData.VitalSigns &&
             vitalData.VitalSigns.map((analysis, index) => (
               <div key={"VitalSigns" + index}>
-                <button className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full">
-                  <div className="text-black pr-2">
-                    Vital Data  {index + 1}
-                  </div>
+                <button
+                  className="new-row flex border-2 border-blue-500 rounded-md p-2 w-full"
+                  onClick={() => toggleVitalHistoryPopup(index)}
+                >
+                  <div className="text-black pr-2">Vital Data {index + 1}</div>
                   <div className="ml-auto font-bold text-black pr-2">
                     Last Update :
                   </div>
                   <div className="text-black">
-                    {formatDate(
-                      vitalData["VitalSigns"][index]["updatedAt"]
-                    )}
+                    {formatDate(vitalData["VitalSigns"][index]["updatedAt"])}
                   </div>
                 </button>
               </div>
@@ -82,7 +87,14 @@ export default function AllVital({
           ) : (
             <p className="px-3">No Current Medical Data For This Patient</p>
           )}
-
+          {showVitalHistoryPopup && VitalselectedIndex !== null && (
+            <ShowVital
+              onClose={toggleVitalHistoryPopup}
+              path={path}
+              patientID={patientID}
+              vitalData={vitalData["VitalSigns"][VitalselectedIndex]}
+            />
+          )}
         </div>
       </div>
     </div>
