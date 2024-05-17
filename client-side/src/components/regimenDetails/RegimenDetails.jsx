@@ -10,7 +10,6 @@ import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
 import Date from "components/Date/Date";
 import toast, { Toaster } from "react-hot-toast";
 import { setDate } from "components/Date/Date";
-import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 export default function RegimenDetails() {
   let {
     newRegimenDetails,
@@ -20,15 +19,10 @@ export default function RegimenDetails() {
     dateValue,
   } = useRegimenDetails();
 
-  const { selectedPatientInfo } = useSelectedPatientInfo();
-  const Patient_ID = selectedPatientInfo.Patient_ID;
-
-  const { preMedicationsData, chemotherapyData, hasPreMedications } =
-    usePlanData();
+  const { preMedicationsData, chemotherapyData } = usePlanData();
   const { planName, planCycles, planWeeks, originalCycles, originalWeeks } =
     usePlanDetails();
   const navigate = useNavigate();
-
   const [defaultValueWeeks, setDefaultValueWeeks] = useState(planWeeks);
   const [defaultValueCycles, setDefaultValueCycles] = useState(planCycles);
   const [notes, setNotes] = useState("");
@@ -66,7 +60,7 @@ export default function RegimenDetails() {
         number_of_Cycles: originalCycles,
         PreMedications: preMedicationsData,
         ChemotherapyMedications: chemotherapyData,
-        cycle_note: notes,
+        physician_note: notes,
         Start_Date: null,
       };
       setInitialRegimenDetails(initialDetails);
@@ -97,7 +91,7 @@ export default function RegimenDetails() {
       number_of_Cycles: planCycles,
       PreMedications: preMedicationsData,
       ChemotherapyMedications: chemotherapyData,
-      cycle_note: notes,
+      physician_note: notes,
       Start_Date: Start_Date,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,7 +103,7 @@ export default function RegimenDetails() {
         preMedicationsData: newRegimenDetails.PreMedications,
         chemotherapyData: newRegimenDetails.ChemotherapyMedications,
       });
-      setNotes(newRegimenDetails.cycle_note);
+      setNotes(newRegimenDetails.physician_note);
       setRegimenDetails(newRegimenDetails);
       setStartDate(Start_Date);
       setDate(dateValue);
@@ -218,23 +212,20 @@ export default function RegimenDetails() {
                 : null,
           })
         ),
-        cycle_note:
+        physician_note:
           notes === "Add your notes here..." || notes.trim() === ""
             ? "There isn't any notes"
             : notes,
         Start_Date: Start_Date,
       };
-      setNotes(regimenDetails.cycle_note);
+      setNotes(regimenDetails.physician_note);
       setNewRegimenDetails(newRegimenDetails);
-      const newRegimenDetailsWithId = {
-        ...newRegimenDetails,
-        id: Patient_ID,
-      };
 
       localStorage.setItem(
-        `regimen-details-${Patient_ID}`,
-        JSON.stringify(newRegimenDetailsWithId)
+        "regimen-details",
+        JSON.stringify(newRegimenDetails)
       );
+
       navigate("review-order");
     }
   };
@@ -280,7 +271,7 @@ export default function RegimenDetails() {
             Reset All
           </button>
         </div>
-        {hasPreMedications && (
+        {Data.preMedicationsData.length !== 0 && (
           <div className="pre-mediaction">
             <div className="pre-mediaction-header">
               <p className="table-name">PreMediactions</p>
@@ -293,6 +284,7 @@ export default function RegimenDetails() {
             />
           </div>
         )}
+
         <div className="chemotherapy">
           <div className="chemotherapy-header">
             <p className="table-name">ChemoTherapy</p>

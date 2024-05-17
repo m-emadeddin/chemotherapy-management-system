@@ -80,7 +80,6 @@ exports.deletePatient = (req, res, next) => {
       patient
         .destroy()
         .then((deletedRows) => {
-          console.log(deletedRows);
           if (deletedRows === 0) {
             return res.status(404).json({ error: 'Patient not found' });
           }
@@ -419,7 +418,6 @@ exports.updateMedicalAnalysis = (req, res, next) => {
         .then((medicalAnalysisArray) => {
           //logic to edit only last one
           //patient.getMedicals().then((medicalAnalysisArray) => {
-          console.log(medicalAnalysisArray);
           if (!medicalAnalysisArray || medicalAnalysisArray.length === 0) {
             return res
               .status(404)

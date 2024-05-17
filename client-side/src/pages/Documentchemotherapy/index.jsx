@@ -123,7 +123,7 @@ export default function DocumentchemotherapyPage() {
           content="Web site created using create-react-app"
         />
       </Helmet>
-      <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px]">
+      <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px] mb-[50px]">
         <div className="flex w-[19%] flex-col items-start bg-white-A700 absolute top-[55px] left-0 h-full">
           <Text size="xs" as="p" className="w-[100%] md:ml-0 text-center mb-2">
             Chemotherapy

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
 import toast, { Toaster } from "react-hot-toast";
+import { WarningPopUp } from "./..";
 
 const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   const [doseinput, setDoseInput] = useState([]);
@@ -8,9 +9,21 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [symptomsSubmission, setSymptomsSubmission] = useState(false);
   const [cycleSubmission, setCycleSubmission] = useState(false);
-
   const [cycleNote, setCycleNote] = useState("");
-  const [selectedValues, setSelectedValues] = useState({});
+  const [WarningMessage, setWarningMessage] = useState("");
+  const [showWarningPopup, setShowWarningPopup] = useState(false);
+  const possibleValues = ["High", "Moderate", "Low"];
+  const [selectedSymptoms, setSelectedSymptoms] = useState({
+    Nausea: "",
+    Loss_of_appetite: "",
+    Hair_loss: "",
+    Gastrointestinal_disturbances: "",
+    Loss_of_memory: "",
+    Skin_change: "",
+    Blood_cell_loss: "",
+    Psychological_effects: "",
+    Changes_in_kidney_and_liver_function: "",
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,17 +33,34 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
         );
         const { Chemotherapy_Medications } = await response.json();
         setChemotherapy(Chemotherapy_Medications);
+        Chemotherapy_Medications.forEach((medication) => {
+          setDoseInput((prevState) => [
+            ...prevState,
+            {
+              ID: medication.Chemotherapy_id,
+              [`AdministeredDose_${
+                medication.Route.toLowerCase() === "oral" ? "Mg" : "Ml"
+              }`]: "",
+              [`AdministeredDose_${
+                medication.Route.toLowerCase() === "oral" ? "Ml" : "Mg"
+              }`]: "",
+            },
+          ]);
+        });
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
+
     fetchData();
   }, [cycle, id]);
 
   const handleDoseInput = (event, id, route) => {
+    console.log(id);
     setDoseInput((prevDoseInput) =>
       prevDoseInput.filter((medication) => medication.ID !== id)
     );
+    console.log(doseinput);
     setDoseInput((prevDoseInput) => [
       ...prevDoseInput,
       {
@@ -48,26 +78,77 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
   };
 
   const handleSideEffectsInput = (val, name) => {
-    const today = new Date();
-    setSelectedValues((prevState) => ({
+    setSelectedSymptoms((prevState) => ({
       ...prevState,
-      Cycle_Number: cycle,
-      Date: today,
       [name]: val,
     }));
   };
 
   const handleSubmit = () => {
+    if (checkEmptySymptoms() || checkEmptyDose() || checkDoseInput()) {
+      let message = "";
+      if (checkEmptySymptoms()) {
+        message = "Please fill all side effects";
+      } else if (checkEmptyDose()) {
+        message = "Please fill all administered doses";
+      } else {
+        message = "Administered dose should be positive";
+      }
+
+      setWarningMessage(message);
+      setShowWarningPopup(true);
+      setIsSubmitting(false);
+      return;
+    }
+
     setIsSubmitting(true);
+
+    const symptomsData = {
+      ...selectedSymptoms,
+      Cycle_Number: cycle,
+      Date: new Date(),
+    };
+
     const cycleData = {
       Cycle_ID: cycle,
       Cycle_Documentation_Date: new Date(),
       Medications: doseinput,
       Cycle_Note: cycleNote,
     };
-    sendSymptomsData(selectedValues);
+    sendSymptomsData(symptomsData);
     sendCycleData(cycleData);
   };
+
+  const checkEmptySymptoms = () => {
+    return Object.values(selectedSymptoms).some((value) => value === "");
+  };
+
+  const checkEmptyDose = () => {
+    for (const medication of doseinput) {
+      if (
+        medication.AdministeredDose_Mg === "" &&
+        medication.AdministeredDose_Ml === ""
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const checkDoseInput = () => {
+    for (const medication of doseinput) {
+      if (
+        (medication.AdministeredDose_Mg !== "" &&
+          medication.AdministeredDose_Mg < 0) ||
+        (medication.AdministeredDose_Ml !== "" &&
+          medication.AdministeredDose_Ml < 0)
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   useEffect(() => {
     if (symptomsSubmission && cycleSubmission) {
       Submit();
@@ -117,27 +198,8 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     }
   };
 
-  const possibleValues = ["High", "Moderate", "Low"];
-  const symptoms = [
-    { name: "Nausea", value: possibleValues },
-    { name: "Loss of appetite", value: possibleValues },
-    { name: "Hair loss", value: possibleValues },
-    {
-      name: "Gastrointestinal disturbances",
-      value: possibleValues,
-    },
-    { name: "Loss of memory", value: possibleValues },
-    { name: "Skin change", value: possibleValues },
-    { name: "Blood cell loss", value: possibleValues },
-    { name: "Psychological effects", value: possibleValues },
-    {
-      name: "Changes in kidney and liver function",
-      value: possibleValues,
-    },
-  ];
-
   return (
-    <div className="flex flex-col p-[19px] gap-[25px]">
+    <div className="flex flex-col p-[10px] gap-[25px]">
       <div className="flex">
         <div className="flex flex-col w-[50%] gap-[15px] px-[20px]">
           <Toaster />
@@ -146,32 +208,29 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
           </Text>
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
-              <div className="w-[55%]"></div>
-              <div className="w-[45%] flex justify-evenly">
+              <div className="w-[60%]"></div>
+              <div className="w-[40%] flex justify-evenly">
                 <Text>High</Text>
                 <Text>Moderate</Text>
                 <Text>Low</Text>
               </div>
             </div>
-            {symptoms.map((symptom, index) => (
+            {Object.keys(selectedSymptoms).map((key, index) => (
               <div
                 key={index}
                 className="flex justify-between items-center border border-2 border-gray-800 p-2 rounded-md container"
               >
-                <Text className="w-[55%]">{symptom.name}</Text>
-                <div className="w-[45%] flex justify-evenly">
-                  {symptom.value.map((val, idx) => (
+                <Text className="w-[60%]">{key.replace(/_/g, " ")}</Text>
+                <div className="w-[40%] flex justify-evenly">
+                  {possibleValues.map((val, idx) => (
                     <Input
                       key={idx}
                       type="radio"
                       className="w-[20%] bg-transparent-0 !h-[10px]"
-                      name={symptom.name.replace(/\s+/g, "")}
+                      name={key.replace(/\s+/g, "")}
                       inputProps={{ value: val }}
                       onChange={() =>
-                        handleSideEffectsInput(
-                          val,
-                          symptom.name.replace(/\s+/g, "_")
-                        )
+                        handleSideEffectsInput(val, key.replace(/\s+/g, "_"))
                       }
                     />
                   ))}
@@ -264,6 +323,14 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
           Cancel
         </Button>
       </div>
+      {showWarningPopup && (
+        <WarningPopUp
+          message={WarningMessage}
+          onClose={() => {
+            setShowWarningPopup(false);
+          }}
+        />
+      )}
     </div>
   );
 };

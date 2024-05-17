@@ -2,6 +2,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Lama Sans;
+  overflow-y: hidden;
 }
 
 * {
@@ -28,22 +29,27 @@ a {
 table {
   table-layout: fixed;
 }
+
 .Button:hover {
   background-color: white;
   color: black;
 }
+
 .custom-button {
   background-color: bg-blue-500;
   color: white;
   transition: all 0.3s ease;
-  border: 2px solid transparent; /* Add transparent border */
+  border: 2px solid transparent;
+  /* Add transparent border */
 }
 
 .custom-button:hover {
   background-color: white;
   color: black;
-  border-color: black; /* Change border color to black on hover */
+  border-color: black;
+  /* Change border color to black on hover */
 }
+
 .edit-popup-overlay {
   position: fixed;
   top: 0;
@@ -53,7 +59,8 @@ table {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); /* semi-transparent overlay */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* semi-transparent overlay */
 }
 
 .edit-popup-container {
@@ -72,6 +79,7 @@ table {
 .new-row {
   margin-top: 10px;
 }
+
 .hover-container {
   position: relative;
 }

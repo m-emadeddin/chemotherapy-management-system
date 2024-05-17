@@ -12,6 +12,8 @@ import RadiologyComponent from "components/Radiology";
 import VitalSignComponent from "components/VitalSign";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 import AllVital from "components/AllVital";
+import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
+import axios from "axios";
 
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
@@ -41,7 +43,7 @@ function calculateAge(birthDateString) {
 
 export default function PatientPage() {
   const { selectedPatientInfo } = useSelectedPatientInfo();
-
+  const { setNewRegimenDetails, newRegimenDetails } = useRegimenDetails();
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
@@ -62,7 +64,6 @@ export default function PatientPage() {
   const [vitalIsPresent, setvitalIsPresent] = useState(false);
   const [cancerIsPresent, setcancerIsPresent] = useState(false);
   const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
-  const [treatmentPlanActive, setTreatmentPlanAcive] = useState(false);
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
@@ -180,7 +181,6 @@ export default function PatientPage() {
           return response.json();
         })
         .then((data) => {
-          setTreatmentPlanAcive(data.exists);
           console.log("Active Cycle Fetched Successfully");
         })
         .catch((error) => {
@@ -194,8 +194,31 @@ export default function PatientPage() {
     return () => clearTimeout(timeoutId);
   }, [id, hasTreatmentPlan]);
 
+  useEffect(() => {
+    if (hasTreatmentPlan) {
+      axios.get(`/review-chemotherapy/review/${id}`).then((res) => {
+        setNewRegimenDetails({
+          Plan_Name: res.data.Plan_Name,
+          physician_note: res.data.physician_note,
+          Start_Date: res.data.Start_Date,
+          number_of_Weeks: res.data.number_of_Weeks,
+          number_of_Cycles: res.data.number_of_Cycles,
+          PreMedications: res.data.PreMedications || [],
+          ChemotherapyMedications: res.data.ChemotherapyMedications || [],
+        });
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, hasTreatmentPlan, setNewRegimenDetails]);
+  useEffect(() => {
+    localStorage.setItem(
+      "regimen-details-api",
+      JSON.stringify(newRegimenDetails)
+    );
+  }, [hasTreatmentPlan, newRegimenDetails]);
+
   function orderChemo() {
-    if (hasTreatmentPlan && treatmentPlanActive) {
+    if (hasTreatmentPlan) {
       navigate("review-order");
     } else {
       navigate("order");
@@ -272,9 +295,7 @@ export default function PatientPage() {
                 alt="thumbs_up"
                 className="h-[14px] w-[14px]"
               />
-              {hasTreatmentPlan && treatmentPlanActive
-                ? "Review Chemotherapy"
-                : "Order Chemotherapy"}
+              {hasTreatmentPlan ? "Review Chemotherapy" : "Order Chemotherapy"}
             </Button>
             <Button
               size="xl"
@@ -300,7 +321,7 @@ export default function PatientPage() {
         <div className="flex flex-col items-start gap-6 md:flex-col">
           {/* patient info section */}
           <div className="flex flex-1 w-full items-stretch gap-6">
-            <div className="flex w-[33%] flex-col items-center gap-5 rounded-[40px] bg-white-A700 p-[15px]">
+            <div className="flex w-[33%] flex-col items-center justify-between gap-5 rounded-[40px] bg-white-A700 p-[15px]">
               <div className="flex w-[100%] flex-col gap-4 rounded-[40px] bg-white-A700 p-[5px] md:w-full">
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex w-[77%] items-center gap-[20px]">
@@ -475,7 +496,7 @@ export default function PatientPage() {
                 color="blue_500"
                 onClick={toggleAllVitalPopup}
               >
-                View Vital History
+                View vital history
               </Button>
             </div>
           </div>
@@ -538,7 +559,7 @@ export default function PatientPage() {
               color="blue_500"
               onClick={toggleAllPathologyPopup}
             >
-              View Pathology History
+              View pathology history
             </Button>
 
             {showPatientPopup && (
