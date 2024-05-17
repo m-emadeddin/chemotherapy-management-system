@@ -5,29 +5,25 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
-import { usePlanData } from "contexts/PlanDataContext";
 
 export default function Reviewchemotherapyorder() {
+  const navigate = useNavigate();
   const { selectedPatientInfo } = useSelectedPatientInfo();
-  const { hasPreMedications } = usePlanData();
   const id = selectedPatientInfo.Patient_ID;
-  const { newRegimenDetails } = useRegimenDetails();
-  let patientOrder = newRegimenDetails;
+  let { newRegimenDetails: patientOrder } = useRegimenDetails();
 
   if (!patientOrder) {
-    const storedRegimenDetails = localStorage.getItem(`regimen-details-${id}`);
+    const storedRegimenDetails = localStorage.getItem("regimen-details");
     if (storedRegimenDetails) {
       patientOrder = JSON.parse(storedRegimenDetails);
     }
   }
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
   const originalDate = patientOrder?.Start_Date;
   const dateParts = originalDate?.split("-");
   const reversedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +49,7 @@ export default function Reviewchemotherapyorder() {
   const handleSubmit = () => {
     setIsSubmitting(true);
 
-    const apiUrl = `/review-chemotherapy/${id}`;
+    const apiUrl = `/review-chemotherapy/add-review/${id}`;
     const Chemotherapy = patientOrder.ChemotherapyMedications.map(
       (medication) => {
         return {
@@ -82,7 +78,7 @@ export default function Reviewchemotherapyorder() {
       number_of_Cycles: patientOrder.number_of_Cycles,
       PreMedications: PreMedications,
       ChemotherapyMedications: Chemotherapy,
-      cycle_note: patientOrder.cycle_note,
+      physician_note: patientOrder.physician_note,
       Start_Date: patientOrder.Start_Date,
     };
 
@@ -104,7 +100,60 @@ export default function Reviewchemotherapyorder() {
       });
   };
 
-  return (
+  return hasTreatmentPlan ? (
+    <div className="review-container mx-auto">
+      <div className="heading-contanier">
+        <h2>Review</h2>
+        <Toaster />
+        <p>{patientOrder.Plan_Name}</p>
+        <span className="cycles">
+          {patientOrder.number_of_Cycles} Cycles over{" "}
+          {patientOrder.number_of_Weeks} Weeks
+        </span>
+        <span>Started from:{reversedDate}</span>
+      </div>
+      <div className="medications">
+        <span className="heading">Mediactions</span>
+        {patientOrder.PreMedications.length !== 0 && (
+          <div className="pre-medication">
+            <div className="table-name">PreMediactions</div>
+            {patientOrder.PreMedications.map((med, index) => (
+              <div key={index} className="table-rows">
+                <p className="med-name">{med.Medication_Name}</p>
+                <p className="med-instruction">{med.Instructions}</p>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="chemo-therapy">
+          <div className="table-name">ChemoTherapy</div>
+          {patientOrder.ChemotherapyMedications.map((med, index) => (
+            <div key={index} className="table-rows">
+              <p className="med-name">{med.Medication_Name}</p>
+              <div className="instructions">
+                <p className="med-instruction">{med.Instructions}</p>
+                <p className={med.Dosage_Reduction === null ? "" : "dose"}>
+                  {med.Dosage_Reduction === null
+                    ? ""
+                    : `${med.Dosage_Reduction}%`}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="notes-container">
+        <span className="heading">Physician Notes</span>
+        <p className="notes">{patientOrder.physician_note}</p>
+      </div>
+
+      <div className="buttons">
+        <button className="btn back" onClick={handleBack}>
+          Back
+        </button>
+      </div>
+    </div>
+  ) : (
     <div className="review-container mx-auto">
       <div className="heading-contanier">
         <h2>Review</h2>
@@ -118,7 +167,7 @@ export default function Reviewchemotherapyorder() {
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>
-        {hasPreMedications && (
+        {patientOrder.PreMedications.length !== 0 && (
           <div className="pre-medication">
             <div className="table-name">PreMediactions</div>
             {patientOrder.PreMedications.map((med, index) => (
@@ -146,7 +195,7 @@ export default function Reviewchemotherapyorder() {
       </div>
       <div className="notes-container">
         <span className="heading">Physician Notes</span>
-        <p className="notes">{patientOrder.cycle_note}</p>
+        <p className="notes">{patientOrder.physician_note}</p>
       </div>
 
       <div className="buttons">

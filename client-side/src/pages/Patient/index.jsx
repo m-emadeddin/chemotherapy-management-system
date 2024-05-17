@@ -171,8 +171,6 @@ export default function PatientPage() {
     };
     fetchData();
   }, [id]);
-
-
   function orderChemo() {
     if (hasTreatmentPlan) {
       navigate("review-order");

@@ -13,6 +13,7 @@ export const SelectedPatientInfoProvider = ({ children }) => {
       "selectedPatientInfo",
       JSON.stringify(selectedPatientInfo)
     );
+    localStorage.removeItem("regimen-details");
   }, [selectedPatientInfo]);
 
   return (
