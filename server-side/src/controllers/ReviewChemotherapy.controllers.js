@@ -19,7 +19,7 @@ exports.reviewChemotheraby = async (req, res, next) => {
       PreMedications,
       ChemotherapyMedications,
       Start_Date,
-      physician_note
+      physician_note,
     } = req.body;
 
     const treatmentPlan = await db.TreatmentPlans.create({
@@ -74,7 +74,7 @@ exports.reviewChemotheraby = async (req, res, next) => {
       await createPremedications(cycle, PreMedications);
       await createChemotherapyMedications(cycle, ChemotherapyMedications);
     }
-      function addWeeks(date, days) {
+    function addWeeks(date, days) {
       const resultDate = new Date(date);
       resultDate.setDate(resultDate.getDate() + days);
       return resultDate;
@@ -115,8 +115,6 @@ exports.reviewChemotheraby = async (req, res, next) => {
   }
 };
 
-
-
 exports.getTreatmentPlan = async (req, res, next) => {
   try {
     const { patientId } = req.params;
@@ -130,16 +128,19 @@ exports.getTreatmentPlan = async (req, res, next) => {
       return res.status(404).json({ error: "Treatment plan not found" });
     }
 
-    const cycles = await treatmentPlan.getCycles({ limit: 1 });
+    const cycles = await treatmentPlan.getCycles({
+      order: [["Cycle_Number", "ASC"]], // Get cycles in ascending order of Cycle_Number
+    });
+
+    const startCycle = cycles.find((cycle) => cycle.Cycle_Number === 1); // Find the first cycle
+    const startDate = startCycle
+      ? startCycle.Start_Date.toISOString().split("T")[0]
+      : null;
+
     const premedications = await Promise.all(
       cycles.map(async (cycle) => {
         return await cycle.getPremedications({
-          attributes: [
-            "Medication_Name",
-            "Dose",
-            "Route",
-            "Instructions",
-          ],
+          attributes: ["Medication_Name", "Dose", "Route", "Instructions"],
         });
       })
     );
@@ -162,22 +163,30 @@ exports.getTreatmentPlan = async (req, res, next) => {
       number_of_Weeks: treatmentPlan.number_of_Weeks,
       number_of_Cycles: treatmentPlan.number_of_Cycles,
       physician_note: treatmentPlan.physician_note,
-
-      Start_Date: cycles[0].Start_Date.toISOString().split("T")[0],
+      Start_Date: startDate,
       PreMedications: premedications.flat().map((medication) => {
-        const { Medication_Name, Dose, Route, Instructions } = medication.dataValues;
+        const { Medication_Name, Dose, Route, Instructions } =
+          medication.dataValues;
         return { Medication_Name, Dose, Route, Instructions };
       }),
-      ChemotherapyMedications: chemotherapyMedications.flat().map((medication) => {
-        const { Medication_Name, Dose, Route, Instructions, Dosage_Reduction } = medication.dataValues;
-        return {
-          Medication_Name,
-          Dose,
-          Route,
-          Instructions,
-          Dosage_Reduction,
-        };
-      }),
+      ChemotherapyMedications: chemotherapyMedications
+        .flat()
+        .map((medication) => {
+          const {
+            Medication_Name,
+            Dose,
+            Route,
+            Instructions,
+            Dosage_Reduction,
+          } = medication.dataValues;
+          return {
+            Medication_Name,
+            Dose,
+            Route,
+            Instructions,
+            Dosage_Reduction,
+          };
+        }),
     };
 
     res.json(formattedResponse);

@@ -62,7 +62,6 @@ export default function PatientPage() {
   const [vitalIsPresent, setvitalIsPresent] = useState(false);
   const [cancerIsPresent, setcancerIsPresent] = useState(false);
   const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
-  const [treatmentPlanActive, setTreatmentPlanAcive] = useState(false);
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
@@ -173,29 +172,8 @@ export default function PatientPage() {
     fetchData();
   }, [id]);
 
-  useEffect(() => {
-    const fetchData = () => {
-      fetch(`/document-chemotherapy/active-cycle/${id}`)
-        .then((response) => {
-          return response.json();
-        })
-        .then((data) => {
-          setTreatmentPlanAcive(data.exists);
-          console.log("Active Cycle Fetched Successfully");
-        })
-        .catch((error) => {
-          console.error("Error fetching Active Cycle:", error);
-        });
-    };
-    const timeoutId = setTimeout(() => {
-      if (hasTreatmentPlan) fetchData();
-    }, 400);
-
-    return () => clearTimeout(timeoutId);
-  }, [id, hasTreatmentPlan]);
-
   function orderChemo() {
-    if (hasTreatmentPlan && treatmentPlanActive) {
+    if (hasTreatmentPlan) {
       navigate("review-order");
     } else {
       navigate("order");
@@ -272,9 +250,7 @@ export default function PatientPage() {
                 alt="thumbs_up"
                 className="h-[14px] w-[14px]"
               />
-              {hasTreatmentPlan && treatmentPlanActive
-                ? "Review Chemotherapy"
-                : "Order Chemotherapy"}
+              {hasTreatmentPlan ? "Review Chemotherapy" : "Order Chemotherapy"}
             </Button>
             <Button
               size="xl"
