@@ -171,7 +171,6 @@ export default function PatientPage() {
     };
     fetchData();
   }, [id]);
-
   function orderChemo() {
     if (hasTreatmentPlan) {
       navigate("review-order");
@@ -250,7 +249,9 @@ export default function PatientPage() {
                 alt="thumbs_up"
                 className="h-[14px] w-[14px]"
               />
-              {hasTreatmentPlan ? "Review Chemotherapy" : "Order Chemotherapy"}
+              {hasTreatmentPlan
+                ? "Review Chemotherapy"
+                : "Order Chemotherapy"}
             </Button>
             <Button
               size="xl"
