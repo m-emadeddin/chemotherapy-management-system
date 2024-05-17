@@ -2526,19 +2526,19 @@ const chemotherapy9 = await ChemotherapyMedRead.bulkCreate([
       Medication_Name: 'Dexamethasone',
       Dose: 20,
       Route: 'Oral or Intravenous',
-      Instruction: '45 minutes prior to PACLitaxel',
+      Instructions: '45 minutes prior to PACLitaxel',
     },
     {
       Medication_Name: 'Diphenhydramine',
       Dose: 50,
       Route: 'Oral or Intravenous',
-      Instruction: '30 minutes prior to PACLitaxel',
+      Instructions : '30 minutes prior to PACLitaxel',
     },
     {
       Medication_Name: 'Famotidine',
       Dose: 20,
       Route: 'Oral or Intravenous',
-      Instruction: 'Over 15 minutes prior to PACLitaxel',
+      Instructions : 'Over 15 minutes prior to PACLitaxel',
     },
   ]);
 
