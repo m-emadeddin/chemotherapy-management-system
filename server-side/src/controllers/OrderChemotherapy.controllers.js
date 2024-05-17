@@ -20,7 +20,6 @@ exports.getRegimens = (req, res, next) => {
       return Canceroverview.Cancer_type;
     })
     .then((cancerType) => {
-      console.log(cancerType);
       return TreatmentPlanReadOnly.findAll({
         where: { Cancer_Type: cancerType },
         attributes: ['Plan_Name', 'Plan_ID','number_of_Cycles','number_of_Weeks'],
@@ -48,7 +47,6 @@ exports.getChemoMedications = (req, res, next) => {
     })
     .then((chemotherapy) => {
       if (!chemotherapy || chemotherapy.length === 0 ) {
-        console.log(chemotherapy);
         return res.status(404).json({ error: 'This regimen has no chemotherapy' });
       }
       // fetches the chemotherapy related to certain regimen
@@ -74,14 +72,12 @@ exports.getPreMedications = (req, res, next) => {
   TreatmentPlanReadOnly.findByPk(regimenID)
     .then((regimen) => {
       if (!regimen) {
-        console.log(regimen);
         return res.status(404).json({ error: 'Regimen not found' });
       }
       return regimen.getPremedicationReads();
     })
     .then((premedications) => {
       if (!premedications || premedications.length === 0 ) {
-        console.log(premedications);
         return res.status(404).json({ error: 'This regimen has no premedications' });
       }
       const preMed = premedications.map((medication) => ({

@@ -58,7 +58,7 @@ const VitalSignComponent = ({ vitalData }) => {
                   Heart Rate
                 </Text>
                 <Text as="p" className="mb-[5px] px-2">
-                  {vitalData.Heart_Rate} / min
+                  {vitalData.Heart_rate} / min
                 </Text>
               </div>
 
@@ -84,7 +84,7 @@ const VitalSignComponent = ({ vitalData }) => {
                   Temperature
                 </Text>
                 <Text as="p" className="mb-[5px] px-2">
-                  {vitalData.Temperature} C
+                  {vitalData.Temp} C
                 </Text>
               </div>
               <div className="flex flex-col items-start justify-center gap-2.5 rounded-[10px] bg-gray-50 p-1.5 overflow-hidden whitespace-nowrap">

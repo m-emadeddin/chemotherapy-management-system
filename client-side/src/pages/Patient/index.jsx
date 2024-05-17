@@ -66,7 +66,6 @@ export default function PatientPage() {
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
-  console.log(AllvitalData)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -196,15 +195,12 @@ export default function PatientPage() {
   }, [id, hasTreatmentPlan]);
 
   function orderChemo() {
-    console.log(hasTreatmentPlan);
-    console.log(treatmentPlanActive);
     if (hasTreatmentPlan && treatmentPlanActive) {
       navigate("review-order");
     } else {
       navigate("order");
     }
   }
-
   function docChemo() {
     if (hasTreatmentPlan) {
       navigate("document");
@@ -234,7 +230,7 @@ export default function PatientPage() {
   return (
     <>
       <Helmet>
-        <title>CMS App</title>
+        <title>Oncology MS</title>
         <meta
           name="description"
           content="Web site created using create-react-app"
@@ -245,7 +241,7 @@ export default function PatientPage() {
         <div className="flex items-start justify-between gap-5 md:flex-col">
           <div className="flex items-center gap-[15px]">
             <Heading as="h1">
-              <Link to="/select_patient">Patient List</Link>
+              <Link to="/dashboard">Patient List</Link>
             </Heading>
             <div className="flex items-center">
               <Img
