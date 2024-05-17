@@ -2,7 +2,6 @@ import React from "react";
 import { useRoutes } from "react-router-dom";
 import NotFound from "pages/NotFound";
 import Loginpage from "pages/Loginpage";
-import SelectPatient from "pages/SelectPatient";
 import Patient from "pages/Patient";
 import Orderchemotherapy from "pages/Orderchemotherapy";
 import Reviewchemotherapyorder from "pages/Reviewchemotherapyorder";
@@ -11,6 +10,7 @@ import AppLayout from "components/AppLayout";
 import AlreadyLoggedIn from "contexts/AlreadyLoggedIn";
 import RequireAuth from "contexts/RequireAuth";
 import { TokenValidityProvider } from "./contexts/TokenValidityContext";
+import Dashboard from "pages/Dashboard";
 
 const ProjectRoutes = () => {
   const element = useRoutes([
@@ -40,7 +40,8 @@ const ProjectRoutes = () => {
         </RequireAuth>
       ),
       children: [
-        { path: "select_patient", element: <SelectPatient /> },
+        { path: "dashboard", element: <Dashboard /> },
+        // { path: "select_patient", element: <SelectPatient /> },
         { path: "patient/:id", element: <Patient /> },
         { path: "patient/:id/order", element: <Orderchemotherapy /> },
         {
