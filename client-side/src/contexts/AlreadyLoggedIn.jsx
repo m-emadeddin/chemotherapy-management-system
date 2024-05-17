@@ -4,7 +4,7 @@ import { useAuth } from "./AuthContext";
 const AlreadyLoggedIn = ({ children }) => {
   const auth = useAuth();
   if (auth.isLoggedIn) {
-    return <Navigate to="/select_patient" />;
+    return <Navigate to="/dashboard" />;
   }
   return children;
 };

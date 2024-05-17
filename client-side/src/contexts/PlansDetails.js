@@ -21,7 +21,6 @@ export const PlansDetailsProvider = ({ children }) => {
 
   useEffect(() => {
     if (selectedPatientInfo) {
-      console.log(selectedPatientInfo.Patient_ID);
       axios
         .get(`/order/get-regimen/${selectedPatientInfo?.Patient_ID}`)
         .then((res) => {
