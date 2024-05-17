@@ -300,7 +300,7 @@ export default function PatientPage() {
         <div className="flex flex-col items-start gap-6 md:flex-col">
           {/* patient info section */}
           <div className="flex flex-1 w-full items-stretch gap-6">
-            <div className="flex w-[33%] flex-col items-center gap-5 rounded-[40px] bg-white-A700 p-[15px]">
+            <div className="flex w-[33%] flex-col items-center justify-between gap-5 rounded-[40px] bg-white-A700 p-[15px]">
               <div className="flex w-[100%] flex-col gap-4 rounded-[40px] bg-white-A700 p-[5px] md:w-full">
                 <div className="flex items-center justify-between gap-6">
                   <div className="flex w-[77%] items-center gap-[20px]">
@@ -475,7 +475,7 @@ export default function PatientPage() {
                 color="blue_500"
                 onClick={toggleAllVitalPopup}
               >
-                View Vital History
+                View vital history
               </Button>
             </div>
           </div>
@@ -538,7 +538,7 @@ export default function PatientPage() {
               color="blue_500"
               onClick={toggleAllPathologyPopup}
             >
-              View Pathology History
+              View pathology history
             </Button>
 
             {showPatientPopup && (
