@@ -43,7 +43,7 @@ function calculateAge(birthDateString) {
 
 export default function PatientPage() {
   const { selectedPatientInfo } = useSelectedPatientInfo();
-  const { setNewRegimenDetails } = useRegimenDetails();
+  const { setNewRegimenDetails, newRegimenDetails } = useRegimenDetails();
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
@@ -210,6 +210,12 @@ export default function PatientPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, hasTreatmentPlan, setNewRegimenDetails]);
+  useEffect(() => {
+    localStorage.setItem(
+      "regimen-details-api",
+      JSON.stringify(newRegimenDetails)
+    );
+  }, [hasTreatmentPlan, newRegimenDetails]);
 
   function orderChemo() {
     if (hasTreatmentPlan) {

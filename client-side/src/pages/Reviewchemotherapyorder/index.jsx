@@ -13,7 +13,9 @@ export default function Reviewchemotherapyorder() {
   let { newRegimenDetails: patientOrder } = useRegimenDetails();
 
   if (!patientOrder) {
-    const storedRegimenDetails = localStorage.getItem("regimen-details");
+    const storedRegimenDetails =
+      localStorage.getItem("regimen-details") ||
+      localStorage.getItem("regimen-details-api");
     if (storedRegimenDetails) {
       patientOrder = JSON.parse(storedRegimenDetails);
     }

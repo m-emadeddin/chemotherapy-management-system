@@ -23,7 +23,6 @@ export default function RegimenDetails() {
   const { planName, planCycles, planWeeks, originalCycles, originalWeeks } =
     usePlanDetails();
   const navigate = useNavigate();
-
   const [defaultValueWeeks, setDefaultValueWeeks] = useState(planWeeks);
   const [defaultValueCycles, setDefaultValueCycles] = useState(planCycles);
   const [notes, setNotes] = useState("");
@@ -226,6 +225,7 @@ export default function RegimenDetails() {
         "regimen-details",
         JSON.stringify(newRegimenDetails)
       );
+
       navigate("review-order");
     }
   };

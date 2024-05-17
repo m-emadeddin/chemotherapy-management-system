@@ -14,6 +14,7 @@ export const SelectedPatientInfoProvider = ({ children }) => {
       JSON.stringify(selectedPatientInfo)
     );
     localStorage.removeItem("regimen-details");
+    localStorage.removeItem("regimen-details-api");
   }, [selectedPatientInfo]);
 
   return (
