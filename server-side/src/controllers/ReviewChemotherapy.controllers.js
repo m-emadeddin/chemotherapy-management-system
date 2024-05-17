@@ -131,29 +131,37 @@ exports.getTreatmentPlan = async (req, res, next) => {
     }
 
     const cycles = await treatmentPlan.getCycles({
-      where: { Cycle_Number: 1 },
-      order: [["Cycle_Number", "ASC"]],
+      order: [['Cycle_Number', 'ASC']], // Get cycles in ascending order of Cycle_Number
     });
 
-    const startCycle = cycles[0]; // Get the first cycle directly
-    const startDate = startCycle
-      ? startCycle.Start_Date.toISOString().split("T")[0]
-      : null;
+    const startCycle = cycles.find((cycle) => 
+    cycle.Cycle_Number === 1); // Find the first cycle
+    const startDate = startCycle ? startCycle.Start_Date.toISOString().split("T")[0] : null;
 
-    const premedications = await startCycle.getPremedications({
-      attributes: ["Medication_Name", "Dose", "Route", "Instructions"],
-    });
-
-    const chemotherapyMedications = await startCycle.getChemotherapyMedications(
-      {
-        attributes: [
-          "Medication_Name",
-          "Dose",
-          "Route",
-          "Instructions",
-          "Dosage_Reduction",
-        ],
-      }
+    const premedications = await Promise.all(
+      cycles.map(async (cycle) => {
+        return await cycle.getPremedications({
+          attributes: [
+            "Medication_Name",
+            "Dose",
+            "Route",
+            "Instructions",
+          ],
+        });
+      })
+    );
+    const chemotherapyMedications = await Promise.all(
+      cycles.map(async (cycle) => {
+        return await cycle.getChemotherapyMedications({
+          attributes: [
+            "Medication_Name",
+            "Dose",
+            "Route",
+            "Instructions",
+            "Dosage_Reduction",
+          ],
+        });
+      })
     );
 
     const formattedResponse = {
@@ -162,9 +170,8 @@ exports.getTreatmentPlan = async (req, res, next) => {
       number_of_Cycles: treatmentPlan.number_of_Cycles,
       physician_note: treatmentPlan.physician_note,
       Start_Date: startDate,
-      PreMedications: premedications.map((medication) => {
-        const { Medication_Name, Dose, Route, Instructions } =
-          medication.dataValues;
+      PreMedications: premedications.flat().map((medication) => {
+        const { Medication_Name, Dose, Route, Instructions } = medication.dataValues;
         return { Medication_Name, Dose, Route, Instructions };
       }),
       ChemotherapyMedications: chemotherapyMedications.map((medication) => {
