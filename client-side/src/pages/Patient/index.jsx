@@ -96,24 +96,6 @@ export default function PatientPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/patient/cancer-overview/${id}`);
-        if (response.status === 200) {
-          const data = await response.json();
-          setCancerData(data);
-          setcancerIsPresent(true);
-        } else if (response.status === 404) {
-          setcancerIsPresent(false);
-        }
-      } catch (error) {
-        console.error("Error fetching cycle count:", error);
-      }
-    };
-    fetchData();
-  }, [id]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
         const response = await fetch(`/patient/radiography/${id}`);
         const data = await response.json();
         if (response.status === 200) {
