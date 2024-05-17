@@ -12,6 +12,7 @@ import AppLayout from "components/AppLayout";
 import AlreadyLoggedIn from "contexts/AlreadyLoggedIn";
 import RequireAuth from "contexts/RequireAuth";
 import { TokenValidityProvider } from "./contexts/TokenValidityContext";
+import Dashboard from "pages/Dashboard";
 
 const ProjectRoutes = () => {
   const element = useRoutes([
@@ -34,7 +35,8 @@ const ProjectRoutes = () => {
         </RequireAuth>
       ),
       children: [
-        { path: "select_patient", element: <SelectPatient /> },
+        { path: "dashboard", element: <Dashboard /> },
+        // { path: "select_patient", element: <SelectPatient /> },
         { path: "patient/:id", element: <Patient /> },
         { path: "patient/:id/order", element: <Orderchemotherapy /> },
         {

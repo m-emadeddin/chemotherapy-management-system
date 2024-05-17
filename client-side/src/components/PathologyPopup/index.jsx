@@ -53,8 +53,6 @@ export default function PathologyPopup({
       [id]: value,
     }));
   };
-console.log(radioData)
-console.log(medicalData)
   async function putRadioData() {
     try {
       const response = await fetch(
@@ -109,8 +107,6 @@ console.log(medicalData)
       toast.error("Please fill in all radiology fields.");
       return;
     }
-    console.log(medicaldata);
-    console.log(radiodata);
     toast.success("Pathology Updated Successfully");
 
     putRadioData();

@@ -2,7 +2,6 @@ import { Img } from "..";
 import React from "react";
 
 export default function ShowRadio({ onClose, path, patientID, radioData, RadioselectedIndex }) {
-  console.log(radioData);
   return (
     <div className="edit-popup-overlay">
       <div className="edit-popup-container">

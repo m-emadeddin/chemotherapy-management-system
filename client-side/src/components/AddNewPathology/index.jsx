@@ -101,8 +101,7 @@ export default function AddNewPathology({ onClose, path, patientID }) {
       toast.error("Please fill in all radiology fields.");
       return;
     }
-    console.log(medicaldata);
-    console.log(radiodata);
+
     postMedicalData();
     postRadioData();
     toast.success("New Pathology Added Successfully");

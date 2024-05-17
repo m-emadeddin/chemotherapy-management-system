@@ -15,7 +15,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (loginAttempted && auth.isLoggedIn) {
-      navigate("/select_patient");
+      navigate("/dashboard");
     }
   }, [auth.isLoggedIn, loginAttempted, navigate]);
 
@@ -41,7 +41,7 @@ export default function LoginPage() {
   return (
     <>
       <Helmet>
-        <title>CMS App</title>
+        <title>Oncology MS</title>
         <meta
           name="description"
           content="Web site created using create-react-app"
