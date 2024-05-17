@@ -9,6 +9,7 @@ const authMiddleware = require("../middlewares/auth.middlewares");
 // Function to handle user registration (sign up)
 exports.UserSignUp = (req, res) => {
     const { username, email, password } = req.body;
+    console.log(username)
     // Validate email format
     if (!validateEmail(email)) {
         return res.status(400).json({ error: 'Invalid email format' });
@@ -79,6 +80,7 @@ exports.UserSignIn = (req, res) => {
                 return res.status(401).json({ error: 'Invalid username/email or password' });
             }
             const userId = user.user_ID;
+            console.log(userId)
             // Generate JWT token
             const token = jwt.sign({ userId: userId }, jwtSecret, { expiresIn: '1h' });
 
