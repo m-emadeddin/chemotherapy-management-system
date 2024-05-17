@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { usePlanDetails } from "./PlansDetails";
+import toast from "react-hot-toast";
 
 const PlanDataContext = createContext();
 
@@ -33,6 +34,7 @@ export const PlanDataProvider = ({ children }) => {
           setLoading(false);
         })
         .catch((err) => {
+          toast("This regimen has no premedications");
           console.log("Error in fetching preMedications", err);
         });
     }

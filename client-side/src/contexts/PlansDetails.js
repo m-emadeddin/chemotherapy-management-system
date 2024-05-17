@@ -47,7 +47,7 @@ export const PlansDetailsProvider = ({ children }) => {
           console.log("Error in fetching PlansDetails", err);
         });
     }
-  }, [selectedPatientInfo]);
+  }, [selectedPatientInfo, selectedPatientInfo.Patient_ID]);
 
   return (
     <PlanDetailsContext.Provider

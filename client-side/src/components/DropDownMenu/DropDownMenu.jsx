@@ -115,7 +115,7 @@ export default function DropDownMenu() {
           </div>
         )}
       </div>
-      {selectedOption !== "none" && <RegimenDetails />}
+      {selectedOption !== "none" && !hasTreatmentPlan && <RegimenDetails />}
     </div>
   );
 }
