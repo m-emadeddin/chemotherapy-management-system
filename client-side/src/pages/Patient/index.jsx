@@ -210,10 +210,12 @@ export default function PatientPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, hasTreatmentPlan, setNewRegimenDetails]);
-  localStorage.setItem(
-    "regimen-details-api",
-    JSON.stringify(newRegimenDetails)
-  );
+  useEffect(() => {
+    localStorage.setItem(
+      "regimen-details-api",
+      JSON.stringify(newRegimenDetails)
+    );
+  }, [hasTreatmentPlan, newRegimenDetails]);
 
   function orderChemo() {
     if (hasTreatmentPlan) {
