@@ -212,11 +212,7 @@ export default function PatientPage() {
   }, [id, hasTreatmentPlan, setNewRegimenDetails]);
 
   function orderChemo() {
-<<<<<<< HEAD
-    if (hasTreatmentPlan && treatmentPlanActive) {
-=======
     if (hasTreatmentPlan) {
->>>>>>> 0bbf8cb006907d9f53dcd05d3e4ce41229e17572
       navigate("review-order");
     } else {
       navigate("order");
