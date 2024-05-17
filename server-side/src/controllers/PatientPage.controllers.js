@@ -98,6 +98,62 @@ exports.deletePatient = (req, res, next) => {
       res.status(500).json({ error: 'Internal Server Error' });
     });
 };
+exports.getActivePatients = (req, res, next) => {
+  Patients.findAll()
+    .then((patients) => {
+      let active_patients = [];
+      let treatmentPlanPromises = patients.map((patient) => {
+        return patient.getTreatmentPlan()
+          .then((treatmentPlan) => {
+            if (treatmentPlan) {
+              active_patients.push(patient);
+            }
+          })
+          .catch((treatmentPlanError) => {
+            console.error('Error fetching treatment plan:', treatmentPlanError);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+      });
+
+      return Promise.all(treatmentPlanPromises)
+        .then(() => {
+          res.status(200).json({ active_patients });
+        });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+};
+
+exports.getNonActivePatients = (req, res, next) => {
+  Patients.findAll()
+    .then((patients) => {
+      let non_active_patients = [];
+      let treatmentPlanPromises = patients.map((patient) => {
+        return patient
+          .getTreatmentPlan()
+          .then((treatmentPlan) => {
+            if (!treatmentPlan) {
+              non_active_patients.push(patient);
+            }
+          })
+          .catch((treatmentPlanError) => {
+            console.error("Error fetching treatment plan:", treatmentPlanError);
+            res.status(500).json({ error: "Internal Server Error" });
+          });
+      });
+      return Promise.all(treatmentPlanPromises)
+      .then(() => {
+        res.status(200).json({ non_active_patients });
+      })
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    });
+};
+
 //=========================Vital Signs================================
 exports.getVitalSigns = (req, res, next) => {
   const ID = req.params.id;
