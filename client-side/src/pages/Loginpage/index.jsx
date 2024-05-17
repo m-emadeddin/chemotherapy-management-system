@@ -48,18 +48,18 @@ export default function LoginPage() {
         />
       </Helmet>
 
-      <div className="flex h-[1024px] w-full items-start justify-center bg-white-A700 bg-[url(/public/images/img_login_page.png)] bg-cover bg-no-repeat py-[177px] md:h-auto md:py-5">
+      <div className="flex h-[1024px] w-full items-start justify-center bg-white-A700 bg-[url(/public/images/img_login_page2.png)] bg-cover bg-no-repeat py-[177px] md:h-auto md:py-5">
         <div className="container-xs mb-[97px] mt-[47px] flex justify-center px-[367px] md:p-5 md:px-5">
           <div className="flex w-full flex-col items-center gap-[65px] md:gap-[97px] sm:gap-[65px]">
             <div className="flex flex-col items-center gap-9 self-stretch">
               <Toaster />
-              <Text size="lg" as="p" className="!font-inter">
-                Login
+              <Text size="lg" as="p" className="mt-[75px] !font-inter">
+                Login to your account
               </Text>
               <div className="flex flex-col items-center self-stretch">
                 <Text
                   as="p"
-                  className="ml-[18px] self-start !font-inter md:ml-0"
+                  className="ml-[18px] self-start md:ml-0"
                 >
                   Username or Email
                 </Text>
@@ -80,7 +80,7 @@ export default function LoginPage() {
                 />
                 <Text
                   as="p"
-                  className="ml-[18px] mt-[19px] self-start !font-inter md:ml-0"
+                  className="ml-[18px] mt-[19px] self-start md:ml-0"
                 >
                   Password
                 </Text>
@@ -117,11 +117,6 @@ export default function LoginPage() {
                 </Button>
               </div>
             </div>
-            <Img
-              src="images/img_logo.png"
-              alt="logo"
-              className="h-[62px] w-[32%] object-cover"
-            />
           </div>
         </div>
       </div>
