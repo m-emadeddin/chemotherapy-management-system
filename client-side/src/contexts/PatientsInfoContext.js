@@ -1,16 +1,23 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useAuth } from "./AuthContext";
 
 const PatientsInfoContext = createContext();
 
 export const PatientsInfoProvider = ({ children }) => {
+  const auth = useAuth();
   const [patientsInfo, setPatientsInfo] = useState(() => {
     return JSON.parse(localStorage.getItem("patientsInfo")) || null;
   });
 
   const fetchPatientsInfo = async () => {
     try {
-      const response = await fetch("/patient/all-patients");
+      const response = await fetch("/patient/all-patients", {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+        },
+    });
       if (!response.ok) {
         throw new Error("Failed to fetch patient details");
       }
@@ -29,10 +36,14 @@ export const PatientsInfoProvider = ({ children }) => {
     }
   }, [patientsInfo]);
 
+
   const deletePatient = async (patientId) => {
     try {
       const response = await fetch(`/patient/delete-patient/${patientId}`, {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${auth.userToken}`,
+        },
       });
       if (!response.ok) {
         toast.error("Failed to delete patient");

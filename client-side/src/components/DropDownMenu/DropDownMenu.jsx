@@ -5,8 +5,10 @@ import { usePlanDetails } from "contexts/PlansDetails";
 import Loader from "components/Loader/Loader";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
+import { useAuth } from "contexts/AuthContext";
 
 export default function DropDownMenu() {
+  const auth = useAuth();
   const { newRegimenDetails } = useRegimenDetails();
   const {
     plansNames,
@@ -32,7 +34,12 @@ export default function DropDownMenu() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/patient/has-treatmentplan/${selectedPatientInfo.Patient_ID}`
+          `/patient/has-treatmentplan/${selectedPatientInfo.Patient_ID}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${auth.userToken}`,
+            },
+        }
         );
         const { exists } = await response.json();
         setHasTreatmentPlan(exists);
