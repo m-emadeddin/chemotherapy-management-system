@@ -6,6 +6,8 @@ const PatientPage = require('../controllers/PatientPage.controllers');
 router.get('/all-patients', PatientPage.getAllPatients);
 router.post('/add-patient', PatientPage.postNewPatient);
 router.delete('/delete-patient/:id', PatientPage.deletePatient);
+router.get('/active-patients', PatientPage.getActivePatients);
+router.get('/non-active-patients', PatientPage.getNonActivePatients);
 
 //=========================Vital Signs================================✔
 router.get('/vital-sign/:id', PatientPage.getVitalSigns); 
