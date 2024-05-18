@@ -1,0 +1,33 @@
+.login-button {
+    min-width: 89px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #1FA6EF; /* Example background color */
+    color: #fff; /* Example text color */
+    font-family: "Lama Sans", sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .login-button:hover {
+    background-color: #008DD4; /* Example hover background color */
+  }
+
+  .email-input,
+  .password-input {
+    padding-left: 10px;
+    overflow: hidden;
+    color: #000;
+    text-overflow: ellipsis;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
+  .email-input::placeholder,
+  .password-input::placeholder {
+    font-size: 16px;
+  }

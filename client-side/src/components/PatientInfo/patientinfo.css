@@ -1,0 +1,64 @@
+  .patient-record {
+    border-collapse: collapse ;
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  .info-tablehead {
+    background-color: #f4f5f9;
+    color: #707070;
+    font-family: "Lama Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+    margin-left: 10px;
+  }
+
+  .info-data-container{
+    background: #FFF;
+    padding: 10px; 
+    cursor: pointer;
+    border-radius: 20px;
+  }
+
+  .age{
+    color: #707070;
+    font-family: "Lama Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 25px;
+  }
+
+  .name{
+    color: #000;
+    font-family: "Lama Sans";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 25px;
+  }
+
+  .info{
+    color: #000;
+    font-family: "Lama Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 25px;
+  }
+
+  .action-button {
+    float: left;
+    margin-right: 5px;
+    background-color: #F7F9FB;
+  }
+
+  .action-button:last-child {
+    margin-right: 0;
+  }
+
+  .action-button:hover{
+    background-color: #DFE0E2;
+  }

@@ -1,0 +1,143 @@
+.medications-table {
+  width: 100%;
+  font-family: "Lama Sans", Helvetica;
+  line-height: 25px;
+}
+
+.medications-table thead {
+  color: #707070;
+}
+
+.medications-table th {
+  border-bottom: 1px solid #d4d4d4;
+  text-align: unset;
+  font-weight: 300;
+  border-top: none !important;
+  padding: 19px;
+}
+
+.medications-table tr {
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.medications-table tr:last-child {
+  border-bottom: none;
+}
+
+.medications-table td {
+  border: none;
+  padding: 19px;
+}
+
+.medications-table td:first-letter {
+    text-transform: capitalize;
+}
+
+.medications-table td:nth-child(1) {
+  text-transform: uppercase;
+}
+
+.medications-table td {
+  cursor: pointer;
+}
+
+.medications-table td .truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.medications-table td .expanded {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.medications-table .buttons-cell {
+  width: 200px;
+  border-bottom: 1px solid #d4d4d4;
+}
+
+.medications-table .buttons-container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.medications-table .buttons-container .btn {
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 5px;
+  height: 40px;
+  font-size: 0.8rem;
+  width: 55px;
+}
+
+.medications-table .buttons-container .edit {
+  border: 1px solid #1fa6ef;
+  color: #1fa6ef;
+}
+
+.medications-table .buttons-container .edit:hover {
+  background-color: #1fa6ef;
+  color: white;
+  transition: ease 0.3s;
+}
+
+.medications-table .buttons-container .del {
+  background-color: #e84853;
+  color: white;
+}
+
+.medications-table .buttons-container .del:hover {
+  border: 1px solid #e84853;
+  color: #e84853;
+  background-color: white;
+  transition: ease 0.3s;
+}
+
+.medications-table .buttons-container .dose {
+  border: 1px solid #1fa6ef;
+  color: #1fa6ef;
+  font-size: 11px;
+}
+
+.medications-table .buttons-container .dose:hover {
+  background-color: #1fa6ef;
+  color: white;
+  transition: ease 0.3s;
+}
+
+.medications-table .med-cell {
+  width: 240px;
+}
+
+.medications-table .dose-cell {
+  width: 80px;
+}
+
+.medications-table .reduction-cell {
+  width: 80px;
+}
+
+.medications-table .route-cell {
+  width: 160px;
+}
+
+@media (max-width: 1050px) {
+  .medications-table .med-cell {
+    width: 140px;
+  }
+
+  .medications-table .dose-cell {
+    width: 40px;
+  }
+
+  .medications-table .reduction-cell {
+    width: 40px;
+  }
+
+  .medications-table .route-cell {
+    width: 100px;
+  }
+}

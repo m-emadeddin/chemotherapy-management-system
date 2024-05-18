@@ -1,0 +1,60 @@
+.MuiInputLabel-root,
+.MuiOutlinedInput-input,
+.MuiTypography-caption,
+.MuiPickersDay-root,
+.MuiPickersMonth-monthButton,
+.MuiPickersYear-yearButton,
+.MuiPickersCalendarHeader-label {
+    font-family: "Lama Sans", Helvetica !important;
+}
+
+.MuiPickersCalendarHeader-label {
+    font-weight: 700 !important;
+}
+
+.MuiTypography-caption {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+}
+
+.MuiPickersDay-root {
+    font-weight: 700 !important;
+}
+
+.MuiPickersMonth-monthButton .Mui-selected {
+    background-color: #1FA6EF !important;
+}
+
+.MuiPaper-root {
+    border-radius: 15px !important;
+    height: 300px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.MuiYearCalendar-root {
+    height: 300px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.MuiOutlinedInput-root {
+    width: 220px;
+    height: 40px;
+}
+
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 10px !important;
+}
+
+.css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+    top: -10px !important;
+}
+
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+    border-radius: 15px !important;
+
+}

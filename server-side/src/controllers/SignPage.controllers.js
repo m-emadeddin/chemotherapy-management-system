@@ -7,6 +7,7 @@ const jwtSecret = process.env.JWT_SECRET;
 const authMiddleware = require("../middlewares/auth.middlewares");
 
 exports.UserSignUp = (req, res) => {
+
   const { username, email, password } = req.body;
   console.log(username);
   // Validate email format
@@ -70,6 +71,7 @@ exports.UserSignIn = (req, res) => {
           .json({ error: "Invalid username/email or password" });
       }
 
+
       bcrypt
         .compare(password, user.Password)
         .then((passwordMatch) => {
@@ -84,6 +86,7 @@ exports.UserSignIn = (req, res) => {
           const token = jwt.sign({ userId: userId }, jwtSecret, {
             expiresIn: "2h",
           });
+
 
           res.status(200).json({ message: "Login successful", token });
         })
