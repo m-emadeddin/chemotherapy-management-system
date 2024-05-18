@@ -1,5 +1,6 @@
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 import "./style.css";
 import { useEffect, useState } from "react";
 import DatePopUp from "components/DatePopUp/DatePopUp";
@@ -10,31 +11,19 @@ import { useAuth } from "contexts/AuthContext";
 
 export let date;
 export let setDate;
-export default function Date() {
+
+export default function DateComponent() {
   const auth = useAuth();
   const { setStartDate, setDateValue, dateValue } = useRegimenDetails();
   const [showDatePopUp, setShowDatePopUp] = useState(false);
-  [date, setDate] = useState(null);
-  const [year, setYear] = useState(null);
-  const [month, setMonth] = useState(null);
-  const [day, setDay] = useState(null);
+  [date, setDate] = useState(dayjs(null));
   const [patientsNumber, setPatientsNumber] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
 
-  const formatWithLeadingZero = (value) => {
-    return value < 10 ? `0${value}` : value;
-  };
-
-  const formattedMonth = formatWithLeadingZero(month);
-  const formattedDay = formatWithLeadingZero(day);
-  const startDate = `${year}-${formattedMonth}-${formattedDay}`;
-
   useEffect(() => {
-    if (date && date !== dateValue) {
-      setYear(date.$y);
-      setMonth(date.$M + 1);
-      setDay(date.$D);
+    if (date && date.isValid() && !date.isSame(dateValue)) {
       setIsFetching(true);
+      const startDate = date.format('YYYY-MM-DD');
       axios
         .get(`/order/patient-no/${startDate}`, {
           headers: {
@@ -54,16 +43,19 @@ export default function Date() {
         });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, dateValue, startDate]);
+  }, [date, dateValue]);
 
   const handleConfirmDate = () => {
-    setStartDate(startDate);
-    setDateValue(date);
-    setShowDatePopUp(false);
+    if (date && date.isValid()) {
+      const startDate = date.format('YYYY-MM-DD');
+      setStartDate(startDate);
+      setDateValue(date);
+      setShowDatePopUp(false);
+    }
   };
 
   const clearDate = () => {
-    setDate(null);
+    setDate(dayjs(null));
   };
 
   return (
@@ -72,7 +64,6 @@ export default function Date() {
         label="Choose Date"
         views={["year", "month", "day"]}
         value={date}
-        format="DD/MM/YYYY"
         onChange={(newValue) => {
           setDate(newValue);
         }}

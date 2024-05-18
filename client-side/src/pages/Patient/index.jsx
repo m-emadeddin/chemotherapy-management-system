@@ -14,6 +14,7 @@ import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 import AllVital from "components/AllVital";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import axios from "axios";
+import { date, setDate} from "components/Date/Date";
 import { useAuth } from "contexts/AuthContext";
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {

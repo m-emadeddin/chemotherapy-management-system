@@ -28,6 +28,7 @@ export default function DropDownMenu() {
   const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
   const { selectedPatientInfo } = useSelectedPatientInfo();
 
+
   const dropdownRef = useRef(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +49,7 @@ export default function DropDownMenu() {
       }
     };
     fetchData();
-  }, [selectedPatientInfo.Patient_ID]);
+  }, [selectedPatientInfo.Patient_ID, newRegimenDetails]);
 
   const storedRegimenDetails = localStorage.getItem(
     `regimen-details-${selectedPatientInfo.Patient_ID}`
