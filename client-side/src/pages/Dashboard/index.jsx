@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import PatientTable from "components/PatientTable";
 import PatientInfo from "components/PatientInfo";
 
-
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 import Sidebar from "components/Sidebar/Sidebar";
 import { usePatientsInfo } from "contexts/PatientsInfoContext";

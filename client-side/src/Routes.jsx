@@ -1,5 +1,6 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
+import Home from "pages/Home";
 import NotFound from "pages/NotFound";
 import Loginpage from "pages/Loginpage";
 import Patient from "pages/Patient";
@@ -20,14 +21,7 @@ import { SelectedPatientInfoProvider } from "contexts/SelectedPatientInfoDetails
 
 const ProjectRoutes = () => {
   const element = useRoutes([
-    {
-      path: "/",
-      element: (
-        <AlreadyLoggedIn>
-          <Loginpage />
-        </AlreadyLoggedIn>
-      ),
-    },
+    { path: "/", element: <Home /> },
     { path: "*", element: <NotFound /> },
     {
       path: "login",

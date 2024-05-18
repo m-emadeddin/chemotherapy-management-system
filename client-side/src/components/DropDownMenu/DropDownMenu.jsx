@@ -27,19 +27,20 @@ export default function DropDownMenu() {
   const [selectedOption, setSelectedOption] = useState("none");
   const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
   const { selectedPatientInfo } = useSelectedPatientInfo();
-  const storedRegimenDetails = localStorage.getItem("regimen-details");
+
 
   const dropdownRef = useRef(null);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/patient/has-treatmentplan/${selectedPatientInfo.Patient_ID}`, {
+          `/patient/has-treatmentplan/${selectedPatientInfo.Patient_ID}`,
+          {
             method: "GET",
             headers: {
-                Authorization: `Bearer ${auth.userToken}`,
+              Authorization: `Bearer ${auth.userToken}`,
             },
-        }
+          }
         );
         const { exists } = await response.json();
         setHasTreatmentPlan(exists);
@@ -48,16 +49,21 @@ export default function DropDownMenu() {
       }
     };
     fetchData();
-  }, [selectedPatientInfo.Patient_ID]);
+  }, [selectedPatientInfo.Patient_ID, newRegimenDetails]);
+
+  const storedRegimenDetails = localStorage.getItem(
+    `regimen-details-${selectedPatientInfo.Patient_ID}`
+  );
   useEffect(() => {
     if (newRegimenDetails && hasTreatmentPlan) {
-      setSelectedOption(newRegimenDetails.Plan_Name);
+      setSelectedOption(newRegimenDetails?.Plan_Name);
     } else if (storedRegimenDetails) {
+      console.log("kk", newRegimenDetails?.Plan_Name);
       setSelectedOption(newRegimenDetails?.Plan_Name);
     } else {
       setSelectedOption("none");
     }
-  }, [hasTreatmentPlan, newRegimenDetails, storedRegimenDetails]);
+  }, [hasTreatmentPlan, newRegimenDetails]);
 
   useEffect(() => {
     function handleClickOutside(event) {
