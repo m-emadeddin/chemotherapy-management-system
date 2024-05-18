@@ -8,11 +8,20 @@ import {
   Button,
   Img,
 } from "../";
+import { set } from "date-fns";
 
-const Sidebar = () => {
+const Sidebar = ({onTabChange}) => {
   const [expanded, setExpanded] = useState(false);
+  const [tab, setTab] = useState("all");
 
-  useEffect(() => {}, [expanded]);
+  useEffect(() => {
+    
+  }, [tab]);
+
+  const handleSetTab = (value) => {
+    setTab(value == "not-found" ? "all" : value);
+    onTabChange(value);
+  };
 
   return (
     <div>
@@ -25,9 +34,12 @@ const Sidebar = () => {
           {
             <>
               <Button
-                className="w-full flex !justify-start gap-5 hover:bg-blue-100"
+                className={`w-full flex !justify-start gap-5 hover:bg-blue-100 ${
+                  tab === "all" ? "bg-gray-200" : ""
+                }`}
                 size="sm"
                 shape="round"
+                onClick={() => handleSetTab("all")}
                 leftIcon={
                   <Img
                     src="/images/user-group.svg"
@@ -39,9 +51,12 @@ const Sidebar = () => {
                 {!expanded && <div>All Patients</div>}
               </Button>
               <Button
-                className="w-full flex !justify-start gap-5 hover:bg-blue-100"
+                className={`w-full flex !justify-start gap-5 hover:bg-blue-100 ${
+                  tab === "active" ? "bg-gray-200" : ""
+                }`}
                 size="sm"
                 shape="round"
+                onClick={() => handleSetTab("active")}
                 leftIcon={
                   <Img
                     src="/images/active-patients.svg"
@@ -53,9 +68,12 @@ const Sidebar = () => {
                 {!expanded && <div>Active Patients</div>}
               </Button>
               <Button
-                className="w-full flex !justify-start gap-5 hover:bg-blue-100"
+                className={`w-full flex !justify-start gap-5 hover:bg-blue-100 ${
+                  tab === "non-active" ? "bg-gray-200" : ""
+                }`}
                 size="sm"
                 shape="round"
+                onClick={() => handleSetTab("non-active")}
                 leftIcon={
                   <Img
                     src="/images/non-active.svg"
@@ -70,6 +88,7 @@ const Sidebar = () => {
                 className="w-full  flex !justify-start gap-5 hover:bg-blue-100"
                 size="sm"
                 shape="round"
+                onClick={() => handleSetTab("not-found")}
                 leftIcon={
                   <Img
                     src="/images/high-risk.svg"
@@ -84,6 +103,7 @@ const Sidebar = () => {
                 className="w-full  flex !justify-start gap-5 hover:bg-blue-100"
                 size="sm"
                 shape="round"
+                onClick={() => handleSetTab("not-found")}
                 leftIcon={
                   <Img
                     src="/images/high-risk.svg"

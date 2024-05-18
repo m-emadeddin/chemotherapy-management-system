@@ -3,12 +3,26 @@ import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import PatientTable from "components/PatientTable";
 import PatientInfo from "components/PatientInfo";
-
+import Popup from "components/Popup/Popup";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 import Sidebar from "components/Sidebar/Sidebar";
 import { usePatientsInfo } from "contexts/PatientsInfoContext";
 
+
+
 export default function Dashboard() {
+  const [tab, setTab] = useState("all");
+
+  useEffect(() => {
+    console.log(`tab from dashboard: ${tab}`);
+  }, [tab]);
+
+
+  const handleTabChange = (value) =>{
+    setTab(value);
+    console.log(`from dashboard: ${value}`);
+  }
+
   const { fetchPatientsInfo } = usePatientsInfo();
   useEffect(() => {
     async function refreshPatients() {
@@ -31,11 +45,12 @@ export default function Dashboard() {
       </Helmet>
       <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px]">
       
-        <Sidebar/>
+        <Sidebar onTabChange={handleTabChange}/>
         <div className="w-[81%] flex flex-col gap-[30px] self-end">
           <PatientInfo/>
         </div>
       </div>
+      {tab === "not-found" && <Popup message={"We Truly Apologize, This Page is not avaiable yet."} onClose={() => setTab("all")} />}
     </>
   );
 }
