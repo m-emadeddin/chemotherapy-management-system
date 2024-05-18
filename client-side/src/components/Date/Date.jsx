@@ -6,10 +6,12 @@ import DatePopUp from "components/DatePopUp/DatePopUp";
 import axios from "axios";
 import Loader from "components/Loader/Loader";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
+import { useAuth } from "contexts/AuthContext";
 
 export let date;
 export let setDate;
 export default function Date() {
+  const auth = useAuth();
   const { setStartDate, setDateValue, dateValue } = useRegimenDetails();
   const [showDatePopUp, setShowDatePopUp] = useState(false);
   [date, setDate] = useState(null);
@@ -34,7 +36,11 @@ export default function Date() {
       setDay(date.$D);
       setIsFetching(true);
       axios
-        .get(`/order/patient-no/${startDate}`)
+        .get(`/order/patient-no/${startDate}`, {
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        })
         .then((res) => {
           setPatientsNumber(res.data.patientsNumber);
           setTimeout(() => {

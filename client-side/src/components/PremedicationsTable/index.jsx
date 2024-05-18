@@ -1,13 +1,20 @@
+import { useAuth } from "contexts/AuthContext";
 import React, { useState, useEffect } from "react";
 
 const PremedicationsTable = ({ cycle }) => {
   const [premedications, setPremedications] = useState([]);
+  const auth = useAuth();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/document-chemotherapy/premedications/${cycle}`
+          `/document-chemotherapy/premedications/${cycle}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${auth.userToken}`,
+            },
+        }
         );
         const { Premedications } = await response.json();
         setPremedications(Premedications);
