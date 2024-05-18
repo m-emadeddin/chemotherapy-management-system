@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "contexts/AuthContext";
 
 import {
   Text,
@@ -30,10 +31,15 @@ export default function DocumentchemotherapyPage() {
 
   const [redirectToDoc, setRedirectToDoc] = useState(false);
   const [showWarningPopup, setShowWarningPopup] = useState(false);
-
+  const auth = useAuth();
   useEffect(() => {
     const fetchData = () => {
-      fetch(`/document-chemotherapy/active-cycle/${id}`)
+      fetch(`/document-chemotherapy/active-cycle/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${auth.userToken}`,
+        },
+      })
         .then((response) => {
           return response.json();
         })
@@ -60,7 +66,12 @@ export default function DocumentchemotherapyPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/document-chemotherapy/regimen-info/${id}`
+          `/document-chemotherapy/regimen-info/${id} `, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${auth.userToken}`,
+            },
+          }
         );
         const data = await response.json();
         setCyclesCount(data.Cycle_Count);
@@ -77,7 +88,12 @@ export default function DocumentchemotherapyPage() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/document-chemotherapy/cycles-info/${id}`
+          `/document-chemotherapy/cycles-info/${id}`, {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${auth.userToken}`,
+            },
+          }
         );
 
         const { Cycles } = await response.json();

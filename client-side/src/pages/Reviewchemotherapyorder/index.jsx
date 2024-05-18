@@ -5,7 +5,7 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
-
+import { useAuth } from "contexts/AuthContext";
 export default function Reviewchemotherapyorder() {
   const navigate = useNavigate();
   const { selectedPatientInfo } = useSelectedPatientInfo();
@@ -26,11 +26,16 @@ export default function Reviewchemotherapyorder() {
   const originalDate = patientOrder?.Start_Date;
   const dateParts = originalDate?.split("-");
   const reversedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-
+  const auth = useAuth();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/patient/has-treatmentplan/${id}`);
+        const response = await fetch(`/patient/has-treatmentplan/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        });
         const { exists } = await response.json();
         setHasTreatmentPlan(exists);
       } catch (error) {
