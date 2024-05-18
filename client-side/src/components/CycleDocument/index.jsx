@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Text, Button, TextArea, Input } from "./..";
 import toast, { Toaster } from "react-hot-toast";
 import { WarningPopUp } from "./..";
+import { useAuth } from "contexts/AuthContext";
 
 const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
+  const auth = useAuth();
   const [doseinput, setDoseInput] = useState([]);
   const [chemotherapy, setChemotherapy] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,8 +31,12 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/document-chemotherapy/chemotherapy/${cycle}`
-        );
+          `/document-chemotherapy/chemotherapy/${cycle}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${auth.userToken}`,
+            },
+        });
         const { Chemotherapy_Medications } = await response.json();
         setChemotherapy(Chemotherapy_Medications);
         Chemotherapy_Medications.forEach((medication) => {
@@ -163,6 +169,7 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.userToken}`,
           },
           body: JSON.stringify(data),
         }
@@ -178,12 +185,15 @@ const CycleDocument = ({ id, cycle, Submit, Cancel }) => {
     }
   };
 
+
+
   const sendSymptomsData = async (data) => {
     try {
       const response = await fetch(`/patient/add-side-effects/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.userToken}`,
         },
         body: JSON.stringify(data),
       });

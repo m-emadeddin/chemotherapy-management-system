@@ -43,7 +43,7 @@ export default function Dashboard() {
       
         <Sidebar/>
         <div className="w-[81%] flex flex-col gap-[30px] self-end">
-          <PatientInfo />
+          <PatientInfo/>
         </div>
       </div>
     </>

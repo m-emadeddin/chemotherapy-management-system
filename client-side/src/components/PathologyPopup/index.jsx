@@ -1,3 +1,4 @@
+import { useAuth } from "contexts/AuthContext";
 import { Img, Button } from "../../components";
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -9,6 +10,7 @@ export default function PathologyPopup({
   medicalData,
   patientID,
 }) {
+  const auth = useAuth();
   const [medicaldata, setMedicalData] = useState({
     Urinanalysis: "",
     CBC: "",
@@ -53,6 +55,8 @@ export default function PathologyPopup({
       [id]: value,
     }));
   };
+
+
   async function putRadioData() {
     try {
       const response = await fetch(
@@ -61,6 +65,7 @@ export default function PathologyPopup({
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.userToken}`,
           },
           body: JSON.stringify(radiodata),
         }
@@ -81,6 +86,7 @@ export default function PathologyPopup({
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${auth.userToken}`,
         },
         body: JSON.stringify(medicaldata),
       });

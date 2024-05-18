@@ -14,7 +14,7 @@ import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 import AllVital from "components/AllVital";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import axios from "axios";
-
+import { useAuth } from "contexts/AuthContext";
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -67,11 +67,16 @@ export default function PatientPage() {
   const id = selectedPatientInfo.Patient_ID;
   const age = calculateAge(selectedPatientInfo.date_of_birth);
   const date = formatDate(selectedPatientInfo.date_of_birth);
-
+  const auth = useAuth();
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/patient/medical/${id}`);
+        const response = await fetch(`/patient/medical/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        });
         const data = await response.json();
         if (response.status === 200) {
           setAllMedicalData(data);
@@ -96,7 +101,12 @@ export default function PatientPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/patient/cancer-overview/${id}`);
+        const response = await fetch(`/patient/cancer-overview/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        });
         if (response.status === 200) {
           const data = await response.json();
           setCancerData(data);
@@ -114,7 +124,12 @@ export default function PatientPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/patient/radiography/${id}`);
+        const response = await fetch(`/patient/radiography/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        });
         const data = await response.json();
         if (response.status === 200) {
           setAllRadioData(data);
@@ -139,7 +154,12 @@ export default function PatientPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/patient/vital-sign/${id}`);
+        const response = await fetch(`/patient/vital-sign/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        });
         const data = await response.json();
 
         if (response.status === 200) {
@@ -164,7 +184,12 @@ export default function PatientPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/patient/has-treatmentplan/${id}`);
+        const response = await fetch(`/patient/has-treatmentplan/${id}`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        });
         const { exists } = await response.json();
         setHasTreatmentPlan(exists);
       } catch (error) {
@@ -176,7 +201,12 @@ export default function PatientPage() {
 
   useEffect(() => {
     const fetchData = () => {
-      fetch(`/document-chemotherapy/active-cycle/${id}`)
+      fetch(`/document-chemotherapy/active-cycle/${id}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${auth.userToken}`,
+        },
+      })
         .then((response) => {
           return response.json();
         })
@@ -196,7 +226,11 @@ export default function PatientPage() {
 
   useEffect(() => {
     if (hasTreatmentPlan) {
-      axios.get(`/review-chemotherapy/review/${id}`).then((res) => {
+      axios.get(`/review-chemotherapy/review/${id}`, {
+        headers: {
+          Authorization: `Bearer ${auth.userToken}`,
+        },
+      }).then((res) => {
         setNewRegimenDetails({
           Plan_Name: res.data.Plan_Name,
           physician_note: res.data.physician_note,
