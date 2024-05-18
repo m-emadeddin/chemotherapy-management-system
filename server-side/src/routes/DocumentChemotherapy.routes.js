@@ -8,7 +8,6 @@ router.get("/cycles-info/:id",authMiddleware ,documentChemo.getCyclesInfo); //do
 router.get("/active-cycle/:id",authMiddleware , documentChemo.getActiveCycle); //done✔
 router.get("/premedications/:id",authMiddleware , documentChemo.getPremedications); //done✔
 router.get("/chemotherapy/:id",authMiddleware ,documentChemo.getChemotherapy); //done✔
-//router.get('/chemotherapy/:patientId/cycle/:cycleId/', documentChemo.getChemotherapy);
 router.patch("/cycles-updates/:id",authMiddleware , documentChemo.updateCycleAndMedications); //done
 
 module.exports = router;

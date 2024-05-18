@@ -1,5 +1,5 @@
 const TreatmentPlanReadOnly =
-  require('../models/index.models').treatmentPlanReadOnly;
+require('../models/index.models').treatmentPlanReadOnly;
 const Patients = require('../models/index.models').Patients;
 const db = require("../models/index.models");
 const { Op } = require("sequelize");
@@ -20,7 +20,7 @@ exports.getRegimens = (req, res, next) => {
       .then((cancerType) => {
         return TreatmentPlanReadOnly.findAll({
           where: {Cancer_Type: {
-            [Op.like]: `%${cancerType.toLowerCase()}%`
+            [Op.like]: `%${cancerType}%`
           }},
           attributes: ['Plan_Name', 'Plan_ID','number_of_Cycles','number_of_Weeks'],
         });
@@ -90,6 +90,7 @@ exports.getPreMedications = (req, res, next) => {
       console.log(err);
     });
 };
+
 exports.cycleDate = async (req,res,next)=> {
       const {date} = req.params
       const dateTime = new Date(date)
