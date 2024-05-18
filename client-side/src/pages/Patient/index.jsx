@@ -43,7 +43,7 @@ function calculateAge(birthDateString) {
 
 export default function PatientPage() {
   const { selectedPatientInfo } = useSelectedPatientInfo();
-  const { setNewRegimenDetails, newRegimenDetails } = useRegimenDetails();
+  const { setNewRegimenDetails } = useRegimenDetails();
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
@@ -226,30 +226,33 @@ export default function PatientPage() {
 
   useEffect(() => {
     if (hasTreatmentPlan) {
-      axios.get(`/review-chemotherapy/review/${id}`, {
-        headers: {
-          Authorization: `Bearer ${auth.userToken}`,
-        },
-      }).then((res) => {
-        setNewRegimenDetails({
-          Plan_Name: res.data.Plan_Name,
-          physician_note: res.data.physician_note,
-          Start_Date: res.data.Start_Date,
-          number_of_Weeks: res.data.number_of_Weeks,
-          number_of_Cycles: res.data.number_of_Cycles,
-          PreMedications: res.data.PreMedications || [],
-          ChemotherapyMedications: res.data.ChemotherapyMedications || [],
+      axios
+        .get(`/review-chemotherapy/review/${id}`, {
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        })
+        .then((res) => {
+          setNewRegimenDetails({
+            Plan_Name: res.data.Plan_Name,
+            physician_note: res.data.physician_note,
+            Start_Date: res.data.Start_Date,
+            number_of_Weeks: res.data.number_of_Weeks,
+            number_of_Cycles: res.data.number_of_Cycles,
+            PreMedications: res.data.PreMedications || [],
+            ChemotherapyMedications: res.data.ChemotherapyMedications || [],
+          });
         });
-      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, hasTreatmentPlan, setNewRegimenDetails]);
   useEffect(() => {
-    localStorage.setItem(
-      "regimen-details-api",
-      JSON.stringify(newRegimenDetails)
-    );
-  }, [hasTreatmentPlan, newRegimenDetails]);
+    if (!hasTreatmentPlan) {
+      localStorage.removeItem(
+        `regimen-details-${selectedPatientInfo.Patient_ID}`
+      );
+    }
+  }, [hasTreatmentPlan]);
 
   function orderChemo() {
     if (hasTreatmentPlan) {
