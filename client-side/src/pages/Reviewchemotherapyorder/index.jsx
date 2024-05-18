@@ -90,7 +90,11 @@ export default function Reviewchemotherapyorder() {
     };
 
     axios
-      .post(apiUrl, requestBody)
+      .post(apiUrl, requestBody, {
+        headers: {
+          Authorization: `Bearer ${auth.userToken}`,
+        },
+      })
       .then((response) => {
         if (response.data.message === "Data inserted successfully") {
           toast.success("Data inserted successfully");

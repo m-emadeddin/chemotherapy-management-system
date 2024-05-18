@@ -226,7 +226,11 @@ export default function PatientPage() {
 
   useEffect(() => {
     if (hasTreatmentPlan) {
-      axios.get(`/review-chemotherapy/review/${id}`).then((res) => {
+      axios.get(`/review-chemotherapy/review/${id}`, {
+        headers: {
+          Authorization: `Bearer ${auth.userToken}`,
+        },
+      }).then((res) => {
         setNewRegimenDetails({
           Plan_Name: res.data.Plan_Name,
           physician_note: res.data.physician_note,

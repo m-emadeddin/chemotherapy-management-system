@@ -22,11 +22,14 @@ export default function PatientInfo() {
   const totalPages = Math.ceil(filteredPatients.length / patientsPerPage);
 
   useEffect(() => {
-    const filtered = patients.filter((patient) =>
-      patient.Name.toLowerCase().includes(searchBarValue.toLowerCase())
-    );
-    setFilteredPatients(filtered);
-  }, [searchBarValue, patients]);
+    if(patients !== undefined) {
+      const filtered = patients.filter((patient) =>
+          patient.Name.toLowerCase().includes(searchBarValue.toLowerCase())
+        );
+      setFilteredPatients(filtered);
+    }
+  }
+, [searchBarValue, patients]);
 
   const goToPage = (page) => {
     setCurrentPage(page);

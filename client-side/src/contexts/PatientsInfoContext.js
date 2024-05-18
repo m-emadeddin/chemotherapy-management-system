@@ -4,38 +4,43 @@ import { useAuth } from "./AuthContext";
 
 const PatientsInfoContext = createContext();
 
+
 export const PatientsInfoProvider = ({ children }) => {
   const auth = useAuth();
   const [patientsInfo, setPatientsInfo] = useState(() => {
     return JSON.parse(localStorage.getItem("patientsInfo")) || null;
   });
+  const [fetchAttempted, setFetchAttempted] = useState(false);
 
   const fetchPatientsInfo = async () => {
     try {
       const response = await fetch("/patient/all-patients", {
         method: "GET",
         headers: {
-            Authorization: `Bearer ${auth.userToken}`,
+          Authorization: `Bearer ${auth.userToken}`,
         },
-    });
+      });
+
       if (!response.ok) {
-        throw new Error("Failed to fetch patient details");
+        console.log(`Failed to fetch patient details: ${response.status}`);
+        setFetchAttempted(true);
       }
+
       const data = await response.json();
       setPatientsInfo(data);
       localStorage.setItem("patientsInfo", JSON.stringify(data));
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch patient details");
+      setFetchAttempted(true);
     }
   };
 
   useEffect(() => {
-    if (!patientsInfo) {
+    if ((patientsInfo === null || patientsInfo.error) && !fetchAttempted) {
       fetchPatientsInfo();
     }
-  }, [patientsInfo]);
-
+  }, [patientsInfo, fetchAttempted]);
 
   const deletePatient = async (patientId) => {
     try {
