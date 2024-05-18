@@ -39,14 +39,14 @@ const ProjectRoutes = () => {
     },
     {
       element: (
-  <RequireAuth>
+    <RequireAuth>
       <PatientsInfoProvider>
         <SelectedPatientInfoProvider>
           <PlansDetailsProvider>
             <PlanDataProvider>
               <RegimenDetailsProvider>
                 <TokenValidityProvider>
-                    <AppLayout />
+                  <AppLayout />
                 </TokenValidityProvider>
               </RegimenDetailsProvider>
             </PlanDataProvider>

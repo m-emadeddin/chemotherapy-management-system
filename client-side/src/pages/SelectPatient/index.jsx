@@ -2,18 +2,10 @@ import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Heading } from "../../components";
 import PatientInfo from "components/PatientInfo";
-import { usePatientsInfo } from "contexts/PatientsInfoContext";
+
 
 export default function SelectPatientPage() {
-  const { fetchPatientsInfo } = usePatientsInfo();
-  useEffect(() => {
-    async function refreshPatients() {
-      await fetchPatientsInfo();
-    }
-    setTimeout(() => {
-      refreshPatients();
-    }, 2000);
-  }, [fetchPatientsInfo]);
+
   return (
     <>
       <Helmet>
