@@ -7,6 +7,7 @@ const PlanDetailsContext = createContext();
 
 export const PlansDetailsProvider = ({ children }) => {
   const { selectedPatientInfo } = useSelectedPatientInfo();
+
   const auth = useAuth();
   const [isLoading, setLoading] = useState(true);
   const [plansNames, setPlansNames] = useState([]);
@@ -19,7 +20,6 @@ export const PlansDetailsProvider = ({ children }) => {
   const [planWeeks, setPlanWeeks] = useState(1);
   const [originalCycles, setoriginalCycles] = useState();
   const [originalWeeks, setoriginalWeeks] = useState();
-
   useEffect(() => {
     if (selectedPatientInfo) {
       axios
