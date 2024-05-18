@@ -4,16 +4,6 @@ import { useNavigate } from "react-router-dom";
 import PatientTable from "components/PatientTable";
 import PatientInfo from "components/PatientInfo";
 
-import {
-  Text,
-  Button,
-  Heading,
-  CycleDetails,
-  CycleDocument,
-  DocumentChemotherapyCycle,
-  WarningPopUp,
-  Img,
-} from "../../components";
 import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 import Sidebar from "components/Sidebar/Sidebar";
 import { usePatientsInfo } from "contexts/PatientsInfoContext";
@@ -43,7 +33,7 @@ export default function Dashboard() {
       
         <Sidebar/>
         <div className="w-[81%] flex flex-col gap-[30px] self-end">
-          <PatientInfo />
+          <PatientInfo/>
         </div>
       </div>
     </>

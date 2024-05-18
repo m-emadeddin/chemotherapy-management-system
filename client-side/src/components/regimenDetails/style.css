@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  padding-bottom: 60px; /* Space for the sticky footer */
+
 }
 
 .regimen-detail .medications {

@@ -3,7 +3,6 @@ import { useRoutes } from "react-router-dom";
 import Home from "pages/Home";
 import NotFound from "pages/NotFound";
 import Loginpage from "pages/Loginpage";
-import SelectPatient from "pages/SelectPatient";
 import Patient from "pages/Patient";
 import Orderchemotherapy from "pages/Orderchemotherapy";
 import Reviewchemotherapyorder from "pages/Reviewchemotherapyorder";
@@ -13,6 +12,12 @@ import AlreadyLoggedIn from "contexts/AlreadyLoggedIn";
 import RequireAuth from "contexts/RequireAuth";
 import { TokenValidityProvider } from "./contexts/TokenValidityContext";
 import Dashboard from "pages/Dashboard";
+import { RegimenDetailsProvider } from "./contexts/RegimenDetailsContext ";
+import { PlansDetailsProvider } from "contexts/PlansDetails";
+import { PlanDataProvider } from "contexts/PlanDataContext";
+import { PatientsInfoProvider } from "contexts/PatientsInfoContext";
+import { SelectedPatientInfoProvider } from "contexts/SelectedPatientInfoDetails";
+
 
 const ProjectRoutes = () => {
   const element = useRoutes([
@@ -28,11 +33,22 @@ const ProjectRoutes = () => {
     },
     {
       element: (
-        <RequireAuth>
-          <TokenValidityProvider>
-            <AppLayout />
-          </TokenValidityProvider>
-        </RequireAuth>
+    <RequireAuth>
+      <PatientsInfoProvider>
+        <SelectedPatientInfoProvider>
+          <PlansDetailsProvider>
+            <PlanDataProvider>
+              <RegimenDetailsProvider>
+                <TokenValidityProvider>
+                  <AppLayout />
+                </TokenValidityProvider>
+              </RegimenDetailsProvider>
+            </PlanDataProvider>
+          </PlansDetailsProvider>
+        </SelectedPatientInfoProvider>
+      </PatientsInfoProvider>
+    </RequireAuth>  
+
       ),
       children: [
         { path: "dashboard", element: <Dashboard /> },

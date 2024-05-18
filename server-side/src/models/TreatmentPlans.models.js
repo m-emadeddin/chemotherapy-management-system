@@ -1,5 +1,5 @@
 module.exports = (db, DataTypes) => {
-      const TreatmentPlan = db.define('treatmentPlan', {
+      const TreatmentPlan = db.define("treatmentPlan", {
         Plan_ID: {
           type: DataTypes.INTEGER,
           primaryKey: true,
@@ -12,12 +12,15 @@ module.exports = (db, DataTypes) => {
         },
         number_of_Weeks: {
           type: DataTypes.INTEGER,
-          allowNull: false
+          allowNull: false,
         },
         number_of_Cycles: {
           type: DataTypes.INTEGER,
-          allowNull: false
-        }
+          allowNull: false,
+        },
+        physician_note: {
+          type: DataTypes.TEXT,
+        },
       });
     
       return TreatmentPlan;

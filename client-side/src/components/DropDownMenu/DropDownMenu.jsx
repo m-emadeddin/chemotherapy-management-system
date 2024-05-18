@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
 import RegimenDetails from "components/regimenDetails/RegimenDetails";
-import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import { usePlanDetails } from "contexts/PlansDetails";
 import Loader from "components/Loader/Loader";
+import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
+import { useAuth } from "contexts/AuthContext";
 
 export default function DropDownMenu() {
+  const auth = useAuth();
   const { newRegimenDetails } = useRegimenDetails();
   const {
     plansNames,
@@ -22,11 +25,39 @@ export default function DropDownMenu() {
   } = usePlanDetails();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState("none");
-  const dropdownRef = useRef(null);
+  const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
+  const { selectedPatientInfo } = useSelectedPatientInfo();
+  const storedRegimenDetails = localStorage.getItem("regimen-details");
 
+  const dropdownRef = useRef(null);
   useEffect(() => {
-    newRegimenDetails && setSelectedOption(newRegimenDetails.Plan_Name);
-  }, [newRegimenDetails]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/patient/has-treatmentplan/${selectedPatientInfo.Patient_ID}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${auth.userToken}`,
+            },
+        }
+        );
+        const { exists } = await response.json();
+        setHasTreatmentPlan(exists);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [selectedPatientInfo.Patient_ID]);
+  useEffect(() => {
+    if (newRegimenDetails && hasTreatmentPlan) {
+      setSelectedOption(newRegimenDetails.Plan_Name);
+    } else if (storedRegimenDetails) {
+      setSelectedOption(newRegimenDetails?.Plan_Name);
+    } else {
+      setSelectedOption("none");
+    }
+  }, [hasTreatmentPlan, newRegimenDetails, storedRegimenDetails]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -40,10 +71,11 @@ export default function DropDownMenu() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   if (isLoading) {
     return <Loader />;
   }
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -74,7 +106,6 @@ export default function DropDownMenu() {
           onClick={toggleDropdown}
         >
           <span>{selectedOption === "none" ? "None" : selectedOption}</span>
-
           <span className={`arrow ${isOpen ? "up" : "down"}`}></span>
         </div>
         {isOpen && (
@@ -91,7 +122,7 @@ export default function DropDownMenu() {
           </div>
         )}
       </div>
-      {selectedOption !== "none" && <RegimenDetails />}
+      {selectedOption !== "none" && !hasTreatmentPlan && <RegimenDetails />}
     </div>
   );
 }
