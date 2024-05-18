@@ -71,7 +71,6 @@ exports.getPreMedications = (req, res, next) => {
   TreatmentPlanReadOnly.findByPk(regimenID)
     .then((regimen) => {
       if (!regimen) {
-        console.log(regimen);
         return res.status(404).json({ error: 'Regimen not found' });
       }
        regimen.getPremedicationReads().then((premedications) => {

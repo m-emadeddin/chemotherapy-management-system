@@ -11,6 +11,12 @@ import AlreadyLoggedIn from "contexts/AlreadyLoggedIn";
 import RequireAuth from "contexts/RequireAuth";
 import { TokenValidityProvider } from "./contexts/TokenValidityContext";
 import Dashboard from "pages/Dashboard";
+import { RegimenDetailsProvider } from "./contexts/RegimenDetailsContext ";
+import { PlansDetailsProvider } from "contexts/PlansDetails";
+import { PlanDataProvider } from "contexts/PlanDataContext";
+import { PatientsInfoProvider } from "contexts/PatientsInfoContext";
+import { SelectedPatientInfoProvider } from "contexts/SelectedPatientInfoDetails";
+
 
 const ProjectRoutes = () => {
   const element = useRoutes([
@@ -33,11 +39,22 @@ const ProjectRoutes = () => {
     },
     {
       element: (
-        <RequireAuth>
-          <TokenValidityProvider>
-            <AppLayout />
-          </TokenValidityProvider>
-        </RequireAuth>
+  <RequireAuth>
+      <PatientsInfoProvider>
+        <SelectedPatientInfoProvider>
+          <PlansDetailsProvider>
+            <PlanDataProvider>
+              <RegimenDetailsProvider>
+                <TokenValidityProvider>
+                    <AppLayout />
+                </TokenValidityProvider>
+              </RegimenDetailsProvider>
+            </PlanDataProvider>
+          </PlansDetailsProvider>
+        </SelectedPatientInfoProvider>
+      </PatientsInfoProvider>
+    </RequireAuth>  
+
       ),
       children: [
         { path: "dashboard", element: <Dashboard /> },

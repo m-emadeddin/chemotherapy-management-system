@@ -2,8 +2,10 @@ import { Img, Button } from "../../components";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuth } from "contexts/AuthContext";
 
 export default function AddNewPathology({ onClose, path, patientID }) {
+  const auth = useAuth();
   const [medicaldata, setMedicalData] = useState({
     Urinanalysis: "",
     CBC: "",
@@ -52,6 +54,7 @@ export default function AddNewPathology({ onClose, path, patientID }) {
         {
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.userToken}`,
           },
         }
       );
@@ -74,6 +77,7 @@ export default function AddNewPathology({ onClose, path, patientID }) {
         {
           headers: {
             "Content-Type": "application/json",
+              Authorization: `Bearer ${auth.userToken}`,
           },
         }
       );

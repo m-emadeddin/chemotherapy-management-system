@@ -52,7 +52,6 @@ db.sync({ force: true })
     // Insert Dummy data
     dummyData.insertDummyData();
     dummyData.insertRegimens();
-    console.log('Tables Created!');
   })
   .catch((err) => {
     console.log(err);

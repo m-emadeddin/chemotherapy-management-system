@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSelectedPatientInfo } from "./SelectedPatientInfoDetails";
+import { useAuth } from "./AuthContext";
 
 const PlanDetailsContext = createContext();
 
 export const PlansDetailsProvider = ({ children }) => {
   const { selectedPatientInfo } = useSelectedPatientInfo();
-
+  const auth = useAuth();
   const [isLoading, setLoading] = useState(true);
   const [plansNames, setPlansNames] = useState([]);
   const [plansIds, setPlansIds] = useState([]);
@@ -22,7 +23,11 @@ export const PlansDetailsProvider = ({ children }) => {
   useEffect(() => {
     if (selectedPatientInfo) {
       axios
-        .get(`/order/get-regimen/${selectedPatientInfo?.Patient_ID}`)
+        .get(`/order/get-regimen/${selectedPatientInfo?.Patient_ID}`, {
+          headers: {
+            Authorization: `Bearer ${auth.userToken}`,
+          },
+        })
         .then((res) => {
           const regimensData = res.data.regimenName;
           const newRegimens = regimensData.map((regimenData) => {
