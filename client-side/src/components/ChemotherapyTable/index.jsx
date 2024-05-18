@@ -1,13 +1,20 @@
+import { useAuth } from "contexts/AuthContext";
 import React, { useState, useEffect } from "react";
 
 const ChemotherapyTable = ({ cycle }) => {
+  const auth = useAuth();
   const [chemotherapy, setChemotherapy] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `/document-chemotherapy/chemotherapy/${cycle}`
+          `/document-chemotherapy/chemotherapy/${cycle}`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${auth.userToken}`,
+            },
+        }
         );
         const { Chemotherapy_Medications } = await response.json();
         setChemotherapy(Chemotherapy_Medications);
