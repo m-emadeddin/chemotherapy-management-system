@@ -1,5 +1,6 @@
 // import models
 const Patients = require('../models/index.models').Patients;
+
 //=========================Patient====================================
 exports.getAllPatients = (req, res) => {
   Patients.findAll()
@@ -11,6 +12,7 @@ exports.getAllPatients = (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     });
 };
+
 exports.postNewPatient = (req, res) => {
   const {
     Name,
@@ -68,6 +70,7 @@ exports.postNewPatient = (req, res) => {
       res.status(500).json({ error: 'internal server error' });
     });
 };
+
 exports.deletePatient = (req, res, next) => {
   const patientId = req.params.id;
   let Patient_Name;
@@ -98,6 +101,7 @@ exports.deletePatient = (req, res, next) => {
       res.status(500).json({ error: 'Internal Server Error' });
     });
 };
+
 exports.getActivePatients = (req, res, next) => {
   Patients.findAll()
     .then((patients) => {
@@ -174,6 +178,7 @@ exports.getVitalSigns = (req, res, next) => {
       console.error('Error:', err.message);
     });
 };
+
 exports.postVitalSigns = (req, res) => {
   const id = req.params.id;
   const {
@@ -228,8 +233,8 @@ exports.postVitalSigns = (req, res) => {
       return res.status(500).json({ error: 'internal server error' });
     });
 };
-//=========================Radiography================================
 
+//=========================Radiography================================
 exports.getRadiography = (req, res, next) => {
   const ID = req.params.id;
   Patients.findByPk(ID)
@@ -248,6 +253,7 @@ exports.getRadiography = (req, res, next) => {
       console.log(err);
     });
 };
+
 exports.postRadiography = (req, res) => {
   const id = req.params.id;
   const { MRI, CT, PET_CT, Ultrasound, XRay, Mammography, DEXA } = req.body;
@@ -295,6 +301,7 @@ exports.postRadiography = (req, res) => {
       return res.status(500).json({ error: 'internal server error' });
     });
 };
+
 exports.updateRadiography = (req, res, next) => {
   const patientId = req.params.id;
   const Radiography_ID = req.params.radiographyId;
@@ -306,9 +313,9 @@ exports.updateRadiography = (req, res, next) => {
         return res.status(404).json({ error: 'Patient not found' });
       }
        // logic to update any radiography
-      return patient.getRadiographies({ where: { Radiography_ID: Radiography_ID } }) .then((radiographies) => {
-      // patient.getRadiographies()
-      
+      patient
+       .getRadiographies({ where: { Radiography_ID: Radiography_ID } }) 
+       .then((radiographies) => {
         if (!radiographies || radiographies.length === 0) {
           return res.status(404).json({ error: 'Radiographies not found for this patient' });
         }
@@ -336,6 +343,7 @@ exports.updateRadiography = (req, res, next) => {
       console.error('Error finding patient or radiography:', error);
     });
 };
+
 //=========================Medical Analysis===========================
 exports.getMedicalAnalysis = (req, res, next) => {
   const ID = req.params.id;
@@ -355,6 +363,7 @@ exports.getMedicalAnalysis = (req, res, next) => {
       console.log(err);
     });
 };
+
 exports.postMedicalAnalysis = (req, res) => {
   const id = req.params.id;
   const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M, Tumor_size } =
@@ -403,18 +412,18 @@ exports.postMedicalAnalysis = (req, res) => {
       return res.status(500).json({ error: 'internal server error' });
     });
 };
+
 exports.updateMedicalAnalysis = (req, res, next) => {
   const patientId = req.params.id;
   const medicalId = req.params.medicalId;
-  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M, Tumor_size } =
-    req.body;
+  const { Urinanalysis, CBC, Electrophoresis, CEA, AFP, B2M, Tumor_size } = req.body;
   Patients.findByPk(patientId)
     .then((patient) => {
       if (!patient) {
         return res.status(404).json({ error: "Patient not found" });
       }
       // to access any premedication and edit
-      return patient
+      patient
         .getMedicals({ where: { MedicalAnalysis_ID: medicalId } })
         .then((medicalAnalysisArray) => {
           //logic to edit only last one
@@ -425,9 +434,7 @@ exports.updateMedicalAnalysis = (req, res, next) => {
               .status(404)
               .json({ error: "Medical Analysis not found for this patient" });
           }
-          // const medicalAnalysis = medicalAnalysisArray[0];
-          const medicalAnalysis =
-            medicalAnalysisArray[medicalAnalysisArray.length - 1];
+          const medicalAnalysis = medicalAnalysisArray[0];
           medicalAnalysis
             .update({
               Urinanalysis: Urinanalysis,
@@ -453,8 +460,8 @@ exports.updateMedicalAnalysis = (req, res, next) => {
       console.error("Error finding patient or medical analysis:", error);
     });
 };
-//=========================Cancer Overview============================
 
+//=========================Cancer Overview============================
 exports.getCancerOverview = (req, res) => {
   const ID = req.params.id;
   Patients.findByPk(ID)
@@ -522,6 +529,7 @@ exports.postCancerOverview = (req, res) => {
       return res.status(500).json({ error: 'internal server error' });
     });
 };
+
 //=========================Side Effects===============================
 exports.postSideEffects = (req, res) => {
   const id = req.params.id;

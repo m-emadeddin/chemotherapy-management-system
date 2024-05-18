@@ -14,7 +14,7 @@ exports.UserSignUp = (req, res) => {
     return res.status(400).json({ error: "Invalid email format" });
   }
 
-  // check if user already signedu
+  // check if user already signed
   Users.findOne({
     where: {
       [Op.or]: [{ Username: username }, { Email: email }],
@@ -114,6 +114,7 @@ exports.GetUserData = (req, res) => {
       res.status(500).json({ error: "Internal server error" });
     });
 };
+
 exports.UserLogout = (req, res) => {
   const token = req.header("Authorization").substring(7);
 
