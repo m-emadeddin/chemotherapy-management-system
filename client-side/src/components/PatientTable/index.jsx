@@ -10,6 +10,24 @@ export default function PatientTable({ patient, onClickMap, onDeleteClick }) {
     setSelectedPatientInfo(patient);
     navigate(`/patient/${patient.Patient_ID}`);
   };
+
+  
+  function calculateAge(birthDateString) {
+    const birthDate = new Date(birthDateString);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
   return (
     <div className="info-data-container flex w-[90%] justify-between">
       <div
@@ -18,7 +36,7 @@ export default function PatientTable({ patient, onClickMap, onDeleteClick }) {
       >
         <div className="w-[20%]">
           <div className="name">{patient.Name}</div>
-          <div className="age">{patient.Age} years old</div>
+          <div className="age">{calculateAge(patient.date_of_birth)} years old</div>
         </div>
         <div className="info w-[20%]">{patient.Patient_ID}</div>
         <div className="info w-[20%]">{patient.Gender}</div>
