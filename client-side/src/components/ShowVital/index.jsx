@@ -59,7 +59,7 @@ export default function ShowVital({ onClose, path, patientID, vitalData, Vitalse
                 id="Blood_Pressure"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap overflow-hidden text-ellipsis w-full"
               >
-                {vitalData["Blood_Pressure"]}
+                {vitalData["Blood_Pressure"]} / 80
               </div>
             </div>
 
@@ -129,7 +129,7 @@ export default function ShowVital({ onClose, path, patientID, vitalData, Vitalse
                 id="Temp"
                 className="self-start mt-0 px-5 text-sm leading-6 text-black max-md:mt-10 max-md:ml-2.5 whitespace-nowrap overflow-hidden text-ellipsis w-full"
               >
-                {vitalData["Temp"]} C
+                {vitalData["Temp"]} ْ C
               </div>
             </div>
           </div>

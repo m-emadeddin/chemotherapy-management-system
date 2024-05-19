@@ -39,7 +39,7 @@ export default function Reviewchemotherapyorder() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
   useEffect(() => {
     setTimeout(() => {
       if (hasTreatmentPlan && !patientOrder) {
