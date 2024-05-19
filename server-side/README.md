@@ -50,7 +50,7 @@ The project follows a well-structured organization of folders:
 
 ### Running the Application
 
-1. Start the server: `npm start`
+1. Start the server: `npm start` or `node.index.js`
 
 
 ---
