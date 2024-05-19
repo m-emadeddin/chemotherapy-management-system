@@ -18,10 +18,16 @@ import { PlanDataProvider } from "contexts/PlanDataContext";
 import { PatientsInfoProvider } from "contexts/PatientsInfoContext";
 import { SelectedPatientInfoProvider } from "contexts/SelectedPatientInfoDetails";
 
-
 const ProjectRoutes = () => {
   const element = useRoutes([
-    { path: "/", element: <Home /> },
+    {
+      path: "/",
+      element: (
+        <AlreadyLoggedIn> 
+          <Loginpage />
+        </AlreadyLoggedIn>
+      ),
+    },
     { path: "*", element: <NotFound /> },
     {
       path: "login",
@@ -33,22 +39,21 @@ const ProjectRoutes = () => {
     },
     {
       element: (
-    <RequireAuth>
-      <PatientsInfoProvider>
-        <SelectedPatientInfoProvider>
-          <PlansDetailsProvider>
-            <PlanDataProvider>
-              <RegimenDetailsProvider>
-                <TokenValidityProvider>
-                  <AppLayout />
-                </TokenValidityProvider>
-              </RegimenDetailsProvider>
-            </PlanDataProvider>
-          </PlansDetailsProvider>
-        </SelectedPatientInfoProvider>
-      </PatientsInfoProvider>
-    </RequireAuth>  
-
+        <RequireAuth>
+          <PatientsInfoProvider>
+            <SelectedPatientInfoProvider>
+              <PlansDetailsProvider>
+                <PlanDataProvider>
+                  <RegimenDetailsProvider>
+                    <TokenValidityProvider>
+                      <AppLayout />
+                    </TokenValidityProvider>
+                  </RegimenDetailsProvider>
+                </PlanDataProvider>
+              </PlansDetailsProvider>
+            </SelectedPatientInfoProvider>
+          </PatientsInfoProvider>
+        </RequireAuth>
       ),
       children: [
         { path: "dashboard", element: <Dashboard /> },
