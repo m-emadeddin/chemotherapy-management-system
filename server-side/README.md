@@ -40,8 +40,9 @@ The project follows a well-structured organization of folders:
 ## Setup
 
 ### Prerequisites
-
-- Node.js installed on your machine
+- [git](https://git-scm.com/) - v2.13 or greater
+- [NodeJS](https://nodejs.org/en/) - v16 or greater
+- [npm](https://www.npmjs.com/) - v6 or greater
 - MySQL database server installed and running
 
 ### Installation
