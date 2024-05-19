@@ -8,8 +8,6 @@ import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 import Sidebar from "components/Sidebar/Sidebar";
 import { usePatientsInfo } from "contexts/PatientsInfoContext";
 
-
-
 export default function Dashboard() {
   const [tab, setTab] = useState("all");
 
@@ -17,11 +15,10 @@ export default function Dashboard() {
     console.log(`tab from dashboard: ${tab}`);
   }, [tab]);
 
-
-  const handleTabChange = (value) =>{
+  const handleTabChange = (value) => {
     setTab(value);
     console.log(`from dashboard: ${value}`);
-  }
+  };
 
   const { fetchPatientsInfo } = usePatientsInfo();
   useEffect(() => {
@@ -33,7 +30,6 @@ export default function Dashboard() {
     }, 10000);
   }, [fetchPatientsInfo]);
 
-
   return (
     <>
       <Helmet>
@@ -44,13 +40,18 @@ export default function Dashboard() {
         />
       </Helmet>
       <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px]">
-      
-        <Sidebar onTabChange={handleTabChange}/>
+        <Sidebar onTabChange={handleTabChange} />
         <div className="w-[81%] flex flex-col gap-[30px] self-end">
-          <PatientInfo/>
+          <PatientInfo />
         </div>
       </div>
-      {tab === "not-found" && <Popup message={"We Truly Apologize, This Page is not avaiable yet."} onClose={() => setTab("all")} />}
+      {tab === "not-found" && (
+        <Popup
+          message1={`We Truly Apologize.`}
+          message2={"This Page is not available yet."}
+          onClose={() => setTab("all")}
+        />
+      )}
     </>
   );
 }
