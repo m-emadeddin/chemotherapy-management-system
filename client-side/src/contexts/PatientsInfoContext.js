@@ -13,7 +13,6 @@ export const PatientsInfoProvider = ({ children }) => {
   const fetchPatientsInfo = async (type = "all") => {
     try {
       let url = "";
-      console.log(`fetched url: ${type}`);
       switch(type){
         case "active":
           url = "/patient/active-patients";
@@ -24,7 +23,7 @@ export const PatientsInfoProvider = ({ children }) => {
         default:
           url = "/patient/all-patients"
       }
-      console.log(`fetched url: ${url}`);
+
       const response = await fetch(url, { 
         method: "GET",
         headers: {
@@ -38,10 +37,7 @@ export const PatientsInfoProvider = ({ children }) => {
       }
   
       const data = await response.json();
-      console.log(`fetched patients: ${JSON.stringify(data)}`);
       setPatientsInfo(data);
-      console.log(`fetched patients: ${JSON.stringify(data)}`);
-      // localStorage.setItem("patientsInfo", JSON.stringify(data));
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch patient details");
