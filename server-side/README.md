@@ -8,7 +8,7 @@
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Running the Application](#running-the-application)
-
+- [License](#license)
     
 ## Overview
 
@@ -63,6 +63,7 @@ The project follows a well-structured organization of folders:
 
 1. Start the server: `npm start` or `node.index.js`
 
-##License
-The Oncology Management System Front-End is licensed under the MIT License. See the MIT License page for more information.
+## License
+
+The Oncology Management System Back-End is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more information.
 ---
