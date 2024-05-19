@@ -21,7 +21,15 @@ export default function Dashboard() {
     console.log(`from dashboard: ${value}`);
   };
 
-
+  const { fetchPatientsInfo } = usePatientsInfo();
+  useEffect(() => {
+    async function refreshPatients() {
+      await fetchPatientsInfo();
+    }
+    setTimeout(() => {
+      refreshPatients();
+    }, 10000);
+  }, [fetchPatientsInfo]);
 
   return (
     <>
@@ -35,7 +43,7 @@ export default function Dashboard() {
       <div className="mx-auto flex w-full max-w-[1321px] flex-col gap-[30px] md:p-5 mt-[100px]">
         <Sidebar onTabChange={handleTabChange} />
         <div className="w-[81%] flex flex-col gap-[30px] self-end">
-          <PatientInfo fetchType={tab}/>
+          <PatientInfo />
         </div>
       </div>
       {tab === "not-found" && (

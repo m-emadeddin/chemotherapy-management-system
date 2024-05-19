@@ -25,6 +25,7 @@ export const PatientsInfoProvider = ({ children }) => {
         default:
           url = "/patient/all-patients"
       }
+      console.log(`fetched url: ${url}`);
       const response = await fetch(url, { 
         method: "GET",
         headers: {
