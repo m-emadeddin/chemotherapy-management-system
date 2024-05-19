@@ -6,17 +6,27 @@ import PatientTable from "components/PatientTable";
 import PatientDeletePopUp from "components/PatientDeletePopup";
 import { usePatientsInfo } from "contexts/PatientsInfoContext";
 
-export default function PatientInfo() {
+export default function PatientInfo({ fetchType }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [InfoPopupOpen, setInfoPopupOpen] = useState(false);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [searchBarValue, setSearchBarValue] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
-  const patientsInfo = usePatientsInfo();
+  const [patients, setPatients] = useState([]);
+  const [patientDetails, setPatientDetials] = useState("");
+  const patientsInfo = usePatientsInfo(fetchType);
 
-  const patientDetails = patientsInfo.patientsInfo;
-  const patients = patientDetails.patients;
+
+  useEffect(() =>{
+    setPatientDetials(patientsInfo.patientsInfo);
+  }, [patientsInfo]);
+
+  useEffect(() => {
+    setPatients(Object.values(patientDetails)[0]);
+  }, [patientDetails])
+
+  
   const patientsPerPage = 10;
 
   const totalPages = Math.ceil(filteredPatients.length / patientsPerPage);

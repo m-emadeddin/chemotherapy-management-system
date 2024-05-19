@@ -34,6 +34,7 @@ exports.getRegimenInfo = (req, res, next) => {
       res.status(500).json({ message: 'Internal server error' });
     });
 };
+
 exports.getCyclesInfo = (req, res, next) => {
   const ID = req.params.id;
   Patients.findByPk(ID).then((patient) => {
@@ -92,12 +93,10 @@ exports.getActiveCycle = (req, res, next) => {
           if (!activeCycle) {
             return res.status(200).json({ exists: false });
           }
-          // Get the number and ID of the active cycle
           const activeCycleInfo = {
             exists : true ,
             Active_Cycle_Number: activeCycle.Cycle_Number,
           };
-          // Send the response with the number and ID of the active cycle
           res.status(200).json(activeCycleInfo);
         })
         .catch((error) => {
@@ -108,6 +107,7 @@ exports.getActiveCycle = (req, res, next) => {
     });
   });
 };
+
 exports.getPremedications = (req, res, next) => {
   let info = {};
   const cycle_ID = req.params.id;
@@ -117,7 +117,7 @@ exports.getPremedications = (req, res, next) => {
       if (!cycle) {
         return res.status(404).send({ message: 'Cycle not found' });
       }
-      // Retrieve premedications for the cycle
+
       return cycle.getPremedications().then((premedications) => {
         // Format premedications
         const formattedPremedications = premedications.map((premedication) => ({
@@ -128,7 +128,6 @@ exports.getPremedications = (req, res, next) => {
           Instructions: premedication.Instructions,
         }));
 
-        // Send response
         info = {
           Premedications: formattedPremedications,
         };
@@ -140,6 +139,7 @@ exports.getPremedications = (req, res, next) => {
       res.status(500).send({ message: 'Internal server error' });
     });
 };
+
 exports.getChemotherapy = (req, res, next) => {
   let info = {};
   const cycle_ID = req.params.id;
@@ -216,7 +216,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
         (cycle) => cycle.Cycle_Number === updatedCycle.Cycle_Number + 1
       );
       if (nextCycle) {
-        nextCycle.Is_active = true; // Mark next cycle as active
+        nextCycle.Is_active = true; 
         return nextCycle.save();
       }
       return Promise.resolve(); // Resolve without updating next cycle

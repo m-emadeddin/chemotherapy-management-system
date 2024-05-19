@@ -7,28 +7,41 @@ const PatientsInfoContext = createContext();
 
 export const PatientsInfoProvider = ({ children }) => {
   const auth = useAuth();
-  const [patientsInfo, setPatientsInfo] = useState(() => {
-    return JSON.parse(localStorage.getItem("patientsInfo")) || null;
-  });
+  const [patientsInfo, setPatientsInfo] = useState("");
   const [fetchAttempted, setFetchAttempted] = useState(false);
 
-  const fetchPatientsInfo = async () => {
+  const fetchPatientsInfo = async (type = "all") => {
     try {
-      const response = await fetch("/patient/all-patients", {
+      let url = "";
+      console.log(`fetched url: ${type}`);
+      switch(type){
+        case "active":
+          url = "/patient/active-patients";
+          break;
+        case "non-active":
+          url = "/patient/non-active-patients";
+          break;
+        default:
+          url = "/patient/all-patients"
+      }
+      console.log(`fetched url: ${url}`);
+      const response = await fetch(url, { 
         method: "GET",
         headers: {
           Authorization: `Bearer ${auth.userToken}`,
         },
       });
-
+  
       if (!response.ok) {
         console.log(`Failed to fetch patient details: ${response.status}`);
         setFetchAttempted(true);
       }
-
+  
       const data = await response.json();
+      console.log(`fetched patients: ${JSON.stringify(data)}`);
       setPatientsInfo(data);
-      localStorage.setItem("patientsInfo", JSON.stringify(data));
+      console.log(`fetched patients: ${JSON.stringify(data)}`);
+      // localStorage.setItem("patientsInfo", JSON.stringify(data));
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch patient details");
@@ -76,4 +89,20 @@ export const PatientsInfoProvider = ({ children }) => {
   );
 };
 
-export const usePatientsInfo = () => useContext(PatientsInfoContext);
+export const usePatientsInfo = () => {
+  const context = useContext(PatientsInfoContext);
+  if (!context) {
+    throw new Error("usePatientsInfo must be used within a PatientsInfoProvider");
+  }
+
+  const { fetchPatientsInfo } = context;
+
+  const fetchPatientsByType = async (type) => {
+    await fetchPatientsInfo(type);
+  };
+
+  return {
+    ...context,
+    fetchPatientsByType,
+  };
+};

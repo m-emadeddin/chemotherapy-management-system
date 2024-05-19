@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 const jwtSecret = process.env.JWT_SECRET;
 
-// Maintain a blacklist of tokens
 const tokenBlacklist = new Set();
 
 module.exports = (req, res, next) => {
@@ -22,7 +21,7 @@ module.exports = (req, res, next) => {
     try {
         // Verify token
         const decoded = jwt.verify(token, jwtSecret);
-        req.userId = decoded.userId; // Add userId to request object
+        req.userId = decoded.userId; 
         next();
     } catch (error) {
         console.error('Error in token verification:', error);
@@ -33,12 +32,10 @@ module.exports = (req, res, next) => {
     }
 };
 
-// Function to blacklist a token
 module.exports.blacklistToken = (token) => {
     tokenBlacklist.add(token);
 };
 
-// Function to remove a token from the blacklist (optional)
 module.exports.removeFromBlacklist = (token) => {
     tokenBlacklist.delete(token);
 };
