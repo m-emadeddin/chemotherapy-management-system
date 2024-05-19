@@ -38,4 +38,4 @@ Once the Oncology Management System is installed and running, users can access t
 Contributions to the Oncology Management System are welcome! If you'd like to contribute code, report bugs, or suggest improvements, please follow the guidelines outlined in the CONTRIBUTING.md file located in the project repository. Your contributions help enhance the system and make it more valuable to healthcare professionals and patients alike.
 
 ## License
-The Oncology Management System is licensed under the [MIT License](LICENSE), which permits unrestricted use, distribution, and modification, subject to the terms and conditions outlined in the license agreement. By using the system, you agree to comply with the terms of this license.
+The Oncology Management System is licensed under the [MIT License](https://www.gnu.org/licenses/gpl-3.0), which permits unrestricted use, distribution, and modification, subject to the terms and conditions outlined in the license agreement. By using the system, you agree to comply with the terms of this license.
