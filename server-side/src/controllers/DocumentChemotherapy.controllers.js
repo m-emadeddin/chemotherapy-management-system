@@ -51,22 +51,19 @@ exports.getCyclesInfo = (req, res, next) => {
           if (!cycles || cycles.length === 0) {
             return res.status(404).json({ error: "Cycles not found" });
           }
-          // Represent all cycles data
           const cyclesInfo = cycles.map((cycle) => ({
             Cycle_ID: cycle.Cycle_ID,
             Cycle_Number: cycle.Cycle_Number,
             Cycle_Note: cycle.Cycle_note,
             Documentation_Date: cycle.Cycle_Documentation_Date,
           }));
-          // Construct the response object
           const responseObj = { Cycles: cyclesInfo };
-          // Send the response with the retrieved cycles
           res.status(200).json(responseObj);
         })
         .catch((error) => {
           // Handle any unexpected errors
           console.error(error);
-          // res.status(500).json({ error: "Internal server error" });
+          res.status(500).json({ error: "Internal server error" });
         });
     });
   });
@@ -82,7 +79,7 @@ exports.getActiveCycle = (req, res, next) => {
       if (!treatmentplan) {
         return res.status(404).json({ error: "Treatment plan not found" });
       }
-      return treatmentplan
+      treatmentplan
         .getCycles()
         .then((cycles) => {
           if (!cycles || cycles.length === 0) {
@@ -118,8 +115,7 @@ exports.getPremedications = (req, res, next) => {
         return res.status(404).send({ message: 'Cycle not found' });
       }
 
-      return cycle.getPremedications().then((premedications) => {
-        // Format premedications
+      cycle.getPremedications().then((premedications) => {
         const formattedPremedications = premedications.map((premedication) => ({
           Premed_ID: premedication.Premed_ID,
           Medication: premedication.Medication_Name,
@@ -149,9 +145,7 @@ exports.getChemotherapy = (req, res, next) => {
       if (!cycle) {
         return res.status(404).send({ message: 'Cycle not found' });
       }
-      // Retrieve chemotherapy medications for the cycle
-      return cycle.getChemotherapyMedications().then((chemoMeds) => {
-        // Format chemotherapy medications
+      cycle.getChemotherapyMedications().then((chemoMeds) => {
         const formattedChemoMeds = chemoMeds.map((med) => ({
           Chemotherapy_id: med.Chemotherapy_ID,
           Name: med.Medication_Name,
@@ -162,7 +156,6 @@ exports.getChemotherapy = (req, res, next) => {
           AdministeredDose_Ml: med.Administered_Dose_ml,
           AdministeredDose_Mg: med.Administered_Dose_mg,
         }));
-        // Send response
         info = {
           Chemotherapy_Medications: formattedChemoMeds,
         };
@@ -178,7 +171,7 @@ exports.getChemotherapy = (req, res, next) => {
 exports.updateCycleAndMedications = (req, res, next) => {
   const { Cycle_Note, Cycle_Documentation_Date, Medications } = req.body;
   const patientId = req.params.id;
-  let cycles; // Define cycles variable here
+  let cycles; 
 
   // Find the patient by ID
   Patients.findByPk(patientId)
@@ -195,12 +188,11 @@ exports.updateCycleAndMedications = (req, res, next) => {
       return treatmentPlan.getCycles();
     })
     .then((retrievedCycles) => {
-      cycles = retrievedCycles; // Store cycles for later use
+      cycles = retrievedCycles; 
       const activeCycle = cycles.find((cycle) => cycle.Is_active);
       if (!activeCycle) {
         return res.status(404).json({ error: 'Active cycle not found' });
       }
-      // deactivate current active cycle
       activeCycle.Is_active = false;
       if (Cycle_Note) {
         activeCycle.Cycle_note = Cycle_Note;
@@ -226,9 +218,7 @@ exports.updateCycleAndMedications = (req, res, next) => {
       const updatePromises = Medications.map((med) => {
         const { ID, AdministeredDose_Ml, AdministeredDose_Mg } = med;
         if (!ID) {
-          return Promise.reject({
-            message: 'Medication ID is required for update',
-          });
+          return res.status(400).json({ error: 'Medication ID is required for update' });
         }
         return ChemotherapyMedications.update(
           {
@@ -238,18 +228,13 @@ exports.updateCycleAndMedications = (req, res, next) => {
           { where: { Chemotherapy_ID: ID } }
         ).catch((error) => {
           console.error("Error updating medication:", error.message);
-          return Promise.reject({
-            message: `Failed to update medication: ${ID}`,
-          });
+          return res.status(500).json({ error: `Failed to update medication: ${ID}` });
         });
       });
-
-      return Promise.all(updatePromises);
+      return Promise.all(updatePromises); // wait for all updates to complete
     })
     .then(() => {
-      res
-        .status(200)
-        .json({ message: 'Cycle and medications updated successfully' });
+      res.status(200).json({ message: 'Cycle and medications updated successfully' });
     })
     .catch((error) => {
       console.error("Error:", error.message);
