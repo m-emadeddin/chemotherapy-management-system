@@ -215,7 +215,7 @@ export default function RegimenDetails() {
           })
         ),
         physician_note:
-          notes === "Add your notes here..." || notes.trim() === ""
+          notes === null 
             ? "There isn't any notes"
             : notes,
         Start_Date: Start_Date,
