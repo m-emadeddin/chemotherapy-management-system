@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
 import { Heading } from "../../components";
 import PatientInfo from "components/PatientInfo";

@@ -14,8 +14,8 @@ import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 import AllVital from "components/AllVital";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import axios from "axios";
-import { date, setDate} from "components/Date/Date";
 import { useAuth } from "contexts/AuthContext";
+
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -97,7 +97,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -120,7 +120,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -150,7 +150,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -180,7 +180,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -198,7 +198,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -223,7 +223,7 @@ export default function PatientPage() {
     }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [id, hasTreatmentPlan]);
+  }, [id, auth.userToken, hasTreatmentPlan]);
 
   useEffect(() => {
     if (hasTreatmentPlan) {
@@ -245,15 +245,14 @@ export default function PatientPage() {
           });
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, hasTreatmentPlan, setNewRegimenDetails]);
+  }, [id, hasTreatmentPlan, setNewRegimenDetails, auth.userToken]);
   useEffect(() => {
     if (!hasTreatmentPlan) {
       localStorage.removeItem(
         `regimen-details-${selectedPatientInfo.Patient_ID}`
       );
     }
-  }, [hasTreatmentPlan]);
+  }, [hasTreatmentPlan, selectedPatientInfo]);
 
   function orderChemo() {
     if (hasTreatmentPlan) {
@@ -472,7 +471,7 @@ export default function PatientPage() {
                         </div>
                       </div>
                     ) : (
-                      console.log("Error")
+                      <p className="mb-5 px-3">No Patient Data</p>
                     )}
                   </div>
                 </div>
