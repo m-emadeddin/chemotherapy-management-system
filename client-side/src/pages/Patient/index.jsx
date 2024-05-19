@@ -226,25 +226,35 @@ export default function PatientPage() {
   }, [id, auth.userToken, hasTreatmentPlan]);
 
   useEffect(() => {
-    if (hasTreatmentPlan) {
-      axios
-        .get(`/review-chemotherapy/review/${id}`, {
-          headers: {
-            Authorization: `Bearer ${auth.userToken}`,
-          },
-        })
-        .then((res) => {
-          setNewRegimenDetails({
-            Plan_Name: res.data.Plan_Name,
-            physician_note: res.data.physician_note,
-            Start_Date: res.data.Start_Date,
-            number_of_Weeks: res.data.number_of_Weeks,
-            number_of_Cycles: res.data.number_of_Cycles,
-            PreMedications: res.data.PreMedications || [],
-            ChemotherapyMedications: res.data.ChemotherapyMedications || [],
+    function run(){
+      if (hasTreatmentPlan) {
+        axios
+          .get(`/review-chemotherapy/review/${id}`, {
+            headers: {
+              Authorization: `Bearer ${auth.userToken}`,
+            },
+          })
+          .then((res) => {
+            setNewRegimenDetails({
+              Plan_Name: res.data.Plan_Name,
+              physician_note: res.data.physician_note,
+              Start_Date: res.data.Start_Date,
+              number_of_Weeks: res.data.number_of_Weeks,
+              number_of_Cycles: res.data.number_of_Cycles,
+              PreMedications: res.data.PreMedications || [],
+              ChemotherapyMedications: res.data.ChemotherapyMedications || [],
+            });
           });
-        });
+      }
     }
+    async function stop(){
+      await run();
+      
+    }
+    setTimeout(()=>{
+      stop();
+    },10000)
+
   }, [id, hasTreatmentPlan, setNewRegimenDetails, auth.userToken]);
   useEffect(() => {
     if (!hasTreatmentPlan) {
