@@ -20,8 +20,6 @@ export default function PatientInfo({ fetchType }) {
 
   useEffect(() =>{
     setPatientDetials(patientsInfo.patientsInfo);
-    console.log(`from patients info patientsInfo: ${JSON.stringify(patientsInfo)}`);
-    
   }, [patientsInfo]);
 
   useEffect(() => {
@@ -55,7 +53,6 @@ export default function PatientInfo({ fetchType }) {
       const filtered = patients.filter((patient) =>
         patient.Name.toLowerCase().includes(searchBarValue.toLowerCase())
       );
-      console.log(`filter patients: ${JSON.stringify(filtered)}`);
       setFilteredPatients(filtered);
     }
   }, [searchBarValue, patients]);

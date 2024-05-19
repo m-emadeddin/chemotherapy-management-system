@@ -13,13 +13,11 @@ export default function Dashboard() {
   const { fetchPatientsInfo } = usePatientsInfo();
 
   useEffect(() => {
-    console.log(`tab from dashboard: ${tab}`);
     fetchPatientsInfo(tab);
   }, [tab]);
 
   const handleTabChange = (value) => {
     setTab(value);
-    console.log(`from dashboard: ${value}`);
   };
 
   return (
