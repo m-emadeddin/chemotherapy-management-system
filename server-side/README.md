@@ -49,7 +49,7 @@ To install and run the Oncology Management System Back-End, follow these steps:
 
 1. Clone the repository to your local machine:
    ```bash
-   git clone <https://github.com/m-emadeddin/chemotherapy-management-system.git>
+   git clone https://github.com/m-emadeddin/chemotherapy-management-system.git
     ```
 
 2. Navigate to the client-side directory:
