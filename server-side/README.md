@@ -64,7 +64,7 @@ To install and run the Oncology Management System Back-End, follow these steps:
     
 4. Define environment variables in the `.env` file according to your configuration. Example:
    ```bash
-   PORT=3000
+   PORT=5000
    DB_HOST=localhost
    DB_USER=root
    DB_PASSWORD=password
