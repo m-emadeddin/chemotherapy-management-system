@@ -21,7 +21,9 @@
 .popup-container img {
   margin-bottom: 20px;
 }
-
+.inter {
+  font-family: 'Inter', sans-serif;
+}
 .popup-container .heading {
   font-size: 18px;
   font-weight: bold;
@@ -32,6 +34,12 @@
   font-size: 14px;
   color: #333;
   margin-bottom: 20px;
+  color: #8C9AB3
+
+}
+.message {
+  line-height: 0;
+  padding-bottom: 10px;
 }
 
 .popup-container .buttons {
