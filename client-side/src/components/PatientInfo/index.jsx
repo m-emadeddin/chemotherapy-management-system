@@ -6,30 +6,56 @@ import PatientTable from "components/PatientTable";
 import PatientDeletePopUp from "components/PatientDeletePopup";
 import { usePatientsInfo } from "contexts/PatientsInfoContext";
 
-export default function PatientInfo() {
+export default function PatientInfo({ fetchType }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [InfoPopupOpen, setInfoPopupOpen] = useState(false);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [searchBarValue, setSearchBarValue] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
-  const patientsInfo = usePatientsInfo();
+  const [patients, setPatients] = useState([]);
+  const [patientDetails, setPatientDetials] = useState("");
+  const patientsInfo = usePatientsInfo(fetchType);
 
-  const patientDetails = patientsInfo.patientsInfo;
-  const patients = patientDetails.patients;
+
+  useEffect(() =>{
+    setPatientDetials(patientsInfo.patientsInfo);
+  }, [patientsInfo]);
+
+  useEffect(() => {
+    setPatients(Object.values(patientDetails)[0]);
+  }, [patientDetails])
+
+  
   const patientsPerPage = 10;
 
   const totalPages = Math.ceil(filteredPatients.length / patientsPerPage);
 
+  function calculateAge(birthDateString) {
+    const birthDate = new Date(birthDateString);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDifference < 0 ||
+      (monthDifference === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  }
+
   useEffect(() => {
-    if(patients !== undefined) {
+    if (patients !== undefined) {
       const filtered = patients.filter((patient) =>
-          patient.Name.toLowerCase().includes(searchBarValue.toLowerCase())
-        );
+        patient.Name.toLowerCase().includes(searchBarValue.toLowerCase())
+      );
       setFilteredPatients(filtered);
     }
-  }
-, [searchBarValue, patients]);
+  }, [searchBarValue, patients]);
 
   const goToPage = (page) => {
     setCurrentPage(page);
@@ -100,7 +126,7 @@ export default function PatientInfo() {
 
       <div className="patient-record flex w-full flex-col gap-[5px] items-center">
         <div className="p-[10px] w-[90%] info-tablehead ">
-        {filteredPatients.length > 0 ? (
+          {filteredPatients.length > 0 ? (
             <div className="w-[85%] flex justify-between">
               <div className="w-[20%]">Patient</div>
               <div className="w-[20%]">ID</div>
@@ -121,7 +147,6 @@ export default function PatientInfo() {
             selected
             onClickMap={() => handleMapClick(patient)}
             onDeleteClick={() => handleDeleteClick(patient)}
-            
           />
         ))}
       </div>
@@ -129,11 +154,11 @@ export default function PatientInfo() {
       {InfoPopupOpen && (
         <PatientPopup
           name={selectedPatient.Name}
-          age={selectedPatient.Age}
+          age={calculateAge(selectedPatient.date_of_birth)}
           onClose={togglePopup}
           ID={selectedPatient.Patient_ID}
           Gender={selectedPatient.Gender}
-          DateOFBirth={formatDate(selectedPatient.date_of_birth)}
+          DateOFBirth={calculateAge(formatDate(selectedPatient.date_of_birth))}
           bloodType={selectedPatient.blood_type}
           DiseaseType={selectedPatient.disease_type}
           Street={selectedPatient.street}

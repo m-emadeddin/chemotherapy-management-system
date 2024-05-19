@@ -53,8 +53,7 @@ export default function LoginPage() {
           <div className="flex w-full flex-col items-center gap-[65px] md:gap-[97px] sm:gap-[65px]">
             <div className="flex flex-col items-center gap-9 self-stretch">
               <Toaster />
-              <Text size="lg" as="p" className="!font-inter mt-[75px]">
-                Login to your Account
+              <Text size="lg" as="p" className="!font-inter mt-[110px]">
               </Text>
               <div className="flex flex-col items-center self-stretch">
                 <Text

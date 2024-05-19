@@ -1,5 +1,6 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
+import Home from "pages/Home";
 import NotFound from "pages/NotFound";
 import Loginpage from "pages/Loginpage";
 import Patient from "pages/Patient";
@@ -17,13 +18,12 @@ import { PlanDataProvider } from "contexts/PlanDataContext";
 import { PatientsInfoProvider } from "contexts/PatientsInfoContext";
 import { SelectedPatientInfoProvider } from "contexts/SelectedPatientInfoDetails";
 
-
 const ProjectRoutes = () => {
   const element = useRoutes([
     {
       path: "/",
       element: (
-        <AlreadyLoggedIn>
+        <AlreadyLoggedIn> 
           <Loginpage />
         </AlreadyLoggedIn>
       ),
@@ -39,22 +39,21 @@ const ProjectRoutes = () => {
     },
     {
       element: (
-  <RequireAuth>
-      <PatientsInfoProvider>
-        <SelectedPatientInfoProvider>
-          <PlansDetailsProvider>
-            <PlanDataProvider>
-              <RegimenDetailsProvider>
-                <TokenValidityProvider>
-                    <AppLayout />
-                </TokenValidityProvider>
-              </RegimenDetailsProvider>
-            </PlanDataProvider>
-          </PlansDetailsProvider>
-        </SelectedPatientInfoProvider>
-      </PatientsInfoProvider>
-    </RequireAuth>  
-
+        <RequireAuth>
+          <PatientsInfoProvider>
+            <SelectedPatientInfoProvider>
+              <PlansDetailsProvider>
+                <PlanDataProvider>
+                  <RegimenDetailsProvider>
+                    <TokenValidityProvider>
+                      <AppLayout />
+                    </TokenValidityProvider>
+                  </RegimenDetailsProvider>
+                </PlanDataProvider>
+              </PlansDetailsProvider>
+            </SelectedPatientInfoProvider>
+          </PatientsInfoProvider>
+        </RequireAuth>
       ),
       children: [
         { path: "dashboard", element: <Dashboard /> },

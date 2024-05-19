@@ -10,23 +10,19 @@ export default function Reviewchemotherapyorder() {
   const navigate = useNavigate();
   const { selectedPatientInfo } = useSelectedPatientInfo();
   const id = selectedPatientInfo.Patient_ID;
-  let { newRegimenDetails: patientOrder } = useRegimenDetails();
-
-  if (!patientOrder) {
-    const storedRegimenDetails =
-      localStorage.getItem("regimen-details") ||
-      localStorage.getItem("regimen-details-api");
-    if (storedRegimenDetails) {
-      patientOrder = JSON.parse(storedRegimenDetails);
-    }
+  let { newRegimenDetails: patientOrder, setNewRegimenDetails } =
+    useRegimenDetails();
+  const storedRegimenDetails = localStorage.getItem(
+    `regimen-details-${selectedPatientInfo.Patient_ID}`
+  );
+  if (storedRegimenDetails) {
+    patientOrder = JSON.parse(storedRegimenDetails);
   }
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [hasTreatmentPlan, setHasTreatmentPlan] = useState(false);
-  const originalDate = patientOrder?.Start_Date;
-  const dateParts = originalDate?.split("-");
-  const reversedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+  const [hasTreatmentPlan, setHasTreatmentPlan] = useState(true);
   const auth = useAuth();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -43,7 +39,33 @@ export default function Reviewchemotherapyorder() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
+  useEffect(() => {
+    setTimeout(() => {
+      if (hasTreatmentPlan && !patientOrder) {
+        axios
+          .get(`/review-chemotherapy/review/${id}`, {
+            headers: {
+              Authorization: `Bearer ${auth.userToken}`,
+            },
+          })
+          .then((res) => {
+            setNewRegimenDetails({
+              Plan_Name: res.data.Plan_Name,
+              physician_note: res.data.physician_note,
+              Start_Date: res.data.Start_Date,
+              number_of_Weeks: res.data.number_of_Weeks,
+              number_of_Cycles: res.data.number_of_Cycles,
+              PreMedications: res.data.PreMedications || [],
+              ChemotherapyMedications: res.data.ChemotherapyMedications || [],
+            });
+          });
+      }
+    }, 500);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasTreatmentPlan, id]);
+
+  const originalDate = patientOrder?.Start_Date;
 
   function handleBack() {
     if (hasTreatmentPlan) {
@@ -116,19 +138,19 @@ export default function Reviewchemotherapyorder() {
       <div className="heading-contanier">
         <h2>Review</h2>
         <Toaster />
-        <p>{patientOrder.Plan_Name}</p>
+        <p>{patientOrder?.Plan_Name}</p>
         <span className="cycles">
-          {patientOrder.number_of_Cycles} Cycles over{" "}
-          {patientOrder.number_of_Weeks} Weeks
+          {patientOrder?.number_of_Cycles} Cycles over{" "}
+          {patientOrder?.number_of_Weeks} Weeks
         </span>
-        <span>Started from:{reversedDate}</span>
+        <span>Started from:{originalDate}</span>
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>
-        {patientOrder.PreMedications.length !== 0 && (
+        {patientOrder?.PreMedications.length !== 0 && (
           <div className="pre-medication">
             <div className="table-name">PreMediactions</div>
-            {patientOrder.PreMedications.map((med, index) => (
+            {patientOrder?.PreMedications.map((med, index) => (
               <div key={index} className="table-rows">
                 <p className="med-name">{med.Medication_Name}</p>
                 <p className="med-instruction">{med.Instructions}</p>
@@ -138,7 +160,7 @@ export default function Reviewchemotherapyorder() {
         )}
         <div className="chemo-therapy">
           <div className="table-name">ChemoTherapy</div>
-          {patientOrder.ChemotherapyMedications.map((med, index) => (
+          {patientOrder?.ChemotherapyMedications.map((med, index) => (
             <div key={index} className="table-rows">
               <p className="med-name">{med.Medication_Name}</p>
               <div className="instructions">
@@ -155,7 +177,7 @@ export default function Reviewchemotherapyorder() {
       </div>
       <div className="notes-container">
         <span className="heading">Physician Notes</span>
-        <p className="notes">{patientOrder.physician_note}</p>
+        <p className="notes">{patientOrder?.physician_note}</p>
       </div>
 
       <div className="buttons">
@@ -169,19 +191,19 @@ export default function Reviewchemotherapyorder() {
       <div className="heading-contanier">
         <h2>Review</h2>
         <Toaster />
-        <p>{patientOrder.Plan_Name}</p>
+        <p>{patientOrder?.Plan_Name}</p>
         <span className="cycles">
-          {patientOrder.number_of_Cycles} Cycles over{" "}
-          {patientOrder.number_of_Weeks} Weeks
+          {patientOrder?.number_of_Cycles} Cycles over{" "}
+          {patientOrder?.number_of_Weeks} Weeks
         </span>
-        <span>Started from: {reversedDate}</span>
+        <span>Started from: {originalDate}</span>
       </div>
       <div className="medications">
         <span className="heading">Mediactions</span>
-        {patientOrder.PreMedications.length !== 0 && (
+        {patientOrder?.PreMedications.length !== 0 && (
           <div className="pre-medication">
             <div className="table-name">PreMediactions</div>
-            {patientOrder.PreMedications.map((med, index) => (
+            {patientOrder?.PreMedications.map((med, index) => (
               <div key={index} className="table-rows">
                 <p className="med-name">{med.name}</p>
                 <p className="med-instruction">{med.Instructions}</p>
@@ -191,7 +213,7 @@ export default function Reviewchemotherapyorder() {
         )}
         <div className="chemo-therapy">
           <div className="table-name">ChemoTherapy</div>
-          {patientOrder.ChemotherapyMedications.map((med, index) => (
+          {patientOrder?.ChemotherapyMedications.map((med, index) => (
             <div key={index} className="table-rows">
               <p className="med-name">{med.name}</p>
               <div className="instructions">
@@ -206,7 +228,7 @@ export default function Reviewchemotherapyorder() {
       </div>
       <div className="notes-container">
         <span className="heading">Physician Notes</span>
-        <p className="notes">{patientOrder.physician_note}</p>
+        <p className="notes">{patientOrder?.physician_note}</p>
       </div>
 
       <div className="buttons">

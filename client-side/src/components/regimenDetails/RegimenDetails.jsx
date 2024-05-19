@@ -10,6 +10,7 @@ import MiniDropMenu from "components/MiniDropMenu/MiniDropMenu";
 import Date from "components/Date/Date";
 import toast, { Toaster } from "react-hot-toast";
 import { setDate } from "components/Date/Date";
+import { useSelectedPatientInfo } from "contexts/SelectedPatientInfoDetails";
 export default function RegimenDetails() {
   let {
     newRegimenDetails,
@@ -18,6 +19,7 @@ export default function RegimenDetails() {
     setStartDate,
     dateValue,
   } = useRegimenDetails();
+  const { selectedPatientInfo } = useSelectedPatientInfo();
 
   const { preMedicationsData, chemotherapyData } = usePlanData();
   const { planName, planCycles, planWeeks, originalCycles, originalWeeks } =
@@ -213,7 +215,7 @@ export default function RegimenDetails() {
           })
         ),
         physician_note:
-          notes === "Add your notes here..." || notes.trim() === ""
+          notes === null 
             ? "There isn't any notes"
             : notes,
         Start_Date: Start_Date,
@@ -222,7 +224,7 @@ export default function RegimenDetails() {
       setNewRegimenDetails(newRegimenDetails);
 
       localStorage.setItem(
-        "regimen-details",
+        `regimen-details-${selectedPatientInfo.Patient_ID}`,
         JSON.stringify(newRegimenDetails)
       );
 

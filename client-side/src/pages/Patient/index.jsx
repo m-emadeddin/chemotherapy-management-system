@@ -15,6 +15,7 @@ import AllVital from "components/AllVital";
 import { useRegimenDetails } from "contexts/RegimenDetailsContext ";
 import axios from "axios";
 import { useAuth } from "contexts/AuthContext";
+
 const path = process.env.PUBLIC_URL;
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -43,7 +44,7 @@ function calculateAge(birthDateString) {
 
 export default function PatientPage() {
   const { selectedPatientInfo } = useSelectedPatientInfo();
-  const { setNewRegimenDetails, newRegimenDetails } = useRegimenDetails();
+  const { setNewRegimenDetails } = useRegimenDetails();
   const [orderBtnHovered, SetOrderBtnHovered] = useState(false);
   const [docBtnHovered, setDocBtnHovered] = useState(false);
   const [showPatientPopup, setShowPatientPopup] = useState(false);
@@ -96,7 +97,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,7 +120,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -149,7 +150,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -179,7 +180,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -197,7 +198,7 @@ export default function PatientPage() {
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, auth.userToken]);
 
   useEffect(() => {
     const fetchData = () => {
@@ -222,34 +223,46 @@ export default function PatientPage() {
     }, 400);
 
     return () => clearTimeout(timeoutId);
-  }, [id, hasTreatmentPlan]);
+  }, [id, auth.userToken, hasTreatmentPlan]);
 
   useEffect(() => {
-    if (hasTreatmentPlan) {
-      axios.get(`/review-chemotherapy/review/${id}`, {
-        headers: {
-          Authorization: `Bearer ${auth.userToken}`,
-        },
-      }).then((res) => {
-        setNewRegimenDetails({
-          Plan_Name: res.data.Plan_Name,
-          physician_note: res.data.physician_note,
-          Start_Date: res.data.Start_Date,
-          number_of_Weeks: res.data.number_of_Weeks,
-          number_of_Cycles: res.data.number_of_Cycles,
-          PreMedications: res.data.PreMedications || [],
-          ChemotherapyMedications: res.data.ChemotherapyMedications || [],
-        });
-      });
+    function run(){
+      if (hasTreatmentPlan) {
+        axios
+          .get(`/review-chemotherapy/review/${id}`, {
+            headers: {
+              Authorization: `Bearer ${auth.userToken}`,
+            },
+          })
+          .then((res) => {
+            setNewRegimenDetails({
+              Plan_Name: res.data.Plan_Name,
+              physician_note: res.data.physician_note,
+              Start_Date: res.data.Start_Date,
+              number_of_Weeks: res.data.number_of_Weeks,
+              number_of_Cycles: res.data.number_of_Cycles,
+              PreMedications: res.data.PreMedications || [],
+              ChemotherapyMedications: res.data.ChemotherapyMedications || [],
+            });
+          });
+      }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, hasTreatmentPlan, setNewRegimenDetails]);
+    async function stop(){
+      await run();
+      
+    }
+    setTimeout(()=>{
+      stop();
+    },10000)
+
+  }, [id, hasTreatmentPlan, setNewRegimenDetails, auth.userToken]);
   useEffect(() => {
-    localStorage.setItem(
-      "regimen-details-api",
-      JSON.stringify(newRegimenDetails)
-    );
-  }, [hasTreatmentPlan, newRegimenDetails]);
+    if (!hasTreatmentPlan) {
+      localStorage.removeItem(
+        `regimen-details-${selectedPatientInfo.Patient_ID}`
+      );
+    }
+  }, [hasTreatmentPlan, selectedPatientInfo]);
 
   function orderChemo() {
     if (hasTreatmentPlan) {
@@ -468,7 +481,7 @@ export default function PatientPage() {
                         </div>
                       </div>
                     ) : (
-                      console.log("Error")
+                      <p className="mb-5 px-3">No Patient Data</p>
                     )}
                   </div>
                 </div>
