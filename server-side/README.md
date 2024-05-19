@@ -1,4 +1,15 @@
 # Oncology Management System - [Back-End]
+
+## Table of Contents
+- [Overview](#overview)
+- [Technologies Used](#technologies-used)
+- [Project Structure](#project-structure)
+- [Setup](#setup)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+
+    
 ## Overview
 
 This is an overview of server-side implementation for the Oncology Management System . The server-side component, developed using Node.js and Express.js, manages data interactions, handles requests from clients, and ensures the security and integrity of the database. MySQL is used as the database management system, and Sequelize is employed as the ORM to build database tables and relations. Authentication and encryption of users are implemented using bcrypt for password hashing and JWT for authentication tokens.
@@ -48,7 +59,7 @@ The project follows a well-structured organization of folders:
    ```
 5. Ensure the `.env` file is listed in your `.gitignore` file to prevent sensitive information from being committed to version control.
 
-### Running the Application
+### Running-the-Application
 
 1. Start the server: `npm start` or `node.index.js`
 
