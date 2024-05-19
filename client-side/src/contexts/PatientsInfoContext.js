@@ -12,20 +12,31 @@ export const PatientsInfoProvider = ({ children }) => {
   });
   const [fetchAttempted, setFetchAttempted] = useState(false);
 
-  const fetchPatientsInfo = async () => {
+  const fetchPatientsInfo = async (type = "all") => {
     try {
-      const response = await fetch("/patient/all-patients", {
+      let url = "";
+      switch(type){
+        case "active":
+          url = "/patient/active-patients";
+          break;
+        case "non-active":
+          url = "/patient/non-active-patients";
+          break;
+        default:
+          url = "/patient/all-patients"
+      }
+      const response = await fetch(url, { 
         method: "GET",
         headers: {
           Authorization: `Bearer ${auth.userToken}`,
         },
       });
-
+  
       if (!response.ok) {
         console.log(`Failed to fetch patient details: ${response.status}`);
         setFetchAttempted(true);
       }
-
+  
       const data = await response.json();
       setPatientsInfo(data);
       localStorage.setItem("patientsInfo", JSON.stringify(data));
@@ -76,4 +87,20 @@ export const PatientsInfoProvider = ({ children }) => {
   );
 };
 
-export const usePatientsInfo = () => useContext(PatientsInfoContext);
+export const usePatientsInfo = () => {
+  const context = useContext(PatientsInfoContext);
+  if (!context) {
+    throw new Error("usePatientsInfo must be used within a PatientsInfoProvider");
+  }
+
+  const { fetchPatientsInfo } = context;
+
+  const fetchPatientsByType = async (type) => {
+    await fetchPatientsInfo(type);
+  };
+
+  return {
+    ...context,
+    fetchPatientsByType,
+  };
+};

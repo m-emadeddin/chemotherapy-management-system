@@ -6,7 +6,7 @@ import PatientTable from "components/PatientTable";
 import PatientDeletePopUp from "components/PatientDeletePopup";
 import { usePatientsInfo } from "contexts/PatientsInfoContext";
 
-export default function PatientInfo() {
+export default function PatientInfo({ fetchType }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [InfoPopupOpen, setInfoPopupOpen] = useState(false);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
