@@ -37,7 +37,7 @@ To install and run the Oncology Management System Front-End, follow these steps:
 
 1. Clone the repository to your local machine:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/m-emadeddin/chemotherapy-management-system
     ```
 
 2. Navigate to the client-side directory:
@@ -69,9 +69,3 @@ This will launch the Oncology Management System Front-End in your browser, allow
 
 ## License
 The Oncology Management System Front-End is licensed under the MIT License. See the [MIT License](https://www.gnu.org/licenses/gpl-3.0) page for more information.
-
-
-```vb.
-This README file focuses specifically on the front-end aspect of the Oncology Management System, providing detailed instructions for installation, usage, and contributing to the front-end codebase. Adjustments can be made as needed to better suit your project's requirements.
-```
-
