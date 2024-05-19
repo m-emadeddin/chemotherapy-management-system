@@ -45,18 +45,32 @@ The project follows a well-structured organization of folders:
 - MySQL database server installed and running
 
 ### Installation
+To install and run the Oncology Management System Back-End, follow these steps:
 
-1. Clone the repository: `git clone <https://github.com/m-emadeddin/chemotherapy-management-system.git>`
-2. Install dependencies: `npm install`
-3. Create a `.env` file in the root directory of the project.
+1. Clone the repository to your local machine:
+   ```bash
+   git clone <https://github.com/m-emadeddin/chemotherapy-management-system.git>
+    ```
+
+2. Navigate to the client-side directory:
+    ```bash
+    cd chemotherapy-management-system/server-side
+    ```
+
+3. Install dependencies using npm:
+    ```bash
+    npm install
+    ```
+    
 4. Define environment variables in the `.env` file according to your configuration. Example:
-   ```
+   ```bash
    PORT=3000
    DB_HOST=localhost
    DB_USER=root
    DB_PASSWORD=password
    JWT_SECRET=yourSecretKey
    ```
+   
 5. Ensure the `.env` file is listed in your `.gitignore` file to prevent sensitive information from being committed to version control.
 
 ### Running-the-Application
