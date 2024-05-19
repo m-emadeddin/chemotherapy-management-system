@@ -12,7 +12,7 @@ This is an overview of server-side implementation for the Oncology Management Sy
 - **bcrypt**: A library for hashing passwords to enhance security.
 - **JWT (JSON Web Tokens)**: A compact, URL-safe means of representing claims to be transferred between two parties.
 - **dotenv**: A zero-dependency module that loads environment variables from a .env file into process.env.
-- **Additional Libraries/Tools**: [List any additional Node.js modules or tools used, e.g., JWT for authentication, etc.]
+
 
 ## Project Structure
 
