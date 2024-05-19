@@ -7,14 +7,13 @@ const PatientsInfoContext = createContext();
 
 export const PatientsInfoProvider = ({ children }) => {
   const auth = useAuth();
-  const [patientsInfo, setPatientsInfo] = useState(() => {
-    return JSON.parse(localStorage.getItem("patientsInfo")) || null;
-  });
+  const [patientsInfo, setPatientsInfo] = useState("");
   const [fetchAttempted, setFetchAttempted] = useState(false);
 
   const fetchPatientsInfo = async (type = "all") => {
     try {
       let url = "";
+      console.log(`fetched url: ${type}`);
       switch(type){
         case "active":
           url = "/patient/active-patients";
@@ -39,8 +38,10 @@ export const PatientsInfoProvider = ({ children }) => {
       }
   
       const data = await response.json();
+      console.log(`fetched patients: ${JSON.stringify(data)}`);
       setPatientsInfo(data);
-      localStorage.setItem("patientsInfo", JSON.stringify(data));
+      console.log(`fetched patients: ${JSON.stringify(data)}`);
+      // localStorage.setItem("patientsInfo", JSON.stringify(data));
     } catch (error) {
       console.error(error);
       toast.error("Failed to fetch patient details");

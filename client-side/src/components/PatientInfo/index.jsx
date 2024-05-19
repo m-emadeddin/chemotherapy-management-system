@@ -13,10 +13,22 @@ export default function PatientInfo({ fetchType }) {
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [searchBarValue, setSearchBarValue] = useState("");
   const [filteredPatients, setFilteredPatients] = useState([]);
-  const patientsInfo = usePatientsInfo();
+  const [patients, setPatients] = useState([]);
+  const [patientDetails, setPatientDetials] = useState("");
+  const patientsInfo = usePatientsInfo(fetchType);
 
-  const patientDetails = patientsInfo.patientsInfo;
-  const patients = patientDetails.patients;
+
+  useEffect(() =>{
+    setPatientDetials(patientsInfo.patientsInfo);
+    console.log(`from patients info patientsInfo: ${JSON.stringify(patientsInfo)}`);
+    
+  }, [patientsInfo]);
+
+  useEffect(() => {
+    setPatients(Object.values(patientDetails)[0]);
+  }, [patientDetails])
+
+  
   const patientsPerPage = 10;
 
   const totalPages = Math.ceil(filteredPatients.length / patientsPerPage);
@@ -43,6 +55,7 @@ export default function PatientInfo({ fetchType }) {
       const filtered = patients.filter((patient) =>
         patient.Name.toLowerCase().includes(searchBarValue.toLowerCase())
       );
+      console.log(`filter patients: ${JSON.stringify(filtered)}`);
       setFilteredPatients(filtered);
     }
   }, [searchBarValue, patients]);
